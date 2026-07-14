@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-50: #F4F1F6;
+    --color-primary-500: #4A154B;
+    --color-primary-700: #2E0D2E;
+
+    --color-gold-50: #FCFAF2;
+    --color-gold-500: #D4AF37;
+    --color-gold-600: #C29F2F;
+
+    --color-bg-base: #F8F9FA;
+    --color-surface: #FFFFFF;
+
+    --color-text-main: #1D181E;
+    --color-text-body: #4B464C;
+    --color-text-muted: #8A858B;
+
+    --color-success: #059669;
+    --color-error: #DC2626;
+  }
+}

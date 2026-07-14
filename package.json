@@ -1,0 +1,15 @@
+{
+  "name": "vip-barzigar",
+  "version": "1.0.0",
+  "description": "Premium gold and jewelry platform",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch"
+  },
+  "dependencies": {
+    "swiper": "^11.0.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
