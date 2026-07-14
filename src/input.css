@@ -1,27 +1,241 @@
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* ============================================================
+   TALASHO — Source CSS (Tailwind directives + base layer only)
+   ============================================================
+   Build with:  npm run build:css
+   Output:      ./assets/css/style.css
+   ============================================================ */
 
+/* ------------------------------------------------------------------
+   1) @font-face declarations — 100% local, NO CDN
+   ------------------------------------------------------------------
+   Two font families are exposed:
+     - "Vazirmatn-FD" → Persian-digit (0-9 render as ۰-۹). Default body font.
+     - "Vazirmatn"    → Latin-digit.  Used on price board + anything LTR.
+   ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: 'Vazirmatn-FD';
+  src: url('../fonts/Vazirmatn-FD-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn-FD';
+  src: url('../fonts/Vazirmatn-FD-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn-FD';
+  src: url('../fonts/Vazirmatn-FD-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn-FD';
+  src: url('../fonts/Vazirmatn-FD-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('../fonts/Vazirmatn-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('../fonts/Vazirmatn-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('../fonts/Vazirmatn-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Vazirmatn';
+  src: url('../fonts/Vazirmatn-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------
+   2) Tailwind directives
+   ------------------------------------------------------------------ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------
+   3) :root design tokens (mirrored from tailwind.config.js)
+   ------------------------------------------------------------------ */
 @layer base {
   :root {
-    --color-primary-50: #F4F1F6;
+    /* Primary (Royal Purple / Eggplant) */
+    --color-primary-50:  #F4F1F6;
+    --color-primary-100: #E3DBE8;
     --color-primary-500: #4A154B;
+    --color-primary-600: #3D113D;
     --color-primary-700: #2E0D2E;
+    --color-primary-900: #1a071a;
 
-    --color-gold-50: #FCFAF2;
+    /* Accent (Gold) */
+    --color-gold-50:  #FCFAF2;
+    --color-gold-100: #F6F0D8;
     --color-gold-500: #D4AF37;
     --color-gold-600: #C29F2F;
+    --color-gold-700: #A88926;
 
-    --color-bg-base: #F8F9FA;
-    --color-surface: #FFFFFF;
+    /* Background & surface */
+    --color-bg-base:      #F8F9FA;
+    --color-surface:      #FFFFFF;
+    --color-surface-hover:#F3F4F6;
 
-    --color-text-main: #1D181E;
-    --color-text-body: #4B464C;
-    --color-text-muted: #8A858B;
+    /* Text (accessibility-focused) */
+    --color-text-main:   #1D181E;
+    --color-text-body:   #4B464C;
+    --color-text-muted:  #8A858B;
+    --color-text-invert: #FFFFFF;
 
-    --color-success: #059669;
-    --color-error: #DC2626;
+    /* Semantic / status */
+    --color-success:      #059669;
+    --color-success-bg:   #ECFDF5;
+    --color-error:        #DC2626;
+    --color-error-bg:     #FEF2F2;
+    --color-warning:      #D97706;
+    --color-warning-bg:   #FFFBEB;
+    --color-info:         #2563EB;
+    --color-info-bg:      #EFF6FF;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans bg-background text-content-body antialiased;
+    font-feature-settings: 'ss01' on, 'tnum' on;
+    line-height: 1.6;
+  }
+
+  /* Latin-digit price board: forces Latin numerals + tabular alignment */
+  .font-latin {
+    font-feature-settings: 'tnum' on, 'lnum' on;
+  }
+
+  /* Section eyebrow + title pattern (reusable) */
+  .section-eyebrow {
+    @apply inline-block text-gold-600 text-xs font-bold tracking-[0.25em] uppercase mb-3;
+  }
+  .section-title {
+    @apply text-3xl md:text-4xl font-black text-content-main tracking-tight leading-tight;
+  }
+  .section-rule {
+    @apply mt-4 h-px w-16 bg-gradient-to-l from-gold-500 to-transparent;
+  }
+
+  /* Custom Swiper pagination (gold bullets) */
+  .swiper-pagination-bullet {
+    background-color: var(--color-primary-100);
+    opacity: 0.6;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: var(--color-gold-500);
+    opacity: 1;
+    width: 28px;
+    border-radius: 5px;
+  }
+
+  /* Hide native scrollbar on horizontal scroll rows (Digikala-style) */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Mega menu hover-leave delay (so users don't lose it accidentally) */
+  .mega-menu-hover-area:hover .mega-menu-panel,
+  .mega-menu-panel:hover {
+    @apply opacity-100 visible translate-y-0;
+  }
+}
+
+/* ------------------------------------------------------------------
+   4) Components layer — reusable VIP patterns
+   ------------------------------------------------------------------ */
+@layer components {
+  /* Generic page container — 1280px max */
+  .container-page {
+    @apply max-w-page mx-auto px-4 lg:px-6;
+  }
+
+  /* Primary CTA — solid gold with glow */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-bold px-7 py-3.5 rounded-xl
+           transition-all duration-300 shadow-gold-glow hover:shadow-[0_0_30px_rgba(212,175,55,0.7)]
+           hover:-translate-y-0.5 text-base;
+  }
+  /* Secondary CTA — purple outline */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white
+           font-medium px-6 py-3 rounded-xl transition-all duration-300 text-sm;
+  }
+  /* Dark VIP CTA — gold on glass */
+  .btn-vip {
+    @apply inline-flex items-center justify-center gap-2 hover:bg-gold-500 text-primary-700
+           font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-gold-glow text-sm;
+    background-color: rgba(212, 175, 55, 0.9);
+  }
+
+  /* Standard product card — NOTE: add `group` class directly in the HTML markup when using this */
+  .product-card {
+    @apply bg-surface rounded-2xl transition-all duration-300 overflow-hidden flex flex-col;
+    border: 1px solid rgba(227, 219, 232, 0.4); /* primary-100 @ 40% */
+  }
+  .product-card:hover {
+    border-color: rgba(212, 175, 55, 0.4); /* gold-500 @ 40% */
+    box-shadow: 0 10px 15px -3px rgba(74, 21, 75, 0.12);
+  }
+
+  /* Quick-link circular tile — NOTE: add `group` class directly in the HTML markup when using this */
+  .quick-tile {
+    @apply flex flex-col items-center gap-3 cursor-pointer;
+  }
+  .quick-tile__icon {
+    @apply w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary-50 transition-all duration-300
+           flex items-center justify-center text-primary-500;
+    border: 1px solid rgba(212, 175, 55, 0.2); /* gold-500 @ 20% */
+  }
+  .quick-tile__icon:hover {
+    border-color: rgba(212, 175, 55, 0.7); /* gold-500 @ 70% */
+    background-color: var(--color-gold-50);
+    color: var(--color-gold-600);
+    transform: translateY(-4px);
+  }
+}
+
+/* ------------------------------------------------------------------
+   5) Utilities layer
+   ------------------------------------------------------------------ */
+@layer utilities {
+  /* Force LTR direction for prices, phone numbers, codes */
+  .ltr { direction: ltr; }
+  .rtl { direction: rtl; }
+
+  /* Truncate text after N lines */
+  .line-clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+  .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 }
