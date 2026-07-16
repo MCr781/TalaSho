@@ -642,15 +642,15 @@
                     <!-- SHIMMER OVERLAY (Passes behind texts/boxes but adds bright dynamic light) -->
                     <div class="absolute inset-0 z-0 pointer-events-none w-[150%] animate-glass-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
                     
-                    <!-- Clock Icon (High Contrast Gold Glow) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 h-5 w-5 lg:h-6 lg:w-6 text-gold-300 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)] animate-pulse hidden sm:block me-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+<!-- Clock Icon (High Contrast Gold Glow) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 h-6 w-6 lg:h-7 lg:w-7 text-white drop-shadow-[0_0_10px_rgba(212,175,55,1)] drop-shadow-[0_0_20px_rgba(212,175,55,0.5)] animate-pulse me-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
 
                     <!-- SECONDS Block (Rightmost in RTL) -->
                     <div class="relative z-10 flex items-center justify-center px-3 sm:px-4 lg:px-6 h-8 sm:h-10 lg:h-11 bg-white/10 rounded-full border border-white/20 shadow-inner flex-1 lg:flex-none">
                         <span data-cd-secs class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-white ltr drop-shadow-md">00</span>
-                        <span class="ms-1.5 sm:ms-2 text-[10px] sm:text-xs lg:text-sm font-medium text-white/90">ثانیه</span>
+                        <span class="ms-1.5 sm:ms-2 text-xs sm:text-sm lg:text-base font-medium text-white drop-shadow-sm">ثانیه</span>
                     </div>
 
                     <!-- Colon Separator (White with Glow) -->
@@ -659,7 +659,7 @@
                     <!-- MINUTES Block -->
                     <div class="relative z-10 flex items-center justify-center px-3 sm:px-4 lg:px-6 h-8 sm:h-10 lg:h-11 bg-white/10 rounded-full border border-white/20 shadow-inner flex-1 lg:flex-none">
                         <span data-cd-mins class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-white ltr drop-shadow-md">00</span>
-                        <span class="ms-1.5 sm:ms-2 text-[10px] sm:text-xs lg:text-sm font-medium text-white/90">دقیقه</span>
+                        <span class="ms-1.5 sm:ms-2 text-xs sm:text-sm lg:text-base font-medium text-white drop-shadow-sm">دقیقه</span>
                     </div>
 
                     <!-- Colon Separator (White with Glow) -->
@@ -667,8 +667,8 @@
 
                     <!-- HOURS Block (Leftmost in RTL / Highlighted with solid gold gradient) -->
                     <div class="relative z-10 flex items-center justify-center px-3 sm:px-4 lg:px-6 h-8 sm:h-10 lg:h-11 bg-gradient-to-r from-gold-300 to-gold-500 rounded-full border border-gold-200 shadow-[0_2px_15px_rgba(212,175,55,0.5)] flex-1 lg:flex-none">
-                        <span data-cd-hours class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-primary-950 ltr drop-shadow-sm">00</span>
-                        <span class="ms-1.5 sm:ms-2 text-[10px] sm:text-xs lg:text-sm font-black text-primary-950">ساعت</span>
+                        <span data-cd-hours class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-white ltr drop-shadow-md">00</span>
+                        <span class="ms-1.5 sm:ms-2 text-xs sm:text-sm lg:text-base font-black text-white drop-shadow-sm">ساعت</span>
                     </div>
 
                 </div>
