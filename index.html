@@ -339,37 +339,18 @@
 
 <!-- ============================================================
      SECTION 3 — HERO BANNER (spec §4, modified: 2-part layout)
-     Full-width section. Two banners side by side covering the whole row.
-       RIGHT (visual start = right in RTL): MAIN CAROUSEL (larger, ~2/3 width)
-       LEFT  (visual end   = left  in RTL): PRIZE BANNER (smaller, ~1/3 width)
-     Both parts share the same height. On mobile they stack vertically.
      ============================================================ -->
 <!-- ================= SECTION: HERO BANNER START ================= -->
 <section class="!py-0">
-    <!-- Full-width container — truly edge-to-edge, NO side padding. -->
     <div class="w-full">
-        <!-- 2-column layout: carousel (larger) + prize (smaller).
-             gap-3 = 12px between banners. -->
         <div class="flex flex-col lg:flex-row gap-3">
-
-            <!-- ====================================================
-                 PART A — MAIN CAROUSEL (larger, visual start = right in RTL)
-                 Width: flex-1 (takes remaining space after prize banner).
-                 Contains 2 slides: royal collection + Phase 2 teaser.
-                 ==================================================== -->
             <div class="swiper hero-swiper relative overflow-hidden shadow-card h-[220px] md:h-[360px] lg:h-[420px] lg:flex-1 min-w-0 order-1 lg:order-1 rounded-2xl lg:rounded-r-none lg:rounded-l-2xl">
-
                 <div class="swiper-wrapper">
-
-                    <!-- BACKEND: FOREACH HERO-SLIDE LOOP START -->
-
-                    <!-- ============ SLIDE 1: New royal collection ============ -->
+                    <!-- SLIDE 1 -->
                     <div class="swiper-slide relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-600"></div>
                         <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-                        <!-- Real product image (replaces inline SVG) -->
-                        <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
                         <div class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[40%] md:w-[30%] lg:w-[28%] aspect-square hidden md:block z-10">
                             <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
                             <img src="./assets/images/products/product_4.png" alt="کالکشن رویال طلاشو"
@@ -393,7 +374,7 @@
                         </div>
                     </div>
 
-                    <!-- ============ SLIDE 2: Gold Box Phase 2 teaser ============ -->
+                    <!-- SLIDE 2 -->
                     <div class="swiper-slide relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-600 to-primary-500"></div>
                         <div class="absolute inset-0 opacity-20"
@@ -415,19 +396,14 @@
                             </div>
                         </div>
 
-                        <!-- Decorative cube icon (Phase 2 symbol) on the end side -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[35%] md:w-[25%] lg:w-[20%] text-gold-500/15 hidden md:block z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                         </svg>
                     </div>
-
-                    <!-- BACKEND: FOREACH HERO-SLIDE LOOP END -->
                 </div>
 
-                <!-- Pagination dots (bottom center) -->
                 <div class="swiper-pagination !bottom-3 swiper-pagination-dark"></div>
 
-                <!-- Navigation arrows (left + right, vertically centered) -->
                 <button type="button" class="ts-swiper-arrow !start-3 swiper-button-prev-custom" aria-label="اسلاید قبلی">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
@@ -440,28 +416,17 @@
                 </button>
             </div>
 
-
-            <!-- ====================================================
-                 PART B — PRIZE BANNER (smaller, visual end = left in RTL)
-                 Width: fixed 400px on desktop (lg), full on mobile.
-                 Same height as the carousel.
-                 ==================================================== -->
-            <!-- BACKEND: INJECT PRIZE BANNER LINK + IMAGE + COPY -->
+            <!-- PRIZE BANNER -->
             <a href="#" class="ts-banner relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] lg:w-[400px] flex-shrink-0 group block order-2 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl">
-                <!-- Background gradient -->
                 <div class="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary-700 to-primary-500"></div>
-                <!-- Decorative gold dot pattern -->
                 <div class="absolute inset-0 opacity-25"
                      style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
-                <!-- Radial gold spotlight (top-right corner) -->
                 <div class="absolute top-0 end-0 w-72 h-72 bg-gold-500/20 rounded-full blur-[80px] mix-blend-screen pointer-events-none"></div>
 
-                <!-- Car image — centered, fills most of the banner -->
                 <img src="./assets/images/car-prize-purple-bow-tie.PNG"
                      alt="جایزه خودرو پژو ۲۰۶ با پاپوش بنفش"
                      class="absolute top-1/2 -translate-y-1/2 inset-x-0 mx-auto w-[80%] md:w-[70%] lg:w-[85%] max-w-none object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 group-hover:scale-105 transition-transform duration-500">
 
-                <!-- Text overlay at the bottom -->
                 <div class="absolute bottom-0 inset-x-0 z-20 p-4 md:p-5 lg:p-6 text-center bg-gradient-to-t from-primary-900/90 via-primary-900/50 to-transparent">
                     <span class="inline-block mb-1.5 md:mb-2 py-1 px-2.5 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-[10px] md:text-caption font-bold tracking-wider backdrop-blur-sm">
                         قرعه‌کشی بزرگ سال
@@ -480,7 +445,6 @@
                     </span>
                 </div>
             </a>
-
         </div>
     </div>
 </section>
@@ -489,23 +453,14 @@
 
 <!-- ============================================================
      SECTION 4 — CATEGORIES SHORTCUT ROW (spec §3)
-     Horizontally scrollable row of 64px circular category tiles.
-     Each tile = circular image + label underneath. 20px spacing.
-     Hover: subtle scaling on the circle.
-     MOVED BELOW the hero banners per user request.
      ============================================================ -->
 <!-- ================= SECTION: CATEGORIES SHORTCUT ROW START ================= -->
 <section class="ts-section !py-4 lg:!py-6">
     <div class="container-page">
-        <!-- Grid layout: 12 tiles distribute evenly across the full container width.
-             On mobile: horizontal scroll (4 visible + scroll for rest).
-             On tablet (md): 6 columns.
-             On desktop (lg): all 12 in one row, evenly spaced. -->
         <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3 lg:gap-4 overflow-x-auto cat-scroll pb-3">
 
             <a href="#" class="ts-cat-tile group">
                 <div class="ts-cat-tile__circle" style="background-color: #FEE2E2; color: #DC2626;">
-                    <!-- BACKEND: INJECT CATEGORY IMAGE (recommended: 80×80 PNG with transparent bg) -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
@@ -614,7 +569,6 @@
                 <span class="ts-cat-tile__label font-bold" style="color: #A88926;">طلای آبشده</span>
             </a>
 
-            <!-- BACKEND: FOREACH CATEGORY-SHORTCUT LOOP END -->
         </div>
     </div>
 </section>
@@ -624,10 +578,23 @@
 
 
 <!-- ============================================================
-     SECTION 5 — AMAZING OFFERS / شگفت‌انگیزها (redesigned v10)
-     - Countdown reworked into a wide centered banner at the top
-     - Fixed card-cropping-on-hover via swiper top padding
+     SECTION 5 — AMAZING OFFERS / شگفت‌انگیزها (redesigned v12)
+     - WIDE capsule countdown
+     - Reversed order: [Hours(Gold)] : [Minutes] : [Seconds] (Left to Right reading)
+     - Highly increased contrast (White glow texts, darker container)
+     - Smooth Glass Shimmer effect added via simple inline CSS
      ============================================================ -->
+<style>
+    /* Custom Keyframes for a smooth continuous light shimmer effect */
+    @keyframes glass-shimmer {
+        0% { transform: translateX(200%) skewX(-20deg); }
+        100% { transform: translateX(-200%) skewX(-20deg); }
+    }
+    .animate-glass-shimmer {
+        animation: glass-shimmer 3.5s infinite linear;
+    }
+</style>
+
 <!-- ================= SECTION: AMAZING OFFERS START ================= -->
 <section class="ts-section !pt-4 lg:!pt-6">
     <div class="container-page">
@@ -641,53 +608,81 @@
                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
 
-            <!-- ===== COMPACT HEADER: title, countdown, and action stay inline ===== -->
-            <div class="relative z-10 grid grid-cols-[auto_1fr_auto] items-center gap-2 p-4 lg:gap-5 lg:p-6">
-                <div class="flex min-w-0 items-center gap-2 lg:gap-4">
-                    <div class="hidden h-12 w-12 flex-shrink-0 items-center justify-center rounded-full lg:flex lg:h-14 lg:w-14" style="background: linear-gradient(135deg, #D4AF37 0%, #F6F0D8 100%); box-shadow: 0 0 20px rgba(212,175,55,0.4);">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-primary-900" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            <!-- ===== HEADER: title, HORIZONTAL (WIDE) COUNTDOWN, and action ===== -->
+            <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-4 p-4 lg:gap-6 lg:p-6">
+                
+                <!-- Title & Mobile 'View All' -->
+                <div class="flex w-full lg:w-auto items-center justify-between">
+                    <div class="flex items-center gap-3 lg:gap-4">
+                        <div class="hidden h-12 w-12 flex-shrink-0 items-center justify-center rounded-full sm:flex lg:h-14 lg:w-14" style="background: linear-gradient(135deg, #D4AF37 0%, #F6F0D8 100%); box-shadow: 0 0 20px rgba(212,175,55,0.4);">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-primary-900" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="whitespace-nowrap text-xl font-black tracking-tight text-white sm:text-2xl lg:text-3xl">شگفت‌انگیزها</h2>
+                            <p class="hidden text-sm font-medium text-white/90 md:block mt-1">تخفیف‌های دیوانه‌وار تا ۷۰٪</p>
+                        </div>
+                    </div>
+
+                    <a href="#" class="lg:hidden flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/40 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-all hover:border-gold-500 hover:bg-gold-500/20 hover:text-gold-200">
+                        مشاهده همه
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
                         </svg>
-                    </div>
-                    <div class="min-w-0">
-                        <h2 class="whitespace-nowrap text-base font-black tracking-tight text-white sm:text-xl lg:text-3xl">شگفت‌انگیزها</h2>
-                        <p class="hidden text-xs font-medium text-white/90 lg:block">تخفیف‌های دیوانه‌وار تا ۷۰٪ — فقط تا پایان هفته</p>
-                    </div>
+                    </a>
                 </div>
 
+                <!-- WIDE, CAPSULE-SHAPED COUNTDOWN WITH HIGH CONTRAST & SHIMMER -->
                 <!-- BACKEND: INJECT COUNTDOWN TARGET DATETIME -->
                 <div data-countdown="2026-07-21 23:59:59"
-                     class="flex items-center justify-self-center rounded-xl border border-white/15 bg-primary-900/35 p-1 shadow-[0_6px_18px_rgba(0,0,0,0.16)] backdrop-blur-sm"
+                     class="relative overflow-hidden flex w-full lg:w-auto items-center justify-center gap-1.5 sm:gap-2 lg:gap-3 rounded-full border border-white/30 bg-primary-950/80 px-3 py-2 lg:px-5 lg:py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-md"
                      aria-label="زمان باقی‌مانده">
-                    <div class="min-w-[30px] px-1 text-center sm:min-w-[38px] sm:px-1.5 lg:min-w-[44px]">
-                        <span data-cd-hours class="block font-latin text-sm font-black leading-none text-white ltr sm:text-base lg:text-lg">00</span>
-                        <span class="mt-0.5 hidden text-[8px] font-medium leading-none text-white/55 lg:block">ساعت</span>
+                     
+                    <!-- SHIMMER OVERLAY (Passes behind texts/boxes but adds bright dynamic light) -->
+                    <div class="absolute inset-0 z-0 pointer-events-none w-[150%] animate-glass-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    
+                    <!-- Clock Icon (High Contrast Gold Glow) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="relative z-10 h-5 w-5 lg:h-6 lg:w-6 text-gold-300 drop-shadow-[0_0_8px_rgba(212,175,55,0.8)] animate-pulse hidden sm:block me-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
+                    <!-- SECONDS Block (Rightmost in RTL) -->
+                    <div class="relative z-10 flex items-center justify-center px-3 sm:px-4 lg:px-6 h-8 sm:h-10 lg:h-11 bg-white/10 rounded-full border border-white/20 shadow-inner flex-1 lg:flex-none">
+                        <span data-cd-secs class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-white ltr drop-shadow-md">00</span>
+                        <span class="ms-1.5 sm:ms-2 text-[10px] sm:text-xs lg:text-sm font-medium text-white/90">ثانیه</span>
                     </div>
-                    <span class="text-xs font-black text-gold-400/80 sm:text-sm">:</span>
-                    <div class="min-w-[30px] px-1 text-center sm:min-w-[38px] sm:px-1.5 lg:min-w-[44px]">
-                        <span data-cd-mins class="block font-latin text-sm font-black leading-none text-white ltr sm:text-base lg:text-lg">00</span>
-                        <span class="mt-0.5 hidden text-[8px] font-medium leading-none text-white/55 lg:block">دقیقه</span>
+
+                    <!-- Colon Separator (White with Glow) -->
+                    <span class="relative z-10 text-lg sm:text-xl lg:text-2xl font-black text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)] animate-pulse mb-0.5">:</span>
+
+                    <!-- MINUTES Block -->
+                    <div class="relative z-10 flex items-center justify-center px-3 sm:px-4 lg:px-6 h-8 sm:h-10 lg:h-11 bg-white/10 rounded-full border border-white/20 shadow-inner flex-1 lg:flex-none">
+                        <span data-cd-mins class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-white ltr drop-shadow-md">00</span>
+                        <span class="ms-1.5 sm:ms-2 text-[10px] sm:text-xs lg:text-sm font-medium text-white/90">دقیقه</span>
                     </div>
-                    <span class="text-xs font-black text-gold-400/80 sm:text-sm">:</span>
-                    <div class="min-w-[30px] rounded-lg bg-gold-500 px-1 py-1 text-center shadow-[0_2px_8px_rgba(212,175,55,0.24)] sm:min-w-[38px] sm:px-1.5 lg:min-w-[44px]">
-                        <span data-cd-secs class="block font-latin text-sm font-black leading-none text-primary-900 ltr sm:text-base lg:text-lg">00</span>
-                        <span class="mt-0.5 hidden text-[8px] font-bold leading-none text-primary-900/65 lg:block">ثانیه</span>
+
+                    <!-- Colon Separator (White with Glow) -->
+                    <span class="relative z-10 text-lg sm:text-xl lg:text-2xl font-black text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)] animate-pulse mb-0.5">:</span>
+
+                    <!-- HOURS Block (Leftmost in RTL / Highlighted with solid gold gradient) -->
+                    <div class="relative z-10 flex items-center justify-center px-3 sm:px-4 lg:px-6 h-8 sm:h-10 lg:h-11 bg-gradient-to-r from-gold-300 to-gold-500 rounded-full border border-gold-200 shadow-[0_2px_15px_rgba(212,175,55,0.5)] flex-1 lg:flex-none">
+                        <span data-cd-hours class="font-latin text-base sm:text-xl lg:text-2xl font-black leading-none text-primary-950 ltr drop-shadow-sm">00</span>
+                        <span class="ms-1.5 sm:ms-2 text-[10px] sm:text-xs lg:text-sm font-black text-primary-950">ساعت</span>
                     </div>
+
                 </div>
 
-                <a href="#" class="flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/40 px-2.5 py-2 text-[10px] font-bold text-white backdrop-blur-sm transition-all duration-250 hover:border-gold-500 hover:bg-gold-500/20 hover:text-gold-200 sm:px-3 sm:text-xs lg:gap-1.5 lg:px-4 lg:text-sm">
+                <!-- Desktop 'View All' -->
+                <a href="#" class="hidden lg:flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border border-white/40 px-5 py-2.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-250 hover:border-gold-500 hover:bg-gold-500/20 hover:text-gold-200">
                     مشاهده همه
-                    <svg xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4 sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </a>
             </div>
 
             <!-- ===== PRODUCT CAROUSEL ===== -->
-            <!-- pt-4/pt-6 added below on the .swiper element itself (NOT its parent) —
-                 this is the fix for card-top cropping on hover. Since .swiper has
-                 overflow:hidden, padding here creates safe room INSIDE that clipping
-                 box for the lifted card to rise into without being cut off. -->
             <div class="relative z-10 px-3 pb-4 lg:px-5 lg:pb-6">
                 <div class="swiper flash-sale-swiper pt-4 lg:pt-6">
                     <div class="swiper-wrapper">
