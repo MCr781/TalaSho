@@ -641,63 +641,43 @@
                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
 
-            <!-- ============================================================
-                 NEW: COUNTDOWN BANNER — wide, centered, top of section
-                 ============================================================ -->
-            <div class="relative z-10 px-4 pt-5 lg:pt-6">
-                <!-- BACKEND: INJECT COUNTDOWN TARGET DATETIME -->
-                <div data-countdown="2026-07-21 23:59:59"
-                     class="mx-auto max-w-xl flex items-center justify-between gap-3 lg:gap-6 rounded-2xl px-4 py-3 lg:px-8 lg:py-4 border backdrop-blur-md shadow-[0_8px_28px_rgba(0,0,0,0.3)]"
-                     style="background: linear-gradient(90deg, rgba(212,175,55,0.22) 0%, rgba(255,255,255,0.10) 50%, rgba(212,175,55,0.22) 100%); border-color: rgba(212,175,55,0.55);">
-
-                    <!-- Live indicator + label -->
-                    <div class="flex items-center gap-2 flex-shrink-0">
-                        <span class="relative flex h-2.5 w-2.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-error opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-status-error"></span>
-                        </span>
-                        <span class="text-white font-bold text-[11px] lg:text-base whitespace-nowrap">پایان جشنواره تا</span>
-                    </div>
-
-                    <!-- Digit tiles -->
-                    <div class="flex items-center gap-1.5 lg:gap-2.5">
-                        <div class="flex flex-col items-center bg-white rounded-xl px-2.5 py-1.5 lg:px-4 lg:py-2 min-w-[46px] lg:min-w-[62px] shadow-sm">
-                            <span data-cd-hours class="text-base lg:text-2xl font-black text-primary-800 font-latin ltr leading-none">00</span>
-                            <span class="text-[7px] lg:text-[10px] text-content-muted font-bold mt-1 tracking-wide">ساعت</span>
-                        </div>
-                        <span class="text-gold-200 font-black text-base lg:text-2xl pb-3">:</span>
-                        <div class="flex flex-col items-center bg-white rounded-xl px-2.5 py-1.5 lg:px-4 lg:py-2 min-w-[46px] lg:min-w-[62px] shadow-sm">
-                            <span data-cd-mins class="text-base lg:text-2xl font-black text-primary-800 font-latin ltr leading-none">00</span>
-                            <span class="text-[7px] lg:text-[10px] text-content-muted font-bold mt-1 tracking-wide">دقیقه</span>
-                        </div>
-                        <span class="text-gold-200 font-black text-base lg:text-2xl pb-3">:</span>
-                        <div class="flex flex-col items-center bg-gradient-to-b from-status-error to-rose-600 rounded-xl px-2.5 py-1.5 lg:px-4 lg:py-2 min-w-[46px] lg:min-w-[62px] shadow-sm">
-                            <span data-cd-secs class="text-base lg:text-2xl font-black text-white font-latin ltr leading-none">00</span>
-                            <span class="text-[7px] lg:text-[10px] text-white/85 font-bold mt-1 tracking-wide">ثانیه</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ===== HEADER ROW (countdown removed, now lives above) ===== -->
-            <div class="relative z-10 flex items-center justify-between p-4 lg:p-6 pt-4 lg:pt-6">
-
-                <div class="flex items-center gap-3 lg:gap-4">
-                    <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #D4AF37 0%, #F6F0D8 100%); box-shadow: 0 0 20px rgba(212,175,55,0.4);">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 lg:w-7 lg:h-7 text-primary-900" fill="currentColor" viewBox="0 0 24 24">
+            <!-- ===== COMPACT HEADER: title, countdown, and action stay inline ===== -->
+            <div class="relative z-10 grid grid-cols-[auto_1fr_auto] items-center gap-2 p-4 lg:gap-5 lg:p-6">
+                <div class="flex min-w-0 items-center gap-2 lg:gap-4">
+                    <div class="hidden h-12 w-12 flex-shrink-0 items-center justify-center rounded-full lg:flex lg:h-14 lg:w-14" style="background: linear-gradient(135deg, #D4AF37 0%, #F6F0D8 100%); box-shadow: 0 0 20px rgba(212,175,55,0.4);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-primary-900" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                     </div>
-
-                    <div class="flex flex-col gap-0.5">
-                        <h2 class="text-xl lg:text-3xl font-black text-white tracking-tight">شگفت‌انگیزها</h2>
-                        <p class="text-white/90 text-[10px] lg:text-xs font-medium hidden md:block">تخفیف‌های دیوانه‌وار تا ۷۰٪ — فقط تا پایان هفته</p>
+                    <div class="min-w-0">
+                        <h2 class="whitespace-nowrap text-base font-black tracking-tight text-white sm:text-xl lg:text-3xl">شگفت‌انگیزها</h2>
+                        <p class="hidden text-xs font-medium text-white/90 lg:block">تخفیف‌های دیوانه‌وار تا ۷۰٪ — فقط تا پایان هفته</p>
                     </div>
                 </div>
 
-                <a href="#" class="flex items-center gap-1.5 text-white hover:text-gold-200 text-xs lg:text-sm font-bold border border-white/40 hover:border-gold-500 rounded-full px-4 py-2 transition-all duration-250 hover:bg-gold-500/20 backdrop-blur-sm">
+                <!-- BACKEND: INJECT COUNTDOWN TARGET DATETIME -->
+                <div data-countdown="2026-07-21 23:59:59"
+                     class="flex items-center justify-self-center rounded-xl border border-white/15 bg-primary-900/35 p-1 shadow-[0_6px_18px_rgba(0,0,0,0.16)] backdrop-blur-sm"
+                     aria-label="زمان باقی‌مانده">
+                    <div class="min-w-[30px] px-1 text-center sm:min-w-[38px] sm:px-1.5 lg:min-w-[44px]">
+                        <span data-cd-hours class="block font-latin text-sm font-black leading-none text-white ltr sm:text-base lg:text-lg">00</span>
+                        <span class="mt-0.5 hidden text-[8px] font-medium leading-none text-white/55 lg:block">ساعت</span>
+                    </div>
+                    <span class="text-xs font-black text-gold-400/80 sm:text-sm">:</span>
+                    <div class="min-w-[30px] px-1 text-center sm:min-w-[38px] sm:px-1.5 lg:min-w-[44px]">
+                        <span data-cd-mins class="block font-latin text-sm font-black leading-none text-white ltr sm:text-base lg:text-lg">00</span>
+                        <span class="mt-0.5 hidden text-[8px] font-medium leading-none text-white/55 lg:block">دقیقه</span>
+                    </div>
+                    <span class="text-xs font-black text-gold-400/80 sm:text-sm">:</span>
+                    <div class="min-w-[30px] rounded-lg bg-gold-500 px-1 py-1 text-center shadow-[0_2px_8px_rgba(212,175,55,0.24)] sm:min-w-[38px] sm:px-1.5 lg:min-w-[44px]">
+                        <span data-cd-secs class="block font-latin text-sm font-black leading-none text-primary-900 ltr sm:text-base lg:text-lg">00</span>
+                        <span class="mt-0.5 hidden text-[8px] font-bold leading-none text-primary-900/65 lg:block">ثانیه</span>
+                    </div>
+                </div>
+
+                <a href="#" class="flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/40 px-2.5 py-2 text-[10px] font-bold text-white backdrop-blur-sm transition-all duration-250 hover:border-gold-500 hover:bg-gold-500/20 hover:text-gold-200 sm:px-3 sm:text-xs lg:gap-1.5 lg:px-4 lg:text-sm">
                     مشاهده همه
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4 sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
                     </svg>
                 </a>
