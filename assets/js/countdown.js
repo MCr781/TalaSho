@@ -24,7 +24,11 @@
         countdownEls.forEach(function (el) {
             const deadlineStr = globalDeadline || el.getAttribute('data-countdown');
             const deadline = parseDeadline(deadlineStr);
-            if (!deadline) return;
+            if (!deadline) {
+                // Invalid deadline — hide the timer entirely instead of showing 00:00:00
+                el.style.visibility = 'hidden';
+                return;
+            }
 
             // Cache DOM references
             const hoursEl = el.querySelector('[data-cd-hours]');
@@ -56,7 +60,9 @@
                 if (secsEl)  secsEl.textContent  = pad(s);
             }
 
-            tick(); // immediate first tick
+            // Mark as initialized so CSS can show it (it was hidden until JS runs)
+            tick(); // immediate first tick — prevents flash of 00:00:00
+            el.setAttribute('data-countdown-ready', 'true');
             const intervalId = setInterval(tick, 1000);
         });
     });

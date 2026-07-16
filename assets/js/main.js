@@ -1,159 +1,164 @@
 /* ============================================================
-   TALASHO — main.js
-   Mobile menu toggle + Swiper initializations
+   TALASHO — main.js (v3 — built part-by-part)
    Vanilla JS only — no jQuery, no frameworks
    ============================================================ */
 
 (function () {
     'use strict';
 
-    // Wait for DOM
-    document.addEventListener('DOMContentLoaded', function () {
+    // Run immediately if DOM is already loaded, otherwise wait for DOMContentLoaded.
+    // Scripts at the bottom of <body> may execute AFTER DOMContentLoaded has fired.
+    function onReady(fn) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fn);
+        } else {
+            fn();
+        }
+    }
+
+    onReady(function () {
 
         // ==========================================
         // 1) MOBILE MENU TOGGLE
         // ==========================================
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileMenuClose  = document.getElementById('mobileMenuClose');
-        const mobileMenu       = document.getElementById('mobileMenu');
+        const mobileMenuToggle  = document.getElementById('mobileMenuToggle');
+        const mobileMenuClose   = document.getElementById('mobileMenuClose');
+        const mobileMenu        = document.getElementById('mobileMenu');
         const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
 
         function openMenu() {
             if (!mobileMenu || !mobileMenuOverlay) return;
-            // RTL: slide in from start (right)
             mobileMenu.classList.remove('translate-x-full', 'rtl:translate-x-full');
             mobileMenu.classList.add('translate-x-0');
-
             mobileMenuOverlay.classList.remove('hidden');
-            // Force reflow before opacity transition
             void mobileMenuOverlay.offsetWidth;
             mobileMenuOverlay.classList.remove('opacity-0');
             mobileMenuOverlay.classList.add('opacity-100');
-
             document.body.style.overflow = 'hidden';
             if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded', 'true');
+            if (mobileMenu) mobileMenu.setAttribute('aria-hidden', 'false');
         }
 
         function closeMenu() {
             if (!mobileMenu || !mobileMenuOverlay) return;
             mobileMenu.classList.add('translate-x-full', 'rtl:translate-x-full');
             mobileMenu.classList.remove('translate-x-0');
-
             mobileMenuOverlay.classList.remove('opacity-100');
             mobileMenuOverlay.classList.add('opacity-0');
-
-            // Wait for transition to finish before hiding overlay
-            setTimeout(function () {
-                mobileMenuOverlay.classList.add('hidden');
-            }, 300);
-
+            setTimeout(function () { mobileMenuOverlay.classList.add('hidden'); }, 300);
             document.body.style.overflow = '';
             if (mobileMenuToggle) mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            if (mobileMenu) mobileMenu.setAttribute('aria-hidden', 'true');
         }
 
         if (mobileMenuToggle)  mobileMenuToggle.addEventListener('click', openMenu);
         if (mobileMenuClose)   mobileMenuClose.addEventListener('click', closeMenu);
         if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', closeMenu);
-
-        // Close on ESC key
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') closeMenu();
         });
 
-        // ==========================================
-        // 2) HERO SWIPER (fade effect, RTL, autoplay)
-        // ==========================================
-        const heroSwiperEl = document.querySelector('.hero-swiper');
-        if (heroSwiperEl && typeof Swiper !== 'undefined') {
-            new Swiper('.hero-swiper', {
-                dir: 'rtl',
-                loop: true,
-                effect: 'fade',
-                fadeEffect: { crossFade: true },
-                autoplay: {
-                    delay: 6000,
-                    disableOnInteraction: false,
-                },
-                speed: 800,
-                pagination: {
-                    el: '.hero-swiper .swiper-pagination',
-                    clickable: true,
-                },
-                navigation: {
-                    nextEl: '.hero-swiper .swiper-button-next',
-                    prevEl: '.hero-swiper .swiper-button-prev',
-                },
-            });
-        }
 
         // ==========================================
-        // 3) AMAZING OFFERS SWIPER (horizontal scroll, RTL)
+        // 2) HERO SWIPER (spec §4: hero banner carousel)
+        //    Delayed init to ensure grid layout is computed before Swiper reads
+        //    container width. Without this, Swiper can read a bogus width (33M+ px)
+        //    when the container is inside a CSS grid that hasn't been laid out yet.
         // ==========================================
-        const amazingSwiperEl = document.querySelector('.amazing-swiper');
-        if (amazingSwiperEl && typeof Swiper !== 'undefined') {
-            new Swiper('.amazing-swiper', {
+        function initHeroSwiper() {
+            try {
+                var el = document.querySelector('.hero-swiper');
+                if (!el || typeof Swiper === 'undefined') return;
+
+                // Destroy any existing Swiper instance (from cache or double-init)
+                if (el.swiper) {
+                    el.swiper.destroy(true, true);
+                }
+
+                // Calculate the correct width from the parent (flex container)
+                var parent = el.parentElement;
+                var parentWidth = parent.offsetWidth;
+                var prize = parent.querySelector('.ts-banner');
+                var prizeWidth = prize ? prize.offsetWidth : 0;
+                var gap = parentWidth > 1024 ? 20 : 12;
+                var w = parentWidth - prizeWidth - gap;
+                if (w < 100 || w > 10000) w = Math.round(parentWidth * 0.66);
+
+                // Set width permanently — flex item would otherwise expand to 33M+ px
+                el.style.width = w + 'px';
+                el.style.maxWidth = w + 'px';
+                el.style.flex = 'none';
+
+                var heroSwiper = new Swiper(el, {
+                    dir: 'rtl',
+                    loop: true,
+                    width: w,
+                    autoplay: { delay: 6000, disableOnInteraction: false },
+                    speed: 800,
+                    pagination: { el: '.hero-swiper .swiper-pagination', clickable: true },
+                    navigation: {
+                        nextEl: '.swiper-button-next-custom',
+                        prevEl: '.swiper-button-prev-custom',
+                    },
+                });
+
+                // Update on resize
+                var resizeTimer;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function() {
+                        var newW = parent.offsetWidth - (prize ? prize.offsetWidth : 0) - gap;
+                        if (newW < 100 || newW > 10000) newW = Math.round(parent.offsetWidth * 0.66);
+                        el.style.width = newW + 'px';
+                        el.style.maxWidth = newW + 'px';
+                        heroSwiper.params.width = newW;
+                        heroSwiper.update();
+                    }, 200);
+                });
+            } catch(e) {
+                console.error('Hero swiper init failed:', e);
+            }
+        }
+
+        if (document.querySelector('.hero-swiper')) {
+            setTimeout(initHeroSwiper, 300);
+        }
+
+
+        // ==========================================
+        // 2b) FLASH SALE SWIPER (spec §6: horizontal product carousel)
+        // ==========================================
+        if (typeof Swiper !== 'undefined' && document.querySelector('.flash-sale-swiper')) {
+            new Swiper('.flash-sale-swiper', {
                 dir: 'rtl',
                 slidesPerView: 'auto',
-                spaceBetween: 16,
+                spaceBetween: 8,
                 grabCursor: true,
                 freeMode: true,
                 breakpoints: {
-                    320:  { spaceBetween: 12 },
-                    768:  { spaceBetween: 16 },
-                    1024: { spaceBetween: 20 },
+                    768:  { spaceBetween: 12 },
+                    1024: { spaceBetween: 16 },
                 },
             });
         }
 
-        // ==========================================
-        // 4) VIP COVERFLOW SWIPER
-        // ==========================================
-        const vipSwiperEl = document.querySelector('.vip-swiper');
-        if (vipSwiperEl && typeof Swiper !== 'undefined') {
-            new Swiper('.vip-swiper', {
-                dir: 'rtl',
-                effect: 'coverflow',
-                grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: 'auto',
-                loop: true,
-                speed: 600,
-                coverflowEffect: {
-                    rotate: 18,
-                    stretch: 0,
-                    depth: 200,
-                    modifier: 1,
-                    slideShadows: false,
-                },
-                pagination: {
-                    el: '.vip-swiper .swiper-pagination',
-                    clickable: true,
-                },
-                autoplay: {
-                    delay: 4500,
-                    disableOnInteraction: false,
-                },
-            });
-        }
 
         // ==========================================
-        // 5) DISCOUNT CODE — COPY TO CLIPBOARD
+        // 3) DISCOUNT CODE — COPY TO CLIPBOARD
+        //    (Will be added in a later part; stub kept for reference.)
         // ==========================================
-        const copyBtn = document.getElementById('copyCodeBtn');
-        const codeEl  = document.getElementById('discountCode');
-        const feedback = document.getElementById('copyFeedback');
+        const copyBtn   = document.getElementById('copyCodeBtn');
+        const codeEl    = document.getElementById('discountCode');
+        const feedback  = document.getElementById('copyFeedback');
 
         if (copyBtn && codeEl) {
             copyBtn.addEventListener('click', function () {
                 const code = codeEl.textContent.trim();
-
-                // Try modern clipboard API first, fallback to execCommand
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(code).then(showFeedback).catch(fallbackCopy);
                 } else {
                     fallbackCopy();
                 }
-
                 function fallbackCopy() {
                     const textarea = document.createElement('textarea');
                     textarea.value = code;
@@ -165,7 +170,6 @@
                     catch (e) { /* silent fail */ }
                     document.body.removeChild(textarea);
                 }
-
                 function showFeedback() {
                     if (!feedback) return;
                     feedback.style.opacity = '1';
@@ -174,6 +178,6 @@
             });
         }
 
-    }); // DOMContentLoaded
+    }); // onReady
 
 })();

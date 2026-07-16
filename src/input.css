@@ -1,74 +1,62 @@
 /* ============================================================
-   TALASHO — Source CSS (Tailwind directives + base layer only)
+   TALASHO — Source CSS (v3 — Digikala-spec-inspired)
    ============================================================
-   Build with:  npm run build:css
-   Output:      ./assets/css/style.css
+   Design principles (per spec):
+     • 8px spacing system (4px micro-adjustments allowed)
+     • Tiered border radius: 20/16/14/999 by element type
+     • Very subtle 2-layer shadows
+     • White cards floating on #F5F5F5 background
+     • Whitespace over borders
+     • Modular components, generous corner radii
+   Brand:
+     • Royal purple #4A154B (replaces spec's red #E6123D)
+     • Gold #D4AF37 (Talasho-only premium accent)
+   Build: npm run build:css
+   Output: ./assets/css/style.css
    ============================================================ */
 
 /* ------------------------------------------------------------------
    1) @font-face declarations — 100% local, NO CDN
-   ------------------------------------------------------------------
-   Two font families are exposed:
-     - "Vazirmatn-FD" → Persian-digit (0-9 render as ۰-۹). Default body font.
-     - "Vazirmatn"    → Latin-digit.  Used on price board + anything LTR.
    ------------------------------------------------------------------ */
-
 @font-face {
   font-family: 'Vazirmatn-FD';
   src: url('../fonts/Vazirmatn-FD-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Vazirmatn-FD';
   src: url('../fonts/Vazirmatn-FD-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 500; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Vazirmatn-FD';
   src: url('../fonts/Vazirmatn-FD-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Vazirmatn-FD';
   src: url('../fonts/Vazirmatn-FD-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 900; font-style: normal; font-display: swap;
 }
-
 @font-face {
   font-family: 'Vazirmatn';
   src: url('../fonts/Vazirmatn-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Vazirmatn';
   src: url('../fonts/Vazirmatn-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 500; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Vazirmatn';
   src: url('../fonts/Vazirmatn-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 700; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'Vazirmatn';
   src: url('../fonts/Vazirmatn-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 900; font-style: normal; font-display: swap;
 }
 
 /* ------------------------------------------------------------------
@@ -79,49 +67,13 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   3) :root design tokens (mirrored from tailwind.config.js)
+   3) Base layer — global element styles
    ------------------------------------------------------------------ */
 @layer base {
-  :root {
-    /* Primary (Royal Purple / Eggplant) */
-    --color-primary-50:  #F4F1F6;
-    --color-primary-100: #E3DBE8;
-    --color-primary-500: #4A154B;
-    --color-primary-600: #3D113D;
-    --color-primary-700: #2E0D2E;
-    --color-primary-900: #1a071a;
-
-    /* Accent (Gold) */
-    --color-gold-50:  #FCFAF2;
-    --color-gold-100: #F6F0D8;
-    --color-gold-500: #D4AF37;
-    --color-gold-600: #C29F2F;
-    --color-gold-700: #A88926;
-
-    /* Background & surface */
-    --color-bg-base:      #F8F9FA;
-    --color-surface:      #FFFFFF;
-    --color-surface-hover:#F3F4F6;
-
-    /* Text (accessibility-focused) */
-    --color-text-main:   #1D181E;
-    --color-text-body:   #4B464C;
-    --color-text-muted:  #8A858B;
-    --color-text-invert: #FFFFFF;
-
-    /* Semantic / status */
-    --color-success:      #059669;
-    --color-success-bg:   #ECFDF5;
-    --color-error:        #DC2626;
-    --color-error-bg:     #FEF2F2;
-    --color-warning:      #D97706;
-    --color-warning-bg:   #FFFBEB;
-    --color-info:         #2563EB;
-    --color-info-bg:      #EFF6FF;
-  }
-
   html {
     scroll-behavior: smooth;
+    /* 4px micro-adjustment grid for consistent rhythm */
+    font-size: 16px;
   }
 
   body {
@@ -130,99 +82,268 @@
     line-height: 1.6;
   }
 
+  /* Headings — spec-exact heading color */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-content-heading;
+  }
+
   /* Latin-digit price board: forces Latin numerals + tabular alignment */
   .font-latin {
     font-feature-settings: 'tnum' on, 'lnum' on;
   }
 
-  /* Section eyebrow + title pattern (reusable) */
-  .section-eyebrow {
-    @apply inline-block text-gold-600 text-xs font-bold tracking-[0.25em] uppercase mb-3;
-  }
-  .section-title {
-    @apply text-3xl md:text-4xl font-black text-content-main tracking-tight leading-tight;
-  }
-  .section-rule {
-    @apply mt-4 h-px w-16 bg-gradient-to-l from-gold-500 to-transparent;
-  }
-
-  /* Custom Swiper pagination (gold bullets) */
+  /* Custom Swiper pagination — small white dots on dark, dark dots on light */
   .swiper-pagination-bullet {
-    background-color: var(--color-primary-100);
-    opacity: 0.6;
-    width: 10px;
-    height: 10px;
-    transition: all 0.3s ease;
+    background-color: rgba(35, 37, 74, 0.3);
+    opacity: 1;
+    width: 8px;
+    height: 8px;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .swiper-pagination-bullet-active {
-    background-color: var(--color-gold-500);
-    opacity: 1;
-    width: 28px;
-    border-radius: 5px;
+    background-color: #FFFFFF;
+    width: 24px;
+    border-radius: 4px;
+  }
+  /* On dark backgrounds (hero) — invert */
+  .swiper-pagination-dark .swiper-pagination-bullet {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  .swiper-pagination-dark .swiper-pagination-bullet-active {
+    background-color: #FFFFFF;
   }
 
   /* Hide native scrollbar on horizontal scroll rows (Digikala-style) */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* Mega menu hover-leave delay (so users don't lose it accidentally) */
+  /* Custom scrollbar for the entire page — thin, purple-themed with gold hover */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #F5F5F5; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #9F6BA0 0%, #4A154B 100%);
+    border-radius: 999px;
+    border: 2px solid #F5F5F5;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #D4AF37 0%, #A88926 100%);
+  }
+  /* Firefox */
+  html { scrollbar-width: thin; scrollbar-color: #9F6BA0 #F5F5F5; }
+
+  /* Custom scrollbar for horizontal scroll containers (categories, product carousels) */
+  .cat-scroll::-webkit-scrollbar { height: 6px; }
+  .cat-scroll::-webkit-scrollbar-track { background: transparent; }
+  .cat-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #9F6BA0, #D4AF37);
+    border-radius: 999px;
+  }
+  .cat-scroll::-webkit-scrollbar-thumb:hover { background: linear-gradient(90deg, #4A154B, #D4AF37); }
+  .cat-scroll { scrollbar-width: thin; scrollbar-color: #9F6BA0 transparent; }
+
+  /* Countdown timer: hide until JS initializes (prevents flash of 00:00:00) */
+  [data-countdown]:not([data-countdown-ready]) {
+    visibility: hidden;
+  }
+
+  /* Mega-menu hover behavior — only opacity/visibility toggled, NOT transform
+     (transform is set inline on the panel for centering). */
   .mega-menu-hover-area:hover .mega-menu-panel,
   .mega-menu-panel:hover {
-    @apply opacity-100 visible translate-y-0;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }
 
 /* ------------------------------------------------------------------
-   4) Components layer — reusable VIP patterns
+   4) Components layer — spec-exact modular patterns
    ------------------------------------------------------------------ */
 @layer components {
-  /* Generic page container — 1280px max */
+
+  /* ============ LAYOUT CONTAINERS ============ */
+
+  /* Page container — 1320px content max, spec horizontal padding */
   .container-page {
-    @apply max-w-page mx-auto px-4 lg:px-6;
+    @apply mx-auto px-3 md:px-4 lg:px-6;
+    max-width: 1320px;
   }
 
-  /* Primary CTA — solid gold with glow */
+  /* Section wrapper — spec: 56px vertical between outer sections */
+  .ts-section {
+    @apply py-8 lg:py-14;
+  }
+
+
+  /* ============ CARD TIERS (per spec) ============ */
+
+  /* Large card — radius 20px (spec: large cards) */
+  .ts-card-lg {
+    @apply bg-surface rounded-2xl p-6 transition-all duration-250;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Normal card — radius 16px (spec: normal cards) */
+  .ts-card {
+    @apply bg-surface rounded-xl p-6 transition-all duration-250;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Product card — radius 14px, padding 12px (spec: product cards) */
+  .ts-card-product {
+    @apply bg-surface rounded-lg overflow-hidden cursor-pointer transition-all duration-250;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+  /* Spec hover: translateY(-3px) + slightly larger shadow */
+  .ts-card-product:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Promo banner — radius 20px, no shadow, no border, edge-to-edge image */
+  .ts-banner {
+    @apply rounded-2xl overflow-hidden relative block transition-all duration-250;
+  }
+  .ts-banner:hover {
+    transform: translateY(-2px);
+  }
+
+
+  /* ============ PILLS & BADGES ============ */
+
+  /* Pill — radius 999px (spec: small pills/buttons) */
+  .ts-pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-caption font-medium transition-all duration-250;
+  }
+
+  /* Discount badge — spec red, used on product cards */
+  .ts-badge-discount {
+    @apply inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-caption font-bold text-white;
+    background-color: #EF394E;
+    box-shadow: 0 1px 2px rgba(239, 57, 78, 0.25);
+  }
+
+  /* Status badge variants */
+  .ts-badge-success { @apply bg-status-success-bg text-status-success; }
+  .ts-badge-error   { @apply bg-status-error-bg text-status-error; }
+  .ts-badge-info    { @apply bg-status-info-bg text-status-info; }
+
+
+  /* ============ BUTTONS ============ */
+
+  /* Primary button — purple bg, white text, full pill */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-bold px-7 py-3.5 rounded-xl
-           transition-all duration-300 shadow-gold-glow hover:shadow-[0_0_30px_rgba(212,175,55,0.7)]
-           hover:-translate-y-0.5 text-base;
+    @apply inline-flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-bold
+           rounded-full px-6 py-3 text-body transition-all duration-250;
   }
-  /* Secondary CTA — purple outline */
+  .btn-primary:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 4px 12px rgba(74, 21, 75, 0.18);
+  }
+
+  /* Gold button — premium accent for CTAs */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-white font-bold
+           rounded-full px-6 py-3 text-body transition-all duration-250;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.25);
+  }
+
+  /* Secondary button — outline */
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white
-           font-medium px-6 py-3 rounded-xl transition-all duration-300 text-sm;
-  }
-  /* Dark VIP CTA — gold on glass */
-  .btn-vip {
-    @apply inline-flex items-center justify-center gap-2 hover:bg-gold-500 text-primary-700
-           font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-gold-glow text-sm;
-    background-color: rgba(212, 175, 55, 0.9);
+    @apply inline-flex items-center justify-center gap-2 bg-surface border border-border-strong text-content-heading font-medium
+           hover:bg-background-hover rounded-full px-5 py-2.5 text-body transition-all duration-250;
   }
 
-  /* Standard product card — NOTE: add `group` class directly in the HTML markup when using this */
-  .product-card {
-    @apply bg-surface rounded-2xl transition-all duration-300 overflow-hidden flex flex-col;
-    border: 1px solid rgba(227, 219, 232, 0.4); /* primary-100 @ 40% */
+
+  /* ============ SECTION HEADERS (spec pattern) ============
+     Structure: [icon] title ... view-all link →
+     Title: 20px / 700. Space below title: 20px. */
+
+  .ts-section-head {
+    @apply flex items-center justify-between mb-5;
   }
-  .product-card:hover {
-    border-color: rgba(212, 175, 55, 0.4); /* gold-500 @ 40% */
-    box-shadow: 0 10px 15px -3px rgba(74, 21, 75, 0.12);
+  .ts-section-head__left {
+    @apply flex items-center gap-2;
+  }
+  .ts-section-head__icon {
+    @apply w-6 h-6 text-primary-500 flex-shrink-0;
+  }
+  .ts-section-title {
+    @apply text-section text-content-heading;
+  }
+  .ts-section-link {
+    @apply inline-flex items-center gap-1 text-body font-medium text-primary-500 hover:text-primary-700 transition-colors duration-250;
+  }
+  .ts-section-link svg {
+    @apply w-4 h-4;
   }
 
-  /* Quick-link circular tile — NOTE: add `group` class directly in the HTML markup when using this */
-  .quick-tile {
-    @apply flex flex-col items-center gap-3 cursor-pointer;
+
+  /* ============ TYPOGRAPHY HELPERS ============ */
+
+  .ts-hero-title {
+    @apply text-hero-lg text-content-heading leading-tight;
   }
-  .quick-tile__icon {
-    @apply w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary-50 transition-all duration-300
-           flex items-center justify-center text-primary-500;
-    border: 1px solid rgba(212, 175, 55, 0.2); /* gold-500 @ 20% */
+  .ts-product-title {
+    @apply text-product text-content-body;
   }
-  .quick-tile__icon:hover {
-    border-color: rgba(212, 175, 55, 0.7); /* gold-500 @ 70% */
-    background-color: var(--color-gold-50);
-    color: var(--color-gold-600);
-    transform: translateY(-4px);
+  .ts-body {
+    @apply text-body text-content-body;
+  }
+  .ts-caption {
+    @apply text-caption text-content-muted;
+  }
+
+
+  /* ============ CATEGORY / QUICK-LINK TILES ============ */
+
+  /* 64px circular quick-link (spec §3) — color-filled like Digikala */
+  .ts-cat-tile {
+    @apply flex flex-col items-center gap-2 cursor-pointer;
+  }
+  .ts-cat-tile__circle {
+    @apply w-16 h-16 rounded-full flex items-center justify-center transition-all duration-250;
+    /* Background color set via inline style on each tile (Digikala pattern) */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .ts-cat-tile:hover .ts-cat-tile__circle {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 16px rgba(0, 0, 0, 0.06);
+  }
+  .ts-cat-tile__circle svg {
+    @apply w-7 h-7;
+    /* Icon color set via inline style on each tile */
+  }
+  .ts-cat-tile__label {
+    @apply text-caption text-content-body text-center leading-tight;
+  }
+
+
+  /* ============ PRODUCT IMAGE SLOT ============
+     Container that product-icons.js fills with a category SVG */
+
+  .ts-product-img {
+    @apply relative w-full aspect-square bg-background-hover flex items-center justify-center overflow-hidden;
+  }
+  .ts-product-img svg {
+    @apply w-20 h-20 text-primary-300 transition-transform duration-500;
+  }
+
+
+  /* ============ SWIPER NAV ARROWS (hero) ============ */
+
+  .ts-swiper-arrow {
+    @apply absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm
+           flex items-center justify-center text-content-heading hover:bg-white transition-all duration-250;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  .ts-swiper-arrow:hover {
+    transform: translateY(-50%) scale(1.05);
+  }
+  .ts-swiper-arrow svg {
+    @apply w-5 h-5;
   }
 }
 
@@ -230,12 +351,18 @@
    5) Utilities layer
    ------------------------------------------------------------------ */
 @layer utilities {
-  /* Force LTR direction for prices, phone numbers, codes */
   .ltr { direction: ltr; }
   .rtl { direction: rtl; }
 
-  /* Truncate text after N lines */
   .line-clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
   .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* Spec hover: scale images to 1.03 */
+  .hover-scale-103 {
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hover-scale-103:hover {
+    transform: scale(1.03);
+  }
 }
