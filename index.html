@@ -540,13 +540,12 @@
        LEFT  (visual end   = left  in RTL): PRIZE BANNER (smaller, ~1/3 width)
      Both parts share the same height. On mobile they stack vertically.
      ============================================================ -->
-        <!-- ================= SECTION: HERO BANNER START ================= -->
+        <!-- ================= SECTION: HERO BANNER & CATEGORIES START ================= -->
         <section class="!py-0">
             <!-- Full-width container — truly edge-to-edge, NO side padding. -->
             <div class="w-full">
-                <!-- 2-column layout: carousel (larger) + prize (smaller).
-             gap-3 = 12px between banners. -->
-                <div class="flex flex-col lg:flex-row gap-3">
+                <!-- Grid layout: 2 columns on mobile, 1fr 400px on desktop. -->
+                <div class="grid grid-cols-2 lg:grid-cols-[1fr_400px] gap-3">
 
                     <!-- ====================================================
                  PART A — MAIN CAROUSEL (larger, visual start = right in RTL)
@@ -554,7 +553,7 @@
                  Contains 2 slides: royal collection + Phase 2 teaser.
                  ==================================================== -->
                     <div
-                        class="swiper hero-swiper w-full relative overflow-hidden shadow-card h-[220px] md:h-[360px] lg:h-[420px] lg:flex-1 lg:w-auto min-w-0 order-1 lg:order-1 rounded-2xl lg:rounded-r-none lg:rounded-l-2xl">
+                        class="swiper hero-swiper col-span-2 lg:col-span-1 w-full relative overflow-hidden shadow-card h-[220px] md:h-[360px] lg:h-[420px] min-w-0 order-1 lg:order-1 rounded-2xl lg:rounded-r-none lg:rounded-l-2xl">
 
                         <div class="swiper-wrapper">
 
@@ -569,7 +568,7 @@
                                 <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
                                 <!-- ═══ DESKTOP CONTAINER (md+) ═══ -->
-                                <div class="hidden md:flex max-w-[1000px] mx-auto w-full h-full items-center justify-between px-6 lg:px-12 relative z-20">
+                                <div class="hidden md:flex max-w-[1000px] mx-auto w-full h-full items-center justify-between ps-6 pe-10 lg:ps-12 lg:pe-32 relative z-20">
                                     <!-- Text Column (RTL: stays on the right side) -->
                                     <div class="flex flex-col justify-center max-w-xl">
                                         <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-sm font-bold tracking-widest backdrop-blur-sm">
@@ -588,7 +587,7 @@
                                     </div>
 
                                     <!-- Image Column (RTL: stays on the left side) -->
-                                    <div class="relative w-[32%] lg:w-[30%] aspect-square flex-shrink-0" style="transform: scale(1.4) translateX(-15%);">
+                                    <div class="relative w-[32%] lg:w-[30%] aspect-square flex-shrink-0 origin-left transition-transform duration-500 scale-[1.2] -translate-x-[10%] lg:scale-[1.65] lg:-translate-x-[60%] min-[1150px]:scale-[1.5] min-[1150px]:-translate-x-[45%] min-[1780px]:scale-[1.57] min-[1780px]:-translate-x-[70%]">
                                         <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
                                         <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png"
                                             alt="کالکشن رویال طلاشو"
@@ -631,7 +630,7 @@
                                 <div class="absolute top-1/2 end-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-gold-500/15 rounded-full blur-[80px] pointer-events-none"></div>
 
                                 <!-- ═══ DESKTOP CONTAINER (md+) ═══ -->
-                                <div class="hidden md:flex max-w-[1000px] mx-auto w-full h-full items-center justify-between px-6 lg:px-12 relative z-20">
+                                <div class="hidden md:flex max-w-[1000px] mx-auto w-full h-full items-center justify-between ps-6 pe-10 lg:ps-12 lg:pe-32 relative z-20">
                                     <!-- Text Column (RTL: stays on the right side) -->
                                     <div class="flex flex-col justify-center max-w-xl">
                                         <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-sm font-bold tracking-widest backdrop-blur-sm">
@@ -650,7 +649,7 @@
                                     </div>
 
                                     <!-- Image Column (RTL: stays on the left side) -->
-                                    <div class="relative w-[30%] lg:w-[26%] aspect-square flex-shrink-0 flex items-center" style="transform: scale(1.7) translateX(-10%);">
+                                    <div class="relative w-[30%] lg:w-[26%] aspect-square flex-shrink-0 flex items-center origin-left transition-transform duration-500 scale-[1.2] -translate-x-[10%] lg:scale-[1.82] lg:-translate-x-[65%] min-[1150px]:scale-[1.7] min-[1150px]:-translate-x-[40%] min-[1780px]:scale-[1.75] min-[1780px]:-translate-x-[50%]">
                                         <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
                                         <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
                                             class="relative w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(212,175,55,0.3)] hover:scale-105 transition-transform duration-700">
@@ -696,7 +695,7 @@
                  ==================================================== -->
                     <!-- BACKEND: INJECT PRIZE BANNER LINK + IMAGE + COPY -->
                     <a href="#"
-                        class="ts-banner relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] lg:w-[400px] flex-shrink-0 group block order-2 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl">
+                        class="ts-banner col-span-1 lg:col-span-1 relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] w-full flex-shrink-0 group block order-2 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl">
                         <!-- Background gradient -->
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary-700 to-primary-500">
                         </div>
@@ -740,12 +739,6 @@
                         </div>
                     </a>
 
-                </div>
-            </div>
-        </section>
-        <!-- ================= SECTION: HERO BANNER END ================= -->
-
-
         <!-- ============================================================
      SECTION 4 — CATEGORIES SHORTCUT ROW (spec §3)
      Horizontally scrollable row of 64px circular category tiles.
@@ -754,14 +747,11 @@
      MOVED BELOW the hero banners per user request.
      ============================================================ -->
         <!-- ================= SECTION: CATEGORIES SHORTCUT ROW START ================= -->
-        <section class="ts-section !py-4 lg:!py-6">
-            <div class="container-page">
-                <!-- Grid layout: 12 tiles distribute evenly across the full container width.
-             On mobile: horizontal scroll (4 visible + scroll for rest).
-             On tablet (md): 6 columns.
-             On desktop (lg): all 12 in one row, evenly spaced. -->
-                <div
-                    class="grid grid-cols-6 lg:grid-cols-12 gap-2 lg:gap-4 pb-3">
+        <div class="col-span-1 lg:col-span-2 w-full order-3 mt-0 relative rounded-2xl lg:rounded-none bg-surface lg:bg-transparent shadow-card lg:shadow-none h-[220px] md:h-[360px] lg:h-auto overflow-hidden">
+            <div class="w-full h-full overflow-y-auto lg:overflow-visible no-scrollbar p-2 lg:p-0 lg:py-6">
+                <div class="container-page !px-0">
+                    <div
+                        class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-2 gap-y-4 lg:gap-4 pb-2 lg:pb-3">
 
                     <a href="#" class="ts-cat-tile group">
                         <div class="ts-cat-tile__circle" style="background-color: #FEE2E2; color: #DC2626;">
@@ -892,8 +882,13 @@
                     <!-- BACKEND: FOREACH CATEGORY-SHORTCUT LOOP END -->
                 </div>
             </div>
+        </div>
+        </div>
+
+                </div>
+            </div>
         </section>
-        <!-- ================= SECTION: CATEGORIES SHORTCUT ROW END ================= -->
+        <!-- ================= SECTION: HERO BANNER & CATEGORIES END ================= -->
 
 
 
