@@ -339,18 +339,37 @@
 
 <!-- ============================================================
      SECTION 3 — HERO BANNER (spec §4, modified: 2-part layout)
+     Full-width section. Two banners side by side covering the whole row.
+       RIGHT (visual start = right in RTL): MAIN CAROUSEL (larger, ~2/3 width)
+       LEFT  (visual end   = left  in RTL): PRIZE BANNER (smaller, ~1/3 width)
+     Both parts share the same height. On mobile they stack vertically.
      ============================================================ -->
 <!-- ================= SECTION: HERO BANNER START ================= -->
 <section class="!py-0">
+    <!-- Full-width container — truly edge-to-edge, NO side padding. -->
     <div class="w-full">
+        <!-- 2-column layout: carousel (larger) + prize (smaller).
+             gap-3 = 12px between banners. -->
         <div class="flex flex-col lg:flex-row gap-3">
+
+            <!-- ====================================================
+                 PART A — MAIN CAROUSEL (larger, visual start = right in RTL)
+                 Width: flex-1 (takes remaining space after prize banner).
+                 Contains 2 slides: royal collection + Phase 2 teaser.
+                 ==================================================== -->
             <div class="swiper hero-swiper relative overflow-hidden shadow-card h-[220px] md:h-[360px] lg:h-[420px] lg:flex-1 min-w-0 order-1 lg:order-1 rounded-2xl lg:rounded-r-none lg:rounded-l-2xl">
+
                 <div class="swiper-wrapper">
-                    <!-- SLIDE 1 -->
+
+                    <!-- BACKEND: FOREACH HERO-SLIDE LOOP START -->
+
+                    <!-- ============ SLIDE 1: New royal collection ============ -->
                     <div class="swiper-slide relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-600"></div>
                         <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
+                        <!-- Real product image (replaces inline SVG) -->
+                        <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
                         <div class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[40%] md:w-[30%] lg:w-[28%] aspect-square hidden md:block z-10">
                             <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
                             <img src="./assets/images/products/product_4.png" alt="کالکشن رویال طلاشو"
@@ -374,7 +393,7 @@
                         </div>
                     </div>
 
-                    <!-- SLIDE 2 -->
+                    <!-- ============ SLIDE 2: Gold Box Phase 2 teaser ============ -->
                     <div class="swiper-slide relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-600 to-primary-500"></div>
                         <div class="absolute inset-0 opacity-20"
@@ -396,14 +415,19 @@
                             </div>
                         </div>
 
+                        <!-- Decorative cube icon (Phase 2 symbol) on the end side -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[35%] md:w-[25%] lg:w-[20%] text-gold-500/15 hidden md:block z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                         </svg>
                     </div>
+
+                    <!-- BACKEND: FOREACH HERO-SLIDE LOOP END -->
                 </div>
 
+                <!-- Pagination dots (bottom center) -->
                 <div class="swiper-pagination !bottom-3 swiper-pagination-dark"></div>
 
+                <!-- Navigation arrows (left + right, vertically centered) -->
                 <button type="button" class="ts-swiper-arrow !start-3 swiper-button-prev-custom" aria-label="اسلاید قبلی">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
@@ -416,17 +440,28 @@
                 </button>
             </div>
 
-            <!-- PRIZE BANNER -->
+
+            <!-- ====================================================
+                 PART B — PRIZE BANNER (smaller, visual end = left in RTL)
+                 Width: fixed 400px on desktop (lg), full on mobile.
+                 Same height as the carousel.
+                 ==================================================== -->
+            <!-- BACKEND: INJECT PRIZE BANNER LINK + IMAGE + COPY -->
             <a href="#" class="ts-banner relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] lg:w-[400px] flex-shrink-0 group block order-2 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl">
+                <!-- Background gradient -->
                 <div class="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary-700 to-primary-500"></div>
+                <!-- Decorative gold dot pattern -->
                 <div class="absolute inset-0 opacity-25"
                      style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+                <!-- Radial gold spotlight (top-right corner) -->
                 <div class="absolute top-0 end-0 w-72 h-72 bg-gold-500/20 rounded-full blur-[80px] mix-blend-screen pointer-events-none"></div>
 
+                <!-- Car image — centered, fills most of the banner -->
                 <img src="./assets/images/car-prize-purple-bow-tie.PNG"
                      alt="جایزه خودرو پژو ۲۰۶ با پاپوش بنفش"
                      class="absolute top-1/2 -translate-y-1/2 inset-x-0 mx-auto w-[80%] md:w-[70%] lg:w-[85%] max-w-none object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-10 group-hover:scale-105 transition-transform duration-500">
 
+                <!-- Text overlay at the bottom -->
                 <div class="absolute bottom-0 inset-x-0 z-20 p-4 md:p-5 lg:p-6 text-center bg-gradient-to-t from-primary-900/90 via-primary-900/50 to-transparent">
                     <span class="inline-block mb-1.5 md:mb-2 py-1 px-2.5 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-[10px] md:text-caption font-bold tracking-wider backdrop-blur-sm">
                         قرعه‌کشی بزرگ سال
@@ -445,6 +480,7 @@
                     </span>
                 </div>
             </a>
+
         </div>
     </div>
 </section>
@@ -453,14 +489,23 @@
 
 <!-- ============================================================
      SECTION 4 — CATEGORIES SHORTCUT ROW (spec §3)
+     Horizontally scrollable row of 64px circular category tiles.
+     Each tile = circular image + label underneath. 20px spacing.
+     Hover: subtle scaling on the circle.
+     MOVED BELOW the hero banners per user request.
      ============================================================ -->
 <!-- ================= SECTION: CATEGORIES SHORTCUT ROW START ================= -->
 <section class="ts-section !py-4 lg:!py-6">
     <div class="container-page">
+        <!-- Grid layout: 12 tiles distribute evenly across the full container width.
+             On mobile: horizontal scroll (4 visible + scroll for rest).
+             On tablet (md): 6 columns.
+             On desktop (lg): all 12 in one row, evenly spaced. -->
         <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-3 lg:gap-4 overflow-x-auto cat-scroll pb-3">
 
             <a href="#" class="ts-cat-tile group">
                 <div class="ts-cat-tile__circle" style="background-color: #FEE2E2; color: #DC2626;">
+                    <!-- BACKEND: INJECT CATEGORY IMAGE (recommended: 80×80 PNG with transparent bg) -->
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
@@ -569,6 +614,7 @@
                 <span class="ts-cat-tile__label font-bold" style="color: #A88926;">طلای آبشده</span>
             </a>
 
+            <!-- BACKEND: FOREACH CATEGORY-SHORTCUT LOOP END -->
         </div>
     </div>
 </section>
@@ -578,23 +624,14 @@
 
 
 <!-- ============================================================
-     SECTION 5 — AMAZING OFFERS / شگفت‌انگیزها (redesigned v12)
-     - WIDE capsule countdown
-     - Reversed order: [Hours(Gold)] : [Minutes] : [Seconds] (Left to Right reading)
-     - Highly increased contrast (White glow texts, darker container)
-     - Smooth Glass Shimmer effect added via simple inline CSS
+     SECTION 5 — AMAZING OFFERS / شگفت‌انگیزها (redesigned v7)
+     Bold, dramatic layout with:
+       - Oversized lightning bolt + title as a hero element
+       - Diagonal gold accent stripe across the container
+       - Glassmorphism product cards floating on the gradient
+       - Countdown in a prominent gold pill
+       - "مشاهده همه" as a ghost button with arrow
      ============================================================ -->
-<style>
-    /* Custom Keyframes for a smooth continuous light shimmer effect */
-    @keyframes glass-shimmer {
-        0% { transform: translateX(200%) skewX(-20deg); }
-        100% { transform: translateX(-200%) skewX(-20deg); }
-    }
-    .animate-glass-shimmer {
-        animation: glass-shimmer 3.5s infinite linear;
-    }
-</style>
-
 <!-- ================= SECTION: AMAZING OFFERS START ================= -->
 <section class="ts-section !pt-4 lg:!pt-6">
     <div class="container-page">
@@ -1156,6 +1193,314 @@
     </div>
 </section>
 <!-- ================= SECTION: AMAZING OFFERS END ================= -->
+
+
+<!-- ============================================================
+     SECTION 7 — PROMOTIONAL BANNERS GRID (spec §7)
+     4 equal banners in a grid. Rounded corners, no shadows, only imagery.
+     Each banner links to a collection/category page.
+     ============================================================ -->
+<!-- ================= SECTION: PROMO BANNERS GRID START ================= -->
+<section class="ts-section !pt-4 lg:!pt-6">
+    <div class="container-page">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+
+            <!-- BACKEND: FOREACH PROMO-BANNER LOOP START -->
+
+            <!-- Banner 1: Wedding Rings -->
+            <a href="#" class="ts-banner group relative aspect-[4/3] overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 transition-transform duration-500 group-hover:scale-105"></div>
+                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 inset-x-0 p-4">
+                    <h3 class="text-white font-bold text-sm lg:text-base mb-1">حلقه‌های ازدواج</h3>
+                    <p class="text-gold-300 text-[11px] lg:text-xs">از ۵ میلیون تومان</p>
+                </div>
+            </a>
+
+            <!-- Banner 2: Gold Box Phase 2 -->
+            <a href="#" class="ts-banner group relative aspect-[4/3] overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-gold-500 to-gold-700 transition-transform duration-500 group-hover:scale-105"></div>
+                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, #FFFFFF 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent"></div>
+                <span class="absolute top-3 end-3 text-[9px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold backdrop-blur-sm">به‌زودی</span>
+                <div class="absolute bottom-0 inset-x-0 p-4">
+                    <h3 class="text-white font-bold text-sm lg:text-base mb-1">صندوق طلای آبشده</h3>
+                    <p class="text-white/80 text-[11px] lg:text-xs">سرمایه‌گذاری از ۱ میلی‌گرم</p>
+                </div>
+            </a>
+
+            <!-- Banner 3: New Arrivals -->
+            <a href="#" class="ts-banner group relative aspect-[4/3] overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary-700 to-primary-950 transition-transform duration-500 group-hover:scale-105"></div>
+                <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary-950/80 via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 inset-x-0 p-4">
+                    <h3 class="text-white font-bold text-sm lg:text-base mb-1">جدیدترین کالکشن</h3>
+                    <p class="text-gold-300 text-[11px] lg:text-xs">تازه‌های تابستان ۱۴۰۴</p>
+                </div>
+            </a>
+
+            <!-- Banner 4: Gift Card -->
+            <a href="#" class="ts-banner group relative aspect-[4/3] overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-800 transition-transform duration-500 group-hover:scale-105"></div>
+                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-primary-900/70 via-transparent to-transparent"></div>
+                <div class="absolute bottom-0 inset-x-0 p-4">
+                    <h3 class="text-white font-bold text-sm lg:text-base mb-1">کارت هدیه طلاشو</h3>
+                    <p class="text-gold-300 text-[11px] lg:text-xs">هدیه‌ای برای عزیزان</p>
+                </div>
+            </a>
+
+            <!-- BACKEND: FOREACH PROMO-BANNER LOOP END -->
+        </div>
+    </div>
+</section>
+<!-- ================= SECTION: PROMO BANNERS GRID END ================= -->
+
+
+
+
+<!-- ============================================================
+     SECTION 9 — CATEGORY CIRCLES (spec §9)
+     Large section with section title + grid of 80px circular category icons.
+     Responsive: ~12 categories. Different from the shortcut row above.
+     This is a fuller "shop by category" section with more visual weight.
+     ============================================================ -->
+<!-- ================= SECTION: CATEGORY CIRCLES START ================= -->
+<section class="ts-section !pt-4 lg:!pt-6">
+    <div class="container-page">
+        <!-- Section header -->
+        <div class="ts-section-head">
+            <div class="ts-section-head__left">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ts-section-head__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                </svg>
+                <h2 class="ts-section-title">خرید بر اساس دسته‌بندی</h2>
+            </div>
+            <a href="#" class="ts-section-link">
+                مشاهده همه دسته‌ها
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Grid of 12 large category circles -->
+        <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-6">
+
+            <!-- BACKEND: FOREACH CATEGORY-CIRCLE LOOP START -->
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #FEE2E2, #FECACA); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #DC2626;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">انگشتر طلا</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #EDE9FE, #DDD6FE); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #6D28D9;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 10.48a4 4 0 01-5.657 0L4 6.06m9.121 4.42a4 4 0 00-5.657 0L4 6.06m9.121 4.42L18 6.06M5 5h14M9.5 21l4.5-9 4.5 9"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">گردنبند</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #DBEAFE, #BFDBFE); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #2563EB;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3h6m-3 0v4m0 0a4 4 0 014 4v2a4 4 0 11-8 0v-2a4 4 0 014-4zM12 17v4"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">گوشواره</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #D1FAE5, #A7F3D0); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #059669;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">دستبند</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #D97706;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">سکه طلا</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #FCE7F3, #FBCFE8); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #DB2777;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">سرویس جواهر</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #CFFAFE, #A5F3FC); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #0891B2;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">نیم‌ست</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #FED7AA, #FDBA74); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #EA580C;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">زنجیر طلا</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #FECACA, #FCA5A5); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #DC2626;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">حلقه نامزدی</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #E0E7FF, #C7D2FE); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #4F46E5;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">جواهرات آقایان</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #CCFBF1, #99F6E4); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04);">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #0D9488;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body text-content-body text-center font-medium leading-tight">هدیه</span>
+            </a>
+
+            <a href="#" class="flex flex-col items-center gap-3 group">
+                <div class="w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center transition-all duration-250 group-hover:-translate-y-1 group-hover:shadow-card-hover" style="background: linear-gradient(135deg, #FCFAF2, #F6F0D8); box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.04); border: 1.5px solid #D4AF37;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 lg:w-10 lg:h-10" style="color: #D4AF37;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                </div>
+                <span class="text-caption lg:text-body font-bold text-center leading-tight" style="color: #A88926;">طلای آبشده</span>
+            </a>
+
+            <!-- BACKEND: FOREACH CATEGORY-CIRCLE LOOP END -->
+        </div>
+    </div>
+</section>
+<!-- ================= SECTION: CATEGORY CIRCLES END ================= -->
+
+
+<!-- ============================================================
+     SECTION 10 — LARGE PROMOTIONAL BANNERS (spec §10)
+     Several rows with alternating layouts: 50/50, 66/33, 100%.
+     Each banner: 16-20px radius, no shadow, edge-to-edge imagery.
+     ============================================================ -->
+<!-- ================= SECTION: LARGE PROMO BANNERS START ================= -->
+<section class="ts-section !pt-4 lg:!pt-6">
+    <div class="container-page">
+        <div class="flex flex-col gap-3 lg:gap-4">
+
+            <!-- Row 1: 66/33 split (large + small) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
+                <!-- Large banner (2/3) — Phase 2 Gold Box -->
+                <a href="#" class="ts-banner group relative lg:col-span-2 aspect-[2/1] lg:aspect-[3/1] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-500 transition-transform duration-500 group-hover:scale-105"></div>
+                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 28px 28px;"></div>
+                    <div class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[40%] aspect-square hidden md:block">
+                        <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
+                        <img src="./assets/images/products/product_4.png" alt="طلای آبشده" class="relative w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-700">
+                    </div>
+                    <div class="container-page relative z-10 h-full flex flex-col justify-center text-center md:text-start max-w-xl">
+                        <span class="inline-block self-center md:self-start mb-2 py-1 px-3 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/40 text-[10px] md:text-caption font-bold backdrop-blur-sm">فاز ۲ — به‌زودی</span>
+                        <h3 class="text-white font-black text-lg md:text-2xl lg:text-3xl mb-2 leading-tight">تجارت طلای آبشده به میلی‌گرم</h3>
+                        <p class="text-white/80 text-[11px] md:text-sm mb-3 max-w-md mx-auto md:mx-0">صندوق طلای طلاشو؛ سرمایه‌گذاری خرد با کیف پول و تسویه آنی</p>
+                        <span class="inline-flex self-center md:self-start items-center gap-1 bg-gold-500 hover:bg-gold-600 text-white text-[11px] md:text-sm font-bold px-4 py-2 rounded-full transition-all">آگاه‌سازی من ←</span>
+                    </div>
+                </a>
+                <!-- Small banner (1/3) — Insured shipping -->
+                <a href="#" class="ts-banner group relative lg:col-span-1 aspect-[2/1] lg:aspect-auto overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-gold-50 to-gold-100 transition-transform duration-500 group-hover:scale-105"></div>
+                    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+                    <div class="relative z-10 h-full flex flex-col items-center justify-center text-center p-6">
+                        <div class="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-surface flex items-center justify-center text-gold-600 mb-3 shadow-card group-hover:scale-110 transition-transform duration-250">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 lg:w-8 lg:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-primary-700 font-bold text-sm lg:text-base mb-1">ارسال بیمه‌شده</h3>
+                        <p class="text-content-body text-[11px] lg:text-xs leading-relaxed">بسته‌بندی لوکس + بیمه کامل محموله</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Row 2: 50/50 split -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4">
+                <!-- Banner A — New Collection -->
+                <a href="#" class="ts-banner group relative aspect-[3/1] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-l from-primary-700 to-primary-500 transition-transform duration-500 group-hover:scale-105"></div>
+                    <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+                    <div class="relative z-10 h-full flex items-center justify-center text-center p-6">
+                        <div>
+                            <h3 class="text-white font-black text-lg lg:text-xl mb-1">کالکشن رویال ۱۴۰۴</h3>
+                            <p class="text-gold-300 text-[11px] lg:text-xs mb-3">درخشش جاودان جواهرات برزیگر</p>
+                            <span class="inline-flex items-center gap-1 text-white text-[11px] lg:text-sm font-bold border border-white/30 rounded-full px-4 py-1.5 backdrop-blur-sm group-hover:bg-white/10 transition-all">مشاهده کالکشن ←</span>
+                        </div>
+                    </div>
+                </a>
+                <!-- Banner B — Discount Code -->
+                <a href="#" class="ts-banner group relative aspect-[3/1] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-l from-primary-950 to-primary-700 transition-transform duration-500 group-hover:scale-105"></div>
+                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 24px 24px;"></div>
+                    <div class="relative z-10 h-full flex items-center justify-center text-center p-6">
+                        <div>
+                            <span class="inline-block mb-2 text-[10px] bg-gold-500/20 text-gold-300 border border-gold-500/40 px-2.5 py-0.5 rounded-full font-bold backdrop-blur-sm">کد تخفیف خرید اول</span>
+                            <h3 class="text-white font-black text-lg lg:text-xl mb-1">۱۰٪ تخفیف ویژه</h3>
+                            <div class="inline-flex items-center gap-2 bg-white/10 border border-dashed border-gold-500/50 rounded-lg px-4 py-1.5 backdrop-blur-sm mt-2">
+                                <span class="text-[10px] text-white/60">کد:</span>
+                                <span class="text-gold-300 font-black text-base lg:text-lg tracking-wider ltr font-latin">FIRST10</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Row 3: 100% full-width banner -->
+            <a href="#" class="ts-banner group relative aspect-[4/1] overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-600 transition-transform duration-500 group-hover:scale-105"></div>
+                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 28px 28px;"></div>
+                <div class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[20%] aspect-square hidden md:block opacity-80">
+                    <img src="./assets/images/car-prize-purple-bow-tie.PNG" alt="جشنواره طلایی" class="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform duration-700">
+                </div>
+                <div class="container-page relative z-10 h-full flex items-center justify-center md:justify-start text-center md:text-start">
+                    <div>
+                        <span class="inline-block mb-2 text-[10px] bg-gold-500/20 text-gold-300 border border-gold-500/40 px-2.5 py-0.5 rounded-full font-bold backdrop-blur-sm">قرعه‌کشی بزرگ سال</span>
+                        <h3 class="text-white font-black text-xl lg:text-2xl mb-1">جشنواره طلایی طلاشو — برنده پژو ۲۰۶ شوید</h3>
+                        <p class="text-white/70 text-[11px] lg:text-xs">با هر خرید از کالکشن‌های ویژه شانس برنده شدن دارید</p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</section>
+<!-- ================= SECTION: LARGE PROMO BANNERS END ================= -->
 
 
 <!-- ===== LOCAL JS (no CDN) ===== -->

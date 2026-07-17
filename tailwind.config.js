@@ -66,6 +66,8 @@ module.exports = {
     'flash-sale-swiper',
     // Custom scrollbar
     'cat-scroll',
+    // Shimmer animation
+    'animate-glass-shimmer',
   ],
   theme: {
     extend: {
@@ -82,12 +84,16 @@ module.exports = {
           500: '#4A154B',  /* main brand */
           600: '#3D113D',
           700: '#2E0D2E',
+          800: '#240A24',
           900: '#1A071A',
+          950: '#0D030D',
         },
         /* Accent (Gold) — Talasho-only premium accent */
         gold: {
           50:  '#FCFAF2',
           100: '#F6F0D8',
+          200: '#EDDFB0',
+          300: '#E0CB7A',
           500: '#D4AF37',
           600: '#C29F2F',
           700: '#A88926',

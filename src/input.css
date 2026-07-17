@@ -153,6 +153,15 @@
     opacity: 1 !important;
     visibility: visible !important;
   }
+
+  /* Shimmer animation for countdown timer */
+  @keyframes glass-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .animate-glass-shimmer {
+    animation: glass-shimmer 3s infinite;
+  }
 }
 
 /* ------------------------------------------------------------------
