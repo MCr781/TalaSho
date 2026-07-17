@@ -90,82 +90,48 @@
 <body class="bg-background text-content-body antialiased">
 
 
-<!-- ============================================================
-     SECTION 1 — THIN ANNOUNCEMENT BAR (spec §1)
-     36px height, dark gradient background, centered promo message.
-     Scrolls away with page (NOT sticky).
-     ============================================================ -->
-<!-- ================= SECTION: ANNOUNCEMENT BAR START ================= -->
-<div class="bg-gradient-to-l from-primary-900 via-primary-800 to-primary-900 text-primary-50 h-10 flex items-center overflow-hidden text-caption relative">
-    <!-- BACKEND: INJECT ANNOUNCEMENT MESSAGES -->
-    <div class="announcement-marquee flex items-center gap-12 whitespace-nowrap animate-marquee">
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">★</span>
-            ارسال رایگان برای سفارش‌های بالای ۵ میلیون تومان
-            <a href="#" class="text-gold-500 hover:text-gold-400 underline-offset-2 hover:underline transition-colors">مشاهده شرایط</a>
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">✦</span>
-            ضمانت اصالت ۱۸ عیار با فاکتور رسمی
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">★</span>
-            جشنواره طلایی طلاشو — شانس برنده شدن پژو ۲۰۶
-            <a href="#" class="text-gold-500 hover:text-gold-400 underline-offset-2 hover:underline transition-colors">اطلاعات بیشتر</a>
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">✦</span>
-            پرداخت امن و ارسال بیمه‌شده به سراسر کشور
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">★</span>
-            صندوق طلای آبشده — سرمایه‌گذاری خرد از ۱ میلیون تومان
-            <a href="#" class="text-gold-500 hover:text-gold-400 underline-offset-2 hover:underline transition-colors">شروع کنید</a>
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">✦</span>
-            تخفیف‌های ویژه تا ۳۵٪ روی کالکشن عروس
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <!-- Duplicate for seamless loop -->
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">★</span>
-            ارسال رایگان برای سفارش‌های بالای ۵ میلیون تومان
-            <a href="#" class="text-gold-500 hover:text-gold-400 underline-offset-2 hover:underline transition-colors">مشاهده شرایط</a>
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">✦</span>
-            ضمانت اصالت ۱۸ عیار با فاکتور رسمی
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">★</span>
-            جشنواره طلایی طلاشو — شانس برنده شدن پژو ۲۰۶
-            <a href="#" class="text-gold-500 hover:text-gold-400 underline-offset-2 hover:underline transition-colors">اطلاعات بیشتر</a>
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">✦</span>
-            پرداخت امن و ارسال بیمه‌شده به سراسر کشور
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">★</span>
-            صندوق طلای آبشده — سرمایه‌گذاری خرد از ۱ میلیون تومان
-            <a href="#" class="text-gold-500 hover:text-gold-400 underline-offset-2 hover:underline transition-colors">شروع کنید</a>
-        </p>
-        <span class="text-gold-500/40">|</span>
-        <p class="flex items-center gap-2 font-medium">
-            <span class="text-gold-500">✦</span>
-            تخفیف‌های ویژه تا ۳۵٪ روی کالکشن عروس
-        </p>
+<!-- ========================================== -->
+<!-- 1. ANNOUNCEMENT BAR (Vertical Slider)      -->
+<!-- ========================================== -->
+<div class="relative w-full bg-[#4A154B] text-[#D4AF37] h-10 overflow-hidden">
+  
+  <!-- The animated sliding container -->
+  <div class="absolute inset-x-0 top-0 flex flex-col items-center animate-vertical-ticker text-sm md:text-[13px] font-medium text-center">
+    
+    <!-- Item 1 -->
+    <div class="h-10 w-full flex items-center justify-center px-4">
+      <span>✨ فروش ویژه محصولات پاییزه گالری طلاشو ✨</span>
     </div>
+    
+    <!-- Item 2 -->
+    <div class="h-10 w-full flex items-center justify-center px-4">
+      <span>📦 ارسال بیمه‌شده و رایگان برای خریدهای بالای ۱۰ میلیون تومان 📦</span>
+    </div>
+    
+    <!-- Item 3 -->
+    <div class="h-10 w-full flex items-center justify-center px-4">
+      <span>🎁 با اولین خرید از طلاشو، ۱۰٪ تخفیف روی اجرت بگیرید 🎁</span>
+    </div>
+
+    <!-- Duplicate of Item 1 (Crucial for infinite smooth looping) -->
+    <div class="h-10 w-full flex items-center justify-center px-4">
+      <span>✨ فروش ویژه محصولات پاییزه گالری طلاشو ✨</span>
+    </div>
+    
+  </div>
+
+  <!-- Keyframes logic -->
+  <style>
+    @keyframes vertical-ticker {
+      0%, 25% { transform: translateY(0); }             /* Pause at item 1 */
+      33%, 58% { transform: translateY(-40px); }        /* Slide & Pause at item 2 */
+      66%, 91% { transform: translateY(-80px); }        /* Slide & Pause at item 3 */
+      100% { transform: translateY(-120px); }           /* Slide back to Item 1 clone */
+    }
+    .animate-vertical-ticker {
+      animation: vertical-ticker 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+  </style>
 </div>
 <!-- ================= SECTION: ANNOUNCEMENT BAR END ================= -->
 
@@ -531,8 +497,7 @@
                         <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
                         <div class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[35%] md:w-[25%] lg:w-[20%] aspect-square hidden md:block z-10">
                             <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
-                            <img src="./assets/images/products/coins-bars.png" alt="طلای آبشده و سکه"
-                                 class="relative w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-700">
+                            <img src="assets/images/products/coins-bars.png" alt="سکه و شمش" class="w-full h-full object-contain scale-[1.10] translate-x-[20%] drop-shadow-[0_20px_30px_rgba(212,175,55,0.25)] transition-all duration-700 ease-out" />
                         </div>
                     </div>
 
@@ -1882,13 +1847,26 @@
     
     <!-- === Top Tier: Brand, Phone, Back to Top === -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
-      <!-- Brand Details -->
-      <div class="flex items-center gap-4">
-        <img src="./assets/images/logo-banner-without-background.PNG" alt="طلاشو" class="h-16 md:h-20 w-auto object-contain">
+      
+      <!-- Brand Details (Logo + Luxury Typography) -->
+      <div class="flex items-center">
+        <!-- Logo Element -->
+        <img src="./assets/images/White-Logo.png" alt="طلاشو" class="h-16 md:h-20 w-auto object-contain shrink-0 pl-4 border-l border-white/10 drop-shadow-md">
+        
+        <!-- Beautiful VIP Typography (Visually on the Left) -->
+        <div class="flex flex-col pr-4 text-right">
+          <span class="text-xl md:text-2xl font-bold text-white mb-1 drop-shadow-md">
+            طلا و جواهر <span class="text-[#D4AF37] font-black">برزیگر</span>
+          </span>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span class="h-[1.5px] w-6 md:w-8 bg-[#D4AF37] rounded-full drop-shadow"></span>
+            <span class="text-[#D4AF37] text-[10px] md:text-xs font-black font-latin tracking-[0.25em] drop-shadow">VIP GALLERY</span>
+          </div>
+        </div>
       </div>
 
       <!-- Back to Top Button (Luxury Style) -->
-      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-2 border border-white/20 text-gray-300 rounded-lg px-4 py-2.5 text-xs md:text-sm hover:border-[#D4AF37] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all duration-300 group">
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-2 border border-white/20 text-gray-300 rounded-lg px-4 py-2.5 text-xs md:text-sm hover:border-[#D4AF37] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all duration-300 group shrink-0">
         بازگشت به بالا
         <svg class="w-4 h-4 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
       </button>
@@ -1909,10 +1887,10 @@
       <div class="lg:col-span-2">
         <h3 class="text-white font-bold text-base mb-6 border-r-2 border-[#D4AF37] pr-3">راهنمای خرید</h3>
         <ul class="space-y-4 text-[13px] text-gray-400">
-          <li><a href="#" class="ts-footer-link inline-block">نحوه ثبت سفارش</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">رویه ارسال کالا</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">شیوه‌های پرداخت</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">محاسبه‌گر قیمت طلا</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">نحوه ثبت سفارش</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">رویه ارسال کالا</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">شیوه‌های پرداخت</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">محاسبه‌گر قیمت طلا</a></li>
         </ul>
       </div>
 
@@ -1920,10 +1898,10 @@
       <div class="lg:col-span-2">
         <h3 class="text-white font-bold text-base mb-6 border-r-2 border-[#D4AF37] pr-3">خدمات مشتریان</h3>
         <ul class="space-y-4 text-[13px] text-gray-400">
-          <li><a href="#" class="ts-footer-link inline-block">پرسش‌های متداول</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">رویه بازگرداندن کالا</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">شرایط استفاده</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">حریم خصوصی</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">پرسش‌های متداول</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">رویه بازگرداندن کالا</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">شرایط استفاده</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">حریم خصوصی</a></li>
         </ul>
       </div>
 
@@ -1931,10 +1909,10 @@
       <div class="lg:col-span-2">
         <h3 class="text-white font-bold text-base mb-6 border-r-2 border-[#D4AF37] pr-3">با طلاشو</h3>
         <ul class="space-y-4 text-[13px] text-gray-400">
-          <li><a href="#" class="ts-footer-link inline-block">درباره ما</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">تماس با گالری</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">شعبه‌های فیزیکی</a></li>
-          <li><a href="#" class="ts-footer-link inline-block">مجله طلا و جواهر</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">درباره ما</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">تماس با گالری</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">شعبه‌های فیزیکی</a></li>
+          <li><a href="#" class="ts-footer-link inline-block hover:text-white transition-colors">مجله طلا و جواهر</a></li>
         </ul>
       </div>
 
@@ -1967,10 +1945,12 @@
             <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </a>
-            <!-- Aparat -->
+            
+            <!-- PINTEREST (Perfect clean SVG scaling path) -->
             <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7.7 3.3L5.4 5.6H2.3v12.8h3.1V13l2.3 2.3v7.4h3.1V7.9l-3.1-3.1v-1.5zm5.4 0v21.4h3.1V11.7l4.7 4.7V7.9l-4.7-4.6h-3.1z"/></svg>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.951-7.252 4.182 0 7.439 2.981 7.439 6.941 0 4.156-2.615 7.498-6.241 7.498-1.22 0-2.368-.636-2.759-1.385l-.754 2.876c-.274 1.042-1.018 2.344-1.515 3.14A11.93 11.93 0 0012.017 24c6.621 0 11.988-5.368 11.988-11.987 0-6.621-5.367-11.987-11.988-11.987z"/></svg>
             </a>
+            
             <!-- YouTube -->
             <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
