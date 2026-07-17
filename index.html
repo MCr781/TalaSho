@@ -554,7 +554,7 @@
                  Contains 2 slides: royal collection + Phase 2 teaser.
                  ==================================================== -->
                     <div
-                        class="swiper hero-swiper relative overflow-hidden shadow-card aspect-[4/5] md:aspect-auto h-auto md:h-[360px] lg:h-[420px] lg:flex-1 min-w-0 order-1 lg:order-1 rounded-2xl lg:rounded-r-none lg:rounded-l-2xl">
+                        class="swiper hero-swiper w-full relative overflow-hidden shadow-card h-[220px] md:h-[360px] lg:h-[420px] lg:flex-1 lg:w-auto min-w-0 order-1 lg:order-1 rounded-2xl lg:rounded-r-none lg:rounded-l-2xl">
 
                         <div class="swiper-wrapper">
 
@@ -562,92 +562,70 @@
 
                             <!-- ============ SLIDE 1: New royal collection ============ -->
                             <div class="swiper-slide relative overflow-hidden">
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-600">
-                                </div>
-                                <div
-                                    class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none">
-                                </div>
+                                <!-- Background gradient -->
+                                <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-600"></div>
+                                <!-- Ambient glow -->
+                                <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-                                <!-- Real product image (replaces inline SVG) -->
-                                <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
-                                <div
-                                    class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[40%] md:w-[30%] lg:w-[28%] aspect-square hidden md:block z-10">
-                                    <div
-                                        class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen">
-                                    </div>
+                                <!-- Product image: full bleed on mobile (right-side atmospheric), smaller on desktop -->
+                                <!-- BACKEND: INJECT HERO SLIDE 1 IMAGE -->
+                                <div class="absolute top-0 bottom-0 end-0 w-[60%] md:w-[38%] lg:w-[32%] z-10 flex items-center">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-primary-900 via-transparent to-transparent z-20"></div>
+                                    <div class="absolute inset-0 bg-gold-500/10 blur-[40px] mix-blend-screen"></div>
                                     <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png"
                                         alt="کالکشن رویال طلاشو"
-                                        class="relative w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-700">
+                                        class="relative w-full h-full object-contain object-center drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-transform duration-700">
                                 </div>
 
-                                <div
-                                    class="container-page relative z-20 h-full flex flex-col justify-center text-center md:text-start max-w-xl">
-                                    <span
-                                        class="inline-block self-center md:self-start mb-2 md:mb-3 py-1 px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-caption md:text-body font-bold tracking-wider backdrop-blur-sm">
+                                <!-- Bottom text overlay with gradient (prize-banner style) -->
+                                <div class="absolute bottom-0 inset-x-0 z-20 px-4 md:px-6 pb-4 md:pb-6 pt-12 md:pt-0 md:static md:h-full md:flex md:flex-col md:justify-center md:max-w-xl md:ms-0 bg-gradient-to-t from-primary-900/95 via-primary-900/60 to-transparent md:bg-none">
+                                    <span class="inline-block self-start mb-1.5 md:mb-3 py-0.5 md:py-1 px-2 md:px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-[10px] md:text-body font-bold tracking-wider backdrop-blur-sm">
                                         کالکشن رویال ۱۴۰۴
                                     </span>
-                                    <h1 class="ts-hero-title text-white mb-2 md:mb-3"
-                                        style="font-size: clamp(1.5rem, 4vw, 2.5rem);">
+                                    <h1 class="text-white font-black leading-tight mb-1.5 md:mb-3" style="font-size: clamp(1rem, 5vw, 2.5rem);">
                                         درخشش جاودان جواهرات برزیگر
                                     </h1>
-                                    <p
-                                        class="text-primary-50 text-caption md:text-body mb-3 md:mb-5 max-w-md mx-auto md:mx-0 opacity-90 font-light leading-relaxed">
-                                        گزیده‌ای از نفیس‌ترین طراحی‌های الهام‌گرفته از هنر ایرانی، با بالاترین تراش
-                                        الماس و طلای ۱۸ عیار.
+                                    <p class="text-primary-100 text-[11px] md:text-sm mb-3 md:mb-5 opacity-90 font-light leading-relaxed hidden sm:block max-w-md">
+                                        گزیده‌ای از نفیس‌ترین طراحی‌های الهام‌گرفته از هنر ایرانی، با بالاترین تراش الماس و طلای ۱۸ عیار.
                                     </p>
-                                    <div
-                                        class="flex flex-col sm:flex-row items-center gap-2 md:gap-3 self-center md:self-start">
-                                        <a href="#" class="btn-gold text-caption md:text-body">مشاهده کالکشن</a>
-                                        <a href="#"
-                                            class="text-gold-500 hover:text-gold-400 transition-colors text-caption md:text-body font-medium">بازدید
-                                            از گالری ←</a>
+                                    <div class="flex flex-row items-center gap-2 md:gap-3">
+                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-[11px] md:text-sm py-1.5 md:py-2.5 px-3 md:px-5 transition-all">مشاهده کالکشن</a>
+                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-[11px] md:text-sm font-medium">بازدید از گالری ←</a>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- ============ SLIDE 2: Gold Box Phase 2 teaser ============ -->
                             <div class="swiper-slide relative overflow-hidden">
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-600 to-primary-500">
-                                </div>
-                                <div class="absolute inset-0 opacity-20"
-                                    style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 32px 32px;">
+                                <!-- Background gradient -->
+                                <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-600 to-primary-500"></div>
+                                <!-- Gold dot pattern overlay -->
+                                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 32px 32px;"></div>
+
+                                <!-- Product image: full bleed on mobile -->
+                                <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
+                                <div class="absolute top-0 bottom-0 end-0 w-[55%] md:w-[35%] lg:w-[28%] z-10 flex items-end pb-6 md:pb-0 md:items-center">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-primary-900 via-transparent to-transparent z-20"></div>
+                                    <div class="absolute inset-0 bg-gold-500/10 blur-[40px] mix-blend-screen"></div>
+                                    <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
+                                        class="relative w-full object-contain drop-shadow-[0_20px_30px_rgba(212,175,55,0.3)] transition-all duration-700" />
                                 </div>
 
-                                <div
-                                    class="container-page relative z-20 h-full flex flex-col justify-center text-center md:text-start max-w-xl">
-                                    <span
-                                        class="inline-block self-center md:self-start mb-2 md:mb-3 py-1 px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-caption md:text-body font-bold tracking-wider backdrop-blur-sm">
+                                <!-- Bottom text overlay -->
+                                <div class="absolute bottom-0 inset-x-0 z-20 px-4 md:px-6 pb-4 md:pb-6 pt-12 md:pt-0 md:static md:h-full md:flex md:flex-col md:justify-center md:max-w-xl md:ms-0 bg-gradient-to-t from-primary-900/95 via-primary-900/60 to-transparent md:bg-none">
+                                    <span class="inline-block self-start mb-1.5 md:mb-3 py-0.5 md:py-1 px-2 md:px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-[10px] md:text-body font-bold tracking-wider backdrop-blur-sm">
                                         فاز ۲ — به‌زودی
                                     </span>
-                                    <h1 class="ts-hero-title text-white mb-2 md:mb-3"
-                                        style="font-size: clamp(1.5rem, 4vw, 2.5rem);">
+                                    <h1 class="text-white font-black leading-tight mb-1.5 md:mb-3" style="font-size: clamp(1rem, 5vw, 2.5rem);">
                                         تجارت طلای آبشده به میلی‌گرم
                                     </h1>
-                                    <p
-                                        class="text-primary-50 text-caption md:text-body mb-3 md:mb-5 max-w-md mx-auto md:mx-0 opacity-90 font-light leading-relaxed">
-                                        صندوق طلای طلاشو؛ اولین پلتفرم معتبر ایران برای سرمایه‌گذاری خرد روی طلای آبشده.
-                                        کیف پول، تاریخچه تراکنش و تسویه آنی.
+                                    <p class="text-primary-100 text-[11px] md:text-sm mb-3 md:mb-5 opacity-90 font-light leading-relaxed hidden sm:block max-w-md">
+                                        صندوق طلای طلاشو؛ اولین پلتفرم معتبر ایران برای سرمایه‌گذاری خرد روی طلای آبشده. کیف پول، تاریخچه تراکنش و تسویه آنی.
                                     </p>
-                                    <div
-                                        class="flex flex-col sm:flex-row items-center gap-2 md:gap-3 self-center md:self-start">
-                                        <a href="#" class="btn-gold text-caption md:text-body">آگاه‌سازی من</a>
-                                        <a href="#"
-                                            class="text-gold-500 hover:text-gold-400 transition-colors text-caption md:text-body font-medium">بیشتر
-                                            بدانید ←</a>
+                                    <div class="flex flex-row items-center gap-2 md:gap-3">
+                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-[11px] md:text-sm py-1.5 md:py-2.5 px-3 md:px-5 transition-all">آگاه‌سازی من</a>
+                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-[11px] md:text-sm font-medium">بیشتر بدانید ←</a>
                                     </div>
-                                </div>
-
-                                <!-- Real product image (Phase 2 symbol) on the end side -->
-                                <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
-                                <div
-                                    class="absolute top-1/2 -translate-y-1/2 end-4 lg:end-12 w-[35%] md:w-[25%] lg:w-[20%] aspect-square hidden md:block z-10">
-                                    <div
-                                        class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen">
-                                    </div>
-                                    <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
-                                        class="w-full h-full object-contain scale-[1.10] translate-x-[20%] drop-shadow-[0_20px_30px_rgba(212,175,55,0.25)] transition-all duration-700 ease-out" />
                                 </div>
                             </div>
 
@@ -656,24 +634,6 @@
 
                         <!-- Pagination dots (bottom center) -->
                         <div class="swiper-pagination !bottom-3 swiper-pagination-dark"></div>
-
-                        <!-- Navigation arrows (left + right, vertically centered) -->
-                        <button type="button" class="ts-swiper-arrow !start-3 swiper-button-prev-custom"
-                            aria-label="اسلاید قبلی">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                        <button type="button" class="ts-swiper-arrow !end-3 swiper-button-next-custom"
-                            aria-label="اسلاید بعدی">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
                     </div>
 
 

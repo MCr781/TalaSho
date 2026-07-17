@@ -70,52 +70,78 @@
                 var el = document.querySelector('.hero-swiper');
                 if (!el || typeof Swiper === 'undefined') return;
 
-                // Destroy any existing Swiper instance (from cache or double-init)
+                // Destroy any existing Swiper instance
                 if (el.swiper) {
                     el.swiper.destroy(true, true);
                 }
 
-                // Calculate the correct width from the parent (flex container)
-                var parent = el.parentElement;
-                var parentWidth = parent.offsetWidth;
-                var prize = parent.querySelector('.ts-banner');
-                var prizeWidth = prize ? prize.offsetWidth : 0;
-                var gap = parentWidth > 1024 ? 20 : 12;
-                var w = parentWidth - prizeWidth - gap;
-                if (w < 100 || w > 10000) w = Math.round(parentWidth * 0.66);
+                // Remove any previously applied inline sizing so CSS rules take over
+                el.style.width = '';
+                el.style.maxWidth = '';
+                el.style.flex = '';
 
-                // Set width permanently — flex item would otherwise expand to 33M+ px
-                el.style.width = w + 'px';
-                el.style.maxWidth = w + 'px';
-                el.style.flex = 'none';
+                var parent = el.parentElement;
+
+                function getDesktopWidth() {
+                    // On lg+ the parent is flex-row; prize banner sits beside the swiper.
+                    var prize = parent.querySelector('.ts-banner');
+                    var prizeWidth = prize ? prize.offsetWidth : 0;
+                    var gap = 12; // gap-3 = 12px
+                    var w = parent.offsetWidth - prizeWidth - gap;
+                    if (w < 100 || w > 10000) w = Math.round(parent.offsetWidth * 0.66);
+                    return w;
+                }
+
+                function isMobileLayout() {
+                    // On mobile the flex container is flex-col; prize banner has 0 width
+                    // beside the swiper. We detect by checking if the parent is narrower than
+                    // the lg breakpoint (1024px).
+                    return window.innerWidth < 1024;
+                }
+
+                function applySize() {
+                    if (isMobileLayout()) {
+                        // Let swiper fill 100% of parent — remove all inline sizing
+                        el.style.width = '';
+                        el.style.maxWidth = '';
+                        el.style.flex = '';
+                        if (el.swiper) {
+                            el.swiper.params.width = null;
+                            el.swiper.update();
+                        }
+                    } else {
+                        var w = getDesktopWidth();
+                        el.style.width = w + 'px';
+                        el.style.maxWidth = w + 'px';
+                        el.style.flex = 'none';
+                        if (el.swiper) {
+                            el.swiper.params.width = w;
+                            el.swiper.update();
+                        }
+                    }
+                }
+
+                // Initial size application
+                applySize();
 
                 var heroSwiper = new Swiper(el, {
                     dir: 'rtl',
                     loop: true,
-                    width: w,
                     autoplay: { delay: 6000, disableOnInteraction: false },
                     speed: 800,
                     pagination: { el: '.hero-swiper .swiper-pagination', clickable: true },
-                    navigation: {
-                        nextEl: '.swiper-button-next-custom',
-                        prevEl: '.swiper-button-prev-custom',
-                    },
+                    observer: true,
+                    observeParents: true,
                 });
 
-                // Update on resize
+                // Reapply sizing on resize
                 var resizeTimer;
-                window.addEventListener('resize', function() {
+                window.addEventListener('resize', function () {
                     clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(function() {
-                        var newW = parent.offsetWidth - (prize ? prize.offsetWidth : 0) - gap;
-                        if (newW < 100 || newW > 10000) newW = Math.round(parent.offsetWidth * 0.66);
-                        el.style.width = newW + 'px';
-                        el.style.maxWidth = newW + 'px';
-                        heroSwiper.params.width = newW;
-                        heroSwiper.update();
-                    }, 200);
+                    resizeTimer = setTimeout(applySize, 150);
                 });
-            } catch(e) {
+
+            } catch (e) {
                 console.error('Hero swiper init failed:', e);
             }
         }
@@ -123,6 +149,7 @@
         if (document.querySelector('.hero-swiper')) {
             setTimeout(initHeroSwiper, 300);
         }
+
 
 
         // ==========================================
