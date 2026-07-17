@@ -568,29 +568,31 @@
                                 <!-- Ambient gold glow -->
                                 <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-                                <!-- ═══ DESKTOP IMAGE (md+) — classic absolute position on end side ═══ -->
-                                <!-- BACKEND: INJECT HERO SLIDE 1 IMAGE -->
-                                <div class="hidden md:block absolute top-1/2 -translate-y-1/2 end-6 lg:end-16 w-[32%] lg:w-[30%] aspect-square z-10">
-                                    <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
-                                    <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png"
-                                        alt="کالکشن رویال طلاشو"
-                                        class="relative w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-700">
-                                </div>
+                                <!-- ═══ DESKTOP CONTAINER (md+) ═══ -->
+                                <div class="hidden md:flex max-w-[1000px] mx-auto w-full h-full items-center justify-between px-6 lg:px-12 relative z-20">
+                                    <!-- Text Column (RTL: stays on the right side) -->
+                                    <div class="flex flex-col justify-center max-w-xl">
+                                        <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-sm font-bold tracking-widest backdrop-blur-sm">
+                                            کالکشن رویال ۱۴۰۴
+                                        </span>
+                                        <h1 class="text-white font-black leading-tight mb-3" style="font-size: clamp(1.6rem, 3.2vw, 2.6rem);">
+                                            درخشش جاودان جواهرات برزیگر
+                                        </h1>
+                                        <p class="text-primary-100 text-sm lg:text-base mb-5 opacity-85 font-light leading-relaxed max-w-sm">
+                                            گزیده‌ای از نفیس‌ترین طراحی‌های الهام‌گرفته از هنر ایرانی، با بالاترین تراش الماس و طلای ۱۸ عیار.
+                                        </p>
+                                        <div class="flex flex-row items-center gap-3 self-start">
+                                            <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-sm py-2.5 px-6 transition-all shadow-lg shadow-gold-500/20">مشاهده کالکشن</a>
+                                            <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium">بازدید از گالری ←</a>
+                                        </div>
+                                    </div>
 
-                                <!-- ═══ DESKTOP TEXT (md+) — anchored to start side, full height, vertically centered ═══ -->
-                                <div class="hidden md:flex flex-col justify-center absolute inset-y-0 start-0 z-20 ps-8 lg:ps-14 w-[62%] lg:w-[65%]">
-                                    <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-sm font-bold tracking-widest backdrop-blur-sm">
-                                        کالکشن رویال ۱۴۰۴
-                                    </span>
-                                    <h1 class="text-white font-black leading-tight mb-3" style="font-size: clamp(1.6rem, 3.2vw, 2.6rem);">
-                                        درخشش جاودان جواهرات برزیگر
-                                    </h1>
-                                    <p class="text-primary-100 text-sm lg:text-base mb-5 opacity-85 font-light leading-relaxed max-w-sm">
-                                        گزیده‌ای از نفیس‌ترین طراحی‌های الهام‌گرفته از هنر ایرانی، با بالاترین تراش الماس و طلای ۱۸ عیار.
-                                    </p>
-                                    <div class="flex flex-row items-center gap-3 self-start">
-                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-sm py-2.5 px-6 transition-all shadow-lg shadow-gold-500/20">مشاهده کالکشن</a>
-                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium">بازدید از گالری ←</a>
+                                    <!-- Image Column (RTL: stays on the left side) -->
+                                    <div class="relative w-[32%] lg:w-[30%] aspect-square flex-shrink-0" style="transform: scale(1.4) translateX(-15%);">
+                                        <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
+                                        <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png"
+                                            alt="کالکشن رویال طلاشو"
+                                            class="relative w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-700">
                                     </div>
                                 </div>
 
@@ -628,28 +630,30 @@
                                 <!-- Warm gold radial glow -->
                                 <div class="absolute top-1/2 end-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-gold-500/15 rounded-full blur-[80px] pointer-events-none"></div>
 
-                                <!-- ═══ DESKTOP IMAGE (md+) ═══ -->
-                                <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
-                                <div class="hidden md:flex absolute top-1/2 -translate-y-1/2 end-6 lg:end-16 w-[30%] lg:w-[26%] aspect-square z-10 items-center">
-                                    <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
-                                    <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
-                                        class="relative w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(212,175,55,0.3)] hover:scale-105 transition-transform duration-700">
-                                </div>
+                                <!-- ═══ DESKTOP CONTAINER (md+) ═══ -->
+                                <div class="hidden md:flex max-w-[1000px] mx-auto w-full h-full items-center justify-between px-6 lg:px-12 relative z-20">
+                                    <!-- Text Column (RTL: stays on the right side) -->
+                                    <div class="flex flex-col justify-center max-w-xl">
+                                        <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-sm font-bold tracking-widest backdrop-blur-sm">
+                                            فاز ۲ — به‌زودی
+                                        </span>
+                                        <h1 class="text-white font-black leading-tight mb-3" style="font-size: clamp(1.6rem, 3.2vw, 2.6rem);">
+                                            تجارت طلای آبشده به میلی‌گرم
+                                        </h1>
+                                        <p class="text-primary-100 text-sm lg:text-base mb-5 opacity-85 font-light leading-relaxed max-w-sm">
+                                            صندوق طلای طلاشو؛ اولین پلتفرم معتبر ایران برای سرمایه‌گذاری خرد روی طلای آبشده. کیف پول، تاریخچه تراکنش و تسویه آنی.
+                                        </p>
+                                        <div class="flex flex-row items-center gap-3 self-start">
+                                            <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-sm py-2.5 px-6 transition-all shadow-lg shadow-gold-500/20">آگاه‌سازی من</a>
+                                            <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium">بیشتر بدانید ←</a>
+                                        </div>
+                                    </div>
 
-                                <!-- ═══ DESKTOP TEXT (md+) ═══ -->
-                                <div class="hidden md:flex flex-col justify-center absolute inset-y-0 start-0 z-20 ps-8 lg:ps-14 w-[62%] lg:w-[65%]">
-                                    <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-sm font-bold tracking-widest backdrop-blur-sm">
-                                        فاز ۲ — به‌زودی
-                                    </span>
-                                    <h1 class="text-white font-black leading-tight mb-3" style="font-size: clamp(1.6rem, 3.2vw, 2.6rem);">
-                                        تجارت طلای آبشده به میلی‌گرم
-                                    </h1>
-                                    <p class="text-primary-100 text-sm lg:text-base mb-5 opacity-85 font-light leading-relaxed max-w-sm">
-                                        صندوق طلای طلاشو؛ اولین پلتفرم معتبر ایران برای سرمایه‌گذاری خرد روی طلای آبشده. کیف پول، تاریخچه تراکنش و تسویه آنی.
-                                    </p>
-                                    <div class="flex flex-row items-center gap-3 self-start">
-                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-sm py-2.5 px-6 transition-all shadow-lg shadow-gold-500/20">آگاه‌سازی من</a>
-                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium">بیشتر بدانید ←</a>
+                                    <!-- Image Column (RTL: stays on the left side) -->
+                                    <div class="relative w-[30%] lg:w-[26%] aspect-square flex-shrink-0 flex items-center" style="transform: scale(1.7) translateX(-10%);">
+                                        <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
+                                        <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
+                                            class="relative w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(212,175,55,0.3)] hover:scale-105 transition-transform duration-700">
                                     </div>
                                 </div>
 
