@@ -561,36 +561,60 @@
                             <!-- BACKEND: FOREACH HERO-SLIDE LOOP START -->
 
                             <!-- ============ SLIDE 1: New royal collection ============ -->
+                            <!-- BACKEND: FOREACH HERO-SLIDE LOOP START -->
                             <div class="swiper-slide relative overflow-hidden">
                                 <!-- Background gradient -->
                                 <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-700 to-primary-600"></div>
-                                <!-- Ambient glow -->
-                                <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+                                <!-- Ambient gold glow -->
+                                <div class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-                                <!-- Product image: full bleed on mobile (right-side atmospheric), smaller on desktop -->
+                                <!-- ═══ DESKTOP IMAGE (md+) — classic absolute position on end side ═══ -->
                                 <!-- BACKEND: INJECT HERO SLIDE 1 IMAGE -->
-                                <div class="absolute top-0 bottom-0 end-0 w-[60%] md:w-[38%] lg:w-[32%] z-10 flex items-center">
-                                    <div class="absolute inset-0 bg-gradient-to-r from-primary-900 via-transparent to-transparent z-20"></div>
-                                    <div class="absolute inset-0 bg-gold-500/10 blur-[40px] mix-blend-screen"></div>
+                                <div class="hidden md:block absolute top-1/2 -translate-y-1/2 end-6 lg:end-16 w-[32%] lg:w-[30%] aspect-square z-10">
+                                    <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
                                     <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png"
                                         alt="کالکشن رویال طلاشو"
-                                        class="relative w-full h-full object-contain object-center drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-transform duration-700">
+                                        class="relative w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:scale-105 transition-transform duration-700">
                                 </div>
 
-                                <!-- Bottom text overlay with gradient (prize-banner style) -->
-                                <div class="absolute bottom-0 inset-x-0 z-20 px-4 md:px-6 pb-4 md:pb-6 pt-12 md:pt-0 md:static md:h-full md:flex md:flex-col md:justify-center md:max-w-xl md:ms-0 bg-gradient-to-t from-primary-900/95 via-primary-900/60 to-transparent md:bg-none">
-                                    <span class="inline-block self-start mb-1.5 md:mb-3 py-0.5 md:py-1 px-2 md:px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-[10px] md:text-body font-bold tracking-wider backdrop-blur-sm">
+                                <!-- ═══ DESKTOP TEXT (md+) — anchored to start side, full height, vertically centered ═══ -->
+                                <div class="hidden md:flex flex-col justify-center absolute inset-y-0 start-0 z-20 ps-8 lg:ps-14 w-[62%] lg:w-[65%]">
+                                    <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-sm font-bold tracking-widest backdrop-blur-sm">
                                         کالکشن رویال ۱۴۰۴
                                     </span>
-                                    <h1 class="text-white font-black leading-tight mb-1.5 md:mb-3" style="font-size: clamp(1rem, 5vw, 2.5rem);">
+                                    <h1 class="text-white font-black leading-tight mb-3" style="font-size: clamp(1.6rem, 3.2vw, 2.6rem);">
                                         درخشش جاودان جواهرات برزیگر
                                     </h1>
-                                    <p class="text-primary-100 text-[11px] md:text-sm mb-3 md:mb-5 opacity-90 font-light leading-relaxed hidden sm:block max-w-md">
+                                    <p class="text-primary-100 text-sm lg:text-base mb-5 opacity-85 font-light leading-relaxed max-w-sm">
                                         گزیده‌ای از نفیس‌ترین طراحی‌های الهام‌گرفته از هنر ایرانی، با بالاترین تراش الماس و طلای ۱۸ عیار.
                                     </p>
-                                    <div class="flex flex-row items-center gap-2 md:gap-3">
-                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-[11px] md:text-sm py-1.5 md:py-2.5 px-3 md:px-5 transition-all">مشاهده کالکشن</a>
-                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-[11px] md:text-sm font-medium">بازدید از گالری ←</a>
+                                    <div class="flex flex-row items-center gap-3 self-start">
+                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-sm py-2.5 px-6 transition-all shadow-lg shadow-gold-500/20">مشاهده کالکشن</a>
+                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium">بازدید از گالری ←</a>
+                                    </div>
+                                </div>
+
+                                <!-- ═══ MOBILE IMAGE (< md) — full-height atmospheric panel on end side ═══ -->
+                                <div class="md:hidden absolute top-0 bottom-0 end-0 w-[58%] z-10">
+                                    <!-- Gradient fade towards start (text side) -->
+                                    <div class="absolute inset-0 bg-gradient-to-l from-transparent to-primary-900/90 z-20"></div>
+                                    <div class="absolute inset-0 bg-gold-500/8 blur-[30px] mix-blend-screen"></div>
+                                    <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png"
+                                        alt="کالکشن رویال طلاشو"
+                                        class="w-full h-full object-contain object-center drop-shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+                                </div>
+
+                                <!-- ═══ MOBILE TEXT (< md) — bottom overlay with gradient ═══ -->
+                                <div class="md:hidden absolute bottom-0 start-0 end-0 z-20 px-4 pb-4 pt-16 flex flex-col bg-gradient-to-t from-primary-900/95 via-primary-900/60 to-transparent">
+                                    <span class="inline-block self-start mb-1 py-0.5 px-2 rounded-full bg-gold-50/15 text-gold-500 border border-gold-500/30 text-[10px] font-bold tracking-wider">
+                                        کالکشن رویال ۱۴۰۴
+                                    </span>
+                                    <h2 class="text-white font-black leading-tight mb-2" style="font-size: clamp(0.95rem, 4.5vw, 1.3rem);">
+                                        درخشش جاودان جواهرات برزیگر
+                                    </h2>
+                                    <div class="flex flex-row items-center gap-2">
+                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 text-white font-bold rounded-full text-[10px] py-1.5 px-3 transition-all">مشاهده کالکشن</a>
+                                        <a href="#" class="text-gold-400 text-[10px] font-medium">بازدید از گالری ←</a>
                                     </div>
                                 </div>
                             </div>
@@ -599,37 +623,61 @@
                             <div class="swiper-slide relative overflow-hidden">
                                 <!-- Background gradient -->
                                 <div class="absolute inset-0 bg-gradient-to-l from-primary-900 via-primary-600 to-primary-500"></div>
-                                <!-- Gold dot pattern overlay -->
+                                <!-- Gold dot pattern -->
                                 <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle, #D4AF37 1.5px, transparent 1.5px); background-size: 32px 32px;"></div>
+                                <!-- Warm gold radial glow -->
+                                <div class="absolute top-1/2 end-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-gold-500/15 rounded-full blur-[80px] pointer-events-none"></div>
 
-                                <!-- Product image: full bleed on mobile -->
+                                <!-- ═══ DESKTOP IMAGE (md+) ═══ -->
                                 <!-- BACKEND: INJECT HERO SLIDE 2 IMAGE -->
-                                <div class="absolute top-0 bottom-0 end-0 w-[55%] md:w-[35%] lg:w-[28%] z-10 flex items-end pb-6 md:pb-0 md:items-center">
-                                    <div class="absolute inset-0 bg-gradient-to-r from-primary-900 via-transparent to-transparent z-20"></div>
-                                    <div class="absolute inset-0 bg-gold-500/10 blur-[40px] mix-blend-screen"></div>
+                                <div class="hidden md:flex absolute top-1/2 -translate-y-1/2 end-6 lg:end-16 w-[30%] lg:w-[26%] aspect-square z-10 items-center">
+                                    <div class="absolute inset-0 bg-gold-500/15 rounded-full blur-[60px] mix-blend-screen"></div>
                                     <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
-                                        class="relative w-full object-contain drop-shadow-[0_20px_30px_rgba(212,175,55,0.3)] transition-all duration-700" />
+                                        class="relative w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(212,175,55,0.3)] hover:scale-105 transition-transform duration-700">
                                 </div>
 
-                                <!-- Bottom text overlay -->
-                                <div class="absolute bottom-0 inset-x-0 z-20 px-4 md:px-6 pb-4 md:pb-6 pt-12 md:pt-0 md:static md:h-full md:flex md:flex-col md:justify-center md:max-w-xl md:ms-0 bg-gradient-to-t from-primary-900/95 via-primary-900/60 to-transparent md:bg-none">
-                                    <span class="inline-block self-start mb-1.5 md:mb-3 py-0.5 md:py-1 px-2 md:px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-[10px] md:text-body font-bold tracking-wider backdrop-blur-sm">
+                                <!-- ═══ DESKTOP TEXT (md+) ═══ -->
+                                <div class="hidden md:flex flex-col justify-center absolute inset-y-0 start-0 z-20 ps-8 lg:ps-14 w-[62%] lg:w-[65%]">
+                                    <span class="inline-block self-start mb-3 py-1 px-3 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-sm font-bold tracking-widest backdrop-blur-sm">
                                         فاز ۲ — به‌زودی
                                     </span>
-                                    <h1 class="text-white font-black leading-tight mb-1.5 md:mb-3" style="font-size: clamp(1rem, 5vw, 2.5rem);">
+                                    <h1 class="text-white font-black leading-tight mb-3" style="font-size: clamp(1.6rem, 3.2vw, 2.6rem);">
                                         تجارت طلای آبشده به میلی‌گرم
                                     </h1>
-                                    <p class="text-primary-100 text-[11px] md:text-sm mb-3 md:mb-5 opacity-90 font-light leading-relaxed hidden sm:block max-w-md">
+                                    <p class="text-primary-100 text-sm lg:text-base mb-5 opacity-85 font-light leading-relaxed max-w-sm">
                                         صندوق طلای طلاشو؛ اولین پلتفرم معتبر ایران برای سرمایه‌گذاری خرد روی طلای آبشده. کیف پول، تاریخچه تراکنش و تسویه آنی.
                                     </p>
-                                    <div class="flex flex-row items-center gap-2 md:gap-3">
-                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-[11px] md:text-sm py-1.5 md:py-2.5 px-3 md:px-5 transition-all">آگاه‌سازی من</a>
-                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-[11px] md:text-sm font-medium">بیشتر بدانید ←</a>
+                                    <div class="flex flex-row items-center gap-3 self-start">
+                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 hover:bg-gold-600 text-white font-bold rounded-full text-sm py-2.5 px-6 transition-all shadow-lg shadow-gold-500/20">آگاه‌سازی من</a>
+                                        <a href="#" class="text-gold-400 hover:text-gold-300 transition-colors text-sm font-medium">بیشتر بدانید ←</a>
+                                    </div>
+                                </div>
+
+                                <!-- ═══ MOBILE IMAGE (< md) ═══ -->
+                                <div class="md:hidden absolute top-0 bottom-0 end-0 w-[55%] z-10">
+                                    <div class="absolute inset-0 bg-gradient-to-l from-transparent to-primary-900/90 z-20"></div>
+                                    <div class="absolute inset-0 bg-gold-500/10 blur-[30px] mix-blend-screen"></div>
+                                    <img src="assets/images/products/coins-bars.png" alt="سکه و شمش"
+                                        class="w-full h-full object-contain object-center drop-shadow-[0_10px_30px_rgba(212,175,55,0.25)]">
+                                </div>
+
+                                <!-- ═══ MOBILE TEXT (< md) ═══ -->
+                                <div class="md:hidden absolute bottom-0 start-0 end-0 z-20 px-4 pb-4 pt-16 flex flex-col bg-gradient-to-t from-primary-900/95 via-primary-900/60 to-transparent">
+                                    <span class="inline-block self-start mb-1 py-0.5 px-2 rounded-full bg-gold-500/20 text-gold-500 border border-gold-500/40 text-[10px] font-bold tracking-wider">
+                                        فاز ۲ — به‌زودی
+                                    </span>
+                                    <h2 class="text-white font-black leading-tight mb-2" style="font-size: clamp(0.95rem, 4.5vw, 1.3rem);">
+                                        تجارت طلای آبشده به میلی‌گرم
+                                    </h2>
+                                    <div class="flex flex-row items-center gap-2">
+                                        <a href="#" class="inline-flex items-center justify-center bg-gold-500 text-white font-bold rounded-full text-[10px] py-1.5 px-3 transition-all">آگاه‌سازی من</a>
+                                        <a href="#" class="text-gold-400 text-[10px] font-medium">بیشتر بدانید ←</a>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- BACKEND: FOREACH HERO-SLIDE LOOP END -->
+
                         </div>
 
                         <!-- Pagination dots (bottom center) -->

@@ -113,6 +113,13 @@
     background-color: #FFFFFF;
   }
 
+  /* Hide hero swiper pagination on very small screens (< 475px) */
+  @media (max-width: 474px) {
+    .hero-swiper .swiper-pagination {
+      display: none;
+    }
+  }
+
   /* Hide native scrollbar on horizontal scroll rows (Digikala-style) */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
