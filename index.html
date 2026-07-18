@@ -694,8 +694,11 @@
                  Same height as the carousel.
                  ==================================================== -->
                     <!-- BACKEND: INJECT PRIZE BANNER LINK + IMAGE + COPY -->
+                    <!-- NOTE: Mobile order-3 puts prize banner visually on the LEFT (RTL col 2),
+                                lg:order-2 keeps it on the visual left on desktop (400px column).
+                                shadow-card added on mobile to harmonize with the categories card. -->
                     <a href="#"
-                        class="ts-banner col-span-1 lg:col-span-1 relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] w-full flex-shrink-0 group block order-2 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl">
+                        class="ts-banner col-span-1 lg:col-span-1 relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] w-full flex-shrink-0 group block order-3 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl shadow-card lg:shadow-none">
                         <!-- Background gradient -->
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary-700 to-primary-500">
                         </div>
@@ -745,13 +748,61 @@
      Each tile = circular image + label underneath. 20px spacing.
      Hover: subtle scaling on the circle.
      MOVED BELOW the hero banners per user request.
+
+     MOBILE HARMONY (≤1023px) — "makes sense" density model:
+       Sits beside the prize banner as a sibling card. The card has a
+       FIXED height matching the prize banner (220px mobile / 360px md),
+       so the grid inside must adapt its column count + tile size to
+       FILL that height cleanly instead of leaving empty space or
+       cramping tiles.
+
+       Breakpoint plan (12 tiles total):
+         • Mobile (<768px): 2 cols × 3 rows = 6 visible, vertical
+           scroll for the remaining 6. 40px circles (compact).
+         • Tablet (768–1023px): 4 cols × 3 rows = ALL 12 visible,
+           NO scroll. 64px circles + generous py to fill height.
+         • Desktop (≥1024px): 12 cols × 1 row, full-width (unchanged).
+
+       Other harmony touches:
+         - Same rounded-2xl corners + shadow-card as the prize banner
+         - Subtle purple→white gradient bg + ring-1 ring-primary-100/70
+           echoes the prize banner's purple gradient (yin-yang pairing)
+         - Compact mobile header ("دسته‌بندی‌ها") with gold accent bar
+           mirrors the prize banner's "قرعه‌کشی بزرگ سال" badge
+         - order-2 on mobile puts it visually on the RIGHT (RTL col 1)
      ============================================================ -->
         <!-- ================= SECTION: CATEGORIES SHORTCUT ROW START ================= -->
-        <div class="col-span-1 lg:col-span-2 w-full order-3 mt-0 relative rounded-2xl lg:rounded-none bg-surface lg:bg-transparent shadow-card lg:shadow-none h-[220px] md:h-[360px] lg:h-auto overflow-hidden">
-            <div class="w-full h-full overflow-y-auto lg:overflow-visible no-scrollbar p-2 lg:p-0 lg:py-6">
-                <div class="container-page !px-0">
+        <div class="col-span-1 lg:col-span-2 w-full order-2 lg:order-3 mt-0 relative rounded-2xl lg:rounded-none bg-gradient-to-br from-primary-50/80 via-surface to-surface lg:bg-transparent shadow-card lg:shadow-none ring-1 ring-primary-100/70 lg:ring-0 h-[220px] md:h-[360px] lg:h-auto overflow-hidden">
+            <!-- Mobile-only compact header — pairs visually with the prize banner's badge -->
+            <div class="lg:hidden flex items-center justify-between px-3 pt-2.5 pb-1.5 border-b border-primary-100/60">
+                <div class="flex items-center gap-1.5">
+                    <span class="block w-1 h-3 rounded-full bg-gold-500"></span>
+                    <span class="text-[11px] font-bold text-primary-700 tracking-wide">دسته‌بندی‌ها</span>
+                </div>
+                <a href="#" class="text-[10px] text-primary-500 hover:text-primary-700 font-medium transition-colors">همه ←</a>
+            </div>
+            <!--
+              Scrolling behavior:
+                - Mobile (<md): overflow-y-auto so the 2×3 visible grid can scroll to reveal tiles 7-12
+                - Tablet (md): overflow-visible — all 12 tiles fit in the 4×3 grid, no scroll needed
+                - Desktop (lg+): overflow-visible — full-width 12-col row
+              Height behavior:
+                - Mobile: calc(100% - 32px) to subtract the header height
+                - Tablet+: h-full (natural flow, no subtraction needed since overflow is visible)
+            -->
+            <div class="w-full h-[calc(100%-32px)] md:h-full overflow-y-auto md:overflow-visible lg:overflow-visible no-scrollbar p-2 md:p-4 lg:p-0 lg:py-6">
+                <div class="container-page !px-0 h-full">
+                    <!--
+                      Grid columns:
+                        - Mobile: 2 cols (compact, scrollable)
+                        - Tablet (md): 4 cols × 3 rows = 12 tiles, ALL visible
+                        - Desktop (lg+): 12 cols × 1 row (unchanged spec layout)
+                      Vertical alignment:
+                        - Tablet+: content-start so the 3 rows stay at the top of the
+                          available height with the py padding giving breathing room
+                    -->
                     <div
-                        class="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-2 gap-y-4 lg:gap-4 pb-2 lg:pb-3">
+                        class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-x-2 gap-y-3 md:gap-y-4 lg:gap-4 pb-2 lg:pb-3">
 
                     <a href="#" class="ts-cat-tile group">
                         <div class="ts-cat-tile__circle" style="background-color: #FEE2E2; color: #DC2626;">
