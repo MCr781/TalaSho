@@ -3,6 +3,11 @@ module.exports = {
   content: [
     "./*.html",
     "./assets/js/**/*.js",
+    // PWA layer — added so Tailwind scans PWA HTML files and emits the
+    // utility classes they use. Does NOT change the main site's rendered
+    // output (Tailwind only adds classes, never removes). When you add a
+    // new HTML file under /pwa/, run `npm run build:css` to recompile.
+    "./pwa/**/*.html",
   ],
   /* Safelist: design-system component classes that must always be emitted,
      even before the HTML references them. This lets us build the foundation

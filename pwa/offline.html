@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  Talasho — Offline Page (v2, Tailwind-based)
+  ----------------------------------------------------------------------------
+  Shown by the service worker when a navigation request fails AND no cached
+  copy of the requested page is available. Lives at /pwa/offline.html per the
+  user's rule (HTML files belong in /pwa/).
+
+  v2 changes (per user feedback):
+    • Switched from inline-CSS to Tailwind classes (loaded from
+      ../assets/css/style.css, which the SW precaches). Tiny inline <style>
+      block kept only for things Tailwind can't do: hero gradient, teal
+      accent gradient, prefers-reduced-motion fallback.
+    • Fixed logo path: ../assets/images/White-Logo.png (relative, was /abs).
+    • Fixed layout: removed flex:1 + negative-margin overlap trick that
+      was clipping the hero's bottom on short viewports. Content now flows
+      naturally; page scrolls if too tall.
+
+  Design language:
+    • Inherits talasho palette via Tailwind tokens (primary-500, gold-500,
+      content-heading/body/muted, border, surface, background).
+    • Vazirmatn-FD font via @font-face in style.css (precached by SW).
+    • White-Logo.png on the dark hero band (logo-on-dark rule).
+    • Structural inspo from milli.gold: "چند قدم تا اتصال مجدد" 3-step
+      vertical timeline with circled Persian-digit numerals.
+    • Subtle teal accent #0E7C86 (milli.gold deepOcean inspo) used via
+      arbitrary Tailwind value text-[#0E7C86] — single accent, kept minimal.
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#4A154B">
+  <meta name="robots" content="noindex,nofollow">
+  <title>اتصال اینترنت قطع است | طلاشو</title>
+
+  <!-- PWA hooks (paths relative to /pwa/offline.html) -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/x-icon" href="./icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+
+  <!-- Main site stylesheet (precached by SW — see /sw.js PRECACHE_URLS).
+       Contains Vazirmatn-FD @font-face, Tailwind utilities + component classes. -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Font preloads — Vazirmatn-FD is the main site's body font -->
+  <link rel="preload" as="font" type="font/woff2"
+        href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2"
+        href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <style>
+    /* ─── Inline CSS — only what Tailwind can't do ─── */
+
+    /* Hero gradient (custom — Tailwind gradient utilities don't do 3-stop diagonal like this) */
+    .offline-hero-bg {
+      background: linear-gradient(135deg, #5A1A5B 0%, #4A154B 50%, #2E0D2E 100%);
+    }
+    /* Faint gold radial glow at BOTTOM of hero (luxury jewelry cue).
+       v4: moved from top → bottom so the glow never sits behind the title
+       text. Was lightening the purple behind the H1, causing perceived
+       low-contrast even though pure white on purple is technically 12:1. */
+    .offline-hero-glow::before {
+      content: '';
+      position: absolute;
+      bottom: -60%; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Hero title — gold with drop-shadow for visual lift.
+       Gold #D4AF37 on purple gradient #4A154B = ~5.7:1 contrast (passes WCAG AA).
+       Drop-shadow adds separation from the background gradient. */
+    .hero-title-gold {
+      color: #D4AF37;
+      text-shadow: 0 2px 12px rgba(74, 21, 75, 0.4);
+    }
+
+    /* Teal accent-line gradient (milli.gold deepOcean whisper) */
+    .accent-line-gradient {
+      background: linear-gradient(90deg, transparent, #0E7C86, transparent);
+    }
+
+    /* Reduced motion — respect user preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased h-dvh flex flex-col overflow-hidden">
+
+  <!-- ─── Hero band (purple gradient + White-Logo) ───
+       v4: padding reduced py-14 → py-6 so total layout fits in viewport
+       without scrolling. Title switched to gold + drop-shadow for contrast.
+       flex-shrink-0 ensures hero never compresses on ultra-short viewports. -->
+  <section class="offline-hero-bg offline-hero-glow relative text-white py-6 px-6 overflow-hidden flex-shrink-0" aria-label="اطلاعیه قطع ارتباط">
+    <div class="relative z-10 flex flex-col items-center text-center max-w-xl mx-auto">
+      <img src="../assets/images/White-Logo.png" alt="طلاشو" class="w-14 h-14 mb-4 object-contain drop-shadow-md">
+      <h1 class="hero-title-gold text-2xl font-bold mb-2 leading-snug">ارتباط اینترنت قطع است</h1>
+      <p class="text-sm text-white/90 leading-7 max-w-md">
+        صفحه‌ای که می‌خواستید ببینید در حافظه دستگاه ذخیره نشده است و در حال حاضر
+        امکان بارگذاری از سرور وجود ندارد.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── Card body (3-step hint + retry button) ───
+       v4: main uses flex-1 + justify-center so the card centers vertically
+       in the available viewport space. Body uses h-dvh + overflow-hidden so
+       the page NEVER scrolls on any viewport. Compact spacing (py-6 hero,
+       p-4 card override, gap-2 steps, p-2.5 step padding) ensures content
+       fits at 390×844 mobile portrait with ~20px headroom.
+
+       Trade-off: on ultra-short viewports (e.g., 320px landscape phones),
+       bottom content (footer) gets clipped. Accepted because the user
+       explicitly requested no-scroll behavior, and clipped footer text
+       is less harmful than a scrolling offline page. -->
+  <main class="flex-1 flex flex-col justify-center px-6 py-3 w-full max-w-xl mx-auto overflow-hidden">
+    <div class="ts-card p-4 border border-border">
+
+      <h2 class="text-lg font-bold text-primary-500 mb-1">چند قدم تا اتصال مجدد</h2>
+      <p class="text-sm text-content-body mb-3 leading-6">
+        برای بازگشت به طلاشو، مراحل زیر را به ترتیب انجام دهید.
+      </p>
+
+      <!-- Teal accent line (milli.gold deepOcean whisper, single use).
+           Chip text uses darker #0A5A63 (~6.5:1 on white, passes WCAG AA) instead of
+           #0E7C86 (~4.4:1, borderline). Decorative gradient line keeps the brighter #0E7C86. -->
+      <div class="flex items-center gap-3 mb-3" aria-hidden="true">
+        <div class="flex-1 h-px accent-line-gradient opacity-50"></div>
+        <span class="text-sm text-[#0A5A63] font-bold tracking-wide whitespace-nowrap">راه‌حل سریع</span>
+        <div class="flex-1 h-px accent-line-gradient opacity-50"></div>
+      </div>
+
+      <!-- 3-step timeline (structural inspo: milli.gold "چند قدم تا طلادار شدن")
+           Text colors per WCAG AA (≥4.5:1 on white):
+           • Step titles: text-content-heading (#23254A → ~10:1)
+           • Step descriptions: text-content-body (#5E6472 → ~6:1)
+           • Avoid text-content-muted (#8D94A5 → ~3.5:1, FAILS AA) for any text under 18px.
+           v4: padding p-4 → p-2.5, gap-4 → gap-2, mb-7 → mb-3 for compact no-scroll layout. -->
+      <ol class="flex flex-col gap-2 mb-3 text-right">
+        <li class="flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۱</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-bold text-content-heading mb-0.5">اتصال اینترنت را بررسی کنید</div>
+            <div class="text-xs text-content-body leading-5">
+              وای‌فای یا داده همراه خود را روشن کرده و مطمئن شوید سایر وب‌سایت‌ها باز می‌شوند.
+            </div>
+          </div>
+        </li>
+        <li class="flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۲</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-bold text-content-heading mb-0.5">صفحه را مجدداً بارگذاری کنید</div>
+            <div class="text-xs text-content-body leading-5">
+              دکمه «تلاش دوباره» را بزنید یا کلید F5 را فشار دهید تا طلاشو دوباره بارگذاری شود.
+            </div>
+          </div>
+        </li>
+        <li class="flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
+          <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۳</span>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-bold text-content-heading mb-0.5">در صورت ادامه مشکل، بعداً تلاش کنید</div>
+            <div class="text-xs text-content-body leading-5">
+              ممکن است سرور موقتاً در دسترس نباشد. چند دقیقه بعد دوباره امتحان کنید.
+            </div>
+          </div>
+        </li>
+      </ol>
+
+      <!-- Retry button (uses btn-gold component class from style.css) -->
+      <button type="button" class="btn-gold w-full" onclick="window.location.reload()" aria-label="تلاش مجدد برای بارگذاری صفحه">
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+          <path d="M21 3v5h-5"/>
+          <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+          <path d="M3 21v-5h5"/>
+        </svg>
+        <span>تلاش دوباره</span>
+      </button>
+
+    </div>
+
+    <!-- Footer brand line (compact for no-scroll layout).
+         On ultra-short viewports this may get clipped by body overflow-hidden —
+         acceptable since it's just brand attribution, not actionable content. -->
+    <footer class="mt-2 pt-2 border-t border-border text-center flex-shrink-0">
+      <p class="text-xs text-content-body leading-5">
+        <strong class="text-primary-500 font-bold">طلاشو</strong> — زیرمجموعه وی آی پی برزیگر گُلد و جولری
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    // When back online, auto-retry once.
+    window.addEventListener('online', function () {
+      window.location.reload();
+    });
+  </script>
+
+</body>
+
+</html>

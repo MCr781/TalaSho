@@ -30,6 +30,20 @@
 
     <meta name="theme-color" content="#4A154B">
 
+    <!-- ===== PWA MANIFEST =====
+         Links the app manifest at /pwa/manifest.webmanifest. The manifest
+         defines app name, icons, shortcuts, display mode, and theme color
+         so the app can be installed to the home screen and launched as a
+         standalone app. See /pwa/BACKEND_NOTES.md for critical integration notes. -->
+    <link rel="manifest" href="./pwa/manifest.webmanifest">
+
+    <!-- ===== APPLE PWA META TAGS =====
+         iOS Safari doesn't support web manifests, so these meta tags are
+         required separately for "Add to Home Screen" on iPhone/iPad. -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="طلاشو">
+
     <!-- ===== LOCAL CSS (no CDN) ===== -->
     <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -38,7 +52,18 @@
     <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
 
-    <link rel="icon" type="image/png" href="./assets/images/White-Logo.png">
+    <!-- ===== PWA ICONS + FAVICON =====
+         Multiple icon formats for cross-browser compatibility:
+           • favicon.ico (16/32/48 multi-res) — legacy browsers, Windows tile
+           • favicon-32.png / favicon-16.png — modern browsers (sharp at small sizes)
+           • apple-touch-icon.png (180×180) — iOS home screen icon
+         All icons live in /pwa/icons/. Generated from Purple-Logo.png (and
+         White-Logo.png for the maskable variants). See /pwa/icons/README.md
+         (via /pwa/BACKEND_NOTES.md) for icon generation details. -->
+    <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
 
     <style>
         /* Announcement marquee */
@@ -98,6 +123,14 @@
             padding-right: 4px;
         }
     </style>
+
+    <!-- ===== PWA SERVICE WORKER REGISTRATION =====
+         Registers /sw.js (at repo root for native scope '/' control).
+         The SW precaches critical assets and serves them offline-first.
+         Loaded with `defer` so it never blocks first paint — it only runs
+         after the page is interactive. See /pwa/BACKEND_NOTES.md for details
+         on update flow, cache versioning, and offline behavior. -->
+    <script src="./pwa/js/sw-register.js" defer></script>
 </head>
 
 <body class="bg-background text-content-body antialiased">

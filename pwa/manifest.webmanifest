@@ -1,0 +1,97 @@
+{
+  "name": "طلاشو | فروشگاه لوکس جواهرات وی آی پی برزیگر",
+  "short_name": "طلاشو",
+  "description": "طلاشو، زیرمجموعه وی آی پی برزیگر گُلد و جولری — خرید لوکس آنلاین جواهرات، طلای آبشده و سکه با تضمین اصالت کالا",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "background_color": "#F5F5F5",
+  "theme_color": "#4A154B",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "business", "shopping"],
+  "dir_scheme": "auto",
+  "icons": [
+    {
+      "src": "/pwa/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa/icons/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "خرید طلا",
+      "short_name": "خرید",
+      "description": "خرید طلای آب‌شده و سکه با نرخ لحظه‌ای",
+      "url": "/index.html#buy-gold",
+      "icons": [
+        { "src": "/pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "فروش طلا",
+      "short_name": "فروش",
+      "description": "فروش طلای خود و تسویه آنی ریالی",
+      "url": "/index.html#sell-gold",
+      "icons": [
+        { "src": "/pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "نرخ طلا",
+      "short_name": "نرخ‌ها",
+      "description": "مشاهده نرخ لحظه‌ای طلا، سکه و ارز",
+      "url": "/index.html#gold-rates",
+      "icons": [
+        { "src": "/pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    },
+    {
+      "name": "کیف پول طلاشو",
+      "short_name": "کیف پول",
+      "description": "مدیریت موجودی و تراکنش‌های کیف پول طلاشو",
+      "url": "/index.html#wallet",
+      "icons": [
+        { "src": "/pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png" }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
