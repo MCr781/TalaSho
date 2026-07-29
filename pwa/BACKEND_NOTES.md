@@ -33,21 +33,17 @@ This array lists the assets that get pre-cached during SW `install` so the app s
 
 ---
 
-## 3. Manifest `shortcuts` URLs point to hash anchors that don't exist yet
+## 3. Manifest `shortcuts` URLs point to the wallet app
 
-Location: `/pwa/manifest.webmanifest`, `shortcuts` array (lines ~52–87)
+Location: `/pwa/manifest.webmanifest`, `shortcuts` array (lines ~54–91)
 
-The 4 app shortcuts currently point to:
-- `/index.html#buy-gold`
-- `/index.html#sell-gold`
-- `/index.html#gold-rates`
-- `/index.html#wallet`
+The 4 app shortcuts point to the wallet app (Phase 2):
+- `/wallet/index.html?action=buy` — خرید طلا
+- `/wallet/index.html?action=sell` — فروش طلا
+- `/wallet/index.html#gold-rates` — نرخ طلا (scrolls to price board section)
+- `/wallet/index.html#wallet` — کیف پول (scrolls to wallet section, if present)
 
-These hash anchors do NOT exist on the current `index.html` (which is the Barzigar VIP storefront, not the milli.gold-style page). The shortcuts will still work in the sense that they'll open `/index.html`, but they won't scroll to a specific section.
-
-**Action required when the milli.gold-style replica page is built:** Add `id="buy-gold"`, `id="sell-gold"`, `id="gold-rates"`, and `id="wallet"` to the corresponding section wrappers on the new page. Until then, you may want to either:
-- (a) Leave the shortcuts as-is (they'll just open the homepage — acceptable for now)
-- (b) Remove the `shortcuts` array from the manifest until the target sections exist
+**Action required:** When the wallet app grows beyond a homepage (Phase 3+), the `?action=buy` and `?action=sell` query params should trigger the buy/sell UI on the wallet page. For now (Phase 2), the wallet homepage is a public landing page — these shortcuts just open the homepage. The `#gold-rates` anchor DOES exist on the wallet homepage (the live price board section has `id="gold-rates"`).
 
 If you change the shortcut URLs, also bump `CACHE_VERSION` (see #1 above) so the new manifest is fetched.
 
@@ -63,12 +59,14 @@ If you ever rebrand (e.g., to milli.gold's deepOcean teal), update all three. Th
 
 ---
 
-## 5. `start_url` and `scope` are at site root
+## 5. `start_url` points to the wallet app, `scope` is site root
 
-- `"start_url": "/index.html"`
+- `"start_url": "/wallet/index.html"` ← Phase 2: changed from `/index.html`
 - `"scope": "/"`
 
-This means the PWA, when installed, opens at the site root and can navigate to any path under `/`. If you ever move the homepage (e.g., to `/home/`), update `start_url` accordingly. The `scope` should generally stay `/` unless you're scoping the PWA to a subdirectory.
+The PWA, when installed, opens the **wallet app** at `/wallet/index.html` (the milli.gold-style gold investment landing page). The scope stays `/` so the SW can control both the wallet app AND the main storefront at `/index.html` — users can navigate between them within the installed PWA.
+
+If you ever move the wallet app (e.g., to `/app/`), update `start_url` accordingly.
 
 ---
 
@@ -136,13 +134,38 @@ If/when deep URLs are added, consider switching the offline page to root-relativ
 
 ---
 
+## 11. Wallet app at `/wallet/` (Phase 2)
+
+A new wallet app lives at `/wallet/index.html` — a milli.gold-style gold investment landing page. Key points for the backend team:
+
+**Front-end only:** All CTAs are visual placeholders. The ورود/عضویت button, خرید طلا / فروش طلا buttons, and form inputs have `data-backend-hook` attributes that the backend team should wire up. Search the HTML for `data-backend-hook=` to find all integration points.
+
+**Live price board:** Uses the existing `/assets/js/price-board.js` with a mock random-walk (updates every 5s with small random changes). To wire real prices, call:
+```js
+window.TALASHO.updatePrices([
+  { name: 'طلای ۱۸ عیار (گرم)', current: 4400000, prev: 4350000 },
+  { name: 'دلار آزاد',          current: 60000,   prev: 59800 },
+  // ... match by data-price-name attribute
+]);
+```
+Then delete the `setInterval(...)` mock block at the bottom of the inline script on `/wallet/index.html`.
+
+**Tailwind content array:** `/wallet/**/*.html` was added to `tailwind.config.js` so utility classes used in wallet HTML get emitted into `style.css`. Recompile with `npm run build:css` after any class change.
+
+**PWA start_url:** The manifest now points to `/wallet/index.html` — when users install the PWA, it opens the wallet app, not the storefront.
+
+**Navigation between storefront and wallet:** Both `/index.html` (storefront) and `/wallet/index.html` (wallet) are within the SW's scope `/`. Users can navigate between them via links. The wallet header has a link to the storefront, and the storefront (Phase 3+) will have a link to the wallet.
+
+---
+
 ## TL;DR for backend
 
 | When you... | You must... |
 |---|---|
 | Ship any change to CSS/JS/fonts/images/HTML/icons | Bump `CACHE_VERSION` in `/sw.js` |
 | Add a new critical asset to the page | Add its URL to `PRECACHE_URLS` in `/sw.js` |
-| Build the milli.gold-style sections on the homepage | Add `id="buy-gold"`, `id="sell-gold"`, `id="gold-rates"`, `id="wallet"` to the section wrappers |
+| Wire real auth/buy/sell on the wallet app | Search `/wallet/index.html` for `data-backend-hook=` attributes |
+| Wire real gold prices on the wallet app | Call `window.TALASHO.updatePrices([...])` and delete the mock setInterval |
 | Rebrand (change theme color) | Update `theme_color` in manifest + `<meta name="theme-color">` in index.html + offline.html |
 | Move `sw.js` to a different path | Read note #6 above carefully |
-| **Add or change a Tailwind class in any `/pwa/*.html`** | **Run `npm run build:css` then bump `CACHE_VERSION`** |
+| **Add or change a Tailwind class in any `/pwa/*.html` or `/wallet/*.html`** | **Run `npm run build:css` then bump `CACHE_VERSION`** |

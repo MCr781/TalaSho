@@ -33,7 +33,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#4A154B">
+  <meta name="theme-color" content="#6E436E">
   <meta name="robots" content="noindex,nofollow">
   <title>اتصال اینترنت قطع است | طلاشو</title>
 
@@ -57,9 +57,49 @@
   <style>
     /* ─── Inline CSS — only what Tailwind can't do ─── */
 
-    /* Hero gradient (custom — Tailwind gradient utilities don't do 3-stop diagonal like this) */
+    /* Hero gradient — Phase A: 3-tier purple system (screenshot colors) */
     .offline-hero-bg {
-      background: linear-gradient(135deg, #5A1A5B 0%, #4A154B 50%, #2E0D2E 100%);
+      background: linear-gradient(135deg, #8A5A8A 0%, #6E436E 50%, #4A154B 100%);
+      /* v5: Hero padding scales with viewport HEIGHT so the retry button
+         stays visible on short screens. clamp(min, preferred, max):
+         min 12px (never smaller), preferred 5vh (scales with height),
+         max 32px (never larger). On a 320px-tall screen, 5vh = 16px.
+         On a 800px-tall screen, 5vh = 40px (capped at 32px). */
+      padding-top: clamp(12px, 5vh, 32px);
+      padding-bottom: clamp(12px, 5vh, 32px);
+    }
+    /* v5: On VERY short screens (≤500px tall), further compress hero
+         content so the retry button is always reachable. */
+    @media (max-height: 500px) {
+      .offline-hero-bg {
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+      .offline-hero-bg .hero-logo { width: 48px; height: 48px; margin-bottom: 8px; }
+      .offline-hero-bg h1 { font-size: 18px; margin-bottom: 4px; }
+      .offline-hero-bg p { font-size: 12px; line-height: 1.5; }
+    }
+    /* v5: On ultra-short screens (≤600px tall), hide step descriptions
+       and footer to ensure the retry button is always visible.
+       Step titles + numbers remain so the user still sees the 3-step hint. */
+    @media (max-height: 600px) {
+      .offline-step-desc { display: none; }
+      .offline-footer-brand { display: none; }
+      .offline-card-heading { font-size: 14px; margin-bottom: 0; }
+      .offline-card-desc { display: none; }
+      .offline-accent-line { display: none; }
+      .offline-steps { gap: 4px; margin-bottom: 8px; }
+      .offline-step { padding: 6px 10px; }
+      .offline-step-title { font-size: 12px; }
+      .offline-main { padding-top: 8px; padding-bottom: 8px; }
+    }
+    /* v5: Last-resort compression for extreme short viewports (≤350px tall,
+       e.g., landscape phones). Hide the steps entirely — just show the
+       heading + retry button. The 3-step hint is sacrificed to guarantee
+       the retry button is always reachable. */
+    @media (max-height: 350px) {
+      .offline-steps { display: none; }
+      .offline-card-heading { margin-bottom: 8px; }
     }
     /* Faint gold radial glow at BOTTOM of hero (luxury jewelry cue).
        v4: moved from top → bottom so the glow never sits behind the title
@@ -71,15 +111,13 @@
       bottom: -60%; left: 50%;
       transform: translateX(-50%);
       width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.10) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(232, 185, 72, 0.10) 0%, transparent 60%);
       pointer-events: none;
     }
 
-    /* Hero title — gold with drop-shadow for visual lift.
-       Gold #D4AF37 on purple gradient #4A154B = ~5.7:1 contrast (passes WCAG AA).
-       Drop-shadow adds separation from the background gradient. */
+    /* Hero title — Phase A: brighter gold #F0D050 (AAA on #6E436E) */
     .hero-title-gold {
-      color: #D4AF37;
+      color: #F0D050;
       text-shadow: 0 2px 12px rgba(74, 21, 75, 0.4);
     }
 
@@ -104,9 +142,9 @@
        v4: padding reduced py-14 → py-6 so total layout fits in viewport
        without scrolling. Title switched to gold + drop-shadow for contrast.
        flex-shrink-0 ensures hero never compresses on ultra-short viewports. -->
-  <section class="offline-hero-bg offline-hero-glow relative text-white py-6 px-6 overflow-hidden flex-shrink-0" aria-label="اطلاعیه قطع ارتباط">
+  <section class="offline-hero-bg offline-hero-glow relative text-white px-6 overflow-hidden flex-shrink-0" aria-label="اطلاعیه قطع ارتباط">
     <div class="relative z-10 flex flex-col items-center text-center max-w-xl mx-auto">
-      <img src="../assets/images/White-Logo.png" alt="طلاشو" class="w-14 h-14 mb-4 object-contain drop-shadow-md">
+      <img src="../assets/images/White-Logo.png" alt="طلاشو" class="hero-logo w-14 h-14 mb-4 object-contain drop-shadow-md">
       <h1 class="hero-title-gold text-2xl font-bold mb-2 leading-snug">ارتباط اینترنت قطع است</h1>
       <p class="text-sm text-white/90 leading-7 max-w-md">
         صفحه‌ای که می‌خواستید ببینید در حافظه دستگاه ذخیره نشده است و در حال حاضر
@@ -116,63 +154,50 @@
   </section>
 
   <!-- ─── Card body (3-step hint + retry button) ───
-       v4: main uses flex-1 + justify-center so the card centers vertically
-       in the available viewport space. Body uses h-dvh + overflow-hidden so
-       the page NEVER scrolls on any viewport. Compact spacing (py-6 hero,
-       p-4 card override, gap-2 steps, p-2.5 step padding) ensures content
-       fits at 390×844 mobile portrait with ~20px headroom.
-
-       Trade-off: on ultra-short viewports (e.g., 320px landscape phones),
-       bottom content (footer) gets clipped. Accepted because the user
-       explicitly requested no-scroll behavior, and clipped footer text
-       is less harmful than a scrolling offline page. -->
-  <main class="flex-1 flex flex-col justify-center px-6 py-3 w-full max-w-xl mx-auto overflow-hidden">
+       v4: main uses flex-1 so it fills remaining viewport space below the hero.
+       justify-start (not center) ensures the card sits right below the hero —
+       if the card is taller than main on short viewports, only the footer
+       (bottom) gets clipped, never the card overlapping the hero.
+       Body uses h-dvh + overflow-hidden so the page NEVER scrolls. -->
+  <main class="offline-main flex-1 flex flex-col justify-start px-6 py-3 w-full max-w-xl mx-auto overflow-hidden">
     <div class="ts-card p-4 border border-border">
 
-      <h2 class="text-lg font-bold text-primary-500 mb-1">چند قدم تا اتصال مجدد</h2>
-      <p class="text-sm text-content-body mb-3 leading-6">
+      <h2 class="offline-card-heading text-lg font-bold text-primary-500 mb-1">چند قدم تا اتصال مجدد</h2>
+      <p class="offline-card-desc text-sm text-content-body mb-3 leading-6">
         برای بازگشت به طلاشو، مراحل زیر را به ترتیب انجام دهید.
       </p>
 
-      <!-- Teal accent line (milli.gold deepOcean whisper, single use).
-           Chip text uses darker #0A5A63 (~6.5:1 on white, passes WCAG AA) instead of
-           #0E7C86 (~4.4:1, borderline). Decorative gradient line keeps the brighter #0E7C86. -->
-      <div class="flex items-center gap-3 mb-3" aria-hidden="true">
+      <!-- Teal accent line (milli.gold deepOcean whisper, single use). -->
+      <div class="offline-accent-line flex items-center gap-3 mb-3" aria-hidden="true">
         <div class="flex-1 h-px accent-line-gradient opacity-50"></div>
         <span class="text-sm text-[#0A5A63] font-bold tracking-wide whitespace-nowrap">راه‌حل سریع</span>
         <div class="flex-1 h-px accent-line-gradient opacity-50"></div>
       </div>
 
-      <!-- 3-step timeline (structural inspo: milli.gold "چند قدم تا طلادار شدن")
-           Text colors per WCAG AA (≥4.5:1 on white):
-           • Step titles: text-content-heading (#23254A → ~10:1)
-           • Step descriptions: text-content-body (#5E6472 → ~6:1)
-           • Avoid text-content-muted (#8D94A5 → ~3.5:1, FAILS AA) for any text under 18px.
-           v4: padding p-4 → p-2.5, gap-4 → gap-2, mb-7 → mb-3 for compact no-scroll layout. -->
-      <ol class="flex flex-col gap-2 mb-3 text-right">
-        <li class="flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
+      <ol class="offline-steps flex flex-col gap-2 mb-3 text-right">
+        <li class="offline-step flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
           <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۱</span>
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-bold text-content-heading mb-0.5">اتصال اینترنت را بررسی کنید</div>
-            <div class="text-xs text-content-body leading-5">
+            <div class="offline-step-title text-sm font-bold text-content-heading mb-0.5">اتصال اینترنت را بررسی کنید</div>
+            <div class="offline-step-desc text-xs text-content-body leading-5">
               وای‌فای یا داده همراه خود را روشن کرده و مطمئن شوید سایر وب‌سایت‌ها باز می‌شوند.
             </div>
           </div>
         </li>
-        <li class="flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
+        <li class="offline-step flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
           <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۲</span>
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-bold text-content-heading mb-0.5">صفحه را مجدداً بارگذاری کنید</div>
-            <div class="text-xs text-content-body leading-5">
+            <div class="offline-step-title text-sm font-bold text-content-heading mb-0.5">صفحه را مجدداً بارگذاری کنید</div>
+            <div class="offline-step-desc text-xs text-content-body leading-5">
               دکمه «تلاش دوباره» را بزنید یا کلید F5 را فشار دهید تا طلاشو دوباره بارگذاری شود.
             </div>
           </div>
         </li>
-        <li class="flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
+        <li class="offline-step flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
           <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۳</span>
           <div class="flex-1 min-w-0">
-            <div class="text-sm font-bold text-content-heading mb-0.5">در صورت ادامه مشکل، بعداً تلاش کنید</div>
-            <div class="text-xs text-content-body leading-5">
+            <div class="offline-step-title text-sm font-bold text-content-heading mb-0.5">در صورت ادامه مشکل، بعداً تلاش کنید</div>
+            <div class="offline-step-desc text-xs text-content-body leading-5">
               ممکن است سرور موقتاً در دسترس نباشد. چند دقیقه بعد دوباره امتحان کنید.
             </div>
           </div>
@@ -194,8 +219,9 @@
 
     <!-- Footer brand line (compact for no-scroll layout).
          On ultra-short viewports this may get clipped by body overflow-hidden —
-         acceptable since it's just brand attribution, not actionable content. -->
-    <footer class="mt-2 pt-2 border-t border-border text-center flex-shrink-0">
+         acceptable since it's just brand attribution, not actionable content.
+         v5: hidden via .offline-footer-brand on max-height ≤ 600px. -->
+    <footer class="offline-footer-brand offline-main-footer mt-2 pt-2 border-t border-border text-center flex-shrink-0">
       <p class="text-xs text-content-body leading-5">
         <strong class="text-primary-500 font-bold">طلاشو</strong> — زیرمجموعه وی آی پی برزیگر گُلد و جولری
       </p>

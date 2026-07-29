@@ -30,7 +30,7 @@
    If you forget to bump this, users will keep seeing the old cached version
    for up to 24h (Cache API has no TTL).
    Example bump: 'talasho-v1' → 'talasho-v2' → 'talasho-v3' ... */
-const CACHE_VERSION = 'talasho-v4';
+const CACHE_VERSION = 'talasho-v11';
 const OFFLINE_URL = '/pwa/offline.html';
 
 /* Critical assets to pre-cache during install so the app shell + offline page
@@ -38,6 +38,7 @@ const OFFLINE_URL = '/pwa/offline.html';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/wallet/index.html',           /* Phase 2: wallet app homepage (PWA start_url) */
   OFFLINE_URL,
   '/pwa/manifest.webmanifest',
   '/pwa/js/sw-register.js',
