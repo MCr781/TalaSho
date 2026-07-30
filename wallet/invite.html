@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو WALLET — Invite Friends Page
+  ----------------------------------------------------------------------------
+  Referral link display, invite stats, friends list, and how-it-works section.
+  DESIGN tokens from DESIGN.md: Canvas #f2f4f5, Surface #ffffff,
+  28px card radius, 9999px pills, purple/gold/silver palette.
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>دعوت دوستان | طلاشو VIP</title>
+  <meta name="description" content="دعوت دوستان به طلاشو VIP — کسب پاداش طلایی با اشتراک‌گذاری لینک دعوت">
+
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="../pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو">
+  <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="../pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="../pwa/js/sw-register.js" defer></script>
+
+  <style>
+    /* ─── Nav link hover ─── */
+    .wallet-nav-link {
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .wallet-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, #E8B948, #B8941F);
+      border-radius: 2px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .wallet-nav-link:hover::after { width: 100%; }
+    .wallet-nav-link:hover { color: #6E436E; }
+
+    /* ─── Announcement marquee ─── */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee { animation: marquee 30s linear infinite; }
+    .announcement-marquee:hover { animation-play-state: paused; }
+
+    /* ─── Live pulse ─── */
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .live-dot { animation: live-pulse 1.8s ease-in-out infinite; }
+
+    /* ─── Invite card ─── */
+    .invite-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invite-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 24px rgba(110, 67, 110, 0.08);
+    }
+
+    /* ─── Stats row ─── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 640px) {
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ─── Transaction item variants ─── */
+    .transaction-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 1rem;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      transition: box-shadow 0.2s ease;
+    }
+    .transaction-item:hover {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    /* ─── Status badges ─── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.675rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .status-badge.pending {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fed7aa;
+    }
+    .status-badge.success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+    .status-badge.expired {
+      background: #f3f4f6;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    /* ─── Referral link box ─── */
+    .referral-link-box {
+      background: linear-gradient(135deg, #f5f0ff 0%, #fef9ee 100%);
+      border: 2px dashed #c4b5fd;
+    }
+
+    /* ─── Steps ─── */
+    .step-number {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #6E436E, #8b5cf6);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ─── Sidebar card ─── */
+    .sidebar-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sidebar-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 24px rgba(110, 67, 110, 0.08);
+    }
+
+    /* ─── Toast ─── */
+    @keyframes toast-in {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .toast-animate { animation: toast-in 0.3s ease-out; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       ANNOUNCEMENT MARQUEE
+       ════════════════════════════════════════════════════════════════════ -->
+  <div class="w-full bg-primary-600 text-gold-300 h-9 overflow-hidden announcement-marquee">
+    <div class="animate-marquee flex items-center h-full text-xs font-medium whitespace-nowrap">
+      <span class="mx-8">📦 ارسال رایگان طلای فیزیکی برای خریدهای بالای ۱۰ گرم</span>
+      <span class="mx-8">🔒 خزانه بانکی امن با بیمه کامل</span>
+      <span class="mx-8">⚡ تسویه آنی خرید و فروش — بدون انتظار</span>
+      <span class="mx-8">🎁 با اولین خرید، ۰.۵٪ کارمزد رایگان</span>
+      <span class="mx-8">📦 ارسال رایگان طلای فیزیکی برای خریدهای بالای ۱۰ گرم</span>
+      <span class="mx-8">🔒 خزانه بانکی امن با بیمه کامل</span>
+      <span class="mx-8">⚡ تسویه آنی خرید و فروش — بدون انتظار</span>
+      <span class="mx-8">🎁 با اولین خرید، ۰.۵٪ کارمزد رایگان</span>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       HEADER
+       ════════════════════════════════════════════════════════════════════ -->
+  <header id="walletHeader" class="sticky top-0 z-40 bg-surface shadow-xs transition-shadow duration-250">
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+
+        <!-- LOGO + MOBILE TOGGLE -->
+        <div class="flex items-center gap-3 justify-self-start">
+          <button id="mobileMenuToggle" type="button"
+                  class="lg:hidden p-2 -ms-2 text-content-heading hover:text-primary-500 transition-colors"
+                  aria-label="باز کردن منوی اصلی" aria-expanded="false" aria-controls="mobileMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <a href="../wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-400 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <form action="#" method="get" class="hidden md:flex w-full max-w-3xl relative justify-self-center">
+          <label for="searchInput" class="sr-only">جستجو</label>
+          <input id="searchInput" type="text" name="q"
+                 placeholder="جستجو در طلا، سکه و ارز..."
+                 class="w-full bg-background border border-border rounded-full py-2.5 lg:py-3 ps-12 pe-4
+                        outline-none transition-all duration-250 text-body text-content-heading
+                        placeholder-content-muted focus:bg-surface focus:border-primary-500">
+          <button type="submit"
+                  class="absolute inset-y-0 start-0 flex items-center ps-4 text-content-muted hover:text-primary-500 transition-colors"
+                  aria-label="جستجو">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- AUTH -->
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="../wallet/login.html" data-backend-hook="auth-login"
+             class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium
+                    text-content-heading border border-border hover:border-primary-500 hover:text-primary-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span class="hidden lg:inline">ورود | ثبت‌نام</span>
+          </a>
+          <a href="../wallet/login.html" data-backend-hook="auth-login"
+             class="sm:hidden p-2 text-content-heading hover:text-primary-500 transition-colors" aria-label="ورود / عضویت">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP NAV ROW -->
+    <nav class="hidden lg:block bg-surface border-t border-border" aria-label="منوی اصلی">
+      <div class="container-page">
+        <ul class="flex items-center justify-center gap-8 h-11 text-body">
+          <li class="h-full flex items-center">
+            <a href="../wallet/index.html#gold-rates" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">نرخ لحظه‌ای طلا</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/buy.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">خرید طلا</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/sell.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">فروش طلا</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/rates.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">نرخ‌نامه</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/transactions.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">تراکنش‌ها</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-border bg-surface">
+      <nav class="container-page py-4 flex flex-col gap-1" role="navigation" aria-label="منوی موبایل">
+        <a href="../wallet/index.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">خانه</a>
+        <a href="../wallet/buy.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">خرید طلا</a>
+        <a href="../wallet/sell.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">فروش طلا</a>
+        <a href="../wallet/rates.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">نرخ‌نامه</a>
+        <a href="../wallet/transactions.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">تراکنش‌ها</a>
+        <a href="../wallet/login.html" data-backend-hook="auth-login" class="mt-2 inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 text-primary-700 font-bold rounded-full py-3 text-sm transition-all">
+          ورود / عضویت
+        </a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="flex-1">
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         BREADCRUMB + PAGE HEADER
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="bg-surface border-b border-border">
+      <div class="container-page py-3">
+        <nav class="flex items-center gap-2 text-xs text-content-muted" aria-label="مسیر صفحه">
+          <a href="../wallet/index.html" class="hover:text-primary-500 transition-colors">خانه</a>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          <span class="text-content-heading font-medium">دعوت دوستان</span>
+        </nav>
+      </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         TWO-COLUMN LAYOUT: CONTENT + SIDEBAR
+         ════════════════════════════════════════════════════════════════════ -->
+    <section class="py-6 lg:py-8">
+      <div class="container-page">
+        <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8">
+
+          <!-- ════════════ MAIN CONTENT COLUMN ════════════ -->
+          <div class="space-y-5">
+
+            <!-- PAGE TITLE -->
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                </svg>
+              </div>
+              <div>
+                <h1 class="text-lg lg:text-xl font-bold text-content-heading">دوستانت را دعوت کن و پاداش بگیر</h1>
+                <p class="text-xs text-content-muted mt-0.5">وقتی دوست شما با لینک دعوت ثبت‌نام کند و اولین شارژ موفق خود را انجام دهد، پاداش شما ثبت می‌شود.</p>
+              </div>
+            </div>
+
+            <!-- REFERRAL LINK BOX -->
+            <div class="invite-card referral-link-box rounded-2xl p-5 lg:p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+                <span class="text-sm font-bold text-content-heading">لینک دعوت شما</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div id="referralLinkBox" class="flex-1 bg-white border border-border-strong rounded-xl px-4 py-3 font-latin text-sm text-content-heading select-all" dir="ltr">
+                  talasho.com/ref/ABC123
+                </div>
+                <button id="copyLinkBtn" type="button"
+                        class="flex-shrink-0 w-11 h-11 rounded-xl bg-primary-600 hover:bg-primary-700 text-white flex items-center justify-center transition-colors"
+                        aria-label="کپی لینک دعوت">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                </button>
+                <button id="shareLinkBtn" type="button"
+                        class="flex-shrink-0 w-11 h-11 rounded-xl bg-gold-400 hover:bg-gold-300 text-primary-700 flex items-center justify-center transition-colors"
+                        aria-label="اشتراک‌گذاری لینک دعوت">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- STATS ROW -->
+            <div class="stats-row">
+              <!-- Successful invites -->
+              <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-4 text-center">
+                <div class="w-10 h-10 mx-auto rounded-2xl bg-emerald-50 flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                </div>
+                <p class="font-latin text-xl font-bold text-content-heading">۱ نفر <span class="text-xs font-normal text-content-muted">از ۳</span></p>
+                <p class="text-xs text-content-muted mt-1">دعوت موفق</p>
+              </div>
+
+              <!-- Rewards earned -->
+              <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-4 text-center">
+                <div class="w-10 h-10 mx-auto rounded-2xl bg-gold-50 flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gold-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <p class="font-latin text-xl font-bold text-content-heading">۰.۰۳ گرم</p>
+                <p class="text-xs text-content-muted mt-1">پاداش دریافتی</p>
+              </div>
+
+              <!-- Pending -->
+              <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-4 text-center">
+                <div class="w-10 h-10 mx-auto rounded-2xl bg-amber-50 flex items-center justify-center mb-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <p class="font-latin text-xl font-bold text-content-heading">۱ نفر</p>
+                <p class="text-xs text-content-muted mt-1">در انتظار تأیید</p>
+              </div>
+            </div>
+
+            <!-- FRIENDS / INVITE LIST -->
+            <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
+              <div class="px-5 py-4 border-b border-border">
+                <h3 class="text-sm font-bold text-content-heading">لیست دعوت‌شدگان</h3>
+              </div>
+              <div class="divide-y divide-border">
+
+                <!-- Item 1 — Success -->
+                <div class="transaction-item">
+                  <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2">
+                      <p class="text-sm font-bold text-content-heading truncate">۰۹۱۲***۵۶۷۸</p>
+                      <span class="status-badge success">موفق</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 mt-1">
+                      <p class="text-[11px] text-content-muted">۱۵ تیر ۱۴۰۵</p>
+                      <p class="font-latin text-xs font-bold text-emerald-600">+۰.۰۳ گرم</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 2 — Pending -->
+                <div class="transaction-item">
+                  <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2">
+                      <p class="text-sm font-bold text-content-heading truncate">۰۹۳۵***۱۲۳۴</p>
+                      <span class="status-badge pending">در انتظار</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 mt-1">
+                      <p class="text-[11px] text-content-muted">۲۸ تیر ۱۴۰۵</p>
+                      <p class="font-latin text-xs font-bold text-amber-600">—</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Item 3 — Expired -->
+                <div class="transaction-item">
+                  <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2">
+                      <p class="text-sm font-bold text-content-heading truncate">۰۹۱۱***۹۰۱۲</p>
+                      <span class="status-badge expired">منقضی</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 mt-1">
+                      <p class="text-[11px] text-content-muted">۳ خرداد ۱۴۰۵</p>
+                      <p class="font-latin text-xs font-bold text-gray-400">—</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- HOW IT WORKS -->
+            <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-5 lg:p-6">
+              <h3 class="text-sm font-bold text-content-heading mb-5">چگونه کار می‌کند؟</h3>
+              <div class="space-y-5">
+
+                <!-- Step 1 -->
+                <div class="flex items-start gap-4">
+                  <div class="step-number">۱</div>
+                  <div>
+                    <p class="text-sm font-bold text-content-heading">لینک دعوت را به اشتراک بگذارید</p>
+                    <p class="text-xs text-content-muted mt-1 leading-6">لینک اختصاصی خود را کپی کنید ا آن را از طریق پیام‌رسان‌ها، شبکه‌های اجتماعی یا پیامک برای دوستانتان ارسال کنید.</p>
+                  </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex items-start gap-4">
+                  <div class="step-number">۲</div>
+                  <div>
+                    <p class="text-sm font-bold text-content-heading">دوست شما ثبت‌نام می‌کند</p>
+                    <p class="text-xs text-content-muted mt-1 leading-6">دوست شما با لینک دعوت وارد شده و حساب کاربری خود را در طلاشو VIP می‌سازد.</p>
+                  </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex items-start gap-4">
+                  <div class="step-number">۳</div>
+                  <div>
+                    <p class="text-sm font-bold text-content-heading">اولین شارژ موفق را انجام می‌دهد</p>
+                    <p class="text-xs text-content-muted mt-1 leading-6">پس از ثبت‌نام، دوست شما کیف پول خود را با حداقل ۵۰۰ هزار تومان شارژ می‌کند.</p>
+                  </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex items-start gap-4">
+                  <div class="step-number">۴</div>
+                  <div>
+                    <p class="text-sm font-bold text-content-heading">پاداش ۰.۰۳ گرمی دریافت کنید</p>
+                    <p class="text-xs text-content-muted mt-1 leading-6">به محض تأیید شارژ، ۰.۰۳ گرم طلای آب‌شده به عنوان پاداش به حساب شما واریز می‌شود.</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ════════════ SIDEBAR ════════════ -->
+          <aside class="space-y-4">
+
+            <!-- REWARD SUMMARY CARD -->
+            <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
+              <h3 class="text-sm font-bold text-content-heading mb-4">خلاصه پاداش‌ها</h3>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-muted">کل دعوت‌ها</span>
+                  <span class="font-latin text-sm font-bold text-content-heading">۳ نفر</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-muted">دعوت موفق</span>
+                  <span class="font-latin text-sm font-bold text-status-success">۱ نفر</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-muted">در انتظار</span>
+                  <span class="font-latin text-sm font-bold text-amber-600">۱ نفر</span>
+                </div>
+                <div class="border-t border-border pt-3">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-content-muted">پاداش دریافتی</span>
+                    <span class="font-latin text-sm font-bold text-gold-600">۰.۰۳ گرم</span>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-muted">پاداش قابل برداشت</span>
+                  <span class="font-latin text-sm font-bold text-primary-600">۰.۰۳ گرم</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- RECENT REWARDS -->
+            <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
+              <h3 class="text-sm font-bold text-content-heading mb-3">پاداش‌های اخیر</h3>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-xs font-medium text-content-heading">دعوت موفق — ۰۹۱۲***۵۶۷۸</p>
+                    <p class="text-[11px] text-content-muted mt-0.5">۱۵ تیر ۱۴۰۵</p>
+                  </div>
+                  <span class="font-latin text-xs font-bold text-status-success">+۰.۰۳ گرم</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-xs font-medium text-content-heading">شارژ موفق دوست</p>
+                    <p class="text-[11px] text-content-muted mt-0.5">۱۵ تیر ۱۴۰۵</p>
+                  </div>
+                  <span class="font-latin text-xs font-bold text-content-muted">تومان</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- HELP CARD -->
+            <div class="sidebar-card bg-primary-50 rounded-2xl border border-primary-100 p-5">
+              <div class="flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                  <h4 class="text-sm font-bold text-primary-700">نکات مهم</h4>
+                  <p class="text-xs text-primary-600 mt-1 leading-6">پاداش دعوت پس از تأیید اولین شارژ موفق دوست شما (حداقل ۵۰۰ هزار تومان) به حساب شما واریز می‌شود. لینک دعوت شما منحصر به فرد است و قابل انتقال نیست.</p>
+                </div>
+              </div>
+            </div>
+
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       TOAST CONTAINER
+       ════════════════════════════════════════════════════════════════════ -->
+  <div id="toastContainer" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════════════════ -->
+  <footer class="bg-primary-700 text-white">
+    <div class="container-page py-10 lg:py-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
+
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="../assets/images/White-Logo.png" alt="طلاشو VIP" class="h-8 w-8 object-contain">
+            <span class="font-bold text-lg">طلاشو <span class="text-gold-400 text-sm">VIP</span></span>
+          </div>
+          <p class="text-sm text-white/60 leading-7">بستر امن خرید و فروش طلای آب‌شده آنلاین، زیرمجموعه VIP برزیگر گلد اند جولری.</p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold mb-4">خدمات</h4>
+          <ul class="space-y-2.5">
+            <li><a href="../wallet/buy.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">خرید طلا</a></li>
+            <li><a href="../wallet/sell.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">فروش طلا</a></li>
+            <li><a href="../wallet/rates.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">نرخ‌نامه</a></li>
+            <li><a href="../wallet/physical.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">طلای فیزیکی</a></li>
+            <li><a href="../wallet/deposit.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">واریز وجه</a></li>
+            <li><a href="../wallet/withdraw.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">برداشت وجه</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold mb-4">حساب کاربری</h4>
+          <ul class="space-y-2.5">
+            <li><a href="../wallet/profile.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">پروفایل</a></li>
+            <li><a href="../wallet/transactions.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">تراکنش‌ها</a></li>
+            <li><a href="../wallet/bank-account.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">حساب بانکی</a></li>
+            <li><a href="../wallet/invite.html" class="text-sm text-gold-400 font-bold">دعوت دوستان</a></li>
+            <li><a href="../wallet/vaults.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">خزانه‌ها</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold mb-4">تماس با ما</h4>
+          <ul class="space-y-2.5">
+            <li class="text-sm text-white/60 font-latin" dir="ltr">+98 21-XXXX-XXXX</li>
+            <li class="text-sm text-white/60">تهران، خیابان ولیعصر</li>
+            <li class="text-sm text-white/60">support@talasho.com</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="container-page py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="text-xs text-white/40">&copy; ۱۴۰۵ طلاشو — زیرمجموعه VIP برزیگر گلد اند جولری</p>
+        <div class="flex items-center gap-4">
+          <a href="../terms.html" class="text-xs text-white/40 hover:text-white/60 transition-colors">قوانین و مقررات</a>
+          <a href="../privacy.html" class="text-xs text-white/40 hover:text-white/60 transition-colors">حریم خصوصی</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       MOBILE BOTTOM NAV
+       ════════════════════════════════════════════════════════════════════ -->
+  <nav class="lg:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-border z-50 safe-bottom">
+    <div class="grid grid-cols-4 h-14">
+      <a href="../wallet/index.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[10px]">خانه</span>
+      </a>
+      <a href="../wallet/rates.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span class="text-[10px]">نرخ‌ها</span>
+      </a>
+      <a href="../wallet/buy.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <div class="w-10 h-10 -mt-4 rounded-full bg-gold-400 text-primary-700 flex items-center justify-center shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+        </div>
+        <span class="text-[10px] font-bold">خرید</span>
+      </a>
+      <a href="../wallet/profile.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span class="text-[10px]">حساب</span>
+      </a>
+    </div>
+  </nav>
+
+
+  <script>
+    // ─── Mobile menu toggle ───
+    (function () {
+      var toggle = document.getElementById('mobileMenuToggle');
+      var menu = document.getElementById('mobileMenu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', function () {
+        var isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+    })();
+
+    // ─── Helpers ───
+    function showToast(msg, duration) {
+      duration = duration || 3000;
+      var container = document.getElementById('toastContainer');
+      var el = document.createElement('div');
+      el.className = 'toast-animate bg-primary-700 text-white text-sm font-medium px-5 py-3 rounded-2xl shadow-lg pointer-events-auto';
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(function () { el.remove(); }, duration);
+    }
+
+    // ─── Copy referral link ───
+    (function () {
+      var copyBtn = document.getElementById('copyLinkBtn');
+      var linkBox = document.getElementById('referralLinkBox');
+      if (!copyBtn || !linkBox) return;
+
+      copyBtn.addEventListener('click', function () {
+        var link = linkBox.textContent.trim();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(function () {
+            showToast('لینک دعوت با موفقیت کپی شد!');
+          }).catch(function () {
+            fallbackCopy(link);
+          });
+        } else {
+          fallbackCopy(link);
+        }
+      });
+
+      function fallbackCopy(text) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          showToast('لینک دعوت با موفقیت کپی شد!');
+        } catch (e) {
+          showToast('خطا در کپی لینک. لطفاً دستی کپی کنید.');
+        }
+        document.body.removeChild(ta);
+      }
+    })();
+
+    // ─── Share referral link ───
+    (function () {
+      var shareBtn = document.getElementById('shareLinkBtn');
+      var linkBox = document.getElementById('referralLinkBox');
+      if (!shareBtn || !linkBox) return;
+
+      shareBtn.addEventListener('click', function () {
+        var link = 'https://' + linkBox.textContent.trim();
+        var shareText = 'از طلاشو VIP دعوتت می‌کنم! با این لینک ثبت‌نام کن و پاداش طلا بگیر:\n' + link;
+
+        if (navigator.share) {
+          navigator.share({
+            title: 'دعوت به طلاشو VIP',
+            text: shareText,
+            url: link
+          }).catch(function () {
+            // user cancelled or error — do nothing
+          });
+        } else {
+          // Fallback: copy share text to clipboard
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(shareText).then(function () {
+              showToast('متن دعوت کپی شد! در پیام‌رسان خود ارسال کنید.');
+            }).catch(function () {
+              showToast('خطا در کپی. لطفاً دستی کپی کنید.');
+            });
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = shareText;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand('copy');
+              showToast('متن دعوت کپی شد! در پیام‌رسان خود ارسال کنید.');
+            } catch (e) {
+              showToast('خطا در کپی. لطفاً دستی کپی کنید.');
+            }
+            document.body.removeChild(ta);
+          }
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
