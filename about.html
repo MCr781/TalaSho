@@ -3,219 +3,894 @@
   ============================================================================
   طلاشو VIP — درباره ما (About)
   ----------------------------------------------------------------------------
-  Phase G-1: About page with brand story + values + stats + team.
-
-  Creative differentiation:
-    • Brand story as editorial narrative (not corporate boilerplate)
-    • Values as alternating cards (not uniform grid)
-    • Stats as a dark purple band (not floating numbers)
-    • Team as a horizontal scroll (not grid)
-
-  impeccable.style: /layout /bolder /distill /colorize /polish /clarify
-  Root-level page — uses ./assets/ paths
+  Page: about.html
+  Status: Phase G-1 rebuild — chrome aligned with index.html
+  Stack: HTML5 + Tailwind (compiled) + Vanilla JS + Swiper + Boxicons
+  RTL: Persian (fa) — Vazirmatn-FD (Persian numerals)
   ============================================================================
 -->
 <html lang="fa" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>درباره طلاشو VIP | فروشگاه و گلد باکس</title>
-  <meta name="description" content="طلاشو VIP، زیرمجموعه وی آی پی برزیگر گُلد و جولری — داستان ما، ارزش‌ها و تیم">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#6E436E">
 
-  <meta name="theme-color" content="#6E436E">
-  <link rel="manifest" href="./pwa/manifest.webmanifest">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
-  <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
-  <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
+    <!-- BACKEND: INJECT PAGE TITLE -->
+    <title>درباره طلاشو | زیرمجموعه وی آی پی برزیگر گلد و جواهر</title>
+    <meta name="description"
+        content="داستان طلاشو، زیرمجموعه وی آی پی برزیگر گُلد و جولری — بیش از ۳۰ سال تجربه در صنعت طلا و جواهر، همراه با چشم‌انداز بین‌المللی">
 
-  <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
-  <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- PWA -->
+    <link rel="manifest" href="./pwa/manifest.webmanifest">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="طلاشو">
 
-  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+    <!-- LOCAL CSS (no CDN) -->
+    <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
+    <link rel="stylesheet" href="./assets/vendor/boxicons.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 
-  <script src="./pwa/js/sw-register.js" defer></script>
+    <!-- Preload critical fonts -->
+    <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
 
-  <style>
-    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, label { letter-spacing: -0.01em; }
-    .font-latin { letter-spacing: 0; }
-    .value-card:nth-child(even) { background: #6E436E; color: #FFFFFF; }
-    .value-card:nth-child(even) .value-icon { background: rgba(255,255,255,0.15); color: #F0D050; }
-    .value-card:nth-child(even) h3 { color: #FFFFFF; }
-    .value-card:nth-child(even) p { color: rgba(255,255,255,0.7); }
-    .hero-band {
-      background: linear-gradient(140deg, #8A5A8A 0%, #6E436E 50%, #4A154B 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-band::before {
-      content: ''; position: absolute; top: -30%; left: -10%;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(232,185,72,0.10) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
-  </style>
+    <!-- PWA icons + favicon -->
+    <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
+
+    <!-- PWA service worker -->
+    <script src="./pwa/js/sw-register.js" defer></script>
 </head>
 
 <body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
 
-  <!-- HEADER (shared) -->
-  <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md shadow-xs">
-    <div class="container-page">
-      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
-        <div class="flex items-center gap-3 justify-self-start">
-          <a href="./wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
-            <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
-            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-700 text-sm align-top">VIP</span></span>
-          </a>
+
+    <!-- ============================================================
+         1. ANNOUNCEMENT BAR — vertical sliding ticker (matches index)
+         ============================================================ -->
+    <div class="relative w-full bg-[#4A154B] text-[#D4AF37] h-10 overflow-hidden">
+        <div
+            class="absolute inset-x-0 top-0 flex flex-col items-center animate-vertical-ticker text-[min(3.5vw,13px)] font-medium text-center whitespace-nowrap">
+            <div class="h-10 w-full flex items-center justify-center px-4">
+                <span>✨ فروش ویژه محصولات پاییزه گالری طلاشو ✨</span>
+            </div>
+            <div class="h-10 w-full flex items-center justify-center px-4">
+                <span>📦 ارسال بیمه‌شده و رایگان برای خریدهای بالای ۱۰ میلیون تومان 📦</span>
+            </div>
+            <div class="h-10 w-full flex items-center justify-center px-4">
+                <span>🎁 با اولین خرید از طلاشو، ۱۰٪ تخفیف روی اجرت بگیرید 🎁</span>
+            </div>
+            <div class="h-10 w-full flex items-center justify-center px-4">
+                <span>✨ فروش ویژه محصولات پاییزه گالری طلاشو ✨</span>
+            </div>
         </div>
-        <nav class="hidden lg:flex items-center justify-center gap-7">
-          <a href="./wallet/index.html" class="text-body font-medium text-content-body hover:text-primary-600">خانه</a>
-          <a href="./wallet/rates.html" class="text-body font-medium text-content-body hover:text-primary-600">نرخ‌نامه</a>
-          <a href="./products.html" class="text-body font-medium text-content-body hover:text-primary-600">محصولات</a>
-          <a href="./blog.html" class="text-body font-medium text-content-body hover:text-primary-600">مجله</a>
+        <style>
+            @keyframes vertical-ticker {
+                0%, 25% { transform: translateY(0); }
+                33%, 58% { transform: translateY(-40px); }
+                66%, 91% { transform: translateY(-80px); }
+                100% { transform: translateY(-120px); }
+            }
+            .animate-vertical-ticker { animation: vertical-ticker 12s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        </style>
+    </div>
+
+
+    <!-- ============================================================
+         2. MAIN HEADER (sticky, 3-column: logo | search | actions)
+         ============================================================ -->
+    <header class="sticky top-0 z-40 bg-surface shadow-xs">
+        <div class="container-page">
+            <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+
+                <!-- COLUMN 1 — LOGO + MOBILE TOGGLE -->
+                <div class="flex items-center gap-3 justify-self-start">
+                    <button id="mobileMenuToggle" type="button"
+                        class="lg:hidden p-2 -ms-2 text-content-heading hover:text-primary-500 transition-colors"
+                        aria-label="باز کردن منوی اصلی" aria-expanded="false" aria-controls="mobileMenu">
+                        <i class='bx bx-menu text-3xl'></i>
+                    </button>
+
+                    <!-- BACKEND: INJECT LOGO IMAGE -->
+                    <a href="./index.html" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو — صفحه اصلی">
+                        <img src="./assets/images/Purple-Logo.png" alt="طلاشو" class="h-full w-auto object-contain">
+                        <span class="text-xl lg:text-2xl font-black text-primary-500 leading-none">طلاشو</span>
+                    </a>
+                </div>
+
+                <!-- COLUMN 2 — SEARCH -->
+                <form action="#" method="get" class="hidden md:flex w-full max-w-3xl relative justify-self-center">
+                    <label for="searchInput" class="sr-only">جستجو</label>
+                    <input id="searchInput" type="text" name="q"
+                        placeholder="جستجو در میان هزاران محصول زیبا..."
+                        class="w-full bg-background border border-border focus:bg-surface focus:border-primary-500 rounded-full py-2.5 lg:py-3 ps-12 pe-4 outline-none transition-all duration-250 text-body text-content-heading placeholder-content-muted">
+                    <button type="submit"
+                        class="absolute inset-y-0 start-0 flex items-center ps-4 text-content-muted hover:text-primary-500 transition-colors"
+                        aria-label="جستجو">
+                        <i class='bx bx-search-alt-2 text-xl'></i>
+                    </button>
+                </form>
+
+                <!-- COLUMN 3 — ACTIONS -->
+                <div class="flex items-center gap-1 md:gap-2 justify-self-end">
+                    <a href="#"
+                        class="hidden md:flex items-center gap-2 px-3 py-2 rounded-full hover:bg-background-hover transition-colors text-content-heading">
+                        <i class='bx bx-user text-2xl'></i>
+                        <span class="text-body font-medium hidden lg:inline">ورود | ثبت‌نام</span>
+                    </a>
+                    <a href="#"
+                        class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading"
+                        aria-label="علاقه‌مندی‌ها">
+                        <i class='bx bx-heart text-2xl'></i>
+                        <span
+                            class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
+                    </a>
+                    <a href="#"
+                        class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading"
+                        aria-label="سبد خرید">
+                        <i class='bx bx-shopping-bag text-2xl'></i>
+                        <span
+                            class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ===== MEGA-MENU NAV ROW ===== -->
+        <nav class="hidden lg:block bg-surface border-t border-border relative" aria-label="منوی اصلی">
+            <div class="container-page">
+                <ul class="flex items-center justify-center gap-8 h-11 text-body">
+
+                    <!-- BACKEND: FOREACH MAIN-CATEGORY LOOP START -->
+                    <li class="mega-menu-hover-area static h-full flex items-center">
+                        <a href="./products.html"
+                            class="flex items-center gap-1 ts-nav-link text-content-heading hover:text-primary-500 font-medium">
+                            جواهرات بانوان
+                            <i class='bx bx-chevron-down text-base text-content-muted'></i>
+                        </a>
+                        <div class="mega-menu-panel absolute top-full mt-0 opacity-0 invisible transition-all duration-300 bg-surface rounded-xl shadow-hover p-6 grid grid-cols-4 gap-6 z-50"
+                            style="left: 50%; width: 900px; transform: translateX(-50%);">
+                            <div>
+                                <h4 class="text-caption font-bold text-gold-600 uppercase tracking-wider mb-3 pb-2 border-b border-border">انگشتر و گردنبند</h4>
+                                <ul class="space-y-2.5">
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">انگشتر نامزدی</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">انگشتر سولیتر</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">گردنبند پلاک متصل</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">چوکر طلا</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">زنجیر تک</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-caption font-bold text-gold-600 uppercase tracking-wider mb-3 pb-2 border-b border-border">دستبند و النگو</h4>
+                                <ul class="space-y-2.5">
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">دستبند مینیمال</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">دستبند کارتیر</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">النگوی سفارشی</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">النگوی کلاسیک</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-caption font-bold text-gold-600 uppercase tracking-wider mb-3 pb-2 border-b border-border">گوشواره و سرویس</h4>
+                                <ul class="space-y-2.5">
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">گوشواره میخی</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">گوشواره آویز</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">سرویس جواهر</a></li>
+                                    <li><a href="./products.html" class="text-body text-content-body hover:text-primary-500 hover:translate-x-1 transition-all inline-block">نیم‌ست ورزشی</a></li>
+                                </ul>
+                            </div>
+                            <a href="./products.html" class="group relative rounded-lg overflow-hidden h-full min-h-[200px] block">
+                                <img src="./assets/images/car-prize-purple-bow-tie.PNG" alt="جشنواره ویژه"
+                                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/40 to-transparent"></div>
+                                <div class="absolute bottom-0 inset-x-0 p-4">
+                                    <span class="text-gold-500 text-[10px] font-bold tracking-wider uppercase">جشنواره</span>
+                                    <h5 class="text-white font-bold text-sm leading-tight mt-1">جشنواره طلایی طلاشو</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="h-full flex items-center">
+                        <a href="./products.html" class="ts-nav-link text-content-heading hover:text-primary-500 font-medium">جواهرات آقایان</a>
+                    </li>
+                    <li class="h-full flex items-center">
+                        <a href="./products.html" class="ts-nav-link text-content-heading hover:text-primary-500 font-medium">حلقه ازدواج</a>
+                    </li>
+                    <li class="h-full flex items-center">
+                        <a href="./products.html" class="ts-nav-link text-content-heading hover:text-primary-500 font-medium">سکه طلا</a>
+                    </li>
+                    <li class="h-full flex items-center">
+                        <a href="./wallet/index.html"
+                            class="flex items-center gap-1.5 font-bold text-gold-600 hover:text-gold-700 transition-colors">
+                            <i class='bx bx-package text-lg'></i>
+                            صندوق طلای آبشده
+                            <span class="text-[9px] bg-gold-500/20 text-gold-700 px-1.5 py-0.5 rounded-full font-bold">جدید</span>
+                        </a>
+                    </li>
+                    <li class="h-full flex items-center">
+                        <a href="./blog.html" class="ts-nav-link text-content-heading hover:text-primary-500 font-medium">مجله طلاشو</a>
+                    </li>
+                    <li class="h-full flex items-center">
+                        <a href="./products.html"
+                            class="flex items-center gap-1.5 font-bold text-status-error hover:opacity-80 transition-opacity">
+                            <i class='bx bxs-bolt text-lg'></i>
+                            شگفت‌انگیزها
+                        </a>
+                    </li>
+                    <!-- BACKEND: FOREACH MAIN-CATEGORY LOOP END -->
+                </ul>
+            </div>
         </nav>
-        <div class="flex items-center gap-2 justify-self-end">
-          <a href="./wallet/login.html" class="btn-gold text-sm px-4 py-2 hidden sm:inline-flex">ورود / عضویت</a>
+
+
+        <!-- ===== MOBILE MENU DRAWER ===== -->
+        <div id="mobileMenu"
+            class="fixed inset-y-0 start-0 w-72 bg-surface shadow-lg z-[60] transform translate-x-full rtl:translate-x-full transition-transform duration-300 lg:hidden flex flex-col"
+            aria-hidden="true">
+            <div class="p-4 border-b border-border flex items-center justify-between">
+                <img src="./assets/images/Purple-Logo.png" alt="طلاشو" class="h-10 w-auto">
+                <button id="mobileMenuClose" type="button"
+                    class="p-1.5 text-content-muted hover:text-primary-500 transition-colors" aria-label="بستن منو">
+                    <i class='bx bx-x text-3xl'></i>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto p-4">
+                <a href="./products.html" class="block py-3 text-content-heading hover:text-primary-500 transition-colors text-body font-medium border-b border-border">جواهرات بانوان</a>
+                <a href="./products.html" class="block py-3 text-content-heading hover:text-primary-500 transition-colors text-body font-medium border-b border-border">جواهرات آقایان</a>
+                <a href="./products.html" class="block py-3 text-content-heading hover:text-primary-500 transition-colors text-body font-medium border-b border-border">حلقه ازدواج</a>
+                <a href="./products.html" class="block py-3 text-content-heading hover:text-primary-500 transition-colors text-body font-medium border-b border-border">سکه طلا</a>
+                <a href="./wallet/index.html" class="block py-3 text-gold-600 font-bold hover:text-gold-700 transition-colors text-body border-b border-border flex items-center gap-2">
+                    <i class='bx bx-package text-lg'></i>
+                    صندوق طلای آبشده
+                </a>
+                <a href="./blog.html" class="block py-3 text-content-heading hover:text-primary-500 transition-colors text-body font-medium border-b border-border">مجله طلاشو</a>
+                <a href="./products.html" class="block py-3 text-status-error font-bold hover:opacity-80 transition-opacity text-body border-b border-border">شگفت‌انگیزها</a>
+            </nav>
+            <div class="p-4 border-t border-border">
+                <a href="#" class="flex items-center justify-center gap-2 w-full btn-primary">
+                    <i class='bx bx-user text-xl'></i>
+                    ورود / ثبت‌نام
+                </a>
+            </div>
         </div>
-      </div>
+        <div id="mobileMenuOverlay"
+            class="fixed inset-0 bg-black/40 z-[55] hidden lg:hidden opacity-0 transition-opacity duration-300"
+            aria-hidden="true"></div>
+    </header>
+
+
+    <!-- ============================================================
+         3. BREADCRUMB (Digikala-style, sits below the sticky header)
+         ============================================================ -->
+    <div class="bg-surface border-b border-border">
+        <div class="container-page py-3">
+            <nav class="flex items-center gap-2 text-caption text-content-body" aria-label="مسیر">
+                <a href="./index.html" class="hover:text-primary-500 transition-colors flex items-center gap-1">
+                    <i class='bx bx-home text-base'></i>
+                    خانه
+                </a>
+                <i class='bx bx-chevron-left text-base text-content-muted'></i>
+                <span class="text-content-heading font-bold">درباره طلاشو</span>
+            </nav>
+        </div>
     </div>
-  </header>
 
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       HERO BAND — brand story opening
-       ════════════════════════════════════════════════════════════════════ -->
-  <section class="hero-band text-white py-12 lg:py-20">
-    <div class="container-page relative z-10">
-      <div class="max-w-3xl">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="h-px w-8 bg-gold-400"></span>
-          <span class="text-xs font-bold tracking-wider text-gold-300 uppercase font-latin">Our Story</span>
+    <!-- ============================================================
+         4. PAGE HERO — editorial header (NOT a generic gradient)
+         Purple band with eyebrow + big title + lead + 2 CTAs
+         ============================================================ -->
+    <section class="bg-gradient-to-bl from-primary-600 via-primary-500 to-primary-700 text-white relative overflow-hidden">
+        <!-- subtle gold corner accent -->
+        <div class="absolute top-0 start-0 w-32 h-32 bg-gold-400/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 end-0 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl"></div>
+
+        <div class="container-page py-12 lg:py-20 relative z-10">
+            <div class="max-w-3xl">
+                <!-- eyebrow -->
+                <div class="flex items-center gap-3 mb-5">
+                    <span class="h-px w-10 bg-gold-400"></span>
+                    <span class="text-xs font-bold tracking-widest text-gold-300 uppercase font-latin">Our Story</span>
+                </div>
+
+                <!-- title -->
+                <h1 class="text-3xl sm:text-4xl lg:text-hero-lg font-black leading-tight mb-5">
+                    از برزیگر تا طلاشو —
+                    <span class="block text-gold-400 mt-1">یک میراث، یک آینده.</span>
+                </h1>
+
+                <!-- lead -->
+                <p class="text-base lg:text-lg text-white/85 leading-loose max-w-2xl mb-8">
+                    طلاشو، زیرمجموعه وی آی پی برزیگر گُلد و جولری، با بیش از ۳۰ سال تجربه در بازار طلا و جواهر ایران، بستری نوین برای خرید آنلاین جواهرات و سرمایه‌گذاری در طلای دیجیتال فراهم کرده است.
+                </p>
+
+                <!-- CTAs -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <a href="./products.html" class="btn-gold text-sm px-6 py-3 inline-flex items-center gap-2">
+                        <i class='bx bx-store text-lg'></i>
+                        مشاهده محصولات
+                    </a>
+                    <a href="./contact.html"
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/30 text-white text-sm font-bold hover:bg-white/10 hover:border-white transition-all">
+                        <i class='bx bx-phone text-lg'></i>
+                        تماس با ما
+                    </a>
+                </div>
+            </div>
         </div>
-        <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight mb-5">
-          از برزیگر تا طلاشو —
-          <span class="block text-gold-300">یک میراث، یک آینده.</span>
-        </h1>
-        <p class="text-base lg:text-lg text-white/80 leading-8 max-w-2xl">
-          طلاشو VIP، زیرمجموعه وی آی پی برزیگر گُلد و جولری، با بیش از ۳۰ سال تجربه در بازار طلا و جواهرات ایران، بستری نوین برای خرید آنلاین جواهرات و سرمایه‌گذاری در طلای دیجیتال فراهم کرده است.
-        </p>
-      </div>
+    </section>
+
+
+    <!-- ============================================================
+         5. STATS BAND — Digikala-style 4-col (NOT floating numbers)
+         ============================================================ -->
+    <section class="bg-surface border-b border-border">
+        <div class="container-page py-10 lg:py-12">
+            <!-- BACKEND: FOREACH STAT LOOP START -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <div class="text-center">
+                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-primary-50">
+                        <i class='bx bx-medal text-3xl text-primary-500'></i>
+                    </div>
+                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۳۰+</div>
+                    <div class="text-caption text-content-body mt-1">سال تجربه</div>
+                </div>
+                <div class="text-center">
+                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-gold-50">
+                        <i class='bx bx-diamond text-3xl text-gold-600'></i>
+                    </div>
+                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۱۰,۰۰۰+</div>
+                    <div class="text-caption text-content-body mt-1">محصول متنوع</div>
+                </div>
+                <div class="text-center">
+                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-primary-50">
+                        <i class='bx bx-group text-3xl text-primary-500'></i>
+                    </div>
+                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۵۰,۰۰۰+</div>
+                    <div class="text-caption text-content-body mt-1">مشتری راضی</div>
+                </div>
+                <div class="text-center">
+                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-gold-50">
+                        <i class='bx bx-map text-3xl text-gold-600'></i>
+                    </div>
+                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۵+</div>
+                    <div class="text-caption text-content-body mt-1">شعبه فیزیکی</div>
+                </div>
+            </div>
+            <!-- BACKEND: FOREACH STAT LOOP END -->
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         6. STORY 1 — split layout: text | image placeholder
+         ============================================================ -->
+    <section class="ts-section">
+        <div class="container-page">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+                <!-- text -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">۱۳۷۶ — ۱۳۸۶</span>
+                        <span class="h-px flex-1 bg-gold-300/40"></span>
+                    </div>
+                    <h2 class="text-section lg:text-2xl font-black text-content-heading mb-4 leading-snug">
+                        آغاز مسیر — از شاگردی تا حرفه‌ای‌شدن
+                    </h2>
+                    <div class="space-y-4 text-body text-content-body leading-loose">
+                        <p>
+                            از سال ۱۳۷۶، مسیری آغاز شد که بر پایه تلاش، جسارت و نگاه متفاوت شکل گرفت. علیرضا برزیگر، بنیان‌گذار مجموعه، فعالیت خود را مانند بسیاری از فعالان این صنعت، از شاگردی در طلافروشی آغاز کرد.
+                        </p>
+                        <p>
+                            ذهنی تحلیل‌گر، شمّ اقتصادی موروثی و علاقه‌ای عمیق به هنر طلا، او را در مدت کوتاهی به جایگاهی فراتر از یک فروشنده رساند؛ در ۲۳ سالگی وارد حوزه تهیه و پخش عمده طلا شد و نگاه حرفه‌ای‌تری به بازار پیدا کرد.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- image placeholder -->
+                <!-- BACKEND: INJECT IMAGE: about-story-1.jpg -->
+                <div class="relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-500 to-primary-700 shadow-card flex items-center justify-center">
+                    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #E8B948 0%, transparent 40%), radial-gradient(circle at 80% 80%, #E8B948 0%, transparent 40%);"></div>
+                    <div class="relative text-center text-white/80">
+                        <i class='bx bx-image text-7xl mb-3 block'></i>
+                        <span class="text-caption font-latin">IMAGE: about-story-1.jpg</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         7. QUOTE BAND — large display text on dark purple
+         ============================================================ -->
+    <section class="bg-primary-700 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 50% 50%, #E8B948 0%, transparent 60%);"></div>
+        <div class="container-page py-16 lg:py-24 relative z-10 text-center">
+            <i class='bx bxs-quote-alt-left text-5xl text-gold-400 mb-6 inline-block'></i>
+            <p class="text-2xl sm:text-3xl lg:text-4xl font-black leading-snug max-w-3xl mx-auto">
+                ما بر این باوریم که طلا تنها یک فلز گران‌بها نیست؛
+                <span class="block text-gold-400 mt-2">روایتی است از اعتماد، اصالت و آینده.</span>
+            </p>
+            <div class="flex items-center justify-center gap-3 mt-8">
+                <span class="h-px w-12 bg-gold-400"></span>
+                <span class="text-caption font-bold text-gold-300 tracking-widest uppercase font-latin">بنیان‌گذار: علیرضا برزیگر</span>
+                <span class="h-px w-12 bg-gold-400"></span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         8. STORY 2 — text | 3-image collage
+         ============================================================ -->
+    <section class="ts-section bg-surface">
+        <div class="container-page">
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+                <!-- 3-image collage (on the start side in RTL = visual right) -->
+                <div class="order-2 lg:order-1 grid grid-cols-2 gap-3 lg:gap-4">
+                    <!-- BACKEND: INJECT IMAGE: about-collage-1.jpg -->
+                    <div class="aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 to-primary-600 shadow-card flex items-center justify-center text-white/70">
+                        <div class="text-center">
+                            <i class='bx bx-image-alt text-4xl block mb-1'></i>
+                            <span class="text-[10px] font-latin">collage-1</span>
+                        </div>
+                    </div>
+                    <div class="space-y-3 lg:space-y-4 pt-6 lg:pt-12">
+                        <!-- BACKEND: INJECT IMAGE: about-collage-2.jpg -->
+                        <div class="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gold-300 to-gold-500 shadow-card flex items-center justify-center text-primary-700/60">
+                            <div class="text-center">
+                                <i class='bx bx-image-alt text-4xl block mb-1'></i>
+                                <span class="text-[10px] font-latin">collage-2</span>
+                            </div>
+                        </div>
+                        <!-- BACKEND: INJECT IMAGE: about-collage-3.jpg -->
+                        <div class="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-primary-500 to-primary-700 shadow-card flex items-center justify-center text-white/70">
+                            <div class="text-center">
+                                <i class='bx bx-image-alt text-4xl block mb-1'></i>
+                                <span class="text-[10px] font-latin">collage-3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- text (on the end side in RTL = visual left) -->
+                <div class="order-1 lg:order-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">۱۳۸۶ — ۱۳۹۷</span>
+                        <span class="h-px flex-1 bg-gold-300/40"></span>
+                    </div>
+                    <h2 class="text-section lg:text-2xl font-black text-content-heading mb-4 leading-snug">
+                        فصل انتخاب — مهاجرت به کرمان
+                    </h2>
+                    <div class="space-y-4 text-body text-content-body leading-loose">
+                        <p>
+                            سال ۱۳۸۶ نقطه عطفی مهم بود؛ مهاجرت به کرمان و حضور در بازار بزرگ طلای این شهر، افق‌های تازه‌ای گشود. تجربه فعالیت در مرکز بازار، اعتمادبه‌نفس تصمیمی بزرگ‌تر را ایجاد کرد.
+                        </p>
+                        <p>
+                            انتقال به منطقه‌ای لوکس در مرکز استان و آغاز فصلی مدرن‌تر در مسیر برند، طلاشو را به یکی از شاخص‌ترین فروشگاه‌های طلای استان بدل کرد.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         9. STORY 3 — 3-image grid (full-bleed) + text overlay style
+         ============================================================ -->
+    <section class="ts-section">
+        <div class="container-page">
+
+            <!-- section header -->
+            <div class="text-center mb-10 lg:mb-12 max-w-2xl mx-auto">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="h-px w-10 bg-gold-400"></span>
+                    <span class="text-caption font-bold text-gold-600 uppercase tracking-widest font-latin">۱۳۹۷ — ۱۴۰۲</span>
+                    <span class="h-px w-10 bg-gold-400"></span>
+                </div>
+                <h2 class="text-section lg:text-2xl font-black text-content-heading leading-snug mb-3">
+                    تولد دوباره — جهش در دوران چالش
+                </h2>
+                <p class="text-body text-content-body leading-loose">
+                    همزمان با چالش‌های اقتصادی و سپس دوران کرونا، به جای توقف، جهشی نو رقم خورد. توسعه حرفه‌ای در فضای مجازی، آموزش‌های تخصصی و حضور مستمر در رویدادهای بین‌المللی، مسیر رشد را شتاب بیشتری بخشید.
+                </p>
+            </div>
+
+            <!-- 3-image grid -->
+            <!-- BACKEND: FOREACH MILESTONE-IMAGE LOOP START -->
+            <div class="grid md:grid-cols-3 gap-4 lg:gap-6">
+                <div class="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-500 to-primary-700 shadow-card">
+                    <div class="absolute inset-0 flex items-center justify-center text-white/60">
+                        <div class="text-center">
+                            <i class='bx bx-rings-wedding text-5xl block mb-2'></i>
+                            <span class="text-[10px] font-latin">milestone-1.jpg</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/70 to-transparent">
+                        <span class="text-caption font-bold text-gold-300 uppercase tracking-wider">طراحی انگشتر</span>
+                        <h3 class="text-white font-bold text-base mt-1">میراث ماندگار</h3>
+                    </div>
+                </div>
+                <div class="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-gold-300 to-gold-500 shadow-card md:translate-y-6">
+                    <div class="absolute inset-0 flex items-center justify-center text-primary-700/60">
+                        <div class="text-center">
+                            <i class='bx bx-briefcase text-5xl block mb-2'></i>
+                            <span class="text-[10px] font-latin">milestone-2.jpg</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/70 to-transparent">
+                        <span class="text-caption font-bold text-gold-300 uppercase tracking-wider">میز کار طلاساز</span>
+                        <h3 class="text-white font-bold text-base mt-1">هنر در عمل</h3>
+                    </div>
+                </div>
+                <div class="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-600 to-primary-800 shadow-card">
+                    <div class="absolute inset-0 flex items-center justify-center text-white/60">
+                        <div class="text-center">
+                            <i class='bx bx-crown text-5xl block mb-2'></i>
+                            <span class="text-[10px] font-latin">milestone-3.jpg</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/70 to-transparent">
+                        <span class="text-caption font-bold text-gold-300 uppercase tracking-wider">طلای ساخته‌شده</span>
+                        <h3 class="text-white font-bold text-base mt-1">شاهکار نهایی</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- BACKEND: FOREACH MILESTONE-IMAGE LOOP END -->
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         10. VISION / FUTURE — text + image + bullet list
+         ============================================================ -->
+    <section class="ts-section bg-surface">
+        <div class="container-page">
+            <div class="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+
+                <!-- image (3 cols) -->
+                <!-- BACKEND: INJECT IMAGE: about-vision.jpg -->
+                <div class="lg:col-span-2 relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 shadow-card">
+                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 30% 30%, #E8B948 0%, transparent 50%);"></div>
+                    <div class="absolute inset-0 flex items-center justify-center text-white/70">
+                        <div class="text-center">
+                            <i class='bx bx-world text-7xl block mb-3'></i>
+                            <span class="text-caption font-latin">about-vision.jpg</span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+                        <span class="text-caption font-bold text-gold-400 uppercase tracking-widest font-latin">Vision 2030</span>
+                        <h3 class="text-white font-black text-xl mt-2 leading-snug">چشم‌انداز بین‌المللی</h3>
+                    </div>
+                </div>
+
+                <!-- text (2 cols) -->
+                <div class="lg:col-span-3">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="h-px w-10 bg-gold-400"></span>
+                        <span class="text-caption font-bold text-gold-600 uppercase tracking-widest font-latin">Looking Forward</span>
+                    </div>
+                    <h2 class="text-section lg:text-2xl font-black text-content-heading mb-4 leading-snug">
+                        هنر، دانش، مدیریت مدرن و نگاه بین‌المللی
+                    </h2>
+                    <p class="text-body text-content-body leading-loose mb-6">
+                        سال ۱۴۰۲، آغاز نسل دوم بود. فردین جوان (تنها فرزند خانواده) پس از تجربه حرفه‌ای در بازار بزرگ تهران و تعامل با بزرگان صنعت، به مجموعه پیوست. نتیجه این هم‌افزایی، تصمیمی جسورانه برای ورود به بازار بین‌المللی و آغاز فعالیت در عرصه جهانی شد.
+                    </p>
+
+                    <!-- vision bullets -->
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center mt-0.5">
+                                <i class='bx bx-store-alt text-xl text-primary-500'></i>
+                            </span>
+                            <div>
+                                <h4 class="text-product font-bold text-content-heading">فروشگاه تخصصی ۴۰۰+ متری</h4>
+                                <p class="text-caption text-content-body">احداث یکی از بزرگ‌ترین فروشگاه‌های تخصصی طلا و جواهر کشور در کرمان</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gold-50 flex items-center justify-center mt-0.5">
+                                <i class='bx bx-book-reader text-xl text-gold-600'></i>
+                            </span>
+                            <div>
+                                <h4 class="text-product font-bold text-content-heading">آکادمی تخصصی ۲۵۰+ متری</h4>
+                                <p class="text-caption text-content-body">راه‌اندازی مجهزترین آکادمی تخصصی طلا و جواهر کشور</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center mt-0.5">
+                                <i class='bx bx-globe text-xl text-primary-500'></i>
+                            </span>
+                            <div>
+                                <h4 class="text-product font-bold text-content-heading">شعبه بین‌المللی</h4>
+                                <p class="text-caption text-content-body">افتتاح نخستین شعبه بین‌المللی در مسقط، عمان</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <p class="text-body text-content-body leading-loose italic border-r-2 border-gold-400 pr-4">
+                        و این ماجراجویی ادامه دارد…
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         11. VALUES GRID — Digikala-style 4-col (replaces tala's alternating cards)
+         ============================================================ -->
+    <section class="ts-section">
+        <div class="container-page">
+            <div class="text-center mb-10 lg:mb-12 max-w-2xl mx-auto">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <span class="h-px w-10 bg-gold-400"></span>
+                    <span class="text-caption font-bold text-gold-600 uppercase tracking-widest font-latin">Our Values</span>
+                    <span class="h-px w-10 bg-gold-400"></span>
+                </div>
+                <h2 class="text-section lg:text-2xl font-black text-content-heading mb-3">ارزش‌های ما</h2>
+                <p class="text-body text-content-body leading-loose">آنچه ما را متفاوت می‌کند.</p>
+            </div>
+
+            <!-- BACKEND: FOREACH VALUE LOOP START -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+
+                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-500 transition-colors duration-300">
+                        <i class='bx bx-shield-quarter text-3xl text-primary-500 group-hover:text-white transition-colors duration-300'></i>
+                    </div>
+                    <h3 class="text-product font-bold text-content-heading mb-2">اعتماد و اصالت</h3>
+                    <p class="text-caption text-content-body leading-7">هر محصول با گواهی اصالت و ضمانت طلای ۱۸ عیار. سه دهه تجربه برزیگر، پشتوانه هر معامله.</p>
+                </div>
+
+                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gold-50 flex items-center justify-center group-hover:bg-gold-500 transition-colors duration-300">
+                        <i class='bx bxs-bolt text-3xl text-gold-600 group-hover:text-white transition-colors duration-300'></i>
+                    </div>
+                    <h3 class="text-product font-bold text-content-heading mb-2">سرعت و سادگی</h3>
+                    <p class="text-caption text-content-body leading-7">خرید و فروش آنلاین طلای دیجیتال در کمتر از ۲ دقیقه. از یک میلی‌گرم تا میلیون‌ها تومان.</p>
+                </div>
+
+                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-500 transition-colors duration-300">
+                        <i class='bx bx-palette text-3xl text-primary-500 group-hover:text-white transition-colors duration-300'></i>
+                    </div>
+                    <h3 class="text-product font-bold text-content-heading mb-2">طراحی اختصاصی</h3>
+                    <p class="text-caption text-content-body leading-7">تیم طراحی داخلی، از ایده تا ساخت. هر قطعه، امضای ماست.</p>
+                </div>
+
+                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gold-50 flex items-center justify-center group-hover:bg-gold-500 transition-colors duration-300">
+                        <i class='bx bx-support text-3xl text-gold-600 group-hover:text-white transition-colors duration-300'></i>
+                    </div>
+                    <h3 class="text-product font-bold text-content-heading mb-2">پشتیبانی ۲۴/۷</h3>
+                    <p class="text-caption text-content-body leading-7">هفت روز هفته، ۲۴ ساعته. هر زمان که نیاز داشتید، ما اینجاییم.</p>
+                </div>
+            </div>
+            <!-- BACKEND: FOREACH VALUE LOOP END -->
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         12. CTA — back to top of action (Digikala-style dual CTA band)
+         ============================================================ -->
+    <section class="bg-primary-700 text-white relative overflow-hidden">
+        <div class="absolute top-0 start-0 w-64 h-64 bg-gold-400/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 end-0 w-64 h-64 bg-gold-400/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+
+        <div class="container-page py-12 lg:py-16 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                <div class="text-center lg:text-right">
+                    <h2 class="text-section lg:text-2xl font-black mb-2">آماده خرید هستید؟</h2>
+                    <p class="text-white/80 text-body">مجموعه‌ای از بهترین جواهرات و طلا را در فروشگاه ما ببینید.</p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 justify-center">
+                    <a href="./products.html" class="btn-gold text-sm px-6 py-3 inline-flex items-center gap-2">
+                        <i class='bx bx-store text-lg'></i>
+                        مشاهده محصولات
+                    </a>
+                    <a href="./contact.html"
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/30 text-white text-sm font-bold hover:bg-white/10 hover:border-white transition-all">
+                        <i class='bx bx-chat text-lg'></i>
+                        گفتگو با ما
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         13. FOOTER (Dark luxury — matches index)
+         ============================================================ -->
+    <footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-0 text-gray-300 font-medium">
+        <div class="container mx-auto px-4 md:px-6">
+
+            <!-- Top tier: brand + back to top -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
+                <div class="flex items-center">
+                    <img src="./assets/images/White-Logo.png" alt="طلاشو"
+                        class="h-16 md:h-20 w-auto object-contain shrink-0 pl-4 border-l border-white/10 drop-shadow-md">
+                    <div class="flex flex-col pr-4 text-right">
+                        <span class="text-xl md:text-2xl font-bold text-white mb-1 drop-shadow-md">
+                            طلا و جواهر <span class="text-[#D4AF37] font-black">برزیگر</span>
+                        </span>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <span class="h-[1.5px] w-6 md:w-8 bg-[#D4AF37] rounded-full drop-shadow"></span>
+                            <span class="text-[#D4AF37] text-[10px] md:text-xs font-black font-latin tracking-[0.25em] drop-shadow">VIP GALLERY</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+                    class="flex items-center gap-2 border border-white/20 text-gray-300 rounded-lg px-4 py-2.5 text-xs md:text-sm hover:border-[#D4AF37] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all duration-300 group shrink-0">
+                    بازگشت به بالا
+                    <i class='bx bx-up-arrow-alt text-lg group-hover:-translate-y-1 transition-transform'></i>
+                </button>
+            </div>
+
+            <!-- Phone support bar -->
+            <div class="flex flex-wrap items-center gap-2 text-xs md:text-sm mb-12 pb-8 border-b border-white/10">
+                <span class="text-gray-400">تلفن پشتیبانی:</span>
+                <span class="font-bold text-white text-base font-latin tracking-wider mx-1" dir="ltr">۰۲۱ - ۱۲۳۴۵۶۷۸</span>
+                <span class="hidden md:inline text-white/20 mx-3">|</span>
+                <span class="text-gray-400">هفت روز هفته، ۲۴ ساعت شبانه‌روز پاسخگوی شما هستیم</span>
+            </div>
+
+            <!-- Middle tier: links + newsletter -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-y-10 gap-x-8 mb-12">
+                <div class="lg:col-span-2">
+                    <h3 class="text-white font-bold text-base mb-6 border-r-2 border-[#D4AF37] pr-3">راهنمای خرید</h3>
+                    <ul class="space-y-4 text-[13px] text-gray-400">
+                        <li><a href="./faq.html" class="ts-footer-link inline-block hover:text-white transition-colors">نحوه ثبت سفارش</a></li>
+                        <li><a href="./shipping.html" class="ts-footer-link inline-block hover:text-white transition-colors">رویه ارسال کالا</a></li>
+                        <li><a href="./faq.html" class="ts-footer-link inline-block hover:text-white transition-colors">شیوه‌های پرداخت</a></li>
+                        <li><a href="./gold-rate.html" class="ts-footer-link inline-block hover:text-white transition-colors">نرخ‌نامه لحظه‌ای</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-2">
+                    <h3 class="text-white font-bold text-base mb-6 border-r-2 border-[#D4AF37] pr-3">خدمات مشتریان</h3>
+                    <ul class="space-y-4 text-[13px] text-gray-400">
+                        <li><a href="./faq.html" class="ts-footer-link inline-block hover:text-white transition-colors">پرسش‌های متداول</a></li>
+                        <li><a href="./shipping.html" class="ts-footer-link inline-block hover:text-white transition-colors">رویه بازگرداندن کالا</a></li>
+                        <li><a href="./terms.html" class="ts-footer-link inline-block hover:text-white transition-colors">شرایط استفاده</a></li>
+                        <li><a href="./privacy.html" class="ts-footer-link inline-block hover:text-white transition-colors">حریم خصوصی</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-2">
+                    <h3 class="text-white font-bold text-base mb-6 border-r-2 border-[#D4AF37] pr-3">با طلاشو</h3>
+                    <ul class="space-y-4 text-[13px] text-gray-400">
+                        <li><a href="./about.html" class="ts-footer-link inline-block hover:text-white transition-colors">درباره ما</a></li>
+                        <li><a href="./contact.html" class="ts-footer-link inline-block hover:text-white transition-colors">تماس با گالری</a></li>
+                        <li><a href="./about.html" class="ts-footer-link inline-block hover:text-white transition-colors">شعبه‌های فیزیکی</a></li>
+                        <li><a href="./blog.html" class="ts-footer-link inline-block hover:text-white transition-colors">مجله طلا و جواهر</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-6 flex flex-col md:pr-10 border-t md:border-t-0 border-white/10 pt-8 md:pt-0 mt-2 md:mt-0">
+                    <div class="mb-10">
+                        <h3 class="text-white font-bold text-base mb-3">عضویت در خبرنامه</h3>
+                        <p class="text-[13px] text-gray-400 mb-4 leading-relaxed">برای اطلاع از جشنواره‌ها، رونمایی کالکشن‌های جدید و <span class="text-[#D4AF37]">تحلیل هفتگی مظنه طلا</span>، ایمیل خود را وارد کنید.</p>
+                        <form class="flex w-full md:w-3/4 bg-[#2A0F2B] rounded-lg p-1.5 border border-white/10 focus-within:border-[#D4AF37]/50 transition-colors">
+                            <input type="email" placeholder="ایمیل شما"
+                                class="flex-grow bg-transparent border-none text-white focus:outline-none focus:ring-0 px-4 text-sm font-latin placeholder-gray-500" required>
+                            <button type="submit" class="bg-[#D4AF37] text-[#200B21] text-[13px] font-black px-6 py-2.5 rounded hover:bg-yellow-500 transition-colors">ثبت</button>
+                        </form>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-8 sm:gap-6">
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300"><i class='bx bxl-instagram text-xl'></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300"><i class='bx bxl-telegram text-xl'></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300"><i class='bx bxl-whatsapp text-xl'></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300"><i class='bx bxl-pinterest text-xl'></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300"><i class='bx bxl-youtube text-xl'></i></a>
+                            <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:text-white hover:border-white hover:bg-white/10 transition-all duration-300"><i class='bx bxl-linkedin text-xl'></i></a>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <a href="#" class="w-20 h-20 rounded-2xl flex items-center justify-center p-2 bg-white hover:bg-gray-100 transition-colors shadow-sm hover:shadow-md">
+                                <img src="./assets/images/enamad.webp" alt="نماد اعتماد الکترونیکی" class="w-full h-full object-contain">
+                            </a>
+                            <a href="#" class="w-20 h-20 rounded-2xl flex items-center justify-center p-2 bg-white hover:bg-gray-100 transition-colors shadow-sm hover:shadow-md">
+                                <img src="./assets/images/union.png" alt="اتحادیه طلا و جواهر" class="w-full h-full object-contain">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom: copyright -->
+            <div class="border-t border-white/10 py-8 text-center flex flex-col items-center">
+                <p class="text-[11px] md:text-xs text-gray-500 leading-relaxed max-w-3xl">
+                    استفاده از مطالب گالری <span class="text-gray-300 font-bold">طلاشو</span> فقط برای مقاصد غیرتجاری و با ذکر منبع بلامانع است. کلیه حقوق مادی و معنوی این سایت محفوظ می‌باشد.
+                </p>
+                <span class="block mt-3 text-[10px] text-gray-600 font-latin tracking-widest uppercase" dir="ltr">2026 TALASHO GALLERY © | ALL RIGHTS RESERVED.</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ============================================================
+         MOBILE BOTTOM NAV
+         ============================================================ -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-[60] rounded-t-2xl px-6 py-2 pb-[env(safe-area-inset-bottom,0.5rem)]">
+        <ul class="flex justify-between items-center text-xs text-content-muted">
+            <li>
+                <a href="./index.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-home-alt text-2xl'></i>
+                    <span>خانه</span>
+                </a>
+            </li>
+            <li>
+                <button type="button" id="mobileSearchBtn" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-search-alt-2 text-2xl'></i>
+                    <span>جستجو</span>
+                </button>
+            </li>
+            <li>
+                <a href="./products.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-grid-alt text-2xl'></i>
+                    <span>دسته‌بندی</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-user text-2xl'></i>
+                    <span>پروفایل</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div id="mobileSearchOverlay" class="fixed inset-0 bg-surface z-[70] hidden flex-col transition-opacity duration-300 opacity-0">
+        <div class="flex items-center gap-4 p-4 border-b border-border shadow-sm bg-white">
+            <button id="closeSearchBtn" type="button" class="text-content-heading hover:text-error transition-colors p-2 -ms-2">
+                <i class='bx bx-arrow-back text-2xl'></i>
+            </button>
+            <form action="#" method="get" class="flex-1 relative">
+                <input type="text" name="q" placeholder="جستجوی جواهرات..." class="w-full bg-background border border-border focus:border-primary-500 rounded-full py-2.5 ps-10 pe-4 outline-none text-body">
+                <button type="submit" class="absolute inset-y-0 start-0 flex items-center ps-3 text-content-muted">
+                    <i class='bx bx-search-alt-2 text-xl'></i>
+                </button>
+            </form>
+        </div>
     </div>
-  </section>
 
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       VALUES — alternating cards
-       ════════════════════════════════════════════════════════════════════ -->
-  <section class="py-10 lg:py-14">
-    <div class="container-page">
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
+    <script src="./assets/js/vendor/swiper-bundle.min.js"></script>
+    <script src="./assets/js/main.js?v=6"></script>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('mobileMenuToggle');
+            const close = document.getElementById('mobileMenuClose');
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const open = () => { menu.classList.remove('translate-x-full'); menu.classList.add('translate-x-0'); menu.setAttribute('aria-hidden', 'false'); overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.remove('opacity-0'), 10); document.body.style.overflow = 'hidden'; };
+            const shut = () => { menu.classList.add('translate-x-full'); menu.classList.remove('translate-x-0'); menu.setAttribute('aria-hidden', 'true'); overlay.classList.add('opacity-0'); setTimeout(() => overlay.classList.add('hidden'), 300); document.body.style.overflow = ''; };
+            toggle?.addEventListener('click', open);
+            close?.addEventListener('click', shut);
+            overlay?.addEventListener('click', shut);
 
-      <div class="mb-8 lg:mb-10">
-        <h2 class="text-xl lg:text-2xl font-bold text-content-heading mb-2">ارزش‌های ما</h2>
-        <p class="text-sm text-content-body max-w-xl">آنچه ما را متفاوت می‌کند.</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-4 lg:gap-5">
-
-        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
-          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
-          </div>
-          <h3 class="text-base font-bold text-content-heading mb-2">اعتماد و اصالت</h3>
-          <p class="text-sm text-content-body leading-7">هر محصول با گواهی اصالت و ضمانت طلای ۱۸ عیار. سه دهه تجربه برزیگر، پشتوانه هر معامله.</p>
-        </div>
-
-        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
-          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-          </div>
-          <h3 class="text-base font-bold text-content-heading mb-2">سرعت و سادگی</h3>
-          <p class="text-sm text-content-body leading-7">خرید و فروش آنلاین طلای دیجیتال در کمتر از ۲ دقیقه. از یک میلی‌گرم تا میلیون‌ها تومان.</p>
-        </div>
-
-        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
-          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
-            </svg>
-          </div>
-          <h3 class="text-base font-bold text-content-heading mb-2">شفافیت قیمت</h3>
-          <p class="text-sm text-content-body leading-7">نرخ یکسان خرید و فروش، کارمزد شفاف نیم درصد، بدون اجرت پنهان. قیمت لحظه‌ای از بازار آزاد.</p>
-        </div>
-
-        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
-          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
-            </svg>
-          </div>
-          <h3 class="text-base font-bold text-content-heading mb-2">پشتیبانی ۲۴ ساعته</h3>
-          <p class="text-sm text-content-body leading-7">کارشناسان ما هر ساعت از شبانه‌روز آماده پاسخ‌گویی به سوالات شما هستند — آنلاین یا تلفنی.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════════════════════════
-       STATS BAND — dark purple
-       ════════════════════════════════════════════════════════════════════ -->
-  <section class="bg-primary-700 text-white py-10 lg:py-14">
-    <div class="container-page">
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 text-center">
-        <!-- BACKEND: wire to real stats -->
-        <div>
-          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۳۰+</div>
-          <div class="text-sm text-white/70">سال تجربه</div>
-        </div>
-        <div>
-          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۲۶M</div>
-          <div class="text-sm text-white/70">کاربر فعال</div>
-        </div>
-        <div>
-          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۱۶</div>
-          <div class="text-sm text-white/70">شعبه و نمایندگی</div>
-        </div>
-        <div>
-          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۵۲۲+</div>
-          <div class="text-sm text-white/70">کیلوگرم طلا تحویلی</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════════════════════════
-       CTA
-       ════════════════════════════════════════════════════════════════════ -->
-  <section class="py-10 lg:py-14">
-    <div class="container-page">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-xl lg:text-2xl font-bold text-content-heading mb-3">به خانواده طلاشو بپیوندید</h2>
-        <p class="text-sm text-content-body leading-7 mb-6">
-          یک حساب، دو دنیا — خرید جواهرات و سرمایه‌گذاری در طلای دیجیتال.
-        </p>
-        <a href="./wallet/login.html" class="btn-gold inline-flex items-center gap-2 px-7 py-3.5 text-base">
-          <span>شروع کنید</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
+            // Mobile search overlay
+            const searchBtn = document.getElementById('mobileSearchBtn');
+            const searchOverlay = document.getElementById('mobileSearchOverlay');
+            const closeSearchBtn = document.getElementById('closeSearchBtn');
+            const searchInput = searchOverlay?.querySelector('input');
+            if (searchBtn && searchOverlay && closeSearchBtn) {
+                searchBtn.addEventListener('click', () => { searchOverlay.classList.remove('hidden'); searchOverlay.classList.add('flex'); setTimeout(() => { searchOverlay.classList.remove('opacity-0'); searchInput?.focus(); }, 10); document.body.style.overflow = 'hidden'; });
+                closeSearchBtn.addEventListener('click', () => { searchOverlay.classList.add('opacity-0'); setTimeout(() => { searchOverlay.classList.add('hidden'); searchOverlay.classList.remove('flex'); document.body.style.overflow = ''; }, 300); });
+            }
+        });
+    </script>
 </body>
+
 </html>
