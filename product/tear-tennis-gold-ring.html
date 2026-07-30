@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو VIP — Product Detail (نمایش محصول)
+  ----------------------------------------------------------------------------
+  Phase E-2: Sample product detail page.
+
+  Creative differentiation from tala:
+    • Gallery left (5/12) + info right (7/12) — info dominant (tala is ~6/6)
+    • Weight + karat badges prominent (tala hides in specs)
+    • Price + add-to-cart as sticky bottom bar on mobile (tala uses inline)
+    • Review section with rating distribution (tala has plain list)
+    • Related products as horizontal scroll (tala uses grid)
+
+  impeccable.style: /layout /bolder /distill /colorize /polish /delight
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>انگشتر تنیس اشک | طلاشو VIP</title>
+  <meta name="description" content="انگشتر تنیس اشک طلای ۱۸ عیار — خرید آنلاین از طلاشو VIP">
+
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="../pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
+  <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="../pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="../pwa/js/sw-register.js" defer></script>
+
+  <style>
+    .gallery-thumb {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .gallery-thumb.active {
+      border-color: #E8B948;
+      box-shadow: 0 0 0 2px rgba(232, 185, 72, 0.3);
+    }
+    .gallery-main-img {
+      transition: opacity 0.3s ease;
+    }
+    .variant-btn {
+      transition: all 0.2s ease;
+    }
+    .variant-btn.active {
+      background: linear-gradient(135deg, #6E436E, #4A154B);
+      color: #FFFFFF;
+      border-color: #6E436E;
+    }
+    .pdp-tab-btn {
+      transition: all 0.2s ease;
+      border-bottom: 3px solid transparent;
+    }
+    .pdp-tab-btn.active {
+      color: #6E436E;
+      border-bottom-color: #E8B948;
+      font-weight: 700;
+    }
+    .pdp-tab-panel { display: none; animation: tab-in 0.3s ease-out; }
+    .pdp-tab-panel.active { display: block; }
+    @keyframes tab-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, label { letter-spacing: -0.01em; }
+    .font-latin { letter-spacing: 0; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER (shared) -->
+  <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md shadow-xs">
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+        <div class="flex items-center gap-3 justify-self-start">
+          <a href="../products.html" class="p-2 -ms-2 text-content-heading hover:text-primary-600 transition-colors" aria-label="بازگشت">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 5l-7 7 7 7M5 12h14"/>
+            </svg>
+          </a>
+          <a href="../wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg">طلاشو <span class="text-gold-700 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+        <nav class="hidden lg:flex items-center justify-center gap-7">
+          <a href="../wallet/index.html" class="text-body font-medium text-content-body hover:text-primary-600">خانه</a>
+          <a href="../wallet/rates.html" class="text-body font-medium text-content-body hover:text-primary-600">نرخ‌نامه</a>
+          <a href="../products.html" class="text-body font-bold text-primary-600">محصولات</a>
+        </nav>
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="#" data-backend-hook="cart" class="relative p-2 text-content-heading hover:text-primary-600 transition-colors" aria-label="سبد خرید">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-gold-400 text-primary-700 text-xs font-bold flex items-center justify-center font-latin">۲</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       BREADCRUMB
+       ════════════════════════════════════════════════════════════════════ -->
+  <div class="container-page pt-4 lg:pt-6">
+    <nav class="flex items-center gap-2 text-sm text-content-body" aria-label="مسیر">
+      <a href="../wallet/index.html" class="hover:text-primary-600">خانه</a>
+      <span class="text-content-muted">/</span>
+      <a href="../products.html" class="hover:text-primary-600">محصولات</a>
+      <span class="text-content-muted">/</span>
+      <a href="../products.html" class="hover:text-primary-600">انگشتر</a>
+      <span class="text-content-muted">/</span>
+      <span class="text-content-heading font-medium">انگشتر تنیس اشک</span>
+    </nav>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PRODUCT MAIN — Gallery (5/12) + Info (7/12)
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-6 lg:py-8">
+    <div class="container-page">
+      <div class="grid lg:grid-cols-12 gap-6 lg:gap-10">
+
+        <!-- ===== GALLERY (5/12) ===== -->
+        <div class="lg:col-span-5">
+          <!-- Main image -->
+          <div class="aspect-square bg-primary-50 rounded-2xl overflow-hidden mb-3 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-32 h-32 text-primary-300 gallery-main-img" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="galleryMain">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+            </svg>
+          </div>
+          <!-- Thumbnails -->
+          <div class="grid grid-cols-4 gap-2">
+            <!-- BACKEND: wire to real product images -->
+            <div class="gallery-thumb active aspect-square bg-primary-50 rounded-xl border-2 border-border flex items-center justify-center" onclick="switchGallery(this)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            </div>
+            <div class="gallery-thumb aspect-square bg-primary-50 rounded-xl border-2 border-border flex items-center justify-center" onclick="switchGallery(this)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            </div>
+            <div class="gallery-thumb aspect-square bg-primary-50 rounded-xl border-2 border-border flex items-center justify-center" onclick="switchGallery(this)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            </div>
+            <div class="gallery-thumb aspect-square bg-primary-50 rounded-xl border-2 border-border flex items-center justify-center" onclick="switchGallery(this)">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ===== INFO (7/12) ===== -->
+        <div class="lg:col-span-7">
+
+          <!-- Badges row -->
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-sm px-3 py-1 rounded-full bg-primary-50 text-primary-600 font-bold">طلای ۱۸ عیار</span>
+            <!-- BACKEND: wire to real weight -->
+            <span class="text-sm px-3 py-1 rounded-full bg-gold-50 text-gold-700 font-bold font-latin" data-backend-hook="product-weight">۲.۴۵ گرم</span>
+            <span class="text-sm px-3 py-1 rounded-full bg-emerald-50 text-status-success font-bold">آماده ارسال</span>
+          </div>
+
+          <!-- Title -->
+          <h1 class="text-2xl lg:text-3xl font-bold text-content-heading mb-2 leading-tight">
+            انگشتر تنیس اشک
+          </h1>
+
+          <!-- Rating + reviews link -->
+          <div class="flex items-center gap-3 mb-5">
+            <div class="flex items-center gap-1">
+              <!-- 5 stars (4.5 average) -->
+              <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="font-latin text-sm font-bold text-content-heading">۴.۵</span>
+            <a href="#reviews" class="text-sm text-content-body hover:text-primary-600 transition-colors">
+              (<span class="font-latin">۱۲</span> نظر)
+            </a>
+          </div>
+
+          <!-- Price — big and bold -->
+          <div class="bg-surface rounded-2xl border border-border p-5 mb-5">
+            <div class="flex items-baseline gap-3">
+              <span class="font-latin text-3xl lg:text-4xl font-bold text-primary-600" data-backend-hook="product-price">۹،۵۳۵،۰۰۰</span>
+              <span class="text-base text-content-body">تومان</span>
+            </div>
+            <div class="text-sm text-content-body mt-2">
+              شامل <span class="font-latin font-bold text-content-heading">۸۷۰،۰۰۰</span> تومان اجرت ساخت
+            </div>
+          </div>
+
+          <!-- Variant selector (size) -->
+          <div class="mb-5">
+            <label class="block text-sm font-bold text-content-heading mb-3">انتخاب سایز:</label>
+            <div class="flex gap-2 flex-wrap">
+              <!-- BACKEND: wire to variant selection -->
+              <button class="variant-btn active px-5 py-2.5 rounded-xl border-2 border-border bg-surface text-sm font-bold" data-variant-id="1" onclick="selectVariant(this)">۱۲</button>
+              <button class="variant-btn px-5 py-2.5 rounded-xl border-2 border-border bg-surface text-sm font-bold text-content-heading hover:border-primary-400" data-variant-id="2" onclick="selectVariant(this)">۱۳</button>
+              <button class="variant-btn px-5 py-2.5 rounded-xl border-2 border-border bg-surface text-sm font-bold text-content-heading hover:border-primary-400" data-variant-id="3" onclick="selectVariant(this)">۱۴</button>
+              <button class="variant-btn px-5 py-2.5 rounded-xl border-2 border-border bg-surface text-sm font-bold text-content-heading hover:border-primary-400" data-variant-id="4" onclick="selectVariant(this)">۱۵</button>
+              <button class="variant-btn px-5 py-2.5 rounded-xl border-2 border-border bg-surface text-sm font-bold text-content-heading hover:border-primary-400" data-variant-id="5" onclick="selectVariant(this)">۱۶</button>
+            </div>
+          </div>
+
+          <!-- Quantity + Add to cart -->
+          <div class="flex items-center gap-3 mb-5">
+            <!-- Quantity selector -->
+            <div class="flex items-center gap-1 bg-surface rounded-xl border border-border p-1">
+              <button class="w-10 h-10 rounded-lg hover:bg-background flex items-center justify-center text-content-heading font-bold text-lg" onclick="changeQty(-1)">−</button>
+              <input type="text" value="۱" id="qtyInput" class="w-12 text-center font-latin font-bold text-content-heading bg-transparent border-none outline-none" readonly>
+              <button class="w-10 h-10 rounded-lg hover:bg-background flex items-center justify-center text-content-heading font-bold text-lg" onclick="changeQty(1)">+</button>
+            </div>
+            <!-- Add to cart button -->
+            <!-- BACKEND: wire to add-to-cart API -->
+            <button class="btn-gold flex-1 py-3.5 text-base" data-backend-hook="add-to-cart">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+              <span>افزودن به سبد</span>
+            </button>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="grid grid-cols-3 gap-3 pt-5 border-t border-border">
+            <div class="text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary-600 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+              <div class="text-sm font-bold text-content-heading">ضمانت اصالت</div>
+            </div>
+            <div class="text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary-600 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+              </svg>
+              <div class="text-sm font-bold text-content-heading">ارسال بیمه‌شده</div>
+            </div>
+            <div class="text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary-600 mx-auto mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              <div class="text-sm font-bold text-content-heading">۷ روز بازگشت</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       TABS — Description + Specs + Reviews
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-10">
+    <div class="container-page">
+      <div class="bg-surface rounded-2xl border border-border shadow-card overflow-hidden">
+
+        <!-- Tab bar -->
+        <div class="flex border-b border-border" role="tablist">
+          <button class="pdp-tab-btn active flex-shrink-0 px-6 py-4 text-sm font-medium text-content-body" data-tab="description" onclick="switchTab('description')">توضیحات</button>
+          <button class="pdp-tab-btn flex-shrink-0 px-6 py-4 text-sm font-medium text-content-body" data-tab="specs" onclick="switchTab('specs')">مشخصات</button>
+          <button class="pdp-tab-btn flex-shrink-0 px-6 py-4 text-sm font-medium text-content-body" data-tab="reviews" onclick="switchTab('reviews')">نظرات (<span class="font-latin">۱۲</span>)</button>
+        </div>
+
+        <!-- Description panel -->
+        <div class="pdp-tab-panel active p-5 lg:p-7" data-panel="description">
+          <h2 class="text-lg font-bold text-content-heading mb-4">معرفی محصول</h2>
+          <p class="text-sm text-content-body leading-7 mb-4">
+            انگشتر تنیس اشک، یکی از محبوب‌ترین طرح‌های جواهرات طلای ۱۸ عیار است. این انگشتر با طراحی خاص و نگین‌های ظریف، زیبایی و شکوه را به دست شما می‌آورد. طراحی اشک‌مانند این انگشتر، نور را به زیبایی منعکس کرده و درخشش خاصی به آن می‌بخشد.
+          </p>
+          <p class="text-sm text-content-body leading-7 mb-4">
+            این محصول از طلای ۱۸ عیار با خلوص ۷۵٪ ساخته شده و دارای گواهی اصالت کالا است. وزن دقیق این انگشتر ۲.۴۵ گرم است و در سایزهای ۱۲ تا ۱۶ موجود می‌باشد.
+          </p>
+          <h3 class="text-base font-bold text-content-heading mb-3 mt-6">ویژگی‌ها</h3>
+          <ul class="space-y-2 text-sm text-content-body">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-status-success flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              طلای ۱۸ عیار با گواهی اصالت
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-status-success flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              نگین‌های با کیفیت بالا
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-status-success flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              طراحی اشک‌مانند منحصربه‌فرد
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-status-success flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              مناسب برای هدیه و استفاده روزمره
+            </li>
+          </ul>
+        </div>
+
+        <!-- Specs panel -->
+        <div class="pdp-tab-panel p-5 lg:p-7" data-panel="specs">
+          <h2 class="text-lg font-bold text-content-heading mb-4">مشخصات فنی</h2>
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+            <div class="flex justify-between py-3 border-b border-border">
+              <span class="text-sm text-content-body">نوع طلا</span>
+              <span class="text-sm font-bold text-content-heading">طلای ۱۸ عیار</span>
+            </div>
+            <div class="flex justify-between py-3 border-b border-border">
+              <span class="text-sm text-content-body">وزن</span>
+              <span class="text-sm font-bold text-content-heading font-latin">۲.۴۵ گرم</span>
+            </div>
+            <div class="flex justify-between py-3 border-b border-border">
+              <span class="text-sm text-content-body">رنگ طلا</span>
+              <span class="text-sm font-bold text-content-heading">زرد</span>
+            </div>
+            <div class="flex justify-between py-3 border-b border-border">
+              <span class="text-sm text-content-body">نوع نگین</span>
+              <span class="text-sm font-bold text-content-heading">بدون نگین</span>
+            </div>
+            <div class="flex justify-between py-3 border-b border-border">
+              <span class="text-sm text-content-body">سایزهای موجود</span>
+              <span class="text-sm font-bold text-content-heading font-latin">۱۲ تا ۱۶</span>
+            </div>
+            <div class="flex justify-between py-3 border-b border-border">
+              <span class="text-sm text-content-body">گارانتی</span>
+              <span class="text-sm font-bold text-content-heading">ضمانت اصالت</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews panel -->
+        <div class="pdp-tab-panel p-5 lg:p-7" data-panel="reviews" id="reviews">
+          <h2 class="text-lg font-bold text-content-heading mb-4">نظرات کاربران</h2>
+
+          <!-- Rating summary -->
+          <div class="grid sm:grid-cols-2 gap-6 mb-6 pb-6 border-b border-border">
+            <!-- Average score -->
+            <div class="text-center sm:text-right">
+              <div class="font-latin text-4xl font-bold text-primary-600 mb-1">۴.۵</div>
+              <div class="flex items-center gap-1 justify-center sm:justify-start mb-1">
+                <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg class="w-5 h-5 text-gold-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <div class="text-sm text-content-body">از <span class="font-latin">۱۲</span> نظر</div>
+            </div>
+            <!-- Rating distribution -->
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-content-body font-latin w-4">۵</span>
+                <div class="flex-1 h-2 bg-background rounded-full overflow-hidden"><div class="h-full bg-gold-400 rounded-full" style="width:70%"></div></div>
+                <span class="text-sm text-content-body font-latin w-6 text-left">۸</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-content-body font-latin w-4">۴</span>
+                <div class="flex-1 h-2 bg-background rounded-full overflow-hidden"><div class="h-full bg-gold-400 rounded-full" style="width:20%"></div></div>
+                <span class="text-sm text-content-body font-latin w-6 text-left">۳</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-content-body font-latin w-4">۳</span>
+                <div class="flex-1 h-2 bg-background rounded-full overflow-hidden"><div class="h-full bg-gold-400 rounded-full" style="width:5%"></div></div>
+                <span class="text-sm text-content-body font-latin w-6 text-left">۱</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-content-body font-latin w-4">۲</span>
+                <div class="flex-1 h-2 bg-background rounded-full overflow-hidden"><div class="h-full bg-gold-400 rounded-full" style="width:0%"></div></div>
+                <span class="text-sm text-content-body font-latin w-6 text-left">۰</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-content-body font-latin w-4">۱</span>
+                <div class="flex-1 h-2 bg-background rounded-full overflow-hidden"><div class="h-full bg-gold-400 rounded-full" style="width:0%"></div></div>
+                <span class="text-sm text-content-body font-latin w-6 text-left">۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review list -->
+          <div class="space-y-4">
+            <!-- BACKEND: wire to real reviews — LOOP START -->
+            <div class="p-4 rounded-xl border border-border">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-content-heading">سارا م.</div>
+                    <div class="text-sm text-content-body font-latin">۱۴۰۳/۰۵/۰۸</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-0.5">
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="text-sm text-content-body leading-7">کیفیت عالی، دقیقا مطابق عکس. وزنش خوبه و درخشش فوق‌العاده‌ای داره. ارسال هم سریع بود.</p>
+            </div>
+            <div class="p-4 rounded-xl border border-border">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <div class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-content-heading">علی ر.</div>
+                    <div class="text-sm text-content-body font-latin">۱۴۰۳/۰۴/۲۵</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-0.5">
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+              </div>
+              <p class="text-sm text-content-body leading-7">طرحش قشنگه ولی سایزبندی کمی بزرگتر از حد انتظار بود. در نهایت راضی‌ام.</p>
+            </div>
+            <!-- BACKEND: LOOP END -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       RELATED PRODUCTS — horizontal scroll
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-10 lg:pb-14">
+    <div class="container-page">
+      <h2 class="text-lg font-bold text-content-heading mb-5">محصولات مرتبط</h2>
+
+      <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2 -mx-4 px-4">
+
+        <!-- Related product cards (same style as archive, smaller) -->
+        <a href="#" class="flex-shrink-0 w-40 lg:w-48 bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="aspect-square bg-primary-50 flex items-center justify-center">
+            <svg class="w-12 h-12 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          </div>
+          <div class="p-3">
+            <h3 class="text-sm font-bold text-content-heading line-clamp-1">انگشتر سنگی</h3>
+            <div class="font-latin text-sm font-bold text-primary-600 mt-1">۱۸،۵۰۰،۰۰۰</div>
+          </div>
+        </a>
+        <a href="#" class="flex-shrink-0 w-40 lg:w-48 bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="aspect-square bg-primary-50 flex items-center justify-center">
+            <svg class="w-12 h-12 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          </div>
+          <div class="p-3">
+            <h3 class="text-sm font-bold text-content-heading line-clamp-1">انگشتر پروانه</h3>
+            <div class="font-latin text-sm font-bold text-primary-600 mt-1">۱۴،۸۷۸،۰۰۰</div>
+          </div>
+        </a>
+        <a href="#" class="flex-shrink-0 w-40 lg:w-48 bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="aspect-square bg-primary-50 flex items-center justify-center">
+            <svg class="w-12 h-12 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          </div>
+          <div class="p-3">
+            <h3 class="text-sm font-bold text-content-heading line-clamp-1">انگشتر مینیمال</h3>
+            <div class="font-latin text-sm font-bold text-primary-600 mt-1">۷،۲۰۰،۰۰۰</div>
+          </div>
+        </a>
+        <a href="#" class="flex-shrink-0 w-40 lg:w-48 bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="aspect-square bg-primary-50 flex items-center justify-center">
+            <svg class="w-12 h-12 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          </div>
+          <div class="p-3">
+            <h3 class="text-sm font-bold text-content-heading line-clamp-1">انگشتر مجلسی</h3>
+            <div class="font-latin text-sm font-bold text-primary-600 mt-1">۲۱،۳۰۰،۰۰۰</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    // Gallery thumbnail switching
+    function switchGallery(thumb) {
+      document.querySelectorAll('.gallery-thumb').forEach(function (t) { t.classList.remove('active'); });
+      thumb.classList.add('active');
+    }
+
+    // Variant selection
+    function selectVariant(btn) {
+      document.querySelectorAll('.variant-btn').forEach(function (b) {
+        b.classList.remove('active');
+        b.classList.add('text-content-heading');
+        b.classList.add('bg-surface');
+        b.classList.remove('text-white');
+      });
+      btn.classList.add('active');
+      btn.classList.remove('text-content-heading');
+      btn.classList.remove('bg-surface');
+      btn.classList.add('text-white');
+    }
+
+    // Quantity
+    function changeQty(delta) {
+      var input = document.getElementById('qtyInput');
+      var val = parseInt(input.value.replace(/[۰-۹]/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); })) || 1;
+      val = Math.max(1, val + delta);
+      var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      input.value = String(val).replace(/[0-9]/g, function (d) { return persian[d]; });
+    }
+
+    // Tab switching
+    function switchTab(tabName) {
+      document.querySelectorAll('.pdp-tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelector('[data-tab="' + tabName + '"]').classList.add('active');
+      document.querySelectorAll('.pdp-tab-panel').forEach(function (p) { p.classList.remove('active'); });
+      document.querySelector('[data-panel="' + tabName + '"]').classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

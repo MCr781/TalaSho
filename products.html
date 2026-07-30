@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو VIP — Product Archive (محصولات)
+  ----------------------------------------------------------------------------
+  Phase E-1: Product archive with filter bar + product grid + pagination.
+
+  Creative differentiation from tala:
+    • Horizontal filter bar at top (tala uses left sidebar)
+    • Editorial category header with count (tala has flat banner)
+    • Product cards with weight badge + hover zoom (tala has overlay actions)
+    • Asymmetric grid: 2-col mobile, 3-col tablet, 4-col desktop
+
+  impeccable.style: /layout /bolder /distill /colorize /polish
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>محصولات | طلاشو VIP</title>
+  <meta name="description" content="خرید آنلاین جواهرات طلا و سکه — فروشگاه طلاشو VIP">
+
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="./pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
+  <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="./pwa/js/sw-register.js" defer></script>
+
+  <style>
+    .product-card-img {
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .product-card:hover .product-card-img {
+      transform: scale(1.05);
+    }
+    .filter-chip {
+      transition: all 0.2s ease;
+    }
+    .filter-chip.active {
+      background: linear-gradient(135deg, #6E436E, #4A154B);
+      color: #FFFFFF;
+      border-color: #6E436E;
+    }
+    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, label { letter-spacing: -0.01em; }
+    .font-latin { letter-spacing: 0; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER (shared) -->
+  <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md shadow-xs">
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+        <div class="flex items-center gap-3 justify-self-start">
+          <a href="../wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-700 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+        <nav class="hidden lg:flex items-center justify-center gap-7" role="navigation" aria-label="منوی اصلی">
+          <a href="../wallet/index.html" class="text-body font-medium text-content-body hover:text-primary-600 transition-colors">خانه</a>
+          <a href="../wallet/rates.html" class="text-body font-medium text-content-body hover:text-primary-600 transition-colors">نرخ‌نامه</a>
+          <a href="../products.html" class="text-body font-bold text-primary-600">محصولات</a>
+          <a href="../wallet/index.html?action=buy" class="text-body font-medium text-content-body hover:text-primary-600 transition-colors">خرید طلا</a>
+        </nav>
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="../wallet/login.html" class="btn-gold text-sm px-4 py-2 hidden sm:inline-flex">ورود / عضویت</a>
+          <!-- BACKEND: cart count -->
+          <a href="#" data-backend-hook="cart" class="relative p-2 text-content-heading hover:text-primary-600 transition-colors" aria-label="سبد خرید">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span class="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-gold-400 text-primary-700 text-xs font-bold flex items-center justify-center font-latin">۲</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PAGE HEADER — editorial, not flat banner
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pt-6 lg:pt-8 pb-4 lg:pb-6">
+    <div class="container-page">
+
+      <nav class="flex items-center gap-2 text-sm text-content-body mb-5" aria-label="مسیر">
+        <a href="../wallet/index.html" class="hover:text-primary-600 transition-colors">خانه</a>
+        <span class="text-content-muted">/</span>
+        <span class="text-content-heading font-medium">محصولات</span>
+      </nav>
+
+      <!-- Asymmetric header: title left, count + sort right -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <span class="h-px w-8 bg-gold-400"></span>
+            <span class="text-xs font-bold tracking-wider text-gold-700 uppercase font-latin">Collections</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-content-heading leading-tight">
+            جواهرات طلای ۱۸ عیار
+          </h1>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- BACKEND: wire to real product count -->
+          <span class="text-sm text-content-body">
+            <span class="font-latin font-bold text-content-heading" data-backend-hook="product-count">۴۸</span> محصول
+          </span>
+          <!-- Sort dropdown -->
+          <!-- BACKEND: wire to sort API -->
+          <select class="bg-surface border border-border-strong rounded-xl px-4 py-2 text-sm font-medium text-content-heading cursor-pointer hover:border-primary-500 transition-colors outline-none" data-backend-hook="sort-select">
+            <option value="newest">جدیدترین</option>
+            <option value="price-low">ارزان‌ترین</option>
+            <option value="price-high">گران‌ترین</option>
+            <option value="weight">وزن</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filter chips (horizontal, not sidebar) -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-sm text-content-body ml-1">دسته:</span>
+        <!-- BACKEND: wire to category filter -->
+        <button class="filter-chip active px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-heading" data-filter="all">همه</button>
+        <button class="filter-chip px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-filter="rings">انگشتر</button>
+        <button class="filter-chip px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-filter="necklaces">گردنبند</button>
+        <button class="filter-chip px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-filter="earrings">گوشواره</button>
+        <button class="filter-chip px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-filter="bracelets">دستبند</button>
+        <button class="filter-chip px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-filter="coins">سکه</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PRODUCT GRID
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-10 lg:pb-14">
+    <div class="container-page">
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5" id="productsGrid">
+
+        <!-- ═══ PRODUCT CARD TEMPLATE (repeated 8×) ════════════════════════ -->
+        <!-- BACKEND: LOOP START — repeat this card for each product -->
+
+        <!-- Card 1 -->
+        <a href="../product/tear-tennis-gold-ring.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+              </svg>
+            </div>
+            <!-- Weight badge -->
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۲.۴۵ گرم</span>
+            <!-- Favorite button -->
+            <!-- BACKEND: wire to favorites toggle -->
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">انگشتر تنیس اشک</h3>
+            <p class="text-sm text-content-body mb-2">انگشتر طلای ۱۸ عیار با نگین</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۹،۵۳۵،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="../product/butterfly-ring-nature-collection.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۵.۵۳ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">انگشتر طرح پروانه</h3>
+            <p class="text-sm text-content-body mb-2">کالکشن طبیعت — طلای ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۱۴،۸۷۸،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="../product/minimal-bow-gold-necklace.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۳.۲۰ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">گردنبند پاپیون مینیمال</h3>
+            <p class="text-sm text-content-body mb-2">طرح مینیمال — طلای ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۶،۸۰۰،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="../product/aqua-clip-earrings.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۴.۱۰ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">گوشواره آکوا کلیپ</h3>
+            <p class="text-sm text-content-body mb-2">گوشواره کلیپس — طلای ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۸،۷۲۰،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 5 -->
+        <a href="../product/rose-gold-bangle-size-3.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۱۲.۸۰ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">دستبند رزگلد سایز ۳</h3>
+            <p class="text-sm text-content-body mb-2">طلای رزگلد ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۲۷،۲۰۰،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 6 -->
+        <a href="../product/turkish-honeycomb-gold-bangle.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۱۵.۲۰ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">دستبند عسل ترکی</h3>
+            <p class="text-sm text-content-body mb-2">طرح لانه زنبور — طلای ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۳۲،۳۰۰،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 7 -->
+        <a href="../product/sapphire-gold-ring.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۶.۸۰ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">انگشتر یاقوت سرخ</h3>
+            <p class="text-sm text-content-body mb-2">انگشتر سنگی — طلای ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۱۸،۵۰۰،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Card 8 -->
+        <a href="../product/mens-geneva-watch-rolex-strap.html" class="product-card group bg-surface rounded-xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+          <div class="relative aspect-square bg-primary-50 overflow-hidden">
+            <div class="product-card-img w-full h-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span class="absolute top-2 right-2 bg-primary-600 text-white text-xs font-bold px-2 py-1 rounded-lg font-latin">۴۲.۵۰ گرم</span>
+            <button class="absolute top-2 left-2 w-8 h-8 rounded-full bg-surface/90 backdrop-blur-sm flex items-center justify-center text-content-body hover:text-status-error transition-colors" data-backend-hook="toggle-favorite" aria-label="افزودن به علاقه‌مندی">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-bold text-content-heading mb-1 line-clamp-1">ساعت ژنو مردانه</h3>
+            <p class="text-sm text-content-body mb-2">بند رولکس — طلای ۱۸ عیار</p>
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="font-latin text-base font-bold text-primary-600">۹۸،۵۰۰،۰۰۰</div>
+                <div class="text-sm text-content-body">تومان</div>
+              </div>
+            </div>
+          </div>
+        </a>
+        <!-- BACKEND: LOOP END -->
+
+      </div>
+
+
+      <!-- ═══ PAGINATION ════════════════════════════════════════════════ -->
+      <nav class="flex items-center justify-center gap-2 mt-10" aria-label="صفحه‌بندی">
+        <!-- BACKEND: wire to pagination API -->
+        <button class="w-10 h-10 rounded-xl border border-border bg-surface flex items-center justify-center text-content-body hover:border-primary-500 hover:text-primary-600 transition-colors" disabled>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+        <button class="w-10 h-10 rounded-xl bg-primary-600 text-white font-bold font-latin flex items-center justify-center">۱</button>
+        <button class="w-10 h-10 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۲</button>
+        <button class="w-10 h-10 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۳</button>
+        <span class="px-2 text-content-muted">...</span>
+        <button class="w-10 h-10 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۶</button>
+        <button class="w-10 h-10 rounded-xl border border-border bg-surface flex items-center justify-center text-content-body hover:border-primary-500 hover:text-primary-600 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+      </nav>
+
+    </div>
+  </section>
+
+
+  <script>
+    // Filter chip switching
+    (function () {
+      var chips = document.querySelectorAll('.filter-chip');
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          chips.forEach(function (c) {
+            c.classList.remove('active');
+            c.classList.add('text-content-body', 'bg-surface');
+            c.classList.remove('text-content-heading');
+          });
+          chip.classList.add('active');
+          chip.classList.remove('text-content-body');
+          chip.classList.add('text-content-heading');
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

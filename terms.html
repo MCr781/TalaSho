@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو VIP — قوانین و مقررات (Terms)
+  ----------------------------------------------------------------------------
+  Phase G-3: Terms page with table-of-contents sidebar + article sections.
+
+  Creative differentiation: TOC sidebar sticky (not a long scroll page).
+
+  impeccable.style: /layout /distill /polish /clarify
+  Root-level page — uses ./assets/ paths
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>قوانین و مقررات | طلاشو VIP</title>
+  <meta name="description" content="قوانین و مقررات فروشگاه و گلد باکس طلاشو VIP">
+
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="./pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
+  <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="./pwa/js/sw-register.js" defer></script>
+
+  <style>
+    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, label { letter-spacing: -0.01em; }
+    .font-latin { letter-spacing: 0; }
+    .terms-body p { font-size: 1rem; line-height: 1.9; color: #5E6472; margin-bottom: 1.25rem; }
+    .terms-body h2 { font-size: 1.125rem; font-weight: 700; color: #23254A; margin-top: 2rem; margin-bottom: 1rem; scroll-margin-top: 5rem; }
+    .toc-link { transition: color 0.2s ease; }
+    .toc-link:hover, .toc-link.active { color: #6E436E; font-weight: 700; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER (shared) -->
+  <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md shadow-xs">
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+        <div class="flex items-center gap-3 justify-self-start">
+          <a href="./wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-700 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+        <nav class="hidden lg:flex items-center justify-center gap-7">
+          <a href="./wallet/index.html" class="text-body font-medium text-content-body hover:text-primary-600">خانه</a>
+          <a href="./wallet/rates.html" class="text-body font-medium text-content-body hover:text-primary-600">نرخ‌نامه</a>
+          <a href="./products.html" class="text-body font-medium text-content-body hover:text-primary-600">محصولات</a>
+          <a href="./blog.html" class="text-body font-medium text-content-body hover:text-primary-600">مجله</a>
+        </nav>
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="./wallet/login.html" class="btn-gold text-sm px-4 py-2 hidden sm:inline-flex">ورود / عضویت</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PAGE HEADER
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pt-6 lg:pt-8 pb-4">
+    <div class="container-page">
+      <nav class="flex items-center gap-2 text-sm text-content-body mb-5" aria-label="مسیر">
+        <a href="./wallet/index.html" class="hover:text-primary-600">خانه</a>
+        <span class="text-content-muted">/</span>
+        <span class="text-content-heading font-medium">قوانین و مقررات</span>
+      </nav>
+
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px w-8 bg-gold-400"></span>
+        <span class="text-xs font-bold tracking-wider text-gold-700 uppercase font-latin">Legal</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-content-heading leading-tight">قوانین و مقررات</h1>
+      <p class="text-sm text-content-body mt-2 max-w-xl leading-7">آخرین به‌روزرسانی: <span class="font-latin">۱۴۰۳/۰۵/۰۱</span></p>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       2-COL: TOC sidebar (4/12) + article (8/12)
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-10 lg:pb-14">
+    <div class="container-page">
+      <div class="grid lg:grid-cols-12 gap-6 lg:gap-10">
+
+        <!-- TOC sidebar — sticky on desktop, hidden on mobile -->
+        <aside class="lg:col-span-4 hidden lg:block">
+          <div class="sticky top-24 bg-surface rounded-2xl border border-border p-5">
+            <h2 class="text-sm font-bold text-content-heading mb-4 pb-3 border-b border-border">فهرست مطالب</h2>
+            <nav class="space-y-2">
+              <a href="#sec1" class="toc-link block text-sm text-content-body">۱. تعاریف</a>
+              <a href="#sec2" class="toc-link block text-sm text-content-body">۲. ثبت‌نام و عضویت</a>
+              <a href="#sec3" class="toc-link block text-sm text-content-body">۳. خرید محصولات</a>
+              <a href="#sec4" class="toc-link block text-sm text-content-body">۴. گلد باکس (طلای دیجیتال)</a>
+              <a href="#sec5" class="toc-link block text-sm text-content-body">۵. ارسال و تحویل</a>
+              <a href="#sec6" class="toc-link block text-sm text-content-body">۶. بازگشت کالا</a>
+              <a href="#sec7" class="toc-link block text-sm text-content-body">۷. حریم خصوصی</a>
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Article -->
+        <div class="lg:col-span-8">
+          <div class="bg-surface rounded-2xl border border-border shadow-card p-5 lg:p-8 terms-body">
+
+            <h2 id="sec1">۱. تعاریف</h2>
+            <p>در این قوانین و مقررات، «طلاشو» یا «پلتفرم» به وب‌سایت و اپلیکیشن طلاشو VIP اطلاق می‌شود که زیرمجموعه وی آی پی برزیگر گُلد و جولری است. «کاربر» به هر فردی که در پلتفرم ثبت‌نام می‌کند یا از خدمات آن استفاده می‌نماید، گفته می‌شود. «گلد باکس» به سرویس طلای دیجیتال طلاشو اطلاق می‌شود که امکان خرید و فروش طلای آب‌شده به صورت میلی‌گرمی را فراهم می‌کند.</p>
+
+            <h2 id="sec2">۲. ثبت‌نام و عضویت</h2>
+            <p>ثبت‌نام در طلاشو با شماره موبایل معتبر و تکمیل اطلاعات هویتی انجام می‌شود. یک حساب کاربری در طلاشو هم برای فروشگاه جواهرات و هم برای گلد باکس قابل استفاده است. کاربر متعهد می‌شود اطلاعات صحیح و واقعی ارائه دهد و مسئولیت هرگونه استفاده سوء از حساب کاربری بر عهده اوست.</p>
+
+            <h2 id="sec3">۳. خرید محصولات</h2>
+            <p>خرید محصولات از فروشگاه طلاشو با قیمت لحظه‌ای طلا به علاوه اجرت ساخت انجام می‌شود. قیمت نهایی در لحظه تسویه محاسبه و اعمال می‌گردد. تمامی محصولات طلای ۱۸ عیار دارای گواهی اصالت هستند.</p>
+
+            <h2 id="sec4">۴. گلد باکس (طلای دیجیتال)</h2>
+            <p>گلد باکس امکان خرید و فروش طلای آب‌شده به صورت میلی‌گرمی را فراهم می‌کند. کارمزد خرید و فروش معادل نیم درصد (۰.۵٪) است که در هنگام خرید به مبلغ اضافه و در هنگام فروش از موجودی طلایی کسر می‌شود. نگهداری طلا در خزانه امن بانکی رایگان است.</p>
+
+            <h2 id="sec5">۵. ارسال و تحویل</h2>
+            <p>ارسال محصولات از طریق پست بیمه‌شده انجام می‌شود. هزینه ارسال برای خریدهای بالای ۱۰ میلیون تومان رایگان است. تحویل محصولات در سراسر کشور حداکثر ظرف ۳ روز کاری انجام می‌گیرد.</p>
+
+            <h2 id="sec6">۶. بازگشت کالا</h2>
+            <p>کاربر می‌تواند ظرف ۷ روز کاری از تاریخ دریافت کالا، در صورت وجود مشکل فنی یا مغایرت، درخواست بازگشت کالا را ثبت نماید. شرایط بازگشت شامل حفظ وضعیت اولیه محصول، наличии فاکتور و بسته‌بندی اصلی است.</p>
+
+            <h2 id="sec7">۷. حریم خصوصی</h2>
+            <p>طلاشو به حریم خصوصی کاربران احترام می‌گذارد. اطلاعات شخصی کاربران تنها برای ارائه خدمات و ارسال اطلاع‌رسانی‌های مرتبط استفاده می‌شود و در اختیار اشخاص ثالث قرار نمی‌گیرد. اطلاعات مالی کاربران با رمزنگاری ذخیره می‌شوند.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    // TOC active state on scroll
+    (function () {
+      var links = document.querySelectorAll('.toc-link');
+      var sections = document.querySelectorAll('.terms-body h2[id]');
+
+      function updateActive() {
+        var scrollPos = window.scrollY + 100;
+        sections.forEach(function (sec) {
+          if (sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
+            links.forEach(function (l) { l.classList.remove('active'); });
+            var link = document.querySelector('.toc-link[href="#' + sec.id + '"]');
+            if (link) link.classList.add('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateActive);
+      updateActive();
+    })();
+  </script>
+
+</body>
+</html>

@@ -30,15 +30,26 @@
    If you forget to bump this, users will keep seeing the old cached version
    for up to 24h (Cache API has no TTL).
    Example bump: 'talasho-v1' → 'talasho-v2' → 'talasho-v3' ... */
-const CACHE_VERSION = 'talasho-v11';
+const CACHE_VERSION = 'talasho-v22';
 const OFFLINE_URL = '/pwa/offline.html';
 
 /* Critical assets to pre-cache during install so the app shell + offline page
-   work even on first offline visit. List mirrors talasho's actual asset tree. */
+   work even on first offline visit. List mirrors talasho's actual asset tree.
+   Phase H: updated with all new pages from Phases B-G. */
 const PRECACHE_URLS = [
   '/',
   '/index.html',
-  '/wallet/index.html',           /* Phase 2: wallet app homepage (PWA start_url) */
+  '/wallet/index.html',           /* PWA start_url — wallet/milli-gold landing */
+  '/wallet/rates.html',           /* Phase B: نرخ‌نامه */
+  '/wallet/login.html',           /* Phase C: unified auth */
+  '/wallet/profile.html',         /* Phase D: user profile + Gold Box */
+  '/products.html',               /* Phase E: product archive */
+  '/product/tear-tennis-gold-ring.html', /* Phase E: sample product detail */
+  '/blog.html',                   /* Phase F: blog archive */
+  '/blog/gold-investment-for-beginners.html', /* Phase F: sample blog post */
+  '/about.html',                  /* Phase G: about */
+  '/contact.html',                /* Phase G: contact */
+  '/terms.html',                  /* Phase G: terms */
   OFFLINE_URL,
   '/pwa/manifest.webmanifest',
   '/pwa/js/sw-register.js',

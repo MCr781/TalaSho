@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو VIP — نرخ‌نامه (Rates Page)
+  ----------------------------------------------------------------------------
+  Phase B: Live gold, coin, and currency rates page.
+
+  Visual inspiration: online-rates.jpeg reference (glassmorphism card over
+  blurred gold-coin bokeh, pill-shaped bars, purple brand color).
+  Desktop density (option b): sparklines, change %, high/low, buy/sell spread.
+
+  Creative differentiation from tala/Ordibehesht:
+    • Card-based layout (not tabular rows)
+    • Glassmorphism over bokeh (not flat bg)
+    • Purple-dominant with gold accents (not gold-dominant)
+    • Sparklines per rate (not prediction contest)
+    • Pill-shaped status indicators
+
+  Data fields match tala (same backend webservice):
+    طلای ۱۸ عیار / طلای ۲۴ عیار / سکه امامی / نیم سکه / ربع سکه /
+    سکه گرمی / دلار / یورو / درهم
+
+  Front-end only: mock data. Backend wires real prices via price-board.js
+  window.TALASHO.updatePrices() API.
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>نرخ‌نامه آنلاین طلا | طلاشو VIP</title>
+  <meta name="description"
+        content="نرخ لحظه‌ای طلای ۱۸ عیار، ۲۴ عیار، سکه امامی، نیم سکه، ربع سکه، سکه گرمی، دلار، یورو و درهم — نرخ‌نامه آنلاین طلاشو VIP">
+
+  <!-- PWA hooks -->
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="../pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
+  <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="../pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="../pwa/js/sw-register.js" defer></script>
+
+  <style>
+    /* ─── Bokeh background (online-rates.jpeg inspiration) ─── */
+    /* Blurred gold-coin circles floating behind the glass card */
+    .rates-bokeh-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      background: linear-gradient(135deg, #FDF8E8 0%, #FAEFC6 50%, #F5F5F5 100%);
+    }
+    .rates-bokeh-bg::before,
+    .rates-bokeh-bg::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.5;
+    }
+    .rates-bokeh-bg::before {
+      width: 400px; height: 400px;
+      top: -100px; right: -100px;
+      background: radial-gradient(circle, #E8B948 0%, transparent 70%);
+    }
+    .rates-bokeh-bg::after {
+      width: 500px; height: 500px;
+      bottom: -150px; left: -150px;
+      background: radial-gradient(circle, #6E436E 0%, transparent 70%);
+      opacity: 0.15;
+    }
+    /* Extra floating bokeh circles */
+    .bokeh-circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      pointer-events: none;
+    }
+
+    /* ─── Glassmorphism card — v4: more solid, less dissolved ─── */
+    /* Was rgba(255,255,255,0.65) — too translucent, dissolved into bokeh.
+       Now 0.92 opacity — still has a hint of glass but reads as a solid card. */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(110, 67, 110, 0.15);
+      box-shadow: 0 8px 32px rgba(110, 67, 110, 0.15), 0 2px 8px rgba(232, 185, 72, 0.1);
+    }
+
+    /* ─── Rate pill bar (online-rates.jpeg signature) — v4: taller ─── */
+    .rate-pill {
+      background: linear-gradient(90deg, #6E436E 0%, #4A154B 100%);
+      border-radius: 999px;
+      height: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .rate-pill::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, transparent, #E8B948);
+      border-radius: 999px;
+    }
+
+    /* ─── Live status dot ─── */
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .live-dot { animation: live-pulse 1.5s ease-in-out infinite; }
+
+    /* ─── Filter tab active state ─── */
+    .filter-tab.active {
+      background: linear-gradient(135deg, #6E436E, #4A154B);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(110, 67, 110, 0.25);
+    }
+
+    /* ─── Sparkline animation on load ─── */
+    @keyframes sparkline-draw {
+      from { stroke-dashoffset: 1000; }
+      to { stroke-dashoffset: 0; }
+    }
+    .sparkline-path {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: sparkline-draw 1.5s ease-out forwards;
+    }
+
+    /* ─── Price flash on update — v4: SMOOTH, not jarring ───
+       Old: abrupt 0.8s background color swap (jarring).
+       New: 1.2s gentle fade with subtle left-border accent that slides in
+       and fades out. Plus the price number gets a brief color shift.
+       This creates a "breathing" update, not a "flash". */
+    @keyframes flash-up {
+      0%   { background-color: rgba(0, 160, 73, 0.08); border-left-color: rgba(0, 160, 73, 0.6); }
+      30%  { background-color: rgba(0, 160, 73, 0.04); border-left-color: rgba(0, 160, 73, 0.4); }
+      100% { background-color: transparent; border-left-color: rgba(226, 232, 240, 0.8); }
+    }
+    @keyframes flash-down {
+      0%   { background-color: rgba(239, 57, 78, 0.08); border-left-color: rgba(239, 57, 78, 0.6); }
+      30%  { background-color: rgba(239, 57, 78, 0.04); border-left-color: rgba(239, 57, 78, 0.4); }
+      100% { background-color: transparent; border-left-color: rgba(226, 232, 240, 0.8); }
+    }
+    /* v4: longer duration (1.2s) + ease-in-out for smooth breathing */
+    .flash-up { animation: flash-up 1.2s ease-in-out; }
+    .flash-down { animation: flash-down 1.2s ease-in-out; }
+
+    /* v4: Price number subtle scale pulse on update (smooth, not jumpy) */
+    @keyframes price-bump {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    .price-bump { animation: price-bump 0.6s ease-out; }
+
+    /* v4: Tighten letter-spacing on Persian text.
+       Vazirmatn-FD has slightly wide spacing by default; this brings it
+       closer for better readability and a more "full" feel. */
+    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, label {
+      letter-spacing: -0.01em;
+    }
+    /* Keep Latin digits (prices) at normal spacing — they need room to breathe */
+    .font-latin {
+      letter-spacing: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+  <!-- Bokeh background (fixed, behind everything) -->
+  <div class="rates-bokeh-bg" aria-hidden="true">
+    <div class="bokeh-circle" style="width:200px;height:200px;top:20%;left:10%;background:radial-gradient(circle,#E8B948,transparent);opacity:0.3;"></div>
+    <div class="bokeh-circle" style="width:300px;height:300px;top:60%;right:15%;background:radial-gradient(circle,#F0D050,transparent);opacity:0.25;"></div>
+    <div class="bokeh-circle" style="width:150px;height:150px;top:80%;left:40%;background:radial-gradient(circle,#6E436E,transparent);opacity:0.1;"></div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       HEADER (shared with wallet homepage)
+       ════════════════════════════════════════════════════════════════════ -->
+  <header id="walletHeader" class="sticky top-0 z-40 bg-surface/90 backdrop-blur-md shadow-xs transition-shadow duration-250">
+
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+
+        <div class="flex items-center gap-3 justify-self-start">
+          <button id="mobileMenuToggle" type="button"
+                  class="lg:hidden p-2 -ms-2 text-content-heading hover:text-primary-500 transition-colors"
+                  aria-label="باز کردن منوی اصلی" aria-expanded="false" aria-controls="mobileMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <a href="../wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-400 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+
+        <nav class="hidden lg:flex items-center justify-center gap-7" role="navigation" aria-label="منوی اصلی">
+          <a href="../wallet/index.html#gold-rates" class="wallet-nav-link text-body font-medium text-content-heading" style="position:relative;padding-bottom:4px;">نرخ طلا</a>
+          <a href="../wallet/index.html?action=buy" class="wallet-nav-link text-body font-medium text-content-heading" style="position:relative;padding-bottom:4px;">خرید</a>
+          <a href="../wallet/index.html?action=sell" class="wallet-nav-link text-body font-medium text-content-heading" style="position:relative;padding-bottom:4px;">فروش</a>
+          <a href="../wallet/index.html#wallet" class="wallet-nav-link text-body font-medium text-content-heading" style="position:relative;padding-bottom:4px;">کیف پول</a>
+          <a href="#certifications" class="wallet-nav-link text-body font-medium text-content-heading" style="position:relative;padding-bottom:4px;">مجوزها</a>
+          <a href="#faq" class="wallet-nav-link text-body font-medium text-content-heading" style="position:relative;padding-bottom:4px;">سوالات متداول</a>
+        </nav>
+
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="../wallet/login.html" data-backend-hook="auth-login"
+             class="btn-gold text-sm px-4 py-2 hidden sm:inline-flex">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+            </svg>
+            <span>ورود / عضویت</span>
+          </a>
+          <a href="../wallet/login.html" data-backend-hook="auth-login"
+             class="sm:hidden p-2 text-content-heading hover:text-primary-500 transition-colors" aria-label="ورود / عضویت">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-border bg-surface">
+      <nav class="container-page py-4 flex flex-col gap-1" role="navigation" aria-label="منوی موبایل">
+        <a href="../wallet/index.html#gold-rates" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">نرخ طلا</a>
+        <a href="../wallet/index.html?action=buy" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">خرید طلا</a>
+        <a href="../wallet/index.html?action=sell" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">فروش طلا</a>
+        <a href="../wallet/index.html#wallet" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">کیف پول</a>
+        <a href="../wallet/login.html" data-backend-hook="auth-login" class="btn-gold mt-2 text-sm">ورود / عضویت</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PAGE HERO — Asymmetric editorial composition (impeccable.style /layout)
+       ────────────────────────────────────────────────────────────────────
+       NOT a centered stack. Left-heavy headline + right-side live data card.
+       The headline carries weight; the live card carries proof.
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pt-6 lg:pt-10 pb-6 lg:pb-8">
+    <div class="container-page">
+
+      <!-- Asymmetric 2-column: 7fr headline | 5fr live card (reverses on mobile) -->
+      <div class="grid lg:grid-cols-12 gap-6 lg:gap-10 items-end">
+
+        <!-- LEFT (7/12): Headline + breadcrumb — editorial weight -->
+        <div class="lg:col-span-7">
+          <!-- Breadcrumb — inline, not centered, sets context -->
+          <nav class="flex items-center gap-2 text-xs text-content-muted mb-5" aria-label="مسیر">
+            <a href="../wallet/index.html" class="hover:text-primary-500 transition-colors">خانه</a>
+            <span class="text-content-muted/50">/</span>
+            <span class="text-content-heading font-medium">نرخ‌نامه</span>
+          </nav>
+
+          <!-- Kicker — small label above H1, sets the editorial tone -->
+          <div class="flex items-center gap-3 mb-4">
+            <span class="h-px w-8 bg-gold-400"></span>
+            <span class="text-xs font-bold tracking-wider text-gold-600 uppercase font-latin">Live Market</span>
+          </div>
+
+          <!-- H1 — left-aligned, mixed weights for editorial rhythm -->
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-content-heading leading-[1.15] mb-4">
+            نرخ‌نامه
+            <span class="block text-primary-500 font-bold">آنلاین طلا</span>
+          </h1>
+
+          <!-- Subtitle — conversational, not generic -->
+          <p class="text-sm lg:text-base text-content-body max-w-md leading-7 mb-6">
+            نرخ لحظه‌ای طلا، سکه و ارز — مستقیم از بازار آزاد،
+            <span class="text-content-heading font-medium">بدون فاصله خرید و فروش.</span>
+          </p>
+
+          <!-- Filter tabs — inline with the headline, not centered below -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs text-content-muted ml-1">نمایش:</span>
+            <button class="filter-tab active px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-250" data-filter="all">
+              همه
+            </button>
+            <button class="filter-tab px-4 py-1.5 rounded-full text-xs font-medium text-content-body bg-surface/60 hover:bg-surface transition-all duration-250" data-filter="gold">
+              طلا و سکه
+            </button>
+            <button class="filter-tab px-4 py-1.5 rounded-full text-xs font-medium text-content-body bg-surface/60 hover:bg-surface transition-all duration-250" data-filter="currency">
+              ارزها
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT (5/12): Live data card — proof, not decoration -->
+        <div class="lg:col-span-5">
+          <div class="glass-card rounded-2xl p-5 lg:p-6 relative overflow-hidden">
+
+            <!-- Decorative: a single gold corner accent, not a glow -->
+            <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-gold-400/40 rounded-tl-2xl" aria-hidden="true"></div>
+
+            <!-- Live status row -->
+            <div class="flex items-center justify-between mb-4 pb-4 border-b border-primary-100/40">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-status-success live-dot"></span>
+                <span class="text-xs font-bold text-status-success uppercase tracking-wider font-latin">Live</span>
+              </div>
+              <!-- BACKEND: wire to real last-updated timestamp -->
+              <span class="text-xs text-content-muted" data-backend-hook="last-updated">
+                <span class="font-latin font-medium text-content-body">۱۴:۳۲</span>
+              </span>
+            </div>
+
+            <!-- Featured rate: طلای ۱۸ عیار — the one that matters most -->
+            <!-- BACKEND: wire to price-board.js -->
+            <div class="mb-3">
+              <div class="flex items-baseline justify-between mb-1">
+                <span class="text-xs text-content-muted">طلای ۱۸ عیار</span>
+                <span class="text-xs text-content-muted">هر گرم</span>
+              </div>
+              <div class="flex items-baseline gap-3">
+                <span class="font-latin text-3xl lg:text-4xl font-bold text-primary-600" data-backend-hook="hero-price-18k">
+                  ۴،۵۴۵،۰۰۰
+                </span>
+                <span class="text-xs text-content-muted">ریال</span>
+              </div>
+              <div class="flex items-center gap-1 text-status-success mt-1" data-backend-hook="hero-change-18k">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-xs font-bold">۰.۸٪</span>
+                <span class="text-xs text-content-muted mr-1">امروز</span>
+              </div>
+            </div>
+
+            <!-- Inline mini-stats: 3 quick references -->
+            <div class="grid grid-cols-3 gap-3 pt-3 border-t border-primary-100/40">
+              <div>
+                <div class="text-xs text-content-muted mb-0.5">دلار</div>
+                <div class="font-latin text-sm font-bold text-content-heading" data-backend-hook="hero-usd">۶۰،۵۰۰</div>
+              </div>
+              <div>
+                <div class="text-xs text-content-muted mb-0.5">سکه امامی</div>
+                <div class="font-latin text-sm font-bold text-content-heading" data-backend-hook="hero-coin">۴۵.۴م</div>
+              </div>
+              <div>
+                <div class="text-xs text-content-muted mb-0.5">طلای ۲۴</div>
+                <div class="font-latin text-sm font-bold text-content-heading" data-backend-hook="hero-24k">۶.۰۶م</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       RATES GRID — The 9 cards (kept as-is, just removed the glass wrapper)
+       ────────────────────────────────────────────────────────────────────
+       Cards now float directly on the bokeh background, not nested inside
+       another glass card. Less layering, more presence.
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-10 lg:pb-14">
+    <div class="container-page">
+
+      <!-- Section label — left-aligned, with count, editorial style -->
+      <div class="flex items-baseline justify-between mb-5 lg:mb-6">
+        <h2 class="text-base lg:text-lg font-bold text-content-heading">
+          همه نرخ‌ها
+        </h2>
+        <span class="text-xs text-content-muted font-latin">
+          <span id="visibleCount">۹</span> نرخ
+        </span>
+      </div>
+
+      <!-- Rates grid: 1 col mobile, 2 col tablet, 3 col desktop -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4" id="ratesGrid">
+
+          <!-- ═══ RATE CARD DESIGN (v3 — fuller + contrast-fixed) ══════════════
+               Changes from v2:
+               • Solid white bg (was translucent /70) — "full" feeling
+               • Visible border (was /50 opacity, nearly invisible)
+               • Larger padding p-5 (was p-4)
+               • Sparkline on ALL breakpoints (was desktop-only)
+               • High/low on ALL breakpoints (was desktop-only)
+               • text-content-muted → text-content-body (contrast fix: 6:1 vs 3:1)
+               • gold-400/600 text → gold-700 text (contrast fix: 4.55:1 vs 1.8:1)
+               • silver-400/500 text → silver-600 text (contrast fix: 5.8:1 vs 2.4:1)
+               • Category badge: solid purple/silver bg + white text (was light bg + dark text)
+          ══════════════════════════════════════════════════════════════════ -->
+
+          <!-- 1. طلای ۱۸ عیار -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="gold">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="gold-18k">طلای ۱۸ عیار</div>
+                  <div class="text-sm text-content-body">هر گرم</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white font-medium">طلا</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-gold-18k">۴،۵۴۵،۰۰۰</span>
+              <span class="text-sm text-content-body">ریال</span>
+            </div>
+            <div class="rate-pill mb-3"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-success" data-backend-hook="change-gold-18k">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۸٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,24 L10,20 L20,22 L30,16 L40,18 L50,12 L60,14 L70,8 L80,10" stroke="#6E436E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-gold-18k">۴،۶۰۰،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-gold-18k">۴،۵۱۰،۰۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. طلای ۲۴ عیار -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="gold">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="gold-24k">طلای ۲۴ عیار</div>
+                  <div class="text-sm text-content-body">هر گرم</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white font-medium">طلا</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-gold-24k">۶،۰۶۰،۰۰۰</span>
+              <span class="text-sm text-content-body">ریال</span>
+            </div>
+            <div class="rate-pill mb-3"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-success" data-backend-hook="change-gold-24k">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۱.۲٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,20 L10,18 L20,22 L30,14 L40,16 L50,10 L60,12 L70,6 L80,8" stroke="#6E436E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-gold-24k">۶،۱۲۰،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-gold-24k">۶،۰۱۰،۰۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. سکه تمام امامی -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="gold">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="coin-full-emami">سکه امامی</div>
+                  <div class="text-sm text-content-body">تمام سکه</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white font-medium">سکه</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-coin-emami">۴۵،۴۵۰،۰۰۰</span>
+              <span class="text-sm text-content-body">ریال</span>
+            </div>
+            <div class="rate-pill mb-3"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-error" data-backend-hook="change-coin-emami">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۳٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,8 L10,12 L20,10 L30,16 L40,14 L50,20 L60,18 L70,24 L80,22" stroke="#6E436E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-coin-emami">۴۶،۰۰۰،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-coin-emami">۴۵،۲۰۰،۰۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. نیم سکه -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="gold">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="coin-half">نیم سکه</div>
+                  <div class="text-sm text-content-body">نیم بهار آزادی</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white font-medium">سکه</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-coin-half">۲۲،۷۲۵،۰۰۰</span>
+              <span class="text-sm text-content-body">ریال</span>
+            </div>
+            <div class="rate-pill mb-3"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-success" data-backend-hook="change-coin-half">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۵٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,20 L10,18 L20,16 L30,20 L40,14 L50,12 L60,16 L70,10 L80,12" stroke="#6E436E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-coin-half">۲۳،۰۰۰،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-coin-half">۲۲،۶۰۰،۰۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. ربع سکه -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="gold">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="coin-quarter">ربع سکه</div>
+                  <div class="text-sm text-content-body">ربع بهار آزادی</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white font-medium">سکه</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-coin-quarter">۱۱،۳۶۲،۵۰۰</span>
+              <span class="text-sm text-content-body">ریال</span>
+            </div>
+            <div class="rate-pill mb-3"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-success" data-backend-hook="change-coin-quarter">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۷٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,22 L10,20 L20,18 L30,22 L40,16 L50,14 L60,18 L70,12 L80,14" stroke="#6E436E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-coin-quarter">۱۱،۵۰۰،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-coin-quarter">۱۱،۳۰۰،۰۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. سکه گرمی -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="gold">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="coin-gram">سکه گرمی</div>
+                  <div class="text-sm text-content-body">شمش گرمی</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white font-medium">سکه</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-coin-gram">۳،۷۸۷،۵۰۰</span>
+              <span class="text-sm text-content-body">ریال</span>
+            </div>
+            <div class="rate-pill mb-3"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-error" data-backend-hook="change-coin-gram">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۲٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,14 L10,16 L20,12 L30,18 L40,20 L50,16 L60,22 L70,24 L80,20" stroke="#6E436E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-coin-gram">۳،۸۵۰،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-coin-gram">۳،۷۶۰،۰۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. دلار آمریکا -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-silver-400 hover:shadow-hover transition-all duration-250" data-category="currency">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-silver-100 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-silver-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="usd">دلار آمریکا</div>
+                  <div class="text-sm text-content-body">دلار آزاد</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-silver-600 text-white font-medium">ارز</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-usd">۶۰،۵۰۰</span>
+              <span class="text-sm text-content-body">تومان</span>
+            </div>
+            <div class="rate-pill mb-3" style="background: linear-gradient(90deg, #7B8595 0%, #5C6573 100%);"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-success" data-backend-hook="change-usd">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۴٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,20 L10,18 L20,22 L30,16 L40,18 L50,14 L60,16 L70,10 L80,12" stroke="#7B8595" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-usd">۶۱،۲۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-usd">۶۰،۱۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. یورو -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-silver-400 hover:shadow-hover transition-all duration-250" data-category="currency">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-silver-100 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-silver-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="eur">یورو</div>
+                  <div class="text-sm text-content-body">یورو اروپا</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-silver-600 text-white font-medium">ارز</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-eur">۶۵،۲۰۰</span>
+              <span class="text-sm text-content-body">تومان</span>
+            </div>
+            <div class="rate-pill mb-3" style="background: linear-gradient(90deg, #7B8595 0%, #5C6573 100%);"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-success" data-backend-hook="change-eur">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۶٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,18 L10,20 L20,16 L30,22 L40,18 L50,14 L60,16 L70,12 L80,14" stroke="#7B8595" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-eur">۶۶،۰۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-eur">۶۴،۸۰۰</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 9. درهم امارات -->
+          <div class="rate-card bg-surface rounded-xl p-6 border border-border hover:border-silver-400 hover:shadow-hover transition-all duration-250" data-category="currency">
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-silver-100 flex items-center justify-center flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-silver-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="text-base font-bold text-content-heading" data-price-name="aed">درهم امارات</div>
+                  <div class="text-sm text-content-body">درهم آزاد</div>
+                </div>
+              </div>
+              <span class="text-sm px-3 py-1 rounded-full bg-silver-600 text-white font-medium">ارز</span>
+            </div>
+            <div class="flex items-baseline gap-2 mb-3">
+              <span class="font-latin text-3xl font-bold text-content-heading" data-backend-hook="price-aed">۱۶،۴۸۰</span>
+              <span class="text-sm text-content-body">تومان</span>
+            </div>
+            <div class="rate-pill mb-3" style="background: linear-gradient(90deg, #7B8595 0%, #5C6573 100%);"></div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-1.5 text-status-error" data-backend-hook="change-aed">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+                <span class="font-latin text-base font-bold">۰.۱٪</span>
+              </div>
+              <svg class="w-20 h-10" viewBox="0 0 80 32" preserveAspectRatio="none" aria-hidden="true">
+                <path class="sparkline-path" d="M0,14 L10,16 L20,14 L30,18 L40,20 L50,18 L60,22 L70,20 L80,24" stroke="#7B8595" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-border text-xs">
+              <div>
+                <span class="text-content-body">بالاترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="high-aed">۱۶،۶۰۰</span>
+              </div>
+              <div class="text-left">
+                <span class="text-content-body">پایین‌ترین:</span>
+                <span class="font-latin font-bold text-content-heading mr-1" data-backend-hook="low-aed">۱۶،۴۰۰</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /ratesGrid -->
+
+      </div><!-- /container-page -->
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       FOOTER NOTE + CTA — Editorial, not a generic centered button
+       ────────────────────────────────────────────────────────────────────
+       Asymmetric: disclaimer left, CTA right. Reads like a newspaper footer.
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="pb-10 lg:pb-14">
+    <div class="container-page">
+
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-10 items-center pt-6 lg:pt-8 border-t border-primary-100/30">
+
+        <!-- LEFT: Disclaimer — small, left-aligned, honest -->
+        <p class="text-xs text-content-muted leading-6 max-w-md">
+          نرخ‌ها لحظه‌ای از بازار آزاد دریافت می‌شوند. نرخ نهایی معامله در لحظه خرید یا فروش اعمال می‌شود.
+        </p>
+
+        <!-- RIGHT: CTA — right-aligned on desktop, full-width on mobile -->
+        <div class="md:text-left">
+          <a href="../wallet/index.html?action=buy" class="btn-gold inline-flex items-center gap-2 px-6 py-3 text-sm">
+            <span>شروع خرید طلا</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+            </svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       INLINE JS — Filter tabs + mock price updates
+       ════════════════════════════════════════════════════════════════════ -->
+  <script>
+    // Mobile menu toggle
+    (function () {
+      var toggle = document.getElementById('mobileMenuToggle');
+      var menu = document.getElementById('mobileMenu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', function () {
+        var isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+    })();
+
+    // Filter tabs: همه / طلا و سکه / ارزها
+    (function () {
+      var tabs = document.querySelectorAll('.filter-tab');
+      var cards = document.querySelectorAll('.rate-card');
+      var countEl = document.getElementById('visibleCount');
+      function toPersian(n) {
+        var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        return String(n).replace(/[0-9]/g, function (d) { return p[d]; });
+      }
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var filter = tab.getAttribute('data-filter');
+          tabs.forEach(function (t) {
+            t.classList.remove('active');
+            t.classList.add('text-content-body', 'bg-surface/60');
+            t.classList.remove('text-white');
+          });
+          tab.classList.add('active');
+          tab.classList.remove('text-content-body', 'bg-surface/60');
+          tab.classList.add('text-white');
+
+          var visible = 0;
+          cards.forEach(function (card) {
+            var cat = card.getAttribute('data-category');
+            if (filter === 'all' || cat === filter) {
+              card.style.display = '';
+              visible++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+          if (countEl) countEl.textContent = toPersian(visible);
+        });
+      });
+    })();
+
+    // Mock price updates (random-walk every 5s)
+    // BACKEND: delete this block and call window.TALASHO.updatePrices([...])
+    // to wire real prices. Match by data-price-name attribute.
+    (function () {
+      if (!window.TALASHO) window.TALASHO = {};
+
+      function toPersian(num) {
+        var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        return String(num).replace(/[0-9]/g, function (d) { return p[d]; });
+      }
+
+      function formatPrice(num) {
+        return toPersian(Number(num).toLocaleString('en-US'));
+      }
+
+      // Mock data — matches the data-price-name attributes in the HTML
+      var mockPrices = {
+        'gold-18k':     { current: 4545000, prev: 4545000 },
+        'gold-24k':     { current: 6060000, prev: 6060000 },
+        'coin-full-emami': { current: 45450000, prev: 45450000 },
+        'coin-half':    { current: 22725000, prev: 22725000 },
+        'coin-quarter': { current: 11362500, prev: 11362500 },
+        'coin-gram':    { current: 3787500, prev: 3787500 },
+        'usd':          { current: 60500, prev: 60500 },
+        'eur':          { current: 65200, prev: 65200 },
+        'aed':          { current: 16480, prev: 16480 },
+      };
+
+      // Map price-name → backend-hook suffix
+      var nameToHook = {
+        'gold-18k': 'gold-18k',
+        'gold-24k': 'gold-24k',
+        'coin-full-emami': 'coin-emami',
+        'coin-half': 'coin-half',
+        'coin-quarter': 'coin-quarter',
+        'coin-gram': 'coin-gram',
+        'usd': 'usd',
+        'eur': 'eur',
+        'aed': 'aed',
+      };
+
+      function updatePrice(name, data) {
+        var hookSuffix = nameToHook[name];
+        var priceEl = document.querySelector('[data-backend-hook="price-' + hookSuffix + '"]');
+        if (!priceEl) return;
+
+        var wentUp = data.current > data.prev;
+        var wentDown = data.current < data.prev;
+
+        priceEl.textContent = formatPrice(data.current);
+
+        // v4: Smooth price bump animation (scale 1 → 1.03 → 1)
+        priceEl.classList.remove('price-bump');
+        void priceEl.offsetWidth; // trigger reflow
+        priceEl.classList.add('price-bump');
+
+        // Flash effect on the card
+        var card = priceEl.closest('.rate-card');
+        if (card) {
+          card.classList.remove('flash-up', 'flash-down');
+          void card.offsetWidth; // trigger reflow
+          if (wentUp) card.classList.add('flash-up');
+          if (wentDown) card.classList.add('flash-down');
+        }
+
+        // Update change indicator
+        var changeEl = document.querySelector('[data-backend-hook="change-' + hookSuffix + '"]');
+        if (changeEl && data.prev > 0) {
+          var pct = ((data.current - data.prev) / data.prev * 100);
+          var isUp = pct >= 0;
+          changeEl.classList.remove('text-status-success', 'text-status-error');
+          changeEl.classList.add(isUp ? 'text-status-success' : 'text-status-error');
+          // Update arrow
+          var arrow = changeEl.querySelector('svg path');
+          if (arrow) {
+            arrow.setAttribute('d', isUp
+              ? 'M5 10l7-7m0 0l7 7m-7-7v18'
+              : 'M19 14l-7 7m0 0l-7-7m7 7V3');
+          }
+          // Update percentage text
+          var span = changeEl.querySelector('span');
+          if (span) span.textContent = toPersian(Math.abs(pct).toFixed(1)) + '٪';
+        }
+
+        // Sync hero mini-stats card (the live data card in the hero)
+        if (name === 'gold-18k') {
+          var heroPrice = document.querySelector('[data-backend-hook="hero-price-18k"]');
+          if (heroPrice) heroPrice.textContent = formatPrice(data.current);
+          var heroChange = document.querySelector('[data-backend-hook="hero-change-18k"]');
+          if (heroChange && data.prev > 0) {
+            var heroPct = ((data.current - data.prev) / data.prev * 100);
+            var heroIsUp = heroPct >= 0;
+            heroChange.classList.remove('text-status-success', 'text-status-error');
+            heroChange.classList.add(heroIsUp ? 'text-status-success' : 'text-status-error');
+            var heroArrow = heroChange.querySelector('svg path');
+            if (heroArrow) heroArrow.setAttribute('d', heroIsUp
+              ? 'M5 10l7-7m0 0l7 7m-7-7v18'
+              : 'M19 14l-7 7m0 0l-7-7m7 7V3');
+            var heroSpan = heroChange.querySelector('span');
+            if (heroSpan) heroSpan.textContent = toPersian(Math.abs(heroPct).toFixed(1)) + '٪';
+          }
+        }
+        if (name === 'usd') {
+          var heroUsd = document.querySelector('[data-backend-hook="hero-usd"]');
+          if (heroUsd) heroUsd.textContent = formatPrice(data.current);
+        }
+        if (name === 'coin-full-emami') {
+          var heroCoin = document.querySelector('[data-backend-hook="hero-coin"]');
+          if (heroCoin) {
+            // Show in compact "م" (million) format
+            var millions = (data.current / 1000000).toFixed(1);
+            heroCoin.textContent = toPersian(millions) + 'م';
+          }
+        }
+        if (name === 'gold-24k') {
+          var hero24k = document.querySelector('[data-backend-hook="hero-24k"]');
+          if (hero24k) {
+            var millions24 = (data.current / 1000000).toFixed(2);
+            hero24k.textContent = toPersian(millions24) + 'م';
+          }
+        }
+      }
+
+      // Public API (same pattern as existing price-board.js)
+      window.TALASHO.updatePrices = function (updates) {
+        updates.forEach(function (u) {
+          if (mockPrices[u.name]) {
+            mockPrices[u.name].prev = mockPrices[u.name].current;
+            mockPrices[u.name].current = u.current;
+            updatePrice(u.name, mockPrices[u.name]);
+          }
+        });
+        // Update last-updated timestamp
+        var tsEl = document.querySelector('[data-backend-hook="last-updated"]');
+        if (tsEl) {
+          var now = new Date();
+          var hh = toPersian(String(now.getHours()).padStart(2, '0'));
+          var mm = toPersian(String(now.getMinutes()).padStart(2, '0'));
+          tsEl.innerHTML = 'آخرین به‌روزرسانی: <span class="font-latin font-medium text-content-body">' + hh + ':' + mm + '</span>';
+        }
+      };
+
+      // Mock random-walk every 5 seconds — DELETE THIS when backend wires real prices
+      setInterval(function () {
+        var names = Object.keys(mockPrices);
+        // Update 1-2 random rates each tick
+        var count = Math.floor(Math.random() * 2) + 1;
+        var updates = [];
+        for (var i = 0; i < count; i++) {
+          var name = names[Math.floor(Math.random() * names.length)];
+          var data = mockPrices[name];
+          var change = Math.floor(data.current * (Math.random() * 0.004 - 0.002)); // ±0.2%
+          updates.push({ name: name, current: Math.max(1, data.current + change) });
+        }
+        window.TALASHO.updatePrices(updates);
+      }, 5000);
+    })();
+  </script>
+
+</body>
+</html>

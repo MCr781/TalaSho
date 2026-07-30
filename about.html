@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو VIP — درباره ما (About)
+  ----------------------------------------------------------------------------
+  Phase G-1: About page with brand story + values + stats + team.
+
+  Creative differentiation:
+    • Brand story as editorial narrative (not corporate boilerplate)
+    • Values as alternating cards (not uniform grid)
+    • Stats as a dark purple band (not floating numbers)
+    • Team as a horizontal scroll (not grid)
+
+  impeccable.style: /layout /bolder /distill /colorize /polish /clarify
+  Root-level page — uses ./assets/ paths
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>درباره طلاشو VIP | فروشگاه و گلد باکس</title>
+  <meta name="description" content="طلاشو VIP، زیرمجموعه وی آی پی برزیگر گُلد و جولری — داستان ما، ارزش‌ها و تیم">
+
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="./pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
+  <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="./pwa/js/sw-register.js" defer></script>
+
+  <style>
+    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, label { letter-spacing: -0.01em; }
+    .font-latin { letter-spacing: 0; }
+    .value-card:nth-child(even) { background: #6E436E; color: #FFFFFF; }
+    .value-card:nth-child(even) .value-icon { background: rgba(255,255,255,0.15); color: #F0D050; }
+    .value-card:nth-child(even) h3 { color: #FFFFFF; }
+    .value-card:nth-child(even) p { color: rgba(255,255,255,0.7); }
+    .hero-band {
+      background: linear-gradient(140deg, #8A5A8A 0%, #6E436E 50%, #4A154B 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-band::before {
+      content: ''; position: absolute; top: -30%; left: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(232,185,72,0.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+  <!-- HEADER (shared) -->
+  <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-md shadow-xs">
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+        <div class="flex items-center gap-3 justify-self-start">
+          <a href="./wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-700 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+        <nav class="hidden lg:flex items-center justify-center gap-7">
+          <a href="./wallet/index.html" class="text-body font-medium text-content-body hover:text-primary-600">خانه</a>
+          <a href="./wallet/rates.html" class="text-body font-medium text-content-body hover:text-primary-600">نرخ‌نامه</a>
+          <a href="./products.html" class="text-body font-medium text-content-body hover:text-primary-600">محصولات</a>
+          <a href="./blog.html" class="text-body font-medium text-content-body hover:text-primary-600">مجله</a>
+        </nav>
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="./wallet/login.html" class="btn-gold text-sm px-4 py-2 hidden sm:inline-flex">ورود / عضویت</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       HERO BAND — brand story opening
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="hero-band text-white py-12 lg:py-20">
+    <div class="container-page relative z-10">
+      <div class="max-w-3xl">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="h-px w-8 bg-gold-400"></span>
+          <span class="text-xs font-bold tracking-wider text-gold-300 uppercase font-latin">Our Story</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight mb-5">
+          از برزیگر تا طلاشو —
+          <span class="block text-gold-300">یک میراث، یک آینده.</span>
+        </h1>
+        <p class="text-base lg:text-lg text-white/80 leading-8 max-w-2xl">
+          طلاشو VIP، زیرمجموعه وی آی پی برزیگر گُلد و جولری، با بیش از ۳۰ سال تجربه در بازار طلا و جواهرات ایران، بستری نوین برای خرید آنلاین جواهرات و سرمایه‌گذاری در طلای دیجیتال فراهم کرده است.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       VALUES — alternating cards
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-10 lg:py-14">
+    <div class="container-page">
+
+      <div class="mb-8 lg:mb-10">
+        <h2 class="text-xl lg:text-2xl font-bold text-content-heading mb-2">ارزش‌های ما</h2>
+        <p class="text-sm text-content-body max-w-xl">آنچه ما را متفاوت می‌کند.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4 lg:gap-5">
+
+        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
+          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="text-base font-bold text-content-heading mb-2">اعتماد و اصالت</h3>
+          <p class="text-sm text-content-body leading-7">هر محصول با گواهی اصالت و ضمانت طلای ۱۸ عیار. سه دهه تجربه برزیگر، پشتوانه هر معامله.</p>
+        </div>
+
+        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
+          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-base font-bold text-content-heading mb-2">سرعت و سادگی</h3>
+          <p class="text-sm text-content-body leading-7">خرید و فروش آنلاین طلای دیجیتال در کمتر از ۲ دقیقه. از یک میلی‌گرم تا میلیون‌ها تومان.</p>
+        </div>
+
+        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
+          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+            </svg>
+          </div>
+          <h3 class="text-base font-bold text-content-heading mb-2">شفافیت قیمت</h3>
+          <p class="text-sm text-content-body leading-7">نرخ یکسان خرید و فروش، کارمزد شفاف نیم درصد، بدون اجرت پنهان. قیمت لحظه‌ای از بازار آزاد.</p>
+        </div>
+
+        <div class="value-card bg-surface rounded-2xl p-6 lg:p-7 border border-border">
+          <div class="value-icon w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-base font-bold text-content-heading mb-2">پشتیبانی ۲۴ ساعته</h3>
+          <p class="text-sm text-content-body leading-7">کارشناسان ما هر ساعت از شبانه‌روز آماده پاسخ‌گویی به سوالات شما هستند — آنلاین یا تلفنی.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       STATS BAND — dark purple
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="bg-primary-700 text-white py-10 lg:py-14">
+    <div class="container-page">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 text-center">
+        <!-- BACKEND: wire to real stats -->
+        <div>
+          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۳۰+</div>
+          <div class="text-sm text-white/70">سال تجربه</div>
+        </div>
+        <div>
+          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۲۶M</div>
+          <div class="text-sm text-white/70">کاربر فعال</div>
+        </div>
+        <div>
+          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۱۶</div>
+          <div class="text-sm text-white/70">شعبه و نمایندگی</div>
+        </div>
+        <div>
+          <div class="font-latin text-3xl lg:text-4xl font-bold text-gold-300 mb-1">۵۲۲+</div>
+          <div class="text-sm text-white/70">کیلوگرم طلا تحویلی</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       CTA
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-10 lg:py-14">
+    <div class="container-page">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-xl lg:text-2xl font-bold text-content-heading mb-3">به خانواده طلاشو بپیوندید</h2>
+        <p class="text-sm text-content-body leading-7 mb-6">
+          یک حساب، دو دنیا — خرید جواهرات و سرمایه‌گذاری در طلای دیجیتال.
+        </p>
+        <a href="./wallet/login.html" class="btn-gold inline-flex items-center gap-2 px-7 py-3.5 text-base">
+          <span>شروع کنید</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
