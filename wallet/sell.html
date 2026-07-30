@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  طلاشو WALLET — Sell Gold Page (Digikala product-detail style)
+  ----------------------------------------------------------------------------
+  Two-column layout: sell form (main) + sidebar.
+  Gram-first input, sell rate, 0.3% fee subtracted.
+  Pre-invoice bottom sheet with countdown timer.
+  DESIGN tokens from DESIGN.md: Canvas #f2f4f5, Surface #ffffff,
+  28px card radius, 9999px pills, purple/gold/silver palette.
+  ============================================================================
+-->
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>فروش طلا | طلاشو VIP</title>
+  <meta name="description" content="فروش طلای آب‌شده ۱۸ عیار در طلاشو — تسویه آنی، واریز به کیف پول">
+
+  <meta name="theme-color" content="#6E436E">
+  <link rel="manifest" href="../pwa/manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="طلاشو">
+  <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="../pwa/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+
+  <script src="../pwa/js/sw-register.js" defer></script>
+
+  <style>
+    .wallet-nav-link {
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .wallet-nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, #E8B948, #B8941F);
+      border-radius: 2px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .wallet-nav-link:hover::after { width: 100%; }
+    .wallet-nav-link:hover { color: #6E436E; }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee { animation: marquee 30s linear infinite; }
+    .announcement-marquee:hover { animation-play-state: paused; }
+
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .live-dot { animation: live-pulse 1.8s ease-in-out infinite; }
+
+    .dual-input-field:focus {
+      border-color: #6E436E;
+      box-shadow: 0 0 0 3px rgba(110, 67, 110, 0.12);
+    }
+
+    .sidebar-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sidebar-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 24px rgba(110, 67, 110, 0.08);
+    }
+
+    .sheet-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .sheet-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .bottom-sheet {
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sheet-overlay.open .bottom-sheet {
+      transform: translateY(0);
+    }
+
+    .countdown-ring {
+      transform: rotate(-90deg);
+    }
+    .countdown-ring circle {
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    @keyframes toast-in {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .toast-animate { animation: toast-in 0.3s ease-out; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+
+
+  <!-- ANNOUNCEMENT MARQUEE -->
+  <div class="w-full bg-primary-600 text-gold-300 h-9 overflow-hidden announcement-marquee">
+    <div class="animate-marquee flex items-center h-full text-xs font-medium whitespace-nowrap">
+      <span class="mx-8">📦 ارسال رایگان طلای فیزیکی برای خریدهای بالای ۱۰ گرم</span>
+      <span class="mx-8">🔒 خزانه بانکی امن با بیمه کامل</span>
+      <span class="mx-8">⚡ تسویه آنی خرید و فروش — بدون انتظار</span>
+      <span class="mx-8">🎁 با اولین خرید، ۰.۵٪ کارمزد رایگان</span>
+      <span class="mx-8">📦 ارسال رایگان طلای فیزیکی برای خریدهای بالای ۱۰ گرم</span>
+      <span class="mx-8">🔒 خزانه بانکی امن با بیمه کامل</span>
+      <span class="mx-8">⚡ تسویه آنی خرید و فروش — بدون انتظار</span>
+      <span class="mx-8">🎁 با اولین خرید، ۰.۵٪ کارمزد رایگان</span>
+    </div>
+  </div>
+
+
+  <!-- HEADER -->
+  <header id="walletHeader" class="sticky top-0 z-40 bg-surface shadow-xs transition-shadow duration-250">
+    <div class="container-page">
+      <div class="flex justify-between items-center md:grid md:grid-cols-[1fr_2fr_1fr] gap-3 md:gap-6 h-16 lg:h-[72px]">
+        <div class="flex items-center gap-3 justify-self-start">
+          <button id="mobileMenuToggle" type="button"
+                  class="lg:hidden p-2 -ms-2 text-content-heading hover:text-primary-500 transition-colors"
+                  aria-label="باز کردن منوی اصلی" aria-expanded="false" aria-controls="mobileMenu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <a href="../wallet/index.html" class="flex items-center gap-2" aria-label="طلاشو VIP — خانه">
+            <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-9 w-9 lg:h-10 lg:w-10 object-contain">
+            <span class="hidden sm:inline text-content-heading font-bold text-lg lg:text-xl">طلاشو <span class="text-gold-400 text-sm align-top">VIP</span></span>
+          </a>
+        </div>
+        <form action="#" method="get" class="hidden md:flex w-full max-w-3xl relative justify-self-center">
+          <label for="searchInput" class="sr-only">جستجو</label>
+          <input id="searchInput" type="text" name="q" placeholder="جستجو در طلا، سکه و ارز..."
+                 class="w-full bg-background border border-border rounded-full py-2.5 lg:py-3 ps-12 pe-4 outline-none transition-all duration-250 text-body text-content-heading placeholder-content-muted focus:bg-surface focus:border-primary-500">
+          <button type="submit" class="absolute inset-y-0 start-0 flex items-center ps-4 text-content-muted hover:text-primary-500 transition-colors" aria-label="جستجو">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </button>
+        </form>
+        <div class="flex items-center gap-2 justify-self-end">
+          <a href="../wallet/login.html" data-backend-hook="auth-login"
+             class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-content-heading border border-border hover:border-primary-500 hover:text-primary-500 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span class="hidden lg:inline">ورود | ثبت‌نام</span>
+          </a>
+          <a href="../wallet/login.html" data-backend-hook="auth-login"
+             class="sm:hidden p-2 text-content-heading hover:text-primary-500 transition-colors" aria-label="ورود / عضویت">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <nav class="hidden lg:block bg-surface border-t border-border" aria-label="منوی اصلی">
+      <div class="container-page">
+        <ul class="flex items-center justify-center gap-8 h-11 text-body">
+          <li class="h-full flex items-center">
+            <a href="../wallet/index.html#gold-rates" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">نرخ لحظه‌ای طلا</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/buy.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">خرید طلا</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/sell.html" class="wallet-nav-link text-primary-500 font-bold">فروش طلا</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/rates.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">نرخ‌نامه</a>
+          </li>
+          <li class="h-full flex items-center">
+            <a href="../wallet/transactions.html" class="wallet-nav-link text-content-heading hover:text-primary-500 font-medium">تراکنش‌ها</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-border bg-surface">
+      <nav class="container-page py-4 flex flex-col gap-1" role="navigation" aria-label="منوی موبایل">
+        <a href="../wallet/index.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">خانه</a>
+        <a href="../wallet/buy.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">خرید طلا</a>
+        <a href="../wallet/sell.html" class="py-3 px-2 text-body font-medium text-primary-500 bg-primary-50 rounded-md">فروش طلا</a>
+        <a href="../wallet/rates.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">نرخ‌نامه</a>
+        <a href="../wallet/transactions.html" class="py-3 px-2 text-body font-medium text-content-heading hover:bg-background-hover rounded-md transition-colors">تراکنش‌ها</a>
+        <a href="../wallet/login.html" data-backend-hook="auth-login" class="mt-2 inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 text-primary-700 font-bold rounded-full py-3 text-sm transition-all">ورود / عضویت</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main class="flex-1">
+
+    <!-- BREADCRUMB -->
+    <section class="bg-surface border-b border-border">
+      <div class="container-page py-3">
+        <nav class="flex items-center gap-2 text-xs text-content-muted" aria-label="مسیر صفحه">
+          <a href="../wallet/index.html" class="hover:text-primary-500 transition-colors">خانه</a>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          <span class="text-content-heading font-medium">فروش طلا</span>
+        </nav>
+      </div>
+    </section>
+
+
+    <!-- TWO-COLUMN LAYOUT -->
+    <section class="py-6 lg:py-8">
+      <div class="container-page">
+        <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8">
+
+          <!-- ════════════ MAIN SELL FORM ════════════ -->
+          <div class="space-y-5">
+
+            <!-- PAGE TITLE -->
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>
+                </svg>
+              </div>
+              <div>
+                <h1 class="text-lg lg:text-xl font-bold text-content-heading">فروش طلا</h1>
+                <p class="text-xs text-content-muted mt-0.5">مقدار طلای مورد نظر را وارد کنید. مبلغ نهایی قبل از تأیید نمایش داده می‌شود.</p>
+              </div>
+            </div>
+
+            <!-- AVAILABLE BALANCE BANNER (grams) -->
+            <div class="flex items-center justify-between bg-primary-50 rounded-2xl px-5 py-3.5 border border-primary-100">
+              <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                </svg>
+                <span class="text-sm text-content-body">موجودی قابل فروش شما:</span>
+                <span class="font-latin text-sm font-bold text-primary-600" data-backend-hook="sell-balance">۱.۰۰۰</span>
+                <span class="text-xs text-content-muted">گرم طلا</span>
+              </div>
+              <span class="text-xs font-bold text-content-muted bg-white/60 px-2.5 py-1 rounded-full">حداقل ۰.۰۱۰ گرم</span>
+            </div>
+
+            <!-- LIVE RATE BANNER (sell rate) -->
+            <div class="bg-surface rounded-2xl border border-border shadow-sm p-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 live-dot"></span>
+                  <span class="text-sm font-medium text-content-body">نرخ لحظه‌ای فروش طلای ۱۸ عیار</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-latin text-lg lg:text-xl font-bold text-content-heading" data-backend-hook="sell-rate">۱۸۵،۶۸۰</span>
+                  <span class="text-xs text-content-muted">تومان / گرم</span>
+                  <span class="text-xs font-bold text-status-success bg-emerald-50 px-2 py-0.5 rounded-full" data-backend-hook="sell-rate-change">+۰.۴۲٪</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- DUAL INPUT GROUP (gram first, then rial) -->
+            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5 lg:p-6">
+              <div class="space-y-4 mb-4">
+                <!-- GRAM INPUT (primary) -->
+                <div class="flex flex-col gap-2">
+                  <label class="text-xs lg:text-sm font-medium text-content-body" for="sellGram">مقدار طلا برای فروش</label>
+                  <div class="relative">
+                    <input type="text" inputmode="decimal" dir="ltr" placeholder="۰"
+                           id="sellGram" data-backend-hook="sell-gram-input"
+                           class="dual-input-field w-full bg-background border border-border-strong rounded-full px-4 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none transition-all duration-250">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-content-muted">گرم</span>
+                  </div>
+                </div>
+                <!-- RIAL INPUT (calculated) -->
+                <div class="flex flex-col gap-2">
+                  <label class="text-xs lg:text-sm font-medium text-content-body" for="sellRial">معادل ریالی دریافتی</label>
+                  <div class="relative">
+                    <input type="text" inputmode="numeric" dir="ltr" placeholder="۰"
+                           id="sellRial" data-backend-hook="sell-rial-input"
+                           class="dual-input-field w-full bg-background border border-border-strong rounded-full px-4 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none transition-all duration-250">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-content-muted">تومان</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CALC INFO -->
+              <p class="text-xs text-content-muted leading-5 px-1 mb-4">
+                مبلغ نهایی بر اساس نرخ فروش لحظه‌ای، کارمزد و شرایط پیش‌فاکتور محاسبه می‌شود. بعد از تأیید فروش، این مقدار طلا از قلک شما کم می‌شود و مبلغ ریالی به حساب داخلی شما اضافه می‌شود.
+              </p>
+
+              <!-- SELL META ROW -->
+              <div class="grid grid-cols-3 gap-3">
+                <div class="text-center p-3 bg-background rounded-xl">
+                  <div class="text-xs text-content-muted mb-1">حداقل فروش</div>
+                  <div class="font-latin text-sm font-bold text-content-heading">۰.۰۱۰ <span class="text-xs font-normal text-content-muted">گرم</span></div>
+                </div>
+                <div class="text-center p-3 bg-background rounded-xl">
+                  <div class="text-xs text-content-muted mb-1">کارمزد</div>
+                  <div class="font-latin text-sm font-bold text-content-heading">۰.۳٪</div>
+                </div>
+                <div class="text-center p-3 bg-background rounded-xl">
+                  <div class="text-xs text-content-muted mb-1">نرخ فروش</div>
+                  <div class="font-latin text-sm font-bold text-content-heading" data-backend-hook="meta-sell-rate">۱۸۵،۶۸۰</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button type="button" id="sellBtn" disabled
+                    class="w-full inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 disabled:opacity-50 disabled:cursor-not-allowed text-primary-700 font-bold rounded-full py-4 text-base lg:text-lg transition-all duration-250 shadow-lg shadow-gold-400/20">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>
+              </svg>
+              <span id="sellBtnLabel">ادامه و مشاهده پیش‌فاکتور</span>
+              <span id="sellBtnAmount" class="font-latin text-sm"></span>
+            </button>
+
+          </div>
+
+
+          <!-- ════════════ SIDEBAR ════════════ -->
+          <div class="space-y-5">
+
+            <!-- BALANCE CARD (grams primary) -->
+            <div class="sidebar-card bg-surface rounded-2xl border border-border p-5 shadow-card">
+              <h3 class="text-sm font-bold text-content-heading mb-3">موجودی شما</h3>
+              <div class="flex items-baseline gap-1 mb-1">
+                <span class="font-latin text-2xl font-bold text-primary-600" data-backend-hook="sidebar-balance-g">۱.۰۰۰</span>
+                <span class="text-xs text-content-muted">گرم</span>
+              </div>
+              <div class="text-xs text-content-muted mb-4">
+                معادل: <span class="font-latin font-bold" data-backend-hook="sidebar-balance-rial">۱۷،۵۹۱،۰۰۰</span> تومان
+              </div>
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-content-muted">قابل فروش</span>
+                  <span class="font-latin font-bold text-content-heading"><span data-sidebar-sellable>۱.۰۰۰</span> گرم</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-content-muted">در انتظار تأیید</span>
+                  <span class="font-latin font-bold text-content-heading"><span data-sidebar-pending>۰.۰۰۰</span> گرم</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-content-muted">مسدود</span>
+                  <span class="font-latin font-bold text-content-heading"><span data-sidebar-locked>۰.۰۰۰</span> گرم</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- LIVE RATES CARD (3 rates for sell) -->
+            <div class="sidebar-card bg-surface rounded-2xl border border-border p-5 shadow-card">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-bold text-content-heading">نرخ‌های زنده</h3>
+                <a href="../wallet/rates.html" class="text-xs text-primary-500 hover:text-primary-600 font-medium">مشاهده همه</a>
+              </div>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-body">طلای ۱۸ عیار (فروش)</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-latin text-xs font-bold text-content-heading" data-sidebar-rate-sell>۱۸۵،۶۸۰</span>
+                    <span class="text-[10px] font-bold text-status-success">▲ ۰.۴۲٪</span>
+                  </div>
+                </div>
+                <div class="h-px bg-border"></div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-body">سکه امامی</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-latin text-xs font-bold text-content-heading">۴۵،۴۰۰،۰۰۰</span>
+                    <span class="text-[10px] font-bold text-status-error">▼ ۰.۳٪</span>
+                  </div>
+                </div>
+                <div class="h-px bg-border"></div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-content-body">طلای ۲۴ عیار</span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-latin text-xs font-bold text-content-heading">۶،۰۶۰،۰۰۰</span>
+                    <span class="text-[10px] font-bold text-status-success">▲ ۱.۲٪</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HELP CARD -->
+            <div class="sidebar-card bg-primary-50 rounded-2xl border border-primary-100 p-5">
+              <h3 class="text-sm font-bold text-content-heading mb-2">راهنمای فروش</h3>
+              <p class="text-xs text-content-body leading-6 mb-3">
+                پس از تأیید فروش، مبلغ ریالی به کیف پول شما واریز می‌شود و امکان برداشت بانکی یا خرید مجدد را دارید.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex items-start gap-2 text-xs text-content-body">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  حداقل فروش: ۰.۰۱۰ گرم
+                </li>
+                <li class="flex items-start gap-2 text-xs text-content-body">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  کارمزد: ۰.۳٪
+                </li>
+                <li class="flex items-start gap-2 text-xs text-content-body">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  واریز آنی به کیف پول
+                </li>
+                <li class="flex items-start gap-2 text-xs text-content-body">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  نرخ تا پایان پیش‌فاکتور تثبیت
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PRE-INVOICE BOTTOM SHEET (sell)
+       ════════════════════════════════════════════════════════════════════ -->
+  <div id="preInvoiceOverlay" class="sheet-overlay fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center" aria-hidden="true">
+    <div class="bottom-sheet w-full sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto">
+
+      <div class="flex justify-center pt-3 sm:hidden">
+        <div class="w-10 h-1 rounded-full bg-border"></div>
+      </div>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between p-5 border-b border-border">
+        <h2 class="text-base font-bold text-content-heading">پیش‌فاکتور فروش طلا</h2>
+        <button type="button" id="preInvoiceClose" class="p-1 text-content-muted hover:text-content-heading transition-colors" aria-label="بستن">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-5 space-y-3">
+        <div class="flex items-center justify-between py-2">
+          <span class="text-sm text-content-muted">مقدار طلای فروش</span>
+          <span class="font-latin text-sm font-bold text-content-heading" id="piWeight">—</span>
+        </div>
+        <div class="flex items-center justify-between py-2">
+          <span class="text-sm text-content-muted">نرخ فروش</span>
+          <span class="font-latin text-sm font-bold text-content-heading" id="piRate">—</span>
+        </div>
+        <div class="flex items-center justify-between py-2">
+          <span class="text-sm text-content-muted">مبلغ ناخالص</span>
+          <span class="font-latin text-sm font-bold text-content-heading" id="piGross">—</span>
+        </div>
+        <div class="h-px bg-border"></div>
+        <div class="flex items-center justify-between py-2">
+          <span class="text-sm text-content-muted">کارمزد (۰.۳٪)</span>
+          <span class="font-latin text-sm font-bold text-content-heading" id="piFee">—</span>
+        </div>
+        <div class="h-px bg-border"></div>
+        <div class="flex items-center justify-between py-3">
+          <span class="text-base font-bold text-content-heading">مبلغ نهایی قابل دریافت</span>
+          <span class="font-latin text-lg font-bold text-primary-600" id="piTotal">—</span>
+        </div>
+
+        <!-- Note -->
+        <div class="bg-background rounded-xl p-3 text-xs text-content-muted leading-5">
+          ⏱ این نرخ فقط تا پایان زمان پیش‌فاکتور معتبر است. بعد از تأیید فروش، این مقدار طلا از قلک شما کم می‌شود و مبلغ ریالی به حساب داخلی شما اضافه می‌شود.
+        </div>
+
+        <!-- Countdown -->
+        <div class="flex items-center justify-center gap-3 py-2">
+          <svg class="countdown-ring w-12 h-12" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="20" fill="none" stroke="#e5e7eb" stroke-width="3"/>
+            <circle id="countdownCircle" cx="24" cy="24" r="20" fill="none" stroke="#6E436E" stroke-width="3"
+                    stroke-dasharray="125.66" stroke-dashoffset="0" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div class="font-latin text-lg font-bold text-content-heading" id="countdownTime">۱۰:۰۰</div>
+            <div class="text-xs text-content-muted">زمان باقی‌مانده</div>
+          </div>
+        </div>
+
+        <!-- Error placeholder -->
+        <div id="piError" class="hidden"></div>
+
+        <!-- Terms -->
+        <label class="flex items-start gap-2 cursor-pointer">
+          <input type="checkbox" id="piTerms" class="mt-1 w-4 h-4 rounded border-border text-primary-500 focus:ring-primary-500">
+          <span class="text-xs text-content-body leading-5">قوانین و مقررات فروش را می‌پذیرم.</span>
+        </label>
+      </div>
+
+      <!-- Actions -->
+      <div class="p-5 pt-0 flex flex-col gap-2">
+        <button type="button" id="piConfirmBtn"
+                class="w-full inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 disabled:opacity-50 disabled:cursor-not-allowed text-primary-700 font-bold rounded-full py-3.5 text-sm transition-all shadow-lg shadow-gold-400/20"
+                disabled>
+          تأیید و فروش طلا
+        </button>
+        <button type="button" id="piEditBtn"
+                class="w-full inline-flex items-center justify-center gap-2 border-2 border-border text-content-heading hover:bg-background font-bold rounded-full py-3 text-sm transition-all">
+          ویرایش مقدار
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SUCCESS BOTTOM SHEET (sell)
+       ════════════════════════════════════════════════════════════════════ -->
+  <div id="successOverlay" class="sheet-overlay fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center" aria-hidden="true">
+    <div class="bottom-sheet w-full sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl">
+
+      <div class="flex justify-center pt-3 sm:hidden">
+        <div class="w-10 h-1 rounded-full bg-border"></div>
+      </div>
+
+      <div class="p-8 text-center">
+        <div class="w-16 h-16 mx-auto rounded-full bg-emerald-50 flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h2 class="text-lg font-bold text-content-heading mb-2">فروش طلای شما با موفقیت ثبت شد.</h2>
+        <p class="text-sm text-content-muted mb-6">طلای فروخته‌شده از قلک شما کسر شد و مبلغ ریالی به حساب داخلی شما اضافه گردید.</p>
+
+        <div class="space-y-3 mb-6 text-right max-w-xs mx-auto">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-content-muted">مقدار طلای فروخته‌شده</span>
+            <span class="font-latin text-sm font-bold text-content-heading" id="successWeight">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-content-muted">مبلغ ریالی ثبت‌شده</span>
+            <span class="font-latin text-sm font-bold text-content-heading" id="successAmount">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-content-muted">نرخ معامله</span>
+            <span class="font-latin text-sm font-bold text-content-heading" id="successRate">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-content-muted">کارمزد</span>
+            <span class="font-latin text-sm font-bold text-content-heading" id="successFee">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-content-muted">شماره پیگیری</span>
+            <span class="font-latin text-sm font-bold text-content-heading" id="successTracking">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-content-muted">وضعیت مبلغ</span>
+            <span class="text-sm font-bold text-emerald-500">قابل برداشت</span>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <a href="../wallet/withdraw.html"
+             class="w-full inline-flex items-center justify-center gap-2 bg-primary-500 hover:bg-primary-600 text-white font-bold rounded-full py-3 text-sm transition-all">
+            برداشت ریالی
+          </a>
+          <a href="../wallet/transactions.html"
+             class="w-full inline-flex items-center justify-center gap-2 border-2 border-border text-content-heading hover:bg-background font-bold rounded-full py-3 text-sm transition-all">
+            مشاهده تراکنش‌ها
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+
+  <!-- FOOTER -->
+  <footer class="bg-primary-700 text-white">
+    <div class="container-page py-10 lg:py-14">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="../assets/images/White-Logo.png" alt="طلاشو VIP" class="h-8 w-8 object-contain">
+            <span class="font-bold text-lg">طلاشو <span class="text-gold-400 text-sm">VIP</span></span>
+          </div>
+          <p class="text-sm text-white/60 leading-7">بستر امن خرید و فروش طلای آب‌شده آنلاین، زیرمجموعه VIP برزیگر گلد اند جولری.</p>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold mb-4">خدمات</h4>
+          <ul class="space-y-2.5">
+            <li><a href="../wallet/buy.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">خرید طلا</a></li>
+            <li><a href="../wallet/sell.html" class="text-sm text-gold-400 font-bold">فروش طلا</a></li>
+            <li><a href="../wallet/rates.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">نرخ‌نامه</a></li>
+            <li><a href="../wallet/physical.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">طلای فیزیکی</a></li>
+            <li><a href="../wallet/deposit.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">واریز وجه</a></li>
+            <li><a href="../wallet/withdraw.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">برداشت وجه</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold mb-4">حساب کاربری</h4>
+          <ul class="space-y-2.5">
+            <li><a href="../wallet/profile.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">پروفایل</a></li>
+            <li><a href="../wallet/transactions.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">تراکنش‌ها</a></li>
+            <li><a href="../wallet/bank-account.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">حساب بانکی</a></li>
+            <li><a href="../wallet/invite.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">دعوت دوستان</a></li>
+            <li><a href="../wallet/vaults.html" class="text-sm text-white/60 hover:text-gold-400 transition-colors">خزانه‌ها</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-bold mb-4">تماس با ما</h4>
+          <ul class="space-y-2.5">
+            <li class="text-sm text-white/60 font-latin" dir="ltr">+98 21-XXXX-XXXX</li>
+            <li class="text-sm text-white/60">تهران، خیابان ولیعصر</li>
+            <li class="text-sm text-white/60">support@talasho.com</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="container-page py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="text-xs text-white/40">&copy; ۱۴۰۵ طلاشو — زیرمجموعه VIP برزیگر گلد اند جولری</p>
+        <div class="flex items-center gap-4">
+          <a href="../terms.html" class="text-xs text-white/40 hover:text-white/60 transition-colors">قوانین و مقررات</a>
+          <a href="../privacy.html" class="text-xs text-white/40 hover:text-white/60 transition-colors">حریم خصوصی</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="lg:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-border z-50 safe-bottom">
+    <div class="grid grid-cols-4 h-14">
+      <a href="../wallet/index.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[10px]">خانه</span>
+      </a>
+      <a href="../wallet/rates.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span class="text-[10px]">نرخ‌ها</span>
+      </a>
+      <a href="../wallet/buy.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <div class="w-10 h-10 -mt-4 rounded-full bg-gold-400 text-primary-700 flex items-center justify-center shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+        </div>
+        <span class="text-[10px]">خرید</span>
+      </a>
+      <a href="../wallet/profile.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span class="text-[10px]">حساب</span>
+      </a>
+    </div>
+  </nav>
+
+
+  <script>
+    // ─── Mobile menu toggle ───
+    (function () {
+      var toggle = document.getElementById('mobileMenuToggle');
+      var menu = document.getElementById('mobileMenu');
+      if (!toggle || !menu) return;
+      toggle.addEventListener('click', function () {
+        var isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+    })();
+
+    // ─── Helpers ───
+    function toPersianDigits(num) {
+      var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      return String(num).replace(/[0-9]/g, function (d) { return persian[d]; });
+    }
+
+    function formatPersian(num) {
+      if (!num || isNaN(num)) return '';
+      return toPersianDigits(Number(num).toLocaleString('en-US'));
+    }
+
+    function parsePersianInput(str) {
+      var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      var clean = str.replace(/[۰-۹]/g, function (d) { return persian.indexOf(d); });
+      clean = clean.replace(/[^\d.]/g, '');
+      return clean ? parseFloat(clean) : 0;
+    }
+
+    function showToast(msg, duration) {
+      duration = duration || 3000;
+      var container = document.getElementById('toastContainer');
+      var el = document.createElement('div');
+      el.className = 'toast-animate bg-primary-700 text-white text-sm font-medium px-5 py-3 rounded-2xl shadow-lg pointer-events-auto';
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(function () { el.remove(); }, duration);
+    }
+
+    // ─── Dual input sync (gram ↔ rial, gram is primary) ───
+    (function () {
+      var gramInput = document.getElementById('sellGram');
+      var rialInput = document.getElementById('sellRial');
+      var sellBtn = document.getElementById('sellBtn');
+      var sellBtnAmount = document.getElementById('sellBtnAmount');
+      if (!gramInput || !rialInput) return;
+
+      var SELL_RATE = 185680000; // rial per gram (185,680 tomans)
+      var MIN_SELL_GRAM = 0.010;
+      var AVAILABLE_GRAM = 1.000;
+      var FEE_RATE = 0.003;
+
+      gramInput.addEventListener('input', function () {
+        var gram = parsePersianInput(gramInput.value);
+        var rial = Math.round(gram * SELL_RATE);
+        if (document.activeElement !== rialInput) {
+          rialInput.value = rial > 0 ? formatPersian(rial) : '';
+        }
+        updateSellButton(gram, rial);
+      });
+
+      rialInput.addEventListener('input', function () {
+        var rial = parsePersianInput(rialInput.value.replace(/[^\d]/g, '')) || 0;
+        var gram = rial / SELL_RATE;
+        if (document.activeElement !== gramInput) {
+          gramInput.value = gram > 0 ? toPersianDigits(gram.toFixed(3)) : '';
+        }
+        updateSellButton(gram, rial);
+      });
+
+      function updateSellButton(gram, rial) {
+        if (gram >= MIN_SELL_GRAM && gram <= AVAILABLE_GRAM) {
+          sellBtn.disabled = false;
+          sellBtnAmount.textContent = '— ' + toPersianDigits(gram.toFixed(3)) + ' گرم';
+        } else {
+          sellBtn.disabled = true;
+          sellBtnAmount.textContent = '';
+          if (gram > AVAILABLE_GRAM) {
+            showToast('مقدار فروش بیشتر از موجودی قابل فروش شماست');
+          }
+        }
+      }
+    })();
+
+    // ─── Pre-invoice bottom sheet ───
+    (function () {
+      var overlay = document.getElementById('preInvoiceOverlay');
+      var closeBtn = document.getElementById('preInvoiceClose');
+      var editBtn = document.getElementById('piEditBtn');
+      var confirmBtn = document.getElementById('piConfirmBtn');
+      var termsCheck = document.getElementById('piTerms');
+      var sellBtn = document.getElementById('sellBtn');
+      var countdownInterval = null;
+
+      if (!overlay || !sellBtn) return;
+
+      sellBtn.addEventListener('click', function () {
+        if (sellBtn.disabled) return;
+
+        var gram = parsePersianInput(document.getElementById('sellGram').value);
+        var SELL_RATE = 185680000;
+        var FEE_RATE = 0.003;
+        var grossRial = Math.round(gram * SELL_RATE);
+        var fee = Math.round(grossRial * FEE_RATE);
+        var netRial = grossRial - fee;
+
+        document.getElementById('piWeight').textContent = toPersianDigits(gram.toFixed(3)) + ' گرم';
+        document.getElementById('piRate').textContent = formatPersian(185680) + ' تومان';
+        document.getElementById('piGross').textContent = formatPersian(grossRial) + ' تومان';
+        document.getElementById('piFee').textContent = formatPersian(fee) + ' تومان';
+        document.getElementById('piTotal').textContent = formatPersian(netRial) + ' تومان';
+
+        termsCheck.checked = false;
+        confirmBtn.disabled = true;
+        document.getElementById('piError').classList.add('hidden');
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        startCountdown(598);
+      });
+
+      function closeSheet() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        stopCountdown();
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+      if (editBtn) editBtn.addEventListener('click', closeSheet);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeSheet();
+      });
+
+      termsCheck.addEventListener('change', function () {
+        confirmBtn.disabled = !termsCheck.checked;
+      });
+
+      confirmBtn.addEventListener('click', function () {
+        if (!termsCheck.checked) {
+          var errEl = document.getElementById('piError');
+          errEl.innerHTML = '<div class="bg-red-50 text-red-600 text-xs p-3 rounded-xl">لطفاً قوانین و مقررات فروش را تأیید کنید.</div>';
+          errEl.classList.remove('hidden');
+          showToast('لطفاً قوانین و مقررات فروش را تأیید کنید.');
+          return;
+        }
+        closeSheet();
+        showToast('در حال ثبت فروش...');
+
+        setTimeout(function () {
+          var gram = parsePersianInput(document.getElementById('sellGram').value);
+          var SELL_RATE = 185680000;
+          var grossRial = Math.round(gram * SELL_RATE);
+          var fee = Math.round(grossRial * 0.003);
+          var netRial = grossRial - fee;
+          var tracking = 'TL' + Date.now();
+
+          document.getElementById('successWeight').textContent = toPersianDigits(gram.toFixed(3)) + ' گرم';
+          document.getElementById('successAmount').textContent = formatPersian(netRial) + ' تومان';
+          document.getElementById('successRate').textContent = formatPersian(185680) + ' تومان';
+          document.getElementById('successFee').textContent = formatPersian(fee) + ' تومان';
+          document.getElementById('successTracking').textContent = tracking;
+
+          document.getElementById('successOverlay').classList.add('open');
+          document.getElementById('successOverlay').setAttribute('aria-hidden', 'false');
+        }, 1500);
+      });
+
+      function startCountdown(seconds) {
+        var circle = document.getElementById('countdownCircle');
+        var timeEl = document.getElementById('countdownTime');
+        var circumference = 2 * Math.PI * 20;
+        var remaining = seconds;
+
+        if (circle) circle.style.strokeDashoffset = '0';
+
+        function tick() {
+          var min = Math.floor(remaining / 60);
+          var sec = remaining % 60;
+          if (timeEl) timeEl.textContent = toPersianDigits(min) + ':' + toPersianDigits(sec < 10 ? '0' + sec : sec);
+          if (circle) {
+            var progress = 1 - (remaining / seconds);
+            circle.style.strokeDashoffset = String(circumference * progress);
+          }
+          if (remaining <= 0) {
+            stopCountdown();
+            var errEl = document.getElementById('piError');
+            errEl.innerHTML = '<div class="bg-red-50 text-red-600 text-xs p-3 rounded-xl">زمان تضمین نرخ به پایان رسید. لطفاً دوباره تلاش کنید.</div>';
+            errEl.classList.remove('hidden');
+            confirmBtn.disabled = true;
+            return;
+          }
+          remaining--;
+        }
+
+        tick();
+        countdownInterval = setInterval(tick, 1000);
+      }
+
+      function stopCountdown() {
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+        }
+      }
+    })();
+
+    // ─── Success sheet close ───
+    (function () {
+      var overlay = document.getElementById('successOverlay');
+      if (!overlay) return;
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+          overlay.classList.remove('open');
+          overlay.setAttribute('aria-hidden', 'true');
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
