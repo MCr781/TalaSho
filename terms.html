@@ -81,7 +81,7 @@
     <div class="container-page">
       <nav class="flex items-center gap-2 text-sm text-content-body mb-5" aria-label="مسیر">
         <a href="./wallet/index.html" class="hover:text-primary-600">خانه</a>
-        <span class="text-content-muted">/</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-content-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         <span class="text-content-heading font-medium">قوانین و مقررات</span>
       </nav>
 
@@ -158,13 +158,15 @@
 
       function updateActive() {
         var scrollPos = window.scrollY + 100;
-        sections.forEach(function (sec) {
-          if (sec.offsetTop <= scrollPos && sec.offsetTop + sec.offsetHeight > scrollPos) {
-            links.forEach(function (l) { l.classList.remove('active'); });
-            var link = document.querySelector('.toc-link[href="#' + sec.id + '"]');
-            if (link) link.classList.add('active');
+        var activeIdx = 0;
+        sections.forEach(function (sec, i) {
+          var nextTop = (i < sections.length - 1) ? sections[i + 1].offsetTop : document.body.scrollHeight;
+          if (sec.offsetTop <= scrollPos && nextTop > scrollPos) {
+            activeIdx = i;
           }
         });
+        links.forEach(function (l) { l.classList.remove('active'); });
+        if (links[activeIdx]) links[activeIdx].classList.add('active');
       }
 
       window.addEventListener('scroll', updateActive);

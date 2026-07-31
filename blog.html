@@ -122,11 +122,11 @@
       <!-- Category pills -->
       <div class="flex items-center gap-2 flex-wrap">
         <!-- BACKEND: wire to category filter -->
-        <button class="category-pill active px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-heading">همه</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400">راهنمای خرید</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400">سرمایه‌گذاری</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400">تحلیل بازار</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400">سکه و شمش</button>
+        <button class="category-pill active px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-heading" data-category="all">همه</button>
+        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="راهنمای خرید">راهنمای خرید</button>
+        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="سرمایه‌گذاری">سرمایه‌گذاری</button>
+        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="تحلیل بازار">تحلیل بازار</button>
+        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="سکه و شمش">سکه و شمش</button>
       </div>
     </div>
   </section>
@@ -139,7 +139,7 @@
     <div class="container-page">
 
       <!-- BACKEND: wire to latest featured post -->
-      <a href="./blog/gold-investment-for-beginners.html" class="blog-card group block bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250">
+      <a href="./blog/gold-investment-for-beginners.html" class="blog-card group block bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="سرمایه‌گذاری">
         <div class="grid lg:grid-cols-2 gap-0">
           <!-- Featured image placeholder -->
           <div class="aspect-[16/10] lg:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
@@ -188,7 +188,7 @@
         <!-- BACKEND: LOOP START -->
 
         <!-- Post 1 -->
-        <a href="./blog/gold-price-volatility.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row">
+        <a href="./blog/gold-price-volatility.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="تحلیل بازار">
           <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
             <div class="blog-card-img w-full h-full flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -211,7 +211,7 @@
         </a>
 
         <!-- Post 2 -->
-        <a href="./blog/gold-karat-guide.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row">
+        <a href="./blog/gold-karat-guide.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="راهنمای خرید">
           <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
             <div class="blog-card-img w-full h-full flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -234,7 +234,7 @@
         </a>
 
         <!-- Post 3 -->
-        <a href="./blog/gold-coin-vs-gold-bar.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row">
+        <a href="./blog/gold-coin-vs-gold-bar.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="سکه و شمش">
           <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
             <div class="blog-card-img w-full h-full flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -257,7 +257,7 @@
         </a>
 
         <!-- Post 4 -->
-        <a href="./blog/gold-making-fee.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row">
+        <a href="./blog/gold-making-fee.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="راهنمای خرید">
           <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
             <div class="blog-card-img w-full h-full flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -307,6 +307,7 @@
   <script>
     (function () {
       var pills = document.querySelectorAll('.category-pill');
+      var cards = document.querySelectorAll('.blog-card');
       pills.forEach(function (pill) {
         pill.addEventListener('click', function () {
           pills.forEach(function (p) {
@@ -317,6 +318,14 @@
           pill.classList.add('active');
           pill.classList.remove('text-content-body');
           pill.classList.add('text-content-heading');
+          var category = pill.getAttribute('data-category');
+          cards.forEach(function (card) {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
         });
       });
     })();

@@ -82,10 +82,7 @@
     line-height: 1.6;
   }
 
-  /* Headings — spec-exact heading color */
-  h1, h2, h3, h4, h5, h6 {
-    @apply text-content-heading;
-  }
+  /* Headings — color controlled by utility classes, not global rule */
 
   /* Latin-digit price board: forces Latin numerals + tabular alignment */
   .font-latin {

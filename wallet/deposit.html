@@ -333,8 +333,8 @@
                 <div class="relative">
                   <input type="text" inputmode="numeric" dir="ltr" placeholder="۰"
                          id="depositAmount" data-backend-hook="deposit-amount"
-                         class="amount-field w-full bg-background border border-border-strong rounded-full px-4 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none transition-all duration-250">
-                  <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs text-content-muted">تومان</span>
+                         class="amount-field w-full bg-background border border-border-strong rounded-full ps-4 pr-16 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none transition-all duration-250">
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-content-muted">تومان</span>
                 </div>
               </div>
 
@@ -353,7 +353,7 @@
               <div class="space-y-3">
                 <!-- Option 1: Online gateway -->
                 <label class="payment-method active flex items-start gap-3 p-4 border-2 border-primary-500 rounded-2xl bg-primary-50/40 cursor-pointer">
-                  <input type="radio" name="paymentMethod" value="gateway" checked class="mt-1 accent-primary-600">
+                  <input type="radio" name="paymentMethod" value="gateway" checked class="sr-only">
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -363,14 +363,14 @@
                     </div>
                     <p class="text-xs text-content-muted mt-1 pr-7">پرداخت با تمامی کارت‌های عضو شتاب</p>
                   </div>
-                  <div class="w-5 h-5 rounded-full border-2 border-primary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-primary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <div class="w-2.5 h-2.5 rounded-full bg-primary-600"></div>
                   </div>
                 </label>
 
                 <!-- Option 2: Identified deposit -->
                 <label class="payment-method flex items-start gap-3 p-4 border-2 border-border rounded-2xl cursor-pointer">
-                  <input type="radio" name="paymentMethod" value="identified" class="mt-1 accent-primary-600">
+                  <input type="radio" name="paymentMethod" value="identified" class="sr-only">
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-content-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -380,7 +380,7 @@
                     </div>
                     <p class="text-xs text-content-muted mt-1 pr-7">مناسب برای مبالغ بالای ۱۰۰ میلیون تومان</p>
                   </div>
-                  <div class="w-5 h-5 rounded-full border-2 border-border flex items-center justify-center flex-shrink-0 mt-0.5"></div>
+                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-border flex items-center justify-center flex-shrink-0 mt-0.5"></div>
                 </label>
               </div>
 
@@ -771,11 +771,23 @@
             m.classList.remove('border-primary-500');
             m.classList.remove('bg-primary-50/40');
             m.classList.add('border-border');
+            var circle = m.querySelector('.radio-circle');
+            if (circle) {
+              circle.classList.remove('border-primary-500', 'bg-primary-600');
+              circle.classList.add('border-border');
+              circle.innerHTML = '';
+            }
           });
           method.classList.add('active');
           method.classList.remove('border-border');
           method.classList.add('border-primary-500');
           method.classList.add('bg-primary-50/40');
+          var circle = method.querySelector('.radio-circle');
+          if (circle) {
+            circle.classList.remove('border-border');
+            circle.classList.add('border-primary-500');
+            circle.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-primary-600"></div>';
+          }
           var radio = method.querySelector('input[type="radio"]');
           if (radio) radio.checked = true;
         });

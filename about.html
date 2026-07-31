@@ -284,10 +284,12 @@
          4. PAGE HERO — editorial header (NOT a generic gradient)
          Purple band with eyebrow + big title + lead + 2 CTAs
          ============================================================ -->
-    <section class="bg-gradient-to-bl from-primary-600 via-primary-500 to-primary-700 text-white relative overflow-hidden">
+    <section class="bg-gradient-to-bl from-primary-700 via-primary-600 to-primary-800 text-white relative overflow-hidden">
         <!-- subtle gold corner accent -->
         <div class="absolute top-0 start-0 w-32 h-32 bg-gold-400/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 end-0 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl"></div>
+        <!-- dark overlay for text contrast -->
+        <div class="absolute inset-0 bg-black/20"></div>
 
         <div class="container-page py-12 lg:py-20 relative z-10">
             <div class="max-w-3xl">
@@ -298,13 +300,13 @@
                 </div>
 
                 <!-- title -->
-                <h1 class="text-3xl sm:text-4xl lg:text-hero-lg font-black leading-tight mb-5">
+                <h1 class="text-3xl sm:text-4xl lg:text-hero-lg font-black leading-tight mb-5" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3)">
                     از برزیگر تا طلاشو —
                     <span class="block text-gold-400 mt-1">یک میراث، یک آینده.</span>
                 </h1>
 
                 <!-- lead -->
-                <p class="text-base lg:text-lg text-white/85 leading-loose max-w-2xl mb-8">
+                <p class="text-base lg:text-lg text-white/90 leading-loose max-w-2xl mb-8" style="text-shadow: 0 1px 4px rgba(0,0,0,0.2)">
                     طلاشو، زیرمجموعه وی آی پی برزیگر گُلد و جولری، با بیش از ۳۰ سال تجربه در بازار طلا و جواهر ایران، بستری نوین برای خرید آنلاین جواهرات و سرمایه‌گذاری در طلای دیجیتال فراهم کرده است.
                 </p>
 
@@ -326,42 +328,31 @@
 
 
     <!-- ============================================================
-         5. STATS BAND — Digikala-style 4-col (NOT floating numbers)
+         5. STATS BAND — subtle trust strip
          ============================================================ -->
-    <section class="bg-surface border-b border-border">
-        <div class="container-page py-10 lg:py-12">
-            <!-- BACKEND: FOREACH STAT LOOP START -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                <div class="text-center">
-                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-primary-50">
-                        <i class='bx bx-medal text-3xl text-primary-500'></i>
-                    </div>
-                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۳۰+</div>
-                    <div class="text-caption text-content-body mt-1">سال تجربه</div>
+    <section class="bg-background border-b border-border">
+        <div class="container-page">
+            <div class="flex items-center justify-center flex-wrap gap-x-8 gap-y-3 py-4 lg:py-5 text-sm text-content-body">
+                <div class="flex items-center gap-2">
+                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
+                    <span><strong class="text-content-heading font-bold">۳۰+ سال</strong> تجربه</span>
                 </div>
-                <div class="text-center">
-                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-gold-50">
-                        <i class='bx bx-diamond text-3xl text-gold-600'></i>
-                    </div>
-                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۱۰,۰۰۰+</div>
-                    <div class="text-caption text-content-body mt-1">محصول متنوع</div>
+                <div class="hidden sm:block w-px h-4 bg-border"></div>
+                <div class="flex items-center gap-2">
+                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
+                    <span><strong class="text-content-heading font-bold">۱۰,۰۰۰+ محصول</strong> متنوع</span>
                 </div>
-                <div class="text-center">
-                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-primary-50">
-                        <i class='bx bx-group text-3xl text-primary-500'></i>
-                    </div>
-                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۵۰,۰۰۰+</div>
-                    <div class="text-caption text-content-body mt-1">مشتری راضی</div>
+                <div class="hidden sm:block w-px h-4 bg-border"></div>
+                <div class="flex items-center gap-2">
+                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
+                    <span><strong class="text-content-heading font-bold">۵۰,۰۰۰+ مشتری</strong> راضی</span>
                 </div>
-                <div class="text-center">
-                    <div class="flex items-center justify-center w-14 h-14 mx-auto mb-3 rounded-2xl bg-gold-50">
-                        <i class='bx bx-map text-3xl text-gold-600'></i>
-                    </div>
-                    <div class="text-2xl lg:text-3xl font-black text-content-heading font-latin">۵+</div>
-                    <div class="text-caption text-content-body mt-1">شعبه فیزیکی</div>
+                <div class="hidden sm:block w-px h-4 bg-border"></div>
+                <div class="flex items-center gap-2">
+                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
+                    <span><strong class="text-content-heading font-bold">۵+ شعبه</strong> فیزیکی</span>
                 </div>
             </div>
-            <!-- BACKEND: FOREACH STAT LOOP END -->
         </div>
     </section>
 
@@ -684,7 +675,7 @@
          12. CTA — back to top of action (Digikala-style dual CTA band)
          ============================================================ -->
     <section class="bg-primary-700 text-white relative overflow-hidden">
-        <div class="absolute top-0 start-0 w-64 h-64 bg-gold-400/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute top-0 start-0 w-64 h-64 bg-gold-400/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
         <div class="absolute bottom-0 end-0 w-64 h-64 bg-gold-400/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
         <div class="container-page py-12 lg:py-16 relative z-10">
