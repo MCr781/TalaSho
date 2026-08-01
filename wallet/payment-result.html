@@ -197,6 +197,12 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    @media print {
+      .no-print, .announcement-marquee, header, footer, .mobile-nav { display: none !important; }
+      body { background: #fff !important; }
+      .result-card { box-shadow: none !important; border: 1px solid #ddd !important; }
+    }
   </style>
 </head>
 
@@ -375,7 +381,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-6 space-y-3 no-print">
                 <button type="button" onclick="printReceipt()" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -425,7 +431,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-6 space-y-3 no-print">
                 <button type="button" onclick="printReceipt()" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -475,7 +481,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-6 space-y-3 no-print">
                 <button type="button" onclick="printReceipt()" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -513,7 +519,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-6 space-y-3 no-print">
                 <a href="../wallet/buy.html" class="action-btn gold">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -536,7 +542,7 @@
               <h1 class="text-xl font-bold text-amber-800 mb-2">پرداخت لغو شد</h1>
               <p class="text-sm text-amber-600 mb-6">عملیات پرداخت توسط شما لغو شد. هیچ مبلغی از حساب شما کسر نشده است.</p>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-6 space-y-3 no-print">
                 <a href="../wallet/buy.html" class="action-btn gold">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -566,7 +572,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3">
+              <div class="mt-6 space-y-3 no-print">
                 <a href="../wallet/transactions.html" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
