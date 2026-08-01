@@ -52,10 +52,6 @@
     .sidebar-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .sidebar-card:hover { transform: translateY(-1px); box-shadow: 0 4px 24px rgba(110, 67, 110, 0.08); }
 
-    .sheet-overlay { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-    .sheet-overlay.open { opacity: 1; pointer-events: auto; }
-    .bottom-sheet { transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-    .sheet-overlay.open .bottom-sheet { transform: translateY(0); }
 
     .otp-box { width: 48px; height: 56px; text-align: center; font-size: 1.5rem; font-weight: bold; border: 2px solid #e5e7eb; border-radius: 16px; background: #f9fafb; outline: none; transition: border-color 0.2s; }
     .otp-box:focus { border-color: #6E436E; box-shadow: 0 0 0 3px rgba(110, 67, 110, 0.12); }

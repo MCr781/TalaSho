@@ -44,10 +44,7 @@
     .filter-btn.active { background:#6E436E; color:#fff; box-shadow:0 2px 8px rgba(110,67,110,0.25); }
     .tx-row { transition: background 0.15s ease; cursor:pointer; }
     .tx-row:hover { background:rgba(110,67,110,0.03); }
-    .sheet-overlay { opacity:0; pointer-events:none; transition:opacity 0.3s ease; }
-    .sheet-overlay.open { opacity:1; pointer-events:auto; }
-    .bottom-sheet { transform:translateY(100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); }
-    .sheet-overlay.open .bottom-sheet { transform:translateY(0); }
+
     @keyframes toast-in { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
     .toast-animate { animation:toast-in 0.3s ease-out; }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
