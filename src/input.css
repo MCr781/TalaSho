@@ -85,10 +85,33 @@
 
   /* Headings — color controlled by utility classes, not global rule */
 
-  /* Latin-digit price board: forces Latin numerals + tabular alignment */
+  /*
+   * Numeric values are always an isolated LTR run. This keeps decimal separators,
+   * signs and Latin/Persian digits in their expected visual order inside the RTL UI.
+   */
   .font-latin {
+    direction: ltr;
+    unicode-bidi: isolate;
     font-feature-settings: 'tnum' on, 'lnum' on;
-    letter-spacing: 0;
+    letter-spacing: -0.05em;
+  }
+
+  /*
+   * Use for a value and its counter/currency unit. The source order is unit then
+   * value so the unit is visually left of the number, while the sign remains left
+   * of its LTR number (for example: گرم +۰.۲۵۰).
+   */
+  .numeric-measure {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.25em;
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  .numeric-measure__unit {
+    direction: rtl;
+    unicode-bidi: isolate;
   }
 
   /* Custom Swiper pagination — small white dots on dark, dark dots on light */

@@ -35,7 +35,8 @@
         if (!chipEl) return;
         const arrowSvg = chipEl.querySelector('svg');
         const pctEl    = chipEl.querySelector('[data-fluctuation-percent]');
-        const absPct   = Math.abs(pct).toFixed(1) + '%';
+        const sign     = pct > 0.01 ? '+' : pct < -0.01 ? '-' : '';
+        const displayPct = sign + Math.abs(pct).toFixed(1) + '%';
 
         // Reset classes
         chipEl.classList.remove(
@@ -58,7 +59,10 @@
             if (arrowSvg) arrowSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14"/>';
         }
 
-        if (pctEl) pctEl.textContent = absPct;
+        if (pctEl) {
+            pctEl.setAttribute('dir', 'ltr');
+            pctEl.textContent = displayPct;
+        }
     }
 
     // Update a single price row with new values
