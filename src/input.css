@@ -78,7 +78,7 @@
 
   body {
     @apply font-sans bg-background text-content-body antialiased;
-    font-feature-settings: 'ss01' on, 'tnum' on;
+    font-feature-settings: 'ss01' on;
     line-height: 1.6;
     letter-spacing: -0.01em;
   }
@@ -92,7 +92,7 @@
   .font-latin {
     direction: ltr;
     unicode-bidi: isolate;
-    font-feature-settings: 'tnum' on, 'lnum' on;
+    font-feature-settings: 'lnum' on;
     letter-spacing: -0.05em;
   }
 
@@ -360,7 +360,7 @@
     line-height: 1.1;
     color: #2E0D2E;
     letter-spacing: -0.05em;
-    font-feature-settings: 'tnum' on, 'lnum' on;
+    font-feature-settings: 'lnum' on;
     transition: color 0.4s ease;
   }
   .countdown-wrap.is-low .countdown-time { color: #B45309; }
