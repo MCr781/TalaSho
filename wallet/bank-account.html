@@ -238,7 +238,7 @@
 
             <!-- Submit -->
             <button id="submitBtn" type="button" disabled
-                    class="w-full py-4 rounded-2xl font-bold text-base transition-all duration-300
+                    class="w-full py-4 rounded-full font-bold text-base transition-all duration-300
                            bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
                            disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
               ثبت حساب بانکی
@@ -304,9 +304,12 @@
     <div class="absolute inset-0" data-sheet-close></div>
     <div class="bottom-sheet absolute bottom-0 inset-x-0 bg-surface rounded-t-[28px] shadow-2xl">
       <div class="container-page py-6 text-center">
+        <div class="flex justify-center mb-4 sm:hidden">
+          <div class="w-10 h-1 rounded-full bg-border-strong"></div>
+        </div>
         <div class="flex justify-center mb-4">
-          <div class="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <div class="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           </div>
         </div>
         <h2 class="text-lg font-bold text-content-heading mb-2">حساب بانکی با موفقیت ثبت شد</h2>

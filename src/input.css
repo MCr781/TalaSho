@@ -281,6 +281,129 @@
     }
   }
 
+  /* ============ COUNTDOWN ============ */
+  /* Premium ring countdown shared by wallet modals (buy/sell/deposit/withdraw/physical).
+     The inline SVG inside each page declares three gradients: #cd-grad (brand),
+     #cd-grad-low (amber warning) and #cd-grad-critical (red danger). JS toggles
+     .is-low / .is-critical on the wrapper and updates dashoffset every 100ms for a
+     buttery sweep, while the digits only re-render on whole-second changes. */
+  .countdown-wrap {
+    position: relative;
+    width: 104px;
+    height: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .countdown-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 4%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(110, 67, 110, 0.12), transparent 72%);
+    pointer-events: none;
+    transition: background 0.4s ease;
+  }
+  .countdown-wrap.is-low::before {
+    background: radial-gradient(circle, rgba(217, 119, 6, 0.14), transparent 72%);
+  }
+  .countdown-wrap.is-critical::before {
+    background: radial-gradient(circle, rgba(220, 38, 38, 0.16), transparent 72%);
+  }
+  .countdown-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    overflow: visible;
+  }
+  .countdown-track {
+    fill: none;
+    stroke: #F0EFF4;
+    stroke-width: 7;
+  }
+  .countdown-progress {
+    fill: none;
+    stroke: url(#cd-grad);
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-dasharray: 276.46;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.12s linear, stroke 0.4s ease;
+  }
+  .countdown-wrap.is-low .countdown-progress { stroke: url(#cd-grad-low); }
+  .countdown-wrap.is-critical .countdown-progress { stroke: url(#cd-grad-critical); }
+  .countdown-tip {
+    fill: none;
+    stroke: #6E436E;
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 276.46;
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 5px rgba(110, 67, 110, 0.65));
+    transition: stroke-dashoffset 0.12s linear, stroke 0.4s ease, filter 0.4s ease;
+  }
+  .countdown-wrap.is-low .countdown-tip { stroke: #D97706; filter: drop-shadow(0 0 6px rgba(217, 119, 6, 0.75)); }
+  .countdown-wrap.is-critical .countdown-tip { stroke: #DC2626; filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.85)); }
+  .countdown-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+  }
+  .countdown-time {
+    direction: ltr;
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #2E0D2E;
+    letter-spacing: -0.05em;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+    transition: color 0.4s ease;
+  }
+  .countdown-wrap.is-low .countdown-time { color: #B45309; }
+  .countdown-wrap.is-critical .countdown-time {
+    color: #DC2626;
+    animation: cd-pulse 0.8s ease-in-out infinite;
+  }
+  .countdown-label {
+    font-size: 0.7rem;
+    color: #8D94A5;
+  }
+  .countdown-time.cd-tick { animation: cd-pop 0.3s ease-out; }
+
+  @keyframes cd-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.14); }
+    100% { transform: scale(1); }
+  }
+  @keyframes cd-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.85; }
+  }
+
+  /* Compact variant — used inside OTP sheets */
+  .countdown-compact {
+    width: 68px;
+    height: 68px;
+  }
+  .countdown-compact .countdown-progress,
+  .countdown-compact .countdown-tip,
+  .countdown-compact .countdown-track {
+    stroke-width: 6;
+  }
+  .countdown-compact .countdown-time { font-size: 0.95rem; }
+  .countdown-compact .countdown-label { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .countdown-time.cd-tick,
+    .countdown-wrap.is-critical .countdown-time,
+    .countdown-progress,
+    .countdown-tip { animation: none !important; transition: none !important; }
+  }
+
   /* Promo banner — radius 20px, no shadow, no border, edge-to-edge image */
   .ts-banner {
     @apply rounded-2xl overflow-hidden relative block transition-all duration-250;

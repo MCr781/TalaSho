@@ -81,13 +81,6 @@
     }
 
 
-    .countdown-ring {
-      transform: rotate(-90deg);
-    }
-    .countdown-ring circle {
-      transition: stroke-dashoffset 1s linear;
-    }
-
     @keyframes toast-in {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -435,7 +428,7 @@
     <div class="bottom-sheet w-full sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl max-h-[90vh] overflow-y-auto">
 
       <div class="flex justify-center pt-3 sm:hidden">
-        <div class="w-10 h-1 rounded-full bg-border"></div>
+        <div class="w-10 h-1 rounded-full bg-border-strong"></div>
       </div>
 
       <!-- Header -->
@@ -479,15 +472,31 @@
         </div>
 
         <!-- Countdown -->
-        <div class="flex items-center justify-center gap-3 py-2">
-          <svg class="countdown-ring w-12 h-12" viewBox="0 0 48 48">
-            <circle cx="24" cy="24" r="20" fill="none" stroke="#e5e7eb" stroke-width="3"/>
-            <circle id="countdownCircle" cx="24" cy="24" r="20" fill="none" stroke="#6E436E" stroke-width="3"
-                    stroke-dasharray="125.66" stroke-dashoffset="0" stroke-linecap="round"/>
-          </svg>
-          <div>
-            <div class="font-latin text-lg font-bold text-content-heading" id="countdownTime">۱۰:۰۰</div>
-            <div class="text-xs text-content-muted">زمان باقی‌مانده</div>
+        <div class="flex justify-center py-3">
+          <div class="countdown-wrap" id="countdownWrap">
+            <svg class="countdown-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <defs>
+                <linearGradient id="cd-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#E8B948"/>
+                  <stop offset="100%" stop-color="#6E436E"/>
+                </linearGradient>
+                <linearGradient id="cd-grad-low" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FCD34D"/>
+                  <stop offset="100%" stop-color="#D97706"/>
+                </linearGradient>
+                <linearGradient id="cd-grad-critical" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FCA5A5"/>
+                  <stop offset="100%" stop-color="#DC2626"/>
+                </linearGradient>
+              </defs>
+              <circle class="countdown-track" cx="50" cy="50" r="44"/>
+              <circle class="countdown-progress" id="countdownCircle" cx="50" cy="50" r="44"/>
+              <circle class="countdown-tip" id="countdownTip" cx="50" cy="50" r="44"/>
+            </svg>
+            <div class="countdown-center">
+              <span class="countdown-time font-latin" id="countdownTime">۱۰:۰۰</span>
+              <span class="countdown-label">زمان باقی‌مانده</span>
+            </div>
           </div>
         </div>
 
@@ -524,7 +533,7 @@
     <div class="bottom-sheet w-full sm:max-w-lg bg-surface rounded-t-3xl sm:rounded-3xl">
 
       <div class="flex justify-center pt-3 sm:hidden">
-        <div class="w-10 h-1 rounded-full bg-border"></div>
+        <div class="w-10 h-1 rounded-full bg-border-strong"></div>
       </div>
 
       <div class="p-8 text-center">
@@ -830,34 +839,50 @@
       });
 
       function startCountdown(seconds) {
+        var wrap = document.getElementById('countdownWrap');
         var circle = document.getElementById('countdownCircle');
+        var tip = document.getElementById('countdownTip');
         var timeEl = document.getElementById('countdownTime');
-        var circumference = 2 * Math.PI * 20;
-        var remaining = seconds;
+        var C = 276.46;
+        var endTime = Date.now() + seconds * 1000;
+        var shownSec = -1;
 
+        stopCountdown();
         if (circle) circle.style.strokeDashoffset = '0';
+        if (tip) tip.style.strokeDashoffset = '0';
 
-        function tick() {
-          var min = Math.floor(remaining / 60);
-          var sec = remaining % 60;
-          if (timeEl) timeEl.textContent = toPersianDigits(min) + ':' + toPersianDigits(sec < 10 ? '0' + sec : sec);
-          if (circle) {
-            var progress = 1 - (remaining / seconds);
-            circle.style.strokeDashoffset = String(circumference * progress);
-          }
-          if (remaining <= 0) {
+        countdownInterval = setInterval(function () {
+          var msLeft = endTime - Date.now();
+          if (msLeft <= 0) {
             stopCountdown();
+            if (wrap) wrap.classList.add('is-ended');
             var errEl = document.getElementById('piError');
             errEl.innerHTML = '<div class="bg-red-50 text-red-600 text-xs p-3 rounded-xl">زمان تضمین نرخ به پایان رسید. لطفاً دوباره تلاش کنید.</div>';
             errEl.classList.remove('hidden');
             confirmBtn.disabled = true;
             return;
           }
-          remaining--;
-        }
+          var offset = C * (1 - msLeft / (seconds * 1000));
+          if (circle) circle.style.strokeDashoffset = String(offset);
+          if (tip) tip.style.strokeDashoffset = String(offset);
 
-        tick();
-        countdownInterval = setInterval(tick, 1000);
+          var sLeft = Math.ceil(msLeft / 1000);
+          if (sLeft !== shownSec) {
+            shownSec = sLeft;
+            var min = Math.floor(sLeft / 60);
+            var sec = sLeft % 60;
+            if (timeEl) {
+              timeEl.textContent = toPersianDigits(min) + ':' + toPersianDigits(sec < 10 ? '0' + sec : sec);
+              timeEl.classList.remove('cd-tick');
+              void timeEl.offsetWidth;
+              timeEl.classList.add('cd-tick');
+            }
+            if (wrap) {
+              wrap.classList.toggle('is-critical', sLeft <= 10);
+              wrap.classList.toggle('is-low', sLeft <= 30 && sLeft > 10);
+            }
+          }
+        }, 100);
       }
 
       function stopCountdown() {

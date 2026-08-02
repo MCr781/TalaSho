@@ -113,14 +113,6 @@
     /* ─── Bottom sheet ─── */
 
 
-    /* ─── Countdown ring ─── */
-    .countdown-ring {
-      transform: rotate(-90deg);
-    }
-    .countdown-ring circle {
-      transition: stroke-dashoffset 1s linear;
-    }
-
     /* ─── Toast ─── */
     @keyframes toast-in {
       from { transform: translateY(20px); opacity: 0; }
@@ -404,7 +396,7 @@
 
             <!-- SUBMIT BUTTON -->
             <button id="withdrawBtn" type="button" disabled
-                    class="w-full py-4 rounded-2xl font-bold text-base transition-all duration-300
+                    class="w-full py-4 rounded-full font-bold text-base transition-all duration-300
                            bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
                            disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
               ثبت درخواست برداشت
@@ -492,7 +484,7 @@
       <div class="container-page py-6">
 
         <!-- Handle -->
-        <div class="flex justify-center mb-4">
+        <div class="flex justify-center mb-4 sm:hidden">
           <div class="w-10 h-1 rounded-full bg-border-strong"></div>
         </div>
 
@@ -507,15 +499,31 @@
         </div>
 
         <!-- Countdown -->
-        <div class="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 mb-5">
-          <svg class="countdown-ring w-10 h-10 flex-shrink-0" viewBox="0 0 44 44">
-            <circle cx="22" cy="22" r="20" fill="none" stroke="#FEF3C7" stroke-width="3"/>
-            <circle id="countdownCircle" cx="22" cy="22" r="20" fill="none" stroke="#D97706" stroke-width="3"
-                    stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="0"/>
-          </svg>
-          <div>
-            <p class="text-xs font-bold text-amber-800">زمان باقی‌مانده</p>
-            <p id="countdownTime" class="font-latin text-lg font-bold text-amber-700">۱۰:۰۰</p>
+        <div class="flex justify-center mb-5">
+          <div class="countdown-wrap" id="countdownWrap">
+            <svg class="countdown-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <defs>
+                <linearGradient id="cd-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#E8B948"/>
+                  <stop offset="100%" stop-color="#6E436E"/>
+                </linearGradient>
+                <linearGradient id="cd-grad-low" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FCD34D"/>
+                  <stop offset="100%" stop-color="#D97706"/>
+                </linearGradient>
+                <linearGradient id="cd-grad-critical" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#FCA5A5"/>
+                  <stop offset="100%" stop-color="#DC2626"/>
+                </linearGradient>
+              </defs>
+              <circle class="countdown-track" cx="50" cy="50" r="44"/>
+              <circle class="countdown-progress" id="countdownCircle" cx="50" cy="50" r="44"/>
+              <circle class="countdown-tip" id="countdownTip" cx="50" cy="50" r="44"/>
+            </svg>
+            <div class="countdown-center">
+              <span class="countdown-time font-latin" id="countdownTime">۱۰:۰۰</span>
+              <span class="countdown-label">زمان باقی‌مانده برای پرداخت</span>
+            </div>
           </div>
         </div>
 
@@ -559,7 +567,7 @@
 
         <!-- Submit -->
         <button id="confirmBtn" type="button" disabled
-                class="w-full py-4 rounded-2xl font-bold text-sm transition-all duration-300
+                class="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300
                        bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
                        disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
           تأیید نهایی و ثبت برداشت
@@ -888,32 +896,48 @@
       });
 
       function startCountdown(seconds) {
+        var wrap = document.getElementById('countdownWrap');
         var circle = document.getElementById('countdownCircle');
+        var tip = document.getElementById('countdownTip');
         var timeEl = document.getElementById('countdownTime');
-        var circumference = 2 * Math.PI * 20;
-        var remaining = seconds;
+        var C = 276.46;
+        var endTime = Date.now() + seconds * 1000;
+        var shownSec = -1;
 
+        stopCountdown();
         if (circle) circle.style.strokeDashoffset = '0';
+        if (tip) tip.style.strokeDashoffset = '0';
 
-        function tick() {
-          var min = Math.floor(remaining / 60);
-          var sec = remaining % 60;
-          if (timeEl) timeEl.textContent = toPersianDigits(min) + ':' + toPersianDigits(sec < 10 ? '0' + sec : sec);
-          if (circle) {
-            var progress = 1 - (remaining / seconds);
-            circle.style.strokeDashoffset = String(circumference * progress);
-          }
-          if (remaining <= 0) {
+        countdownInterval = setInterval(function () {
+          var msLeft = endTime - Date.now();
+          if (msLeft <= 0) {
             stopCountdown();
-            showToast('زمان تضمین نرخ به پایان رسید. لطفاً دوباره تلاش کنید.');
+            if (wrap) wrap.classList.add('is-ended');
             confirmBtn.disabled = true;
+            showToast('زمان اعتبار درخواست به پایان رسید. لطفاً دوباره تلاش کنید.');
             return;
           }
-          remaining--;
-        }
+          var offset = C * (1 - msLeft / (seconds * 1000));
+          if (circle) circle.style.strokeDashoffset = String(offset);
+          if (tip) tip.style.strokeDashoffset = String(offset);
 
-        tick();
-        countdownInterval = setInterval(tick, 1000);
+          var sLeft = Math.ceil(msLeft / 1000);
+          if (sLeft !== shownSec) {
+            shownSec = sLeft;
+            var min = Math.floor(sLeft / 60);
+            var sec = sLeft % 60;
+            if (timeEl) {
+              timeEl.textContent = toPersianDigits(min) + ':' + toPersianDigits(sec < 10 ? '0' + sec : sec);
+              timeEl.classList.remove('cd-tick');
+              void timeEl.offsetWidth;
+              timeEl.classList.add('cd-tick');
+            }
+            if (wrap) {
+              wrap.classList.toggle('is-critical', sLeft <= 10);
+              wrap.classList.toggle('is-low', sLeft <= 30 && sLeft > 10);
+            }
+          }
+        }, 100);
       }
 
       function stopCountdown() {
