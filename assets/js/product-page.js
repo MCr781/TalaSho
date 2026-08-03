@@ -216,7 +216,7 @@
           updateActiveTab(entry.target.id);
         }
       });
-    }, { rootMargin: '-100px 0px -60% 0px' });
+    }, { rootMargin: '-165px 0px -40% 0px' });
 
     sections.forEach((id) => {
       const sectionEl = document.getElementById(id);
@@ -230,7 +230,7 @@
         const targetId = tab.dataset.tab;
         const targetEl = document.getElementById(targetId);
         if (targetEl) {
-          const headerOffset = 120;
+          const headerOffset = 165;
           const elementPosition = targetEl.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
           window.scrollTo({
@@ -367,18 +367,12 @@
   function initRelatedSwiper() {
     if (typeof Swiper !== 'undefined' && document.querySelector('.related-products-swiper')) {
       new Swiper('.related-products-swiper', {
-        slidesPerView: 1.6,
-        spaceBetween: 14,
+        slidesPerView: 'auto',
+        spaceBetween: 16,
         dir: 'rtl',
         navigation: {
           nextEl: '.related-swiper-next',
           prevEl: '.related-swiper-prev',
-        },
-        breakpoints: {
-          500:  { slidesPerView: 2.2, spaceBetween: 14 },
-          640:  { slidesPerView: 3, spaceBetween: 16 },
-          1024: { slidesPerView: 4, spaceBetween: 18 },
-          1280: { slidesPerView: 4, spaceBetween: 20 }
         }
       });
     }
