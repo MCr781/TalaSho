@@ -1,145 +1,44 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  Talasho — Offline Page (v2, Tailwind-based)
+  طلاشو VIP — صفحه قطع ارتباط اینترنت (PWA Offline Page)
   ----------------------------------------------------------------------------
-  Shown by the service worker when a navigation request fails AND no cached
-  copy of the requested page is available. Lives at /pwa/offline.html per the
-  user's rule (HTML files belong in /pwa/).
-
-  v2 changes (per user feedback):
-    • Switched from inline-CSS to Tailwind classes (loaded from
-      ../assets/css/style.css, which the SW precaches). Tiny inline <style>
-      block kept only for things Tailwind can't do: hero gradient, teal
-      accent gradient, prefers-reduced-motion fallback.
-    • Fixed logo path: ../assets/images/White-Logo.png (relative, was /abs).
-    • Fixed layout: removed flex:1 + negative-margin overlap trick that
-      was clipping the hero's bottom on short viewports. Content now flows
-      naturally; page scrolls if too tall.
-
-  Design language:
-    • Inherits talasho palette via Tailwind tokens (primary-500, gold-500,
-      content-heading/body/muted, border, surface, background).
-    • Vazirmatn-FD font via @font-face in style.css (precached by SW).
-    • White-Logo.png on the dark hero band (logo-on-dark rule).
-    • Structural inspo from milli.gold: "چند قدم تا اتصال مجدد" 3-step
-      vertical timeline with circled Persian-digit numerals.
-    • Subtle teal accent #0E7C86 (milli.gold deepOcean inspo) used via
-      arbitrary Tailwind value text-[#0E7C86] — single accent, kept minimal.
+  Page: pwa/offline.html
+  Status: Redesigned & Enhanced — Digikala-inspired PWA Offline Experience
+  Stack: HTML5 + Tailwind CSS + Vanilla JS + Boxicons
+  RTL: Persian (fa) — Vazirmatn-FD (Persian numerals)
   ============================================================================
 -->
 <html lang="fa" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#6E436E">
-  <meta name="robots" content="noindex,nofollow">
-  <title>اتصال اینترنت قطع است | طلاشو</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#4A154B">
+    <meta name="robots" content="noindex,nofollow">
+    <title>ارتباط اینترنت قطع است | طلاشو VIP</title>
 
-  <!-- PWA hooks (paths relative to /pwa/offline.html) -->
-  <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/x-icon" href="./icons/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
-  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <!-- PWA hooks (paths relative to /pwa/offline.html) -->
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="./icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
 
-  <!-- Main site stylesheet (precached by SW — see /sw.js PRECACHE_URLS).
-       Contains Vazirmatn-FD @font-face, Tailwind utilities + component classes. -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/vendor/boxicons.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 
-  <!-- Font preloads — Vazirmatn-FD is the main site's body font -->
-  <link rel="preload" as="font" type="font/woff2"
-        href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2"
-        href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+    <!-- Font Preloads -->
+    <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
 
-  <style>
-    /* ─── Inline CSS — only what Tailwind can't do ─── */
-
-    /* Hero gradient — Phase A: 3-tier purple system (screenshot colors) */
-    .offline-hero-bg {
-      background: linear-gradient(135deg, #8A5A8A 0%, #6E436E 50%, #4A154B 100%);
-      /* v5: Hero padding scales with viewport HEIGHT so the retry button
-         stays visible on short screens. clamp(min, preferred, max):
-         min 12px (never smaller), preferred 5vh (scales with height),
-         max 32px (never larger). On a 320px-tall screen, 5vh = 16px.
-         On a 800px-tall screen, 5vh = 40px (capped at 32px). */
-      padding-top: clamp(12px, 5vh, 32px);
-      padding-bottom: clamp(12px, 5vh, 32px);
-    }
-    /* v5: On VERY short screens (≤500px tall), further compress hero
-         content so the retry button is always reachable. */
-    @media (max-height: 500px) {
-      .offline-hero-bg {
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
-      .offline-hero-bg .hero-logo { width: 48px; height: 48px; margin-bottom: 8px; }
-      .offline-hero-bg h1 { font-size: 18px; margin-bottom: 4px; }
-      .offline-hero-bg p { font-size: 12px; line-height: 1.5; }
-    }
-    /* v5: On ultra-short screens (≤600px tall), hide step descriptions
-       and footer to ensure the retry button is always visible.
-       Step titles + numbers remain so the user still sees the 3-step hint. */
-    @media (max-height: 600px) {
-      .offline-step-desc { display: none; }
-      .offline-footer-brand { display: none; }
-      .offline-card-heading { font-size: 14px; margin-bottom: 0; }
-      .offline-card-desc { display: none; }
-      .offline-accent-line { display: none; }
-      .offline-steps { gap: 4px; margin-bottom: 8px; }
-      .offline-step { padding: 6px 10px; }
-      .offline-step-title { font-size: 12px; }
-      .offline-main { padding-top: 8px; padding-bottom: 8px; }
-    }
-    /* v5: Last-resort compression for extreme short viewports (≤350px tall,
-       e.g., landscape phones). Hide the steps entirely — just show the
-       heading + retry button. The 3-step hint is sacrificed to guarantee
-       the retry button is always reachable. */
-    @media (max-height: 350px) {
-      .offline-steps { display: none; }
-      .offline-card-heading { margin-bottom: 8px; }
-    }
-    /* Faint gold radial glow at BOTTOM of hero (luxury jewelry cue).
-       v4: moved from top → bottom so the glow never sits behind the title
-       text. Was lightening the purple behind the H1, causing perceived
-       low-contrast even though pure white on purple is technically 12:1. */
-    .offline-hero-glow::before {
-      content: '';
-      position: absolute;
-      bottom: -60%; left: 50%;
-      transform: translateX(-50%);
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(232, 185, 72, 0.10) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    /* Hero title — Phase A: brighter gold #F0D050 (AAA on #6E436E) */
-    .hero-title-gold {
-      color: #F0D050;
-      text-shadow: 0 2px 12px rgba(74, 21, 75, 0.4);
-    }
-
-    /* Teal accent-line gradient (milli.gold deepOcean whisper) */
-    .accent-line-gradient {
-      background: linear-gradient(90deg, transparent, #0E7C86, transparent);
-    }
-
-    /* Reduced motion — respect user preference */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-  <script src="../assets/js/global-shell.js?v=1" defer></script>
+    <script src="../assets/js/global-shell.js?v=1" defer></script>
 </head>
 
-<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col selection:bg-gold-500 selection:text-white">
 
-<!-- GLOBAL SITE HEADER: START -->
+    <!-- GLOBAL SITE HEADER: START -->
 <!-- ========================================== -->
     <!-- 1. ANNOUNCEMENT BAR (Vertical Slider)      -->
     <!-- ========================================== -->
@@ -564,89 +463,150 @@
     <!-- ================= SECTION: MAIN HEADER END ================= -->
 <!-- GLOBAL SITE HEADER: END -->
 
-  <!-- ─── Hero band (purple gradient + White-Logo) ───
-       v4: padding reduced py-14 → py-6 so total layout fits in viewport
-       without scrolling. Title switched to gold + drop-shadow for contrast.
-       flex-shrink-0 ensures hero never compresses on ultra-short viewports. -->
-  <section class="offline-hero-bg offline-hero-glow relative text-white px-6 overflow-hidden flex-shrink-0" aria-label="اطلاعیه قطع ارتباط">
-    <div class="relative z-10 flex flex-col items-center text-center max-w-xl mx-auto">
-      <img src="../assets/images/White-Logo.png" alt="طلاشو" class="hero-logo w-14 h-14 mb-4 object-contain drop-shadow-md">
-      <h1 class="hero-title-gold text-2xl font-bold mb-2 leading-snug">ارتباط اینترنت قطع است</h1>
-      <p class="text-sm text-white/90 leading-7 max-w-md">
-        صفحه‌ای که می‌خواستید ببینید در حافظه دستگاه ذخیره نشده است و در حال حاضر
-        امکان بارگذاری از سرور وجود ندارد.
-      </p>
-    </div>
-  </section>
-
-  <!-- ─── Card body (3-step hint + retry button) ───
-       v4: main uses flex-1 so it fills remaining viewport space below the hero.
-       justify-start (not center) ensures the card sits right below the hero —
-       if the card is taller than main on short viewports, only the footer
-       (bottom) gets clipped, never the card overlapping the hero.
-       Body uses h-dvh + overflow-hidden so the page NEVER scrolls. -->
-  <main class="offline-main flex-1 flex flex-col justify-start px-6 py-3 w-full max-w-xl mx-auto overflow-hidden">
-    <div class="ts-card p-4 border border-border">
-
-      <h2 class="offline-card-heading text-lg font-bold text-primary-500 mb-1">چند قدم تا اتصال مجدد</h2>
-      <p class="offline-card-desc text-sm text-content-body mb-3 leading-6">
-        برای بازگشت به طلاشو، مراحل زیر را به ترتیب انجام دهید.
-      </p>
-
-      <!-- Teal accent line (milli.gold deepOcean whisper, single use). -->
-      <div class="offline-accent-line flex items-center gap-3 mb-3" aria-hidden="true">
-        <div class="flex-1 h-px accent-line-gradient opacity-50"></div>
-        <span class="text-sm text-[#0A5A63] font-bold tracking-wide whitespace-nowrap">راه‌حل سریع</span>
-        <div class="flex-1 h-px accent-line-gradient opacity-50"></div>
-      </div>
-
-      <ol class="offline-steps flex flex-col gap-2 mb-3 text-right">
-        <li class="offline-step flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
-          <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۱</span>
-          <div class="flex-1 min-w-0">
-            <div class="offline-step-title text-sm font-bold text-content-heading mb-0.5">اتصال اینترنت را بررسی کنید</div>
-            <div class="offline-step-desc text-xs text-content-body leading-5">
-              وای‌فای یا داده همراه خود را روشن کرده و مطمئن شوید سایر وب‌سایت‌ها باز می‌شوند.
-            </div>
-          </div>
-        </li>
-        <li class="offline-step flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
-          <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۲</span>
-          <div class="flex-1 min-w-0">
-            <div class="offline-step-title text-sm font-bold text-content-heading mb-0.5">صفحه را مجدداً بارگذاری کنید</div>
-            <div class="offline-step-desc text-xs text-content-body leading-5">
-              دکمه «تلاش دوباره» را بزنید یا کلید F5 را فشار دهید تا طلاشو دوباره بارگذاری شود.
-            </div>
-          </div>
-        </li>
-        <li class="offline-step flex gap-3 p-2.5 bg-background rounded-xl border-r-4 border-gold-500 transition-all duration-250 hover:bg-[#F5F0FA] hover:-translate-x-0.5">
-          <span class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm font-latin">۳</span>
-          <div class="flex-1 min-w-0">
-            <div class="offline-step-title text-sm font-bold text-content-heading mb-0.5">در صورت ادامه مشکل، بعداً تلاش کنید</div>
-            <div class="offline-step-desc text-xs text-content-body leading-5">
-              ممکن است سرور موقتاً در دسترس نباشد. چند دقیقه بعد دوباره امتحان کنید.
-            </div>
-          </div>
-        </li>
-      </ol>
-
-      <!-- Retry button (uses btn-gold component class from style.css) -->
-      <button type="button" class="btn-gold w-full" onclick="window.location.reload()" aria-label="تلاش مجدد برای بارگذاری صفحه">
-        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
-          <path d="M21 3v5h-5"/>
-          <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
-          <path d="M3 21v-5h5"/>
-        </svg>
-        <span>تلاش دوباره</span>
-      </button>
-
+    <!-- ============================================================
+         REAL-TIME CONNECTION STATUS TOAST
+         ============================================================ -->
+    <div id="connectionToast" class="fixed top-20 inset-x-0 z-50 flex justify-center px-4 transition-all duration-500 opacity-0 -translate-y-8 pointer-events-none">
+        <div id="connectionToastInner" class="flex items-center gap-3 px-5 py-3 rounded-full shadow-2xl text-sm font-bold bg-status-error text-white border border-white/20">
+            <i id="connectionToastIcon" class='bx bx-wifi-off text-xl animate-pulse'></i>
+            <span id="connectionToastText">ارتباط اینترنت شما قطع می‌باشد</span>
+        </div>
     </div>
 
-    <!-- Footer brand line (compact for no-scroll layout).
-         On ultra-short viewports this may get clipped by body overflow-hidden —
-         acceptable since it's just brand attribution, not actionable content.
-         v5: hidden via .offline-footer-brand on max-height ≤ 600px. -->
+
+    <!-- ============================================================
+         MAIN OFFLINE HERO CONTAINER
+         ============================================================ -->
+    <main class="flex-1 py-10 lg:py-16">
+        <div class="container-page max-w-4xl mx-auto">
+
+            <!-- OFFLINE MAIN CARD -->
+            <div class="bg-surface rounded-3xl p-6 sm:p-10 shadow-card border border-border text-center relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 start-0 w-48 h-48 bg-primary-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute bottom-0 end-0 w-48 h-48 bg-gold-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Animated Offline Icon -->
+                <div class="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-primary-100 rounded-full animate-ping opacity-25"></div>
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary-600 to-primary-800 text-gold-400 flex items-center justify-center shadow-lg relative z-10">
+                        <i class='bx bx-wifi-off text-5xl'></i>
+                    </div>
+                </div>
+
+                <!-- Badge Status Indicator -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/20 text-xs font-bold mb-4">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    <span id="statusBadgeText">وضعیت: آفلاین (بدون دسترسی به اینترنت)</span>
+                </div>
+
+                <!-- Main Heading & Subtitle -->
+                <h1 class="text-2xl sm:text-3xl font-black text-content-heading mb-3 tracking-tight">
+                    ارتباط شما با شبکه قطع شده است
+                </h1>
+                <p class="text-body text-content-body max-w-lg mx-auto leading-relaxed mb-8">
+                    صفحه درخواستی شما در حافظه موقت ذخیره نشده است. لطفا پس از بررسی اتصال اینترنت، مجدداً تلاش کنید.
+                </p>
+
+                <!-- Primary Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-4 mb-10">
+                    <button type="button" id="retryBtn" onclick="handleRetry()" class="btn-gold px-8 py-3.5 text-sm font-bold shadow-lg hover:shadow-gold-500/20 inline-flex items-center gap-2">
+                        <i id="retryIcon" class='bx bx-refresh text-xl'></i>
+                        <span>تلاش مجدد برای اتصال</span>
+                    </button>
+                    <a href="../index.html" class="btn-secondary px-6 py-3.5 text-sm font-bold inline-flex items-center gap-2">
+                        <i class='bx bx-home-alt text-xl text-primary-500'></i>
+                        <span>صفحه اصلی (نسخه پیش‌فرض)</span>
+                    </a>
+                </div>
+
+
+                <!-- ============================================================
+                     DIGIKALA-STYLE OFFLINE QUICK LINKS & ACCESSIBLE AREAS
+                     ============================================================ -->
+                <div class="border-t border-border pt-8 mt-4">
+                    <h2 class="text-caption font-bold text-content-heading uppercase tracking-wider mb-6">
+                        بخش‌های در دسترس و پشتیبانی آفلاین
+                    </h2>
+
+                    <div class="grid sm:grid-cols-3 gap-4 text-right">
+
+                        <!-- Offline Feature 1: Phone Support -->
+                        <div class="p-4 rounded-2xl bg-background border border-border hover:border-primary-300 transition-colors">
+                            <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mb-3">
+                                <i class='bx bx-phone-call'></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-content-heading mb-1">پشتیبانی تلفنی طلاشو</h3>
+                            <p class="text-xs text-content-muted mb-3 leading-relaxed">پاسخگویی ۲۴ ساعته در تمام روزهای هفته</p>
+                            <a href="tel:02112345678" class="text-xs font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1">
+                                <span class="numeric-measure">
+                                    <span class="numeric-measure__unit">تلفن</span>
+                                    <span class="font-latin">۰۲۱-۱۲۳۴۵۶۷۸</span>
+                                </span>
+                                <i class='bx bx-phone text-base'></i>
+                            </a>
+                        </div>
+
+                        <!-- Offline Feature 2: Physical Stores -->
+                        <div class="p-4 rounded-2xl bg-background border border-border hover:border-gold-400 transition-colors">
+                            <div class="w-10 h-10 rounded-xl bg-gold-50 text-gold-700 flex items-center justify-center text-xl mb-3">
+                                <i class='bx bx-map-pin'></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-content-heading mb-1">مراجعه به شعب حضوری</h3>
+                            <p class="text-xs text-content-muted mb-3 leading-relaxed">گالری اصلی کرمان و مرکز معاملات تهران</p>
+                            <a href="../about.html#branches" class="text-xs font-bold text-gold-700 hover:text-gold-900 flex items-center gap-1">
+                                <span>آدرس و ساعت کاری</span>
+                                <i class='bx bx-left-arrow-alt text-base'></i>
+                            </a>
+                        </div>
+
+                        <!-- Offline Feature 3: Saved Items -->
+                        <div class="p-4 rounded-2xl bg-background border border-border hover:border-primary-300 transition-colors">
+                            <div class="w-10 h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center text-xl mb-3">
+                                <i class='bx bx-heart'></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-content-heading mb-1">لیست علاقه‌مندی‌های ذخیره</h3>
+                            <p class="text-xs text-content-muted mb-3 leading-relaxed">مشاهده زیورآلات نشان‌شده در حافظه</p>
+                            <a href="../index.html" class="text-xs font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1">
+                                <span>مشاهده لیست</span>
+                                <i class='bx bx-left-arrow-alt text-base'></i>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- ============================================================
+                     TROUBLESHOOTING CHECKLIST
+                     ============================================================ -->
+                <div class="mt-8 p-5 bg-primary-50/50 rounded-2xl border border-primary-100 text-right">
+                    <h3 class="text-sm font-bold text-primary-900 mb-3 flex items-center gap-2">
+                        <i class='bx bx-bulb text-gold-600 text-lg'></i>
+                        <span>راهنمای رفع مشکل عدم اتصال:</span>
+                    </h3>
+                    <ul class="space-y-2 text-xs text-primary-800 leading-relaxed">
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
+                            <span>از وصل بودن Wi-Fi یا فعال بودن داده همراه (Mobile Data) مطمئن شوید.</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
+                            <span>یک‌بار حالت پرواز (Airplane Mode) دستگاه خود را روشن و سپس خاموش کنید.</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-gold-500"></span>
+                            <span>در صورت استفاده از نرم‌افزار تغییر IP، وضعیت آن را بررسی نمایید.</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+
     <!-- GLOBAL SITE FOOTER: START -->
 <footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
             <div class="container mx-auto px-4 md:px-6">
@@ -859,15 +819,94 @@
         </footer>
 <!-- GLOBAL SITE FOOTER: END -->
 
-  </main>
+    <!-- MOBILE BOTTOM NAV -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-[60] rounded-t-2xl px-6 py-2 pb-[env(safe-area-inset-bottom,0.5rem)]">
+        <ul class="flex justify-between items-center text-xs text-content-muted">
+            <li>
+                <a href="../index.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-home-alt text-2xl'></i>
+                    <span>خانه</span>
+                </a>
+            </li>
+            <li>
+                <a href="../products.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-grid-alt text-2xl'></i>
+                    <span>محصولات</span>
+                </a>
+            </li>
+            <li>
+                <a href="../about.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-info-circle text-2xl'></i>
+                    <span>درباره ما</span>
+                </a>
+            </li>
+            <li>
+                <a href="../contact.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-phone-call text-2xl'></i>
+                    <span>تماس</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-  <script>
-    // When back online, auto-retry once.
-    window.addEventListener('online', function () {
-      window.location.reload();
-    });
-  </script>
 
+    <!-- SCRIPTS & REAL-TIME CONNECTION MANAGEMENT -->
+    <script>
+        function handleRetry() {
+            const icon = document.getElementById('retryIcon');
+            if (icon) icon.classList.add('bx-spin');
+            
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+
+        // Real-time network detection
+        function updateNetworkStatus() {
+            const toast = document.getElementById('connectionToast');
+            const toastInner = document.getElementById('connectionToastInner');
+            const toastIcon = document.getElementById('connectionToastIcon');
+            const toastText = document.getElementById('connectionToastText');
+            const badgeText = document.getElementById('statusBadgeText');
+
+            if (navigator.onLine) {
+                if (toastInner) {
+                    toastInner.className = "flex items-center gap-3 px-5 py-3 rounded-full shadow-2xl text-sm font-bold bg-status-success text-white border border-white/20";
+                }
+                if (toastIcon) toastIcon.className = "bx bx-wifi text-xl animate-bounce";
+                if (toastText) toastText.textContent = "اتصال اینترنت برقرار شد! در حال انتقال...";
+                if (badgeText) badgeText.textContent = "وضعیت: آنلاین (اتصال برقرار است)";
+                
+                if (toast) {
+                    toast.classList.remove('opacity-0', '-translate-y-8');
+                    toast.classList.add('opacity-100', 'translate-y-0');
+                }
+
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                if (toastInner) {
+                    toastInner.className = "flex items-center gap-3 px-5 py-3 rounded-full shadow-2xl text-sm font-bold bg-status-error text-white border border-white/20";
+                }
+                if (toastIcon) toastIcon.className = "bx bx-wifi-off text-xl animate-pulse";
+                if (toastText) toastText.textContent = "ارتباط اینترنت شما قطع می‌باشد";
+                if (badgeText) badgeText.textContent = "وضعیت: آفلاین (بدون دسترسی به اینترنت)";
+
+                if (toast) {
+                    toast.classList.remove('opacity-0', '-translate-y-8');
+                    toast.classList.add('opacity-100', 'translate-y-0');
+                    setTimeout(() => {
+                        toast.classList.remove('opacity-100', 'translate-y-0');
+                        toast.classList.add('opacity-0', '-translate-y-8');
+                    }, 4000);
+                }
+            }
+        }
+
+        window.addEventListener('online', updateNetworkStatus);
+        window.addEventListener('offline', updateNetworkStatus);
+    </script>
 </body>
 
 </html>
