@@ -5,7 +5,7 @@
      • 8px spacing system (4px micro-adjustments allowed)
      • Tiered border radius: 20/16/14/999 by element type
      • Very subtle 2-layer shadows
-     • White cards floating on #F5F5F5 background
+     • Warm off-white cards floating on #F9F6F0 background
      • Whitespace over borders
      • Modular components, generous corner radii
    Brand:
@@ -154,17 +154,17 @@
 
   /* Custom scrollbar for the entire page — thin, purple-themed with gold hover */
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: #F5F5F5; }
+  ::-webkit-scrollbar-track { background: #F9F6F0; }
   ::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #9F6BA0 0%, #4A154B 100%);
     border-radius: 999px;
-    border: 2px solid #F5F5F5;
+    border: 2px solid #F9F6F0;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #D4AF37 0%, #A88926 100%);
   }
   /* Firefox */
-  html { scrollbar-width: thin; scrollbar-color: #9F6BA0 #F5F5F5; }
+  html { scrollbar-width: thin; scrollbar-color: #9F6BA0 #F9F6F0; }
 
   /* Custom scrollbar for horizontal scroll containers (categories, product carousels) */
   .cat-scroll::-webkit-scrollbar { height: 6px; }
@@ -324,7 +324,7 @@
   }
   .countdown-track {
     fill: none;
-    stroke: #F0EFF4;
+    stroke: #F4F1EC;
     stroke-width: 7;
   }
   .countdown-progress {
@@ -376,7 +376,7 @@
   }
   .countdown-label {
     font-size: 0.7rem;
-    color: #8D94A5;
+    color: #948E88;
   }
   .countdown-time.cd-tick { animation: cd-pop 0.3s ease-out; }
 

@@ -165,30 +165,30 @@ module.exports = {
           700: '#3E4550',
         },
 
-        /* Background & surface — spec-exact */
+        /* Background & surface — warmed up for Talasho's gold identity */
         background: {
-          DEFAULT: '#F5F5F5',  /* spec: page background */
-          surface: '#FFFFFF',   /* spec: card background */
-          hover:   '#FAFAFA',   /* subtle hover surface */
+          DEFAULT: '#F9F6F0',  /* warm off-white with subtle gold undertone */
+          surface: '#FEFEFE',   /* barely off-white, warmer than pure #FFFFFF */
+          hover:   '#F4F1EC',   /* subtle warm hover surface */
         },
         /* Convenience top-level aliases */
-        surface: '#FFFFFF',
-        'surface-hover': '#FAFAFA',
+        surface: '#FEFEFE',
+        'surface-hover': '#F4F1EC',
 
-        /* Text colors — spec-exact */
+        /* Text colors — warmed up (less blue-gray, more neutral-warm) */
         content: {
-          heading: '#23254A',  /* spec: heading */
-          body:    '#5E6472',  /* spec: body */
-          muted:   '#8D94A5',  /* spec: muted */
+          heading: '#1E1E28',  /* warm near-black */
+          body:    '#524E4A',  /* warm medium gray */
+          muted:   '#948E88',  /* warm muted gray */
           invert:  '#FFFFFF',
           // Keep legacy aliases for backward compat with old HTML during migration
-          main:    '#23254A',
+          main:    '#1E1E28',
         },
 
-        /* Borders — spec-exact */
+        /* Borders — warmed up */
         border: {
-          DEFAULT: '#ECECEC',
-          strong:  '#E0E0E0',
+          DEFAULT: '#E8E2DC',
+          strong:  '#DCD6CE',
         },
 
         /* Semantic / status — spec-exact */
