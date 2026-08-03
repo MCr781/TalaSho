@@ -131,12 +131,14 @@
          after the page is interactive. See /pwa/BACKEND_NOTES.md for details
          on update flow, cache versioning, and offline behavior. -->
     <script src="./pwa/js/sw-register.js" defer></script>
+  <script src="./assets/js/global-shell.js?v=1" defer></script>
 </head>
 
 <body class="bg-background text-content-body antialiased">
 
 
-    <!-- ========================================== -->
+    <!-- GLOBAL SITE HEADER: START -->
+<!-- ========================================== -->
     <!-- 1. ANNOUNCEMENT BAR (Vertical Slider)      -->
     <!-- ========================================== -->
     <div class="relative w-full bg-[#4A154B] text-[#D4AF37] h-10 overflow-hidden">
@@ -225,9 +227,9 @@
                 <div class="flex items-center gap-3 justify-self-start">
 
                     <!-- Mobile menu toggle (visible < lg) -->
-                    <button id="mobileMenuToggle" type="button"
+                    <button id="globalMobileMenuToggle" type="button"
                         class="lg:hidden p-2 -ms-2 text-content-heading hover:text-primary-500 transition-colors"
-                        aria-label="باز کردن منوی اصلی" aria-expanded="false" aria-controls="mobileMenu">
+                        aria-label="باز کردن منوی اصلی" aria-expanded="false" aria-controls="globalMobileMenu">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -237,7 +239,7 @@
 
                     <!-- Logo -->
                     <!-- BACKEND: INJECT LOGO IMAGE — recommended height 36-40px -->
-                    <a href="/" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو — صفحه اصلی">
+                    <a href="./index.html" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو — صفحه اصلی">
                         <img src="./assets/images/Purple-Logo.png" alt="طلاشو" class="h-full w-auto object-contain">
                         <span
                             class="text-xl lg:text-2xl font-black text-primary-500 leading-none">طلاشو</span>
@@ -248,8 +250,8 @@
                 <!-- ===== COLUMN 2 (CENTER) — SEARCH BAR ===== -->
                 <!-- BACKEND: SEARCH FORM — action + method -->
                 <form action="#" method="get" class="hidden md:flex w-full max-w-3xl relative justify-self-center">
-                    <label for="searchInput" class="sr-only">جستجو</label>
-                    <input id="searchInput" type="text" name="q" placeholder="جستجو در میان هزاران محصول زیبا..." class="w-full bg-background border border-border focus:bg-surface focus:border-primary-500
+                    <label for="globalSearchInput" class="sr-only">جستجو</label>
+                    <input id="globalSearchInput" type="text" name="q" placeholder="جستجو در میان هزاران محصول زیبا..." class="w-full bg-background border border-border focus:bg-surface focus:border-primary-500
                            rounded-full py-2.5 lg:py-3 ps-12 pe-4 outline-none transition-all duration-250
                            text-body text-content-heading placeholder-content-muted">
 
@@ -271,7 +273,7 @@
 
                     <!-- Profile / Login -->
                     <!-- BACKEND: IF USER IS LOGGED IN -> SHOW USER AVATAR/MENU, ELSE SHOW LOGIN BUTTON -->
-                    <a href="#"
+                    <a href="./wallet/login.html"
                         class="hidden md:flex items-center gap-2 px-3 py-2 rounded-full hover:bg-background-hover transition-colors text-content-heading">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -313,8 +315,8 @@
 
             <!-- Mobile search bar (visible < md) -->
             <form action="#" method="get" class="hidden">
-                <label for="searchInputMobile" class="sr-only">جستجو</label>
-                <input id="searchInputMobile" type="text" name="q" placeholder="جستجو..." class="w-full bg-background border border-border focus:bg-surface focus:border-primary-500
+                <label for="globalSearchInputMobile" class="sr-only">جستجو</label>
+                <input id="globalSearchInputMobile" type="text" name="q" placeholder="جستجو..." class="w-full bg-background border border-border focus:bg-surface focus:border-primary-500
                        rounded-full py-2.5 ps-11 pe-4 outline-none transition-all duration-250
                        text-body text-content-heading placeholder-content-muted">
                 <button type="submit" class="absolute inset-y-0 start-0 flex items-center ps-3.5 text-content-muted"
@@ -498,12 +500,12 @@
 
 
         <!-- ===== MOBILE MENU DRAWER (slide-in from start side = right in RTL) ===== -->
-        <div id="mobileMenu"
+        <div id="globalMobileMenu"
             class="fixed inset-y-0 start-0 w-72 bg-surface shadow-lg z-[60] transform translate-x-full rtl:translate-x-full transition-transform duration-300 lg:hidden flex flex-col"
             aria-hidden="true">
             <div class="p-4 border-b border-border flex items-center justify-between">
                 <img src="./assets/images/Purple-Logo.png" alt="طلاشو" class="h-10 w-auto">
-                <button id="mobileMenuClose" type="button"
+                <button id="globalMobileMenuClose" type="button"
                     class="p-1.5 text-content-muted hover:text-primary-500 transition-colors" aria-label="بستن منو">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -541,7 +543,7 @@
                     class="block py-3 text-status-error font-bold hover:opacity-80 transition-opacity text-body border-b border-border">شگفت‌انگیزها</a>
             </nav>
             <div class="p-4 border-t border-border">
-                <a href="#" class="flex items-center justify-center gap-2 w-full btn-primary">
+                <a href="./wallet/login.html" class="flex items-center justify-center gap-2 w-full btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -553,11 +555,12 @@
         </div>
 
         <!-- Mobile menu overlay -->
-        <div id="mobileMenuOverlay"
+        <div id="globalMobileMenuOverlay"
             class="fixed inset-0 bg-black/40 z-[55] hidden lg:hidden opacity-0 transition-opacity duration-300"
             aria-hidden="true"></div>
     </header>
     <!-- ================= SECTION: MAIN HEADER END ================= -->
+<!-- GLOBAL SITE HEADER: END -->
 
 
     <!-- ============================================================
@@ -2746,7 +2749,8 @@
         <!-- ========================================== -->
         <!-- 15. MAIN MEGA FOOTER (Dark Luxury Filled)  -->
         <!-- ========================================== -->
-        <footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
+        <!-- GLOBAL SITE FOOTER: START -->
+<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
             <div class="container mx-auto px-4 md:px-6">
 
                 <!-- === Top Tier: Brand, Phone, Back to Top === -->
@@ -2955,6 +2959,7 @@
 
             </div>
         </footer>
+<!-- GLOBAL SITE FOOTER: END -->
 
         <!-- ===== LOCAL JS (no CDN) ===== -->
         <script src="./assets/js/vendor/swiper-bundle.min.js"></script>

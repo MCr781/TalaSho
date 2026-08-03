@@ -114,6 +114,12 @@
     unicode-bidi: isolate;
   }
 
+  /* Segmented OTP inputs must advance visually from left to right in RTL pages. */
+  .otp-input-group {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
   /* Custom Swiper pagination — small white dots on dark, dark dots on light */
   .swiper-pagination-bullet {
     background-color: rgba(35, 37, 74, 0.3);
