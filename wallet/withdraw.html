@@ -500,30 +500,32 @@
 
         <!-- Countdown -->
         <div class="flex justify-center mb-5">
-          <div class="countdown-wrap" id="countdownWrap">
-            <svg class="countdown-svg" viewBox="0 0 100 100" aria-hidden="true">
-              <defs>
-                <linearGradient id="cd-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#E8B948"/>
-                  <stop offset="100%" stop-color="#6E436E"/>
-                </linearGradient>
-                <linearGradient id="cd-grad-low" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#FCD34D"/>
-                  <stop offset="100%" stop-color="#D97706"/>
-                </linearGradient>
-                <linearGradient id="cd-grad-critical" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#FCA5A5"/>
-                  <stop offset="100%" stop-color="#DC2626"/>
-                </linearGradient>
-              </defs>
-              <circle class="countdown-track" cx="50" cy="50" r="44"/>
-              <circle class="countdown-progress" id="countdownCircle" cx="50" cy="50" r="44"/>
-              <circle class="countdown-tip" id="countdownTip" cx="50" cy="50" r="44"/>
-            </svg>
-            <div class="countdown-center">
-              <span class="countdown-time font-latin" id="countdownTime">۱۰:۰۰</span>
-              <span class="countdown-label">زمان باقی‌مانده برای پرداخت</span>
+          <div class="flex flex-col items-center gap-2">
+            <div class="countdown-wrap" id="countdownWrap" aria-describedby="countdownLabel">
+              <svg class="countdown-svg" viewBox="0 0 100 100" aria-hidden="true">
+                <defs>
+                  <linearGradient id="cd-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#E8B948"/>
+                    <stop offset="100%" stop-color="#6E436E"/>
+                  </linearGradient>
+                  <linearGradient id="cd-grad-low" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FCD34D"/>
+                    <stop offset="100%" stop-color="#D97706"/>
+                  </linearGradient>
+                  <linearGradient id="cd-grad-critical" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FCA5A5"/>
+                    <stop offset="100%" stop-color="#DC2626"/>
+                  </linearGradient>
+                </defs>
+                <circle class="countdown-track" cx="50" cy="50" r="44"/>
+                <circle class="countdown-progress" id="countdownCircle" cx="50" cy="50" r="44"/>
+                <circle class="countdown-tip" id="countdownTip" cx="50" cy="50" r="44"/>
+              </svg>
+              <div class="countdown-center">
+                <span class="countdown-time font-latin" id="countdownTime">۱۰:۰۰</span>
+              </div>
             </div>
+            <span class="text-xs text-content-muted" id="countdownLabel">زمان باقی‌مانده برای پرداخت</span>
           </div>
         </div>
 

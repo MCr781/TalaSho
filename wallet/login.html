@@ -434,7 +434,7 @@
             </div>
 
             <!-- BACKEND: wire to auth API — create user profile -->
-            <form data-backend-hook="auth-step-3" onsubmit="return false;">
+            <form data-backend-hook="auth-step-3" onsubmit="return completeRegistration(event);">
               <div class="grid sm:grid-cols-2 gap-4 mb-5">
                 <div>
                   <label for="firstname-input" class="block text-sm font-bold text-content-heading mb-2">نام</label>
@@ -498,6 +498,7 @@
 
               <!-- BACKEND: wire to auth API — submit full registration -->
               <button type="submit"
+                      id="complete-registration-btn"
                       class="btn-gold w-full py-4 text-base"
                       data-backend-hook="complete-registration">
                 <span> تکمیل ثبت‌نام</span>
@@ -638,6 +639,27 @@
       }
       update();
       resendInterval = setInterval(update, 1000);
+    }
+
+    function completeRegistration(event) {
+      event.preventDefault();
+      var form = event.currentTarget;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+      }
+
+      var submitBtn = document.getElementById('complete-registration-btn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        var label = submitBtn.querySelector('span');
+        if (label) label.textContent = 'در حال ساخت حساب...';
+      }
+
+      window.setTimeout(function () {
+        window.location.href = './setup-success.html';
+      }, 350);
+      return false;
     }
   </script>
 

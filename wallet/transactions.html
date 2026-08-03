@@ -383,11 +383,11 @@
 
     // TX data
     var txData={
-      tx1:{title:'خرید طلا',type:'buy',status:'موفق',statusColor:'#22c55e',amount:'گرم +۰.۲۵۰',rial:'تومان ۴۶،۵۴۵،۰۰۰',rate:'تومان/گرم ۱۸۶،۱۸۰',fee:'تومان ۲۳۲،۷۲۵',vault:'قلک اصلی',tracking:'TL1722533520000',date:'۱۴۰۵/۰۵/۰۱ - ۱۴:۳۲',desc:'خرید طلای آب‌شده ۱۸ عیار از قلک اصلی با موفقیت انجام شد.'},
-      tx2:{title:'فروش طلا',type:'sell',status:'موفق',statusColor:'#22c55e',amount:'گرم -۰.۵۰۰',rial:'تومان ۹۲،۵۹۳،۵۰۰',rate:'تومان/گرم ۱۸۵،۶۸۰',fee:'تومان ۲۷۷،۷۸۰',vault:'قلک اصلی',tracking:'TL1722360900000',date:'۱۴۰۵/۰۴/۳۰ - ۱۰:۱۵',desc:'فروش طلای آب‌شده با کارمزد ۰.۳٪. مبلغ ریالی به کیف پول واریز شد.'},
-      tx3:{title:'خرید طلا',type:'buy',status:'موفق',statusColor:'#22c55e',amount:'گرم +۱.۰۰۰',rial:'تومان ۱۸۶،۱۸۰،۰۰۰',rate:'۱۸۶،۱۸۰ تومان/گرم',fee:'تومان ۹۳۰،۹۰۰',vault:'قلک اصلی',tracking:'TL1721925900000',date:'۱۴۰۵/۰۴/۲۵ - ۰۹:۴۵',desc:'خرید ۱ گرم طلای ۱۸ عیار با کارمزد ۰.۵٪.'},
-      tx4:{title:'برداشت ریالی',type:'withdraw',status:'موفق',statusColor:'#22c55e',amount:'تومان -۵،۰۰۰،۰۰۰',rial:null,rate:null,fee:'تومان ۰',vault:'حساب بانکی',tracking:'TL1721505600000',date:'۱۴۰۵/۰۴/۲۰ - ۱۶:۰۰',desc:'برداشت ریالی از کیف پول به حساب بانکی ملی (۱۲۳۴). بدون کارمزد.'},
-      tx5:{title:'پاداش دعوت دوستان',type:'reward',status:'در انتظار',statusColor:'#f59e0b',amount:'گرم +۰.۰۵۰',rial:null,rate:null,fee:'۰ تومان',vault:'قلک اصلی',tracking:'TL1721089200000',date:'۱۴۰۵/۰۴/۱۵ - ۱۱:۲۰',desc:'پاداش دعوت دوست عزیز. پس از تأیید اولین خرید دوست، به قلک شما اضافه می‌شود.'}
+      tx1:{title:'خرید طلا',type:'buy',status:'موفق',statusColor:'#22c55e',amount:{unit:'گرم',value:'۰.۲۵۰',sign:'+'},rial:'تومان ۴۶،۵۴۵،۰۰۰',rate:'تومان/گرم ۱۸۶،۱۸۰',fee:'تومان ۲۳۲،۷۲۵',vault:'قلک اصلی',tracking:'TL1722533520000',date:'۱۴۰۵/۰۵/۰۱ - ۱۴:۳۲',desc:'خرید طلای آب‌شده ۱۸ عیار از قلک اصلی با موفقیت انجام شد.'},
+      tx2:{title:'فروش طلا',type:'sell',status:'موفق',statusColor:'#22c55e',amount:{unit:'گرم',value:'۰.۵۰۰',sign:'-'},rial:'تومان ۹۲،۵۹۳،۵۰۰',rate:'تومان/گرم ۱۸۵،۶۸۰',fee:'تومان ۲۷۷،۷۸۰',vault:'قلک اصلی',tracking:'TL1722360900000',date:'۱۴۰۵/۰۴/۳۰ - ۱۰:۱۵',desc:'فروش طلای آب‌شده با کارمزد ۰.۳٪. مبلغ ریالی به کیف پول واریز شد.'},
+      tx3:{title:'خرید طلا',type:'buy',status:'موفق',statusColor:'#22c55e',amount:{unit:'گرم',value:'۱.۰۰۰',sign:'+'},rial:'تومان ۱۸۶،۱۸۰،۰۰۰',rate:'۱۸۶،۱۸۰ تومان/گرم',fee:'تومان ۹۳۰،۹۰۰',vault:'قلک اصلی',tracking:'TL1721925900000',date:'۱۴۰۵/۰۴/۲۵ - ۰۹:۴۵',desc:'خرید ۱ گرم طلای ۱۸ عیار با کارمزد ۰.۵٪.'},
+      tx4:{title:'برداشت ریالی',type:'withdraw',status:'موفق',statusColor:'#22c55e',amount:{unit:'تومان',value:'۵،۰۰۰،۰۰۰',sign:'-'},rial:null,rate:null,fee:'تومان ۰',vault:'حساب بانکی',tracking:'TL1721505600000',date:'۱۴۰۵/۰۴/۲۰ - ۱۶:۰۰',desc:'برداشت ریالی از کیف پول به حساب بانکی ملی (۱۲۳۴). بدون کارمزد.'},
+      tx5:{title:'پاداش دعوت دوستان',type:'reward',status:'در انتظار',statusColor:'#f59e0b',amount:{unit:'گرم',value:'۰.۰۵۰',sign:'+'},rial:null,rate:null,fee:'۰ تومان',vault:'قلک اصلی',tracking:'TL1721089200000',date:'۱۴۰۵/۰۴/۱۵ - ۱۱:۲۰',desc:'پاداش دعوت دوست عزیز. پس از تأیید اولین خرید دوست، به قلک شما اضافه می‌شود.'}
     };
 
     // Filter
@@ -419,6 +419,13 @@
       });
     })();
 
+    function renderSignedMeasure(measure){
+      return '<span class="numeric-measure" aria-label="'+measure.sign+measure.value+' '+measure.unit+'">'
+        +'<span class="numeric-measure__unit" aria-hidden="true">'+measure.unit+'</span>'
+        +'<span class="font-latin" aria-hidden="true">'+measure.value+'</span>'
+        +'<span class="font-latin" aria-hidden="true">'+measure.sign+'</span></span>';
+    }
+
     // Detail
     function showDetail(id){
       var d=txData[id];if(!d)return;
@@ -427,7 +434,7 @@
       var c=colors[d.type]||'#6E436E';
       var icon=icons[d.type]||icons.buy;
       var rows='';
-      rows+='<div class="flex items-center justify-between py-2"><span class="text-sm text-content-muted">مقدار / مبلغ</span><span class="font-latin text-sm font-bold text-content-heading">'+d.amount+'</span></div>';
+      rows+='<div class="flex items-center justify-between py-2"><span class="text-sm text-content-muted">مقدار / مبلغ</span><span class="text-sm font-bold text-content-heading">'+renderSignedMeasure(d.amount)+'</span></div>';
       if(d.rial) rows+='<div class="flex items-center justify-between py-2"><span class="text-sm text-content-muted">مبلغ ریالی</span><span class="font-latin text-sm font-bold text-content-heading">'+d.rial+'</span></div>';
       if(d.rate) rows+='<div class="flex items-center justify-between py-2"><span class="text-sm text-content-muted">نرخ معامله</span><span class="font-latin text-sm font-bold text-content-heading">'+d.rate+'</span></div>';
       rows+='<div class="flex items-center justify-between py-2"><span class="text-sm text-content-muted">کارمزد</span><span class="font-latin text-sm font-bold text-content-heading">'+d.fee+'</span></div>';
