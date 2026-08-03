@@ -647,6 +647,31 @@
   .ts-swiper-arrow svg {
     @apply w-5 h-5;
   }
+
+
+  /* ============ PRODUCT DETAIL PAGE COMPONENTS ============ */
+
+  /* Variant Chip */
+  .variant-chip {
+    @apply inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium
+           border-2 border-border rounded-full
+           text-content-heading bg-surface
+           hover:border-primary-300 hover:bg-primary-50
+           transition-all duration-200 cursor-pointer select-none;
+  }
+  .variant-chip--active {
+    @apply border-primary-500 bg-primary-50 text-primary-600 ring-2 ring-primary-500/15;
+  }
+
+  /* Product Tab */
+  .product-tab--active {
+    @apply border-primary-500 text-primary-500 font-bold;
+  }
+
+  /* Mobile Buy Bar Animation */
+  #mobileBuyBar {
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 /* ------------------------------------------------------------------

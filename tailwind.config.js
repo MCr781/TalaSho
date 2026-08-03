@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./*.html",
+    "./product/**/*.html",
     "./assets/js/**/*.js",
     // PWA layer — added so Tailwind scans PWA HTML files and emits the
     // utility classes they use. Does NOT change the main site's rendered
@@ -89,6 +90,15 @@ module.exports = {
     'bg-primary-500', 'text-primary-500', 'border-primary-500',
     'bg-primary-600', 'text-primary-600', 'border-primary-600',
     'bg-primary-700', 'text-primary-700', 'border-primary-700',
+    // Product page components
+    'product-gallery',
+    'product-gallery__main',
+    'product-gallery__thumbs',
+    'product-buy-box',
+    'product-specs-table',
+    'product-review-card',
+    'variant-chip',
+    'variant-chip--active',
   ],
   theme: {
     extend: {
