@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  طلاشو VIP — درباره ما (About)
+  طلاشو VIP — درباره ما (About Us)
   ----------------------------------------------------------------------------
   Page: about.html
-  Status: Phase G-1 rebuild — chrome aligned with index.html
-  Stack: HTML5 + Tailwind (compiled) + Vanilla JS + Swiper + Boxicons
+  Status: Redesigned & Enhanced — Digikala-inspired UX with Barzigar VIP Identity
+  Stack: HTML5 + Tailwind CSS + Vanilla JS + Boxicons
   RTL: Persian (fa) — Vazirmatn-FD (Persian numerals)
   ============================================================================
 -->
@@ -14,12 +14,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#6E436E">
+    <meta name="theme-color" content="#4A154B">
 
-    <!-- BACKEND: INJECT PAGE TITLE -->
-    <title>درباره طلاشو | زیرمجموعه وی آی پی برزیگر گلد و جواهر</title>
+    <title>درباره طلاشو | زیرمجموعه وی آی پی برزیگر گُلد و جولری</title>
     <meta name="description"
-        content="داستان طلاشو، زیرمجموعه وی آی پی برزیگر گُلد و جولری — بیش از ۳۰ سال تجربه در صنعت طلا و جواهر، همراه با چشم‌انداز بین‌المللی">
+        content="داستان برند طلاشو و گروه طلا و جواهر برزیگر — بیش از ۳۰ سال اصالت، ساخت سفارشی جواهرات و سامانه هوشمند طلای دیجیتال با چشم‌انداز بین‌المللی">
 
     <!-- PWA -->
     <link rel="manifest" href="./pwa/manifest.webmanifest">
@@ -44,15 +43,11 @@
 
     <!-- PWA service worker -->
     <script src="./pwa/js/sw-register.js" defer></script>
-  <script src="./assets/js/global-shell.js?v=1" defer></script>
+    <script src="./assets/js/global-shell.js?v=1" defer></script>
 </head>
 
-<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col selection:bg-gold-500 selection:text-white">
 
-
-    <!-- ============================================================
-         1. ANNOUNCEMENT BAR — vertical sliding ticker (matches index)
-         ============================================================ -->
     <!-- GLOBAL SITE HEADER: START -->
 <!-- ========================================== -->
     <!-- 1. ANNOUNCEMENT BAR (Vertical Slider)      -->
@@ -478,9 +473,8 @@
     <!-- ================= SECTION: MAIN HEADER END ================= -->
 <!-- GLOBAL SITE HEADER: END -->
 
-
     <!-- ============================================================
-         3. BREADCRUMB (Digikala-style, sits below the sticky header)
+         1. BREADCRUMB (Digikala-style)
          ============================================================ -->
     <div class="bg-surface border-b border-border">
         <div class="container-page py-3">
@@ -497,46 +491,66 @@
 
 
     <!-- ============================================================
-         4. PAGE HERO — editorial header (NOT a generic gradient)
-         Purple band with eyebrow + big title + lead + 2 CTAs
+         2. HERO BANNER — Royal Editorial Header
          ============================================================ -->
-    <section class="bg-gradient-to-bl from-primary-700 via-primary-600 to-primary-800 text-white relative overflow-hidden">
-        <!-- subtle gold corner accent -->
-        <div class="absolute top-0 start-0 w-32 h-32 bg-gold-400/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 end-0 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl"></div>
-        <!-- dark overlay for text contrast -->
-        <div class="absolute inset-0 bg-black/20"></div>
+    <section class="bg-gradient-to-bl from-primary-900 via-primary-700 to-primary-800 text-white relative overflow-hidden">
+        <!-- Ambient Decorative Glows -->
+        <div class="absolute top-0 start-0 w-72 h-72 bg-gold-400/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 end-0 w-96 h-96 bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
 
         <div class="container-page py-12 lg:py-20 relative z-10">
-            <div class="max-w-3xl">
-                <!-- eyebrow -->
-                <div class="flex items-center gap-3 mb-5">
-                    <span class="h-px w-10 bg-gold-400"></span>
-                    <span class="text-xs font-bold tracking-widest text-gold-300 uppercase font-latin">Our Story</span>
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <!-- Text Content -->
+                <div class="lg:col-span-7">
+                    <!-- Eyebrow Tag -->
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/20 border border-gold-400/30 text-gold-300 text-xs font-bold mb-6">
+                        <i class='bx bxs-crown text-base text-gold-400'></i>
+                        <span>داستان برند طلاشو VIP</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
+                        <span>گروه طلا و جواهر برزیگر</span>
+                    </div>
+
+                    <!-- Main Title -->
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight mb-6 tracking-tight">
+                        سه دهه اصالت، اعتماد
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-l from-gold-300 via-gold-400 to-amber-200 mt-2">
+                            و هنر مدرن طلاسازی
+                        </span>
+                    </h1>
+
+                    <!-- Paragraph -->
+                    <p class="text-base lg:text-lg text-gray-200 leading-relaxed mb-8 max-w-2xl">
+                        طلاشو، بازوی نوآوری و سرمایه‌گذاری گروه طلا و جواهر برزیگر، حاصل پیوند بیش از ۳۰ سال تجربه سنتی بازار طلا با فناوری‌های نوین معامله طلای دیجیتال و ساخت سفارشی است.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="./products.html" class="btn-gold px-7 py-3.5 text-sm inline-flex items-center gap-2 shadow-lg hover:shadow-gold-500/25">
+                            <i class='bx bx-store-alt text-xl'></i>
+                            مشاهده کاتالوگ محصولات
+                        </a>
+                        <a href="#branches" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 border border-white/20 text-white text-sm font-bold hover:bg-white/20 transition-all backdrop-blur-sm">
+                            <i class='bx bx-map-pin text-xl text-gold-400'></i>
+                            شعب و مراکز حضوری
+                        </a>
+                    </div>
                 </div>
 
-                <!-- title -->
-                <h1 class="text-3xl sm:text-4xl lg:text-hero-lg font-black leading-tight mb-5" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3)">
-                    از برزیگر تا طلاشو
-                    <span class="block text-gold-400 mt-1">یک میراث، یک آینده.</span>
-                </h1>
-
-                <!-- lead -->
-                <p class="text-base lg:text-lg text-white/90 leading-loose max-w-2xl mb-8" style="text-shadow: 0 1px 4px rgba(0,0,0,0.2)">
-                    طلاشو، زیرمجموعه وی آی پی برزیگر گُلد و جولری، با بیش از ۳۰ سال تجربه در بازار طلا و جواهر ایران، بستری نوین برای خرید آنلاین جواهرات و سرمایه‌گذاری در طلای دیجیتال فراهم کرده است.
-                </p>
-
-                <!-- CTAs -->
-                <div class="flex flex-wrap items-center gap-3">
-                    <a href="./products.html" class="btn-gold text-sm px-6 py-3 inline-flex items-center gap-2">
-                        <i class='bx bx-store text-lg'></i>
-                        مشاهده محصولات
-                    </a>
-                    <a href="./contact.html"
-                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/30 text-white text-sm font-bold hover:bg-white/10 hover:border-white transition-all">
-                        <i class='bx bx-phone text-lg'></i>
-                        تماس با ما
-                    </a>
+                <!-- Featured Hero Visual Card -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
+                        <img src="./assets/images/about/story_mastercraft.jpg" alt="کارگاه طلاسازی برزیگر" class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary-950/90 via-primary-950/30 to-transparent"></div>
+                        <div class="absolute bottom-0 inset-x-0 p-6 text-right">
+                            <div class="flex items-center gap-2 text-gold-400 text-xs font-bold mb-1">
+                                <i class='bx bx-award text-base'></i>
+                                <span>کارگاه اختصاصی ساخت و عیارسنجی</span>
+                            </div>
+                            <h3 class="text-white font-bold text-lg">هنر دست استادکاران برزیگر</h3>
+                            <p class="text-xs text-gray-300 mt-1">تلفیق طراحی دیجیتال سه بعدی با ساخت استاندار ۱۸ عیار</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -544,29 +558,61 @@
 
 
     <!-- ============================================================
-         5. STATS BAND — subtle trust strip
+         3. KEY METRICS BAND (طلاشو در یک نگاه - Digikala Stats Style)
          ============================================================ -->
-    <section class="bg-background border-b border-border">
+    <section class="relative z-20 -mt-8">
         <div class="container-page">
-            <div class="flex items-center justify-center flex-wrap gap-x-8 gap-y-3 py-4 lg:py-5 text-sm text-content-body">
-                <div class="flex items-center gap-2">
-                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
-                    <span><strong class="text-content-heading font-bold">۳۰+ سال</strong> تجربه</span>
-                </div>
-                <div class="hidden sm:block w-px h-4 bg-border"></div>
-                <div class="flex items-center gap-2">
-                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
-                    <span><strong class="text-content-heading font-bold">۱۰,۰۰۰+ محصول</strong> متنوع</span>
-                </div>
-                <div class="hidden sm:block w-px h-4 bg-border"></div>
-                <div class="flex items-center gap-2">
-                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
-                    <span><strong class="text-content-heading font-bold">۵۰,۰۰۰+ مشتری</strong> راضی</span>
-                </div>
-                <div class="hidden sm:block w-px h-4 bg-border"></div>
-                <div class="flex items-center gap-2">
-                    <i class='bx bx-check-circle text-primary-500 text-base'></i>
-                    <span><strong class="text-content-heading font-bold">۵+ شعبه</strong> فیزیکی</span>
+            <div class="bg-surface rounded-2xl p-6 lg:p-8 shadow-xl border border-border">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x divide-x-reverse divide-border/60">
+
+                    <!-- Metric 1: Experience -->
+                    <div class="px-3 py-2">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-base font-bold text-primary-500">سال</span>
+                                <span class="font-latin">۳۰+</span>
+                            </span>
+                        </div>
+                        <div class="text-caption font-bold text-content-heading">سابقه در صنعت طلا</div>
+                        <div class="text-[11px] text-content-muted mt-0.5">از ۱۳۷۶ تا به امروز</div>
+                    </div>
+
+                    <!-- Metric 2: Happy Clients -->
+                    <div class="px-3 py-2">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-base font-bold text-primary-500">مشتری</span>
+                                <span class="font-latin">۵۰,۰۰۰+</span>
+                            </span>
+                        </div>
+                        <div class="text-caption font-bold text-content-heading">خریدار راضی و وفادار</div>
+                        <div class="text-[11px] text-content-muted mt-0.5">در سراسر کشور</div>
+                    </div>
+
+                    <!-- Metric 3: Product Variety -->
+                    <div class="px-3 py-2">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-base font-bold text-primary-500">محصول</span>
+                                <span class="font-latin">۱۰,۰۰۰+</span>
+                            </span>
+                        </div>
+                        <div class="text-caption font-bold text-content-heading">تنوع طراحی و زیورآلات</div>
+                        <div class="text-[11px] text-content-muted mt-0.5">طلای ۱۸ عیار استاندارد</div>
+                    </div>
+
+                    <!-- Metric 4: Showroom Area -->
+                    <div class="px-3 py-2">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-base font-bold text-primary-500">متر مربع</span>
+                                <span class="font-latin">۶۵۰+</span>
+                            </span>
+                        </div>
+                        <div class="text-caption font-bold text-content-heading">فضای فروشگاهی و آکادمی</div>
+                        <div class="text-[11px] text-content-muted mt-0.5">کرمان، تهران و مسقط</div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -574,341 +620,403 @@
 
 
     <!-- ============================================================
-         6. STORY 1 — split layout: text | image placeholder
+         4. INTERACTIVE TIMELINE / HISTORY (مسیر رشد و تاریخچه طلاشو)
          ============================================================ -->
     <section class="ts-section">
         <div class="container-page">
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div class="text-center mb-10 max-w-2xl mx-auto">
+                <div class="flex items-center justify-center gap-3 mb-3">
+                    <span class="h-px w-10 bg-gold-400"></span>
+                    <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">Our Journey</span>
+                    <span class="h-px w-10 bg-gold-400"></span>
+                </div>
+                <h2 class="text-section lg:text-3xl font-black text-content-heading mb-3">تاریخچه و مسیر رشد طلاشو</h2>
+                <p class="text-body text-content-body">مروری بر سیر تحول از شاگردی طلافروشی تا برند پیشتاز زیورآلات و طلای دیجیتال</p>
+            </div>
 
-                <!-- text -->
+            <!-- Timeline Interactive Tabs (Digikala Specs) -->
+            <div class="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 no-scrollbar" id="timelineTabs">
+                <button type="button" data-target="phase1" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-primary-500 bg-primary-500 text-white shadow-sm">
+                    ۱۳۷۶ - ۱۳۸۶ | آغاز راه
+                </button>
+                <button type="button" data-target="phase2" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
+                    ۱۳۸۶ - ۱۳۹۷ | حضور در مرکز استان
+                </button>
+                <button type="button" data-target="phase3" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
+                    ۱۳۹۷ - ۱۴۰۲ | جهش دیجیتال
+                </button>
+                <button type="button" data-target="phase4" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
+                    ۱۴۰۲ تا آینده | نسل دوم و مسقط
+                </button>
+            </div>
+
+            <!-- Timeline Content Cards Container -->
+            <div class="space-y-8" id="timelinePanels">
+
+                <!-- Phase 1 Card -->
+                <div id="phase1" class="timeline-panel ts-card-lg border border-border/80 transition-all duration-300">
+                    <div class="grid lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-5 order-2 lg:order-1">
+                            <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
+                                <img src="./assets/images/about/goldsmith_tools.jpg" alt="کارگاه اولیه طلاسازی" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 order-1 lg:order-2">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="px-3 py-1 bg-gold-100 text-gold-800 text-xs font-bold rounded-full">فصل اول</span>
+                                <span class="text-caption font-bold text-gold-600 font-latin">۱۳۷۶ — ۱۳۸۶</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-content-heading mb-4">آغاز مسیر — از شاگردی تا بنکداری عمده</h3>
+                            <p class="text-body text-content-body leading-loose mb-4">
+                                از سال ۱۳۷۶، علیرضا برزیگر فعالیت خود را از شاگردی در مغازه طلافروشی آغاز کرد. علاقه عمیق به صنعت طلا، شمّ اقتصادی موروثی و یادگیری ریزه‌کاری‌های ساخت طلا سبب شد تا در ۲۳ سالگی وارد حوزه تهیه و پخش عمده طلا گردد.
+                            </p>
+                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                                <i class='bx bx-check-circle text-lg'></i>
+                                <span>دست‌آورد اصلی: شکل‌گیری زنجیره تامین و شناخت عمیق عیارسنجی و بازار بنکداری</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 2 Card -->
+                <div id="phase2" class="timeline-panel ts-card-lg border border-border/80 transition-all duration-300">
+                    <div class="grid lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="px-3 py-1 bg-gold-100 text-gold-800 text-xs font-bold rounded-full">فصل دوم</span>
+                                <span class="text-caption font-bold text-gold-600 font-latin">۱۳۸۶ — ۱۳۹۷</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-content-heading mb-4">توسعه در کرمان — ورود به خرده‌فروشی مدرن</h3>
+                            <p class="text-body text-content-body leading-loose mb-4">
+                                سال ۱۳۸۶ نقطه‌عطفی در تاریخ برزیگر بود. انتقال مجموعه به بازار بزرگ طلای کرمان و سپس راه‌اندازی فروشگاه لوکس در مرکز استان، موجب تحول در نحوه ارائه زیورآلات و جلب اعتماد هزاران خریدار محترمی شد که اصالت را می‌جستند.
+                            </p>
+                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                                <i class='bx bx-check-circle text-lg'></i>
+                                <span>دست‌آورد اصلی: احداث یکی از معتبرترین گالری‌های طلا در جنوب شرق کشور</span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5">
+                            <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
+                                <img src="./assets/images/about/boutique_showroom.jpg" alt="گالری طلا در کرمان" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 Card -->
+                <div id="phase3" class="timeline-panel ts-card-lg border border-border/80 transition-all duration-300">
+                    <div class="grid lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-5 order-2 lg:order-1">
+                            <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
+                                <img src="./assets/images/about/story_mastercraft.jpg" alt="تولید زیورآلات اختصاصی طلاشو" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 order-1 lg:order-2">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="px-3 py-1 bg-gold-100 text-gold-800 text-xs font-bold rounded-full">فصل سوم</span>
+                                <span class="text-caption font-bold text-gold-600 font-latin">۱۳۹۷ — ۱۴۰۲</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-content-heading mb-4">تولد برند طلاشو — جهش در فضای دیجیتال</h3>
+                            <p class="text-body text-content-body leading-loose mb-4">
+                                همزمان با دگرگونی الگوی خرید مردم و دوران کرونا، مجموعه برزیگر با تعریف برند «طلاشو» بستری شفاف برای مشاهده آنلاین، سفارش ساخت سه بعدی و خرید مطمئن طلا فراهم ساخت.
+                            </p>
+                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                                <i class='bx bx-check-circle text-lg'></i>
+                                <span>دست‌آورد اصلی: راه‌اندازی فروشگاه اینترنتی با ارسال بیمه‌شده سراسری</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 4 Card -->
+                <div id="phase4" class="timeline-panel ts-card-lg border border-border/80 transition-all duration-300">
+                    <div class="grid lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="px-3 py-1 bg-gold-100 text-gold-800 text-xs font-bold rounded-full">فصل چهارم</span>
+                                <span class="text-caption font-bold text-gold-600 font-latin">۱۴۰۲ — ۱۴۰۵+</span>
+                            </div>
+                            <h3 class="text-2xl font-black text-content-heading mb-4">ورود نسل دوم و افق بین‌المللی مسقط</h3>
+                            <p class="text-body text-content-body leading-loose mb-4">
+                                با پیوستن فردین برزیگر (نسل دوم) پس از تجارب تخصصی در بازار تهران، هم‌افزایی دانش مدرن و تجربه سنتی شکل گرفت. تأسیس آکادمی ۲۵۰ متری، مجتمع تخصصی ۴۰۰ متری و افتتاح شعبه مسقط عمان، گام جدید طلاشو است.
+                            </p>
+                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                                <i class='bx bx-check-circle text-lg'></i>
+                                <span>دست‌آورد اصلی: معامله آنلاین صندوق طلای آبشده و صادرات زیورآلات به خلیج فارس</span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-5">
+                            <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-md">
+                                <img src="./assets/images/about/vision_future.jpg" alt="شعبه بین‌المللی طلاشو" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         5. QUOTE BAND — Founder Statement
+         ============================================================ -->
+    <section class="bg-primary-900 text-white relative overflow-hidden my-6">
+        <div class="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:32px_32px] opacity-10"></div>
+        <div class="container-page py-16 lg:py-20 relative z-10 text-center max-w-4xl mx-auto">
+            <i class='bx bxs-quote-alt-left text-5xl lg:text-6xl text-gold-400 mb-4 inline-block opacity-80'></i>
+            <blockquote class="text-xl sm:text-2xl lg:text-3xl font-black leading-snug tracking-tight mb-8">
+                طلا تنها یک فلز گران‌بها نیست؛
+                <span class="block text-gold-300 mt-3 font-extrabold">طلا روایتی است زنده از اصالت، اعتماد پابرجا و آینده‌نگری هوشمندانه.</span>
+            </blockquote>
+            <div class="flex items-center justify-center gap-3">
+                <span class="h-px w-12 bg-gold-400/60"></span>
+                <span class="text-sm font-bold text-gold-300 tracking-wider">علیرضا برزیگر — بنیان‌گذار گروه برزیگر و طلاشو</span>
+                <span class="h-px w-12 bg-gold-400/60"></span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         6. VALUES GRID (باورها و ارزش‌های طلاشو - 4 Col Digikala Style)
+         ============================================================ -->
+    <section class="ts-section bg-surface">
+        <div class="container-page">
+            <div class="text-center mb-10 max-w-2xl mx-auto">
+                <div class="flex items-center justify-center gap-3 mb-3">
+                    <span class="h-px w-10 bg-gold-400"></span>
+                    <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">Core Values</span>
+                    <span class="h-px w-10 bg-gold-400"></span>
+                </div>
+                <h2 class="text-section lg:text-3xl font-black text-content-heading mb-3">باورها و ارکان ارزش در طلاشو</h2>
+                <p class="text-body text-content-body">ارزش‌هایی که راهنمای هر تصمیم، طراحی و معامله در مجموعه ما است</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Value 1 -->
+                <div class="ts-card hover:-translate-y-1 transition-all duration-300 border border-border group relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-3xl mb-5 group-hover:bg-primary-500 group-hover:text-white transition-colors">
+                        <i class='bx bx-shield-quarter'></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-content-heading mb-2">اصالت و عیارسنجی قانونی</h3>
+                    <p class="text-caption text-content-body leading-relaxed">
+                        تمامی محصولات طلاشو همراه با فاکتور رسمی اصناف، کد رهگیری عیارسنجی اتحادیه و تضمین ۱۰۰٪ طلای ۱۸ عیار ارائه می‌شود.
+                    </p>
+                </div>
+
+                <!-- Value 2 -->
+                <div class="ts-card hover:-translate-y-1 transition-all duration-300 border border-border group relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-50 text-gold-600 flex items-center justify-center text-3xl mb-5 group-hover:bg-gold-500 group-hover:text-white transition-colors">
+                        <i class='bx bx-coin-stack'></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-content-heading mb-2">صندوق طلای آبشده هوشمند</h3>
+                    <p class="text-caption text-content-body leading-relaxed">
+                        امکان معامله آنلاین طلای آبشده حتی با مبالغ خرد، همراه با قابلیت تحویل فیزیکی شمش استاندارد در هر زمان.
+                    </p>
+                </div>
+
+                <!-- Value 3 -->
+                <div class="ts-card hover:-translate-y-1 transition-all duration-300 border border-border group relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center text-3xl mb-5 group-hover:bg-primary-500 group-hover:text-white transition-colors">
+                        <i class='bx bx-palette'></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-content-heading mb-2">طراحی و ساخت سفارشی</h3>
+                    <p class="text-caption text-content-body leading-relaxed">
+                        تیم طراحی آتلیه طلاشو ایده و طرح دلخواه شما را با مدلسازی دقیق سه بعدی به محصولی بی‌نظیر تبدیل می‌کند.
+                    </p>
+                </div>
+
+                <!-- Value 4 -->
+                <div class="ts-card hover:-translate-y-1 transition-all duration-300 border border-border group relative overflow-hidden">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-50 text-gold-600 flex items-center justify-center text-3xl mb-5 group-hover:bg-gold-500 group-hover:text-white transition-colors">
+                        <i class='bx bx-headphone'></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-content-heading mb-2">پشتیبانی و مشاوره ۲۴/۷</h3>
+                    <p class="text-caption text-content-body leading-relaxed">
+                        کارشناسان مجرب طلاشو در تمام روزهای هفته آماده ارائه مشاوره سرمایه‌گذاری طلا و پاسخگویی به سوالات شما هستند.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         7. PHYSICAL SHOWROOMS & ACADEMY (شعب و مراکز حضوری)
+         ============================================================ -->
+    <section class="ts-section" id="branches">
+        <div class="container-page">
+            <div class="text-center mb-10 max-w-2xl mx-auto">
+                <div class="flex items-center justify-center gap-3 mb-3">
+                    <span class="h-px w-10 bg-gold-400"></span>
+                    <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">Our Locations</span>
+                    <span class="h-px w-10 bg-gold-400"></span>
+                </div>
+                <h2 class="text-section lg:text-3xl font-black text-content-heading mb-3">مراکز حضوری و شعب طلاشو</h2>
+                <p class="text-body text-content-body">میزبان حضور گرم شما در شعب و آکادمی‌های تخصصی طلاشو هستیم</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <!-- Branch 1: Kerman Flagship -->
+                <div class="ts-card border border-border flex flex-col justify-between hover:shadow-card transition-shadow">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center text-2xl mb-4">
+                            <i class='bx bx-store-alt'></i>
+                        </div>
+                        <span class="text-xs font-bold text-gold-600 uppercase font-latin">Flagship Showroom</span>
+                        <h3 class="text-xl font-bold text-content-heading mt-1 mb-3">مجتمع تخصصی طلاشو (کرمان)</h3>
+                        <p class="text-caption text-content-body leading-relaxed mb-4">
+                            ۴۰۰ متر مربع فضای فروشگاهی لوکس VIP شامل ویترین‌های اختصاصی جواهرات، سالن تشریفات و مشاوره سرمایه‌گذاری.
+                        </p>
+                        <div class="space-y-2 text-xs text-content-muted">
+                            <div class="flex items-center gap-2">
+                                <i class='bx bx-map text-base text-primary-500'></i>
+                                <span>کرمان، خیابان شریعتی، مجتمع طلاشو VIP</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class='bx bx-phone text-base text-primary-500'></i>
+                                <span dir="ltr" class="font-latin">۰۳۴ - ۳۲۲۲۰۰۰۰</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-border/60">
+                        <a href="./contact.html" class="text-xs font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1">
+                            <span>مسیریابی و تماس</span>
+                            <i class='bx bx-left-arrow-alt text-base'></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Branch 2: Academy -->
+                <div class="ts-card border border-border flex flex-col justify-between hover:shadow-card transition-shadow">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-gold-100 text-gold-700 flex items-center justify-center text-2xl mb-4">
+                            <i class='bx bx-book-open'></i>
+                        </div>
+                        <span class="text-xs font-bold text-gold-600 uppercase font-latin">Training & Design Lab</span>
+                        <h3 class="text-xl font-bold text-content-heading mt-1 mb-3">آکادمی تخصصی طلاشو</h3>
+                        <p class="text-caption text-content-body leading-relaxed mb-4">
+                            ۲۵۰ متر مربع کارگاه مجهز آموزشی، طراحی ۳D جواهرات و سنجش عیار برای علاقه‌مندان و فعالان صنعت طلا.
+                        </p>
+                        <div class="space-y-2 text-xs text-content-muted">
+                            <div class="flex items-center gap-2">
+                                <i class='bx bx-map text-base text-gold-600'></i>
+                                <span>کرمان، مرکز رشد صنایع دستی و طلا</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class='bx bx-phone text-base text-gold-600'></i>
+                                <span dir="ltr" class="font-latin">۰۳۴ - ۳۲۲۲۱۱۱۱</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-border/60">
+                        <a href="./contact.html" class="text-xs font-bold text-gold-700 hover:text-gold-900 flex items-center gap-1">
+                            <span>اطلاعات دوره و بازدید</span>
+                            <i class='bx bx-left-arrow-alt text-base'></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Branch 3: Muscat Oman -->
+                <div class="ts-card border border-border flex flex-col justify-between hover:shadow-card transition-shadow">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center text-2xl mb-4">
+                            <i class='bx bx-globe'></i>
+                        </div>
+                        <span class="text-xs font-bold text-gold-600 uppercase font-latin">International Muscat Branch</span>
+                        <h3 class="text-xl font-bold text-content-heading mt-1 mb-3">شعبه بین‌المللی مسقط (عمان)</h3>
+                        <p class="text-caption text-content-body leading-relaxed mb-4">
+                            ارائه خدمات صادراتی، طراحی زیورآلات فاخر خاورمیانه و پذیرش سفارش‌های خریداران بین‌المللی در عمان.
+                        </p>
+                        <div class="space-y-2 text-xs text-content-muted">
+                            <div class="flex items-center gap-2">
+                                <i class='bx bx-map text-base text-primary-500'></i>
+                                <span>Muscat, Sultanate of Oman</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class='bx bx-phone text-base text-primary-500'></i>
+                                <span dir="ltr" class="font-latin">+968 9000 0000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-border/60">
+                        <a href="./contact.html" class="text-xs font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1">
+                            <span>ارتباط با دفتر مسقط</span>
+                            <i class='bx bx-left-arrow-alt text-base'></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+         8. TRUST BADGES & GUARANTEES (نمادهای اعتماد و مجوزها)
+         ============================================================ -->
+    <section class="ts-section bg-surface border-t border-b border-border">
+        <div class="container-page">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">۱۳۷۶ — ۱۳۸۶</span>
-                        <span class="h-px flex-1 bg-gold-300/40"></span>
+                    <div class="inline-flex items-center gap-2 text-xs font-bold text-primary-600 mb-2">
+                        <i class='bx bx-check-shield text-lg'></i>
+                        <span>تضمین حقوق خریدار</span>
                     </div>
-                    <h2 class="text-section lg:text-2xl font-black text-content-heading mb-4 leading-snug">
-                        آغاز مسیر — از شاگردی تا حرفه‌ای‌شدن
-                    </h2>
-                    <div class="space-y-4 text-body text-content-body leading-loose">
-                        <p>
-                            از سال ۱۳۷۶، مسیری آغاز شد که بر پایه تلاش، جسارت و نگاه متفاوت شکل گرفت. علیرضا برزیگر، بنیان‌گذار مجموعه، فعالیت خود را مانند بسیاری از فعالان این صنعت، از شاگردی در طلافروشی آغاز کرد.
-                        </p>
-                        <p>
-                            ذهنی تحلیل‌گر، شمّ اقتصادی موروثی و علاقه‌ای عمیق به هنر طلا، او را در مدت کوتاهی به جایگاهی فراتر از یک فروشنده رساند؛ در ۲۳ سالگی وارد حوزه تهیه و پخش عمده طلا شد و نگاه حرفه‌ای‌تری به بازار پیدا کرد.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- image placeholder -->
-                <!-- BACKEND: INJECT IMAGE: about-story-1.jpg -->
-                <div class="relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-500 to-primary-700 shadow-card flex items-center justify-center">
-                    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #E8B948 0%, transparent 40%), radial-gradient(circle at 80% 80%, #E8B948 0%, transparent 40%);"></div>
-                    <div class="relative text-center text-white/80">
-                        <i class='bx bx-image text-7xl mb-3 block'></i>
-                        <span class="text-caption font-latin">IMAGE: about-story-1.jpg</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ============================================================
-         7. QUOTE BAND — large display text on dark purple
-         ============================================================ -->
-    <section class="bg-primary-700 text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 50% 50%, #E8B948 0%, transparent 60%);"></div>
-        <div class="container-page py-16 lg:py-24 relative z-10 text-center">
-            <i class='bx bxs-quote-alt-left text-5xl text-gold-400 mb-6 inline-block'></i>
-            <p class="text-2xl sm:text-3xl lg:text-4xl font-black leading-snug max-w-3xl mx-auto">
-                ما بر این باوریم که طلا تنها یک فلز گران‌بها نیست؛
-                <span class="block text-gold-400 mt-2">روایتی است از اعتماد، اصالت و آینده.</span>
-            </p>
-            <div class="flex items-center justify-center gap-3 mt-8">
-                <span class="h-px w-12 bg-gold-400"></span>
-                <span class="text-caption font-bold text-gold-300 tracking-widest uppercase font-latin">بنیان‌گذار: علیرضا برزیگر</span>
-                <span class="h-px w-12 bg-gold-400"></span>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ============================================================
-         8. STORY 2 — text | 3-image collage
-         ============================================================ -->
-    <section class="ts-section bg-surface">
-        <div class="container-page">
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-
-                <!-- 3-image collage (on the start side in RTL = visual right) -->
-                <div class="order-2 lg:order-1 grid grid-cols-2 gap-3 lg:gap-4">
-                    <!-- BACKEND: INJECT IMAGE: about-collage-1.jpg -->
-                    <div class="aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 to-primary-600 shadow-card flex items-center justify-center text-white/70">
-                        <div class="text-center">
-                            <i class='bx bx-image-alt text-4xl block mb-1'></i>
-                            <span class="text-[10px] font-latin">collage-1</span>
-                        </div>
-                    </div>
-                    <div class="space-y-3 lg:space-y-4 pt-6 lg:pt-12">
-                        <!-- BACKEND: INJECT IMAGE: about-collage-2.jpg -->
-                        <div class="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-gold-300 to-gold-500 shadow-card flex items-center justify-center text-primary-700/60">
-                            <div class="text-center">
-                                <i class='bx bx-image-alt text-4xl block mb-1'></i>
-                                <span class="text-[10px] font-latin">collage-2</span>
-                            </div>
-                        </div>
-                        <!-- BACKEND: INJECT IMAGE: about-collage-3.jpg -->
-                        <div class="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-primary-500 to-primary-700 shadow-card flex items-center justify-center text-white/70">
-                            <div class="text-center">
-                                <i class='bx bx-image-alt text-4xl block mb-1'></i>
-                                <span class="text-[10px] font-latin">collage-3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- text (on the end side in RTL = visual left) -->
-                <div class="order-1 lg:order-2">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="text-caption font-bold text-gold-600 uppercase tracking-wider font-latin">۱۳۸۶ — ۱۳۹۷</span>
-                        <span class="h-px flex-1 bg-gold-300/40"></span>
-                    </div>
-                    <h2 class="text-section lg:text-2xl font-black text-content-heading mb-4 leading-snug">
-                        فصل انتخاب — مهاجرت به کرمان
-                    </h2>
-                    <div class="space-y-4 text-body text-content-body leading-loose">
-                        <p>
-                            سال ۱۳۸۶ نقطه عطفی مهم بود؛ مهاجرت به کرمان و حضور در بازار بزرگ طلای این شهر، افق‌های تازه‌ای گشود. تجربه فعالیت در مرکز بازار، اعتمادبه‌نفس تصمیمی بزرگ‌تر را ایجاد کرد.
-                        </p>
-                        <p>
-                            انتقال به منطقه‌ای لوکس در مرکز استان و آغاز فصلی مدرن‌تر در مسیر برند، طلاشو را به یکی از شاخص‌ترین فروشگاه‌های طلای استان بدل کرد.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ============================================================
-         9. STORY 3 — 3-image grid (full-bleed) + text overlay style
-         ============================================================ -->
-    <section class="ts-section">
-        <div class="container-page">
-
-            <!-- section header -->
-            <div class="text-center mb-10 lg:mb-12 max-w-2xl mx-auto">
-                <div class="flex items-center justify-center gap-3 mb-4">
-                    <span class="h-px w-10 bg-gold-400"></span>
-                    <span class="text-caption font-bold text-gold-600 uppercase tracking-widest font-latin">۱۳۹۷ — ۱۴۰۲</span>
-                    <span class="h-px w-10 bg-gold-400"></span>
-                </div>
-                <h2 class="text-section lg:text-2xl font-black text-content-heading leading-snug mb-3">
-                    تولد دوباره — جهش در دوران چالش
-                </h2>
-                <p class="text-body text-content-body leading-loose">
-                    همزمان با چالش‌های اقتصادی و سپس دوران کرونا، به جای توقف، جهشی نو رقم خورد. توسعه حرفه‌ای در فضای مجازی، آموزش‌های تخصصی و حضور مستمر در رویدادهای بین‌المللی، مسیر رشد را شتاب بیشتری بخشید.
-                </p>
-            </div>
-
-            <!-- 3-image grid -->
-            <!-- BACKEND: FOREACH MILESTONE-IMAGE LOOP START -->
-            <div class="grid md:grid-cols-3 gap-4 lg:gap-6">
-                <div class="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-500 to-primary-700 shadow-card">
-                    <div class="absolute inset-0 flex items-center justify-center text-white/60">
-                        <div class="text-center">
-                            <i class='bx bx-rings-wedding text-5xl block mb-2'></i>
-                            <span class="text-[10px] font-latin">milestone-1.jpg</span>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/70 to-transparent">
-                        <span class="text-caption font-bold text-gold-300 uppercase tracking-wider">طراحی انگشتر</span>
-                        <h3 class="text-white font-bold text-base mt-1">میراث ماندگار</h3>
-                    </div>
-                </div>
-                <div class="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-gold-300 to-gold-500 shadow-card md:translate-y-6">
-                    <div class="absolute inset-0 flex items-center justify-center text-primary-700/60">
-                        <div class="text-center">
-                            <i class='bx bx-briefcase text-5xl block mb-2'></i>
-                            <span class="text-[10px] font-latin">milestone-2.jpg</span>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/70 to-transparent">
-                        <span class="text-caption font-bold text-gold-300 uppercase tracking-wider">میز کار طلاساز</span>
-                        <h3 class="text-white font-bold text-base mt-1">هنر در عمل</h3>
-                    </div>
-                </div>
-                <div class="group relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-600 to-primary-800 shadow-card">
-                    <div class="absolute inset-0 flex items-center justify-center text-white/60">
-                        <div class="text-center">
-                            <i class='bx bx-crown text-5xl block mb-2'></i>
-                            <span class="text-[10px] font-latin">milestone-3.jpg</span>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-black/70 to-transparent">
-                        <span class="text-caption font-bold text-gold-300 uppercase tracking-wider">طلای ساخته‌شده</span>
-                        <h3 class="text-white font-bold text-base mt-1">شاهکار نهایی</h3>
-                    </div>
-                </div>
-            </div>
-            <!-- BACKEND: FOREACH MILESTONE-IMAGE LOOP END -->
-        </div>
-    </section>
-
-
-    <!-- ============================================================
-         10. VISION / FUTURE — text + image + bullet list
-         ============================================================ -->
-    <section class="ts-section bg-surface">
-        <div class="container-page">
-            <div class="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
-
-                <!-- image (3 cols) -->
-                <!-- BACKEND: INJECT IMAGE: about-vision.jpg -->
-                <div class="lg:col-span-2 relative aspect-[4/5] rounded-3xl overflow-hidden bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 shadow-card">
-                    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 30% 30%, #E8B948 0%, transparent 50%);"></div>
-                    <div class="absolute inset-0 flex items-center justify-center text-white/70">
-                        <div class="text-center">
-                            <i class='bx bx-world text-7xl block mb-3'></i>
-                            <span class="text-caption font-latin">about-vision.jpg</span>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                        <span class="text-caption font-bold text-gold-400 uppercase tracking-widest font-latin">Vision 2030</span>
-                        <h3 class="text-white font-black text-xl mt-2 leading-snug">چشم‌انداز بین‌المللی</h3>
-                    </div>
-                </div>
-
-                <!-- text (2 cols) -->
-                <div class="lg:col-span-3">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="h-px w-10 bg-gold-400"></span>
-                        <span class="text-caption font-bold text-gold-600 uppercase tracking-widest font-latin">Looking Forward</span>
-                    </div>
-                    <h2 class="text-section lg:text-2xl font-black text-content-heading mb-4 leading-snug">
-                        هنر، دانش، مدیریت مدرن و نگاه بین‌المللی
-                    </h2>
-                    <p class="text-body text-content-body leading-loose mb-6">
-                        سال ۱۴۰۲، آغاز نسل دوم بود. فردین جوان (تنها فرزند خانواده) پس از تجربه حرفه‌ای در بازار بزرگ تهران و تعامل با بزرگان صنعت، به مجموعه پیوست. نتیجه این هم‌افزایی، تصمیمی جسورانه برای ورود به بازار بین‌المللی و آغاز فعالیت در عرصه جهانی شد.
-                    </p>
-
-                    <!-- vision bullets -->
-                    <ul class="space-y-3 mb-6">
-                        <li class="flex items-start gap-3">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center mt-0.5">
-                                <i class='bx bx-store-alt text-xl text-primary-500'></i>
-                            </span>
-                            <div>
-                                <h4 class="text-product font-bold text-content-heading">فروشگاه تخصصی ۴۰۰+ متری</h4>
-                                <p class="text-caption text-content-body">احداث یکی از بزرگ‌ترین فروشگاه‌های تخصصی طلا و جواهر کشور در کرمان</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gold-50 flex items-center justify-center mt-0.5">
-                                <i class='bx bx-book-reader text-xl text-gold-600'></i>
-                            </span>
-                            <div>
-                                <h4 class="text-product font-bold text-content-heading">آکادمی تخصصی ۲۵۰+ متری</h4>
-                                <p class="text-caption text-content-body">راه‌اندازی مجهزترین آکادمی تخصصی طلا و جواهر کشور</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary-50 flex items-center justify-center mt-0.5">
-                                <i class='bx bx-globe text-xl text-primary-500'></i>
-                            </span>
-                            <div>
-                                <h4 class="text-product font-bold text-content-heading">شعبه بین‌المللی</h4>
-                                <p class="text-caption text-content-body">افتتاح نخستین شعبه بین‌المللی در مسقط، عمان</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <p class="text-body text-content-body leading-loose italic border-r-2 border-gold-400 pr-4">
-                        و این ماجراجویی ادامه دارد…
+                    <h3 class="text-2xl font-black text-content-heading mb-2">مجوزهای رسمی و ضمانت قانونی</h3>
+                    <p class="text-body text-content-body max-w-xl">
+                        طلاشو دارای اینماد تک‌ستاره رسمی، پروانه کسب اتحادیه طلا و جواهر و گواهی بیمه‌نامه ارسال پست سفارشی در سراسر ایران است.
                     </p>
                 </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="p-4 bg-background rounded-2xl border border-border flex items-center gap-3">
+                        <img src="./assets/images/enamad.webp" alt="اینماد" class="w-14 h-14 object-contain">
+                        <div>
+                            <div class="text-sm font-bold text-content-heading">نماد اعتماد الکترونیکی</div>
+                            <div class="text-xs text-content-muted">وزارت صمت ایران</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-background rounded-2xl border border-border flex items-center gap-3">
+                        <img src="./assets/images/union.png" alt="اتحادیه طلا" class="w-14 h-14 object-contain">
+                        <div>
+                            <div class="text-sm font-bold text-content-heading">اتحادیه طلا و جواهر</div>
+                            <div class="text-xs text-content-muted">پروانه رسمی کد ۷۷۲</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
 
     <!-- ============================================================
-         11. VALUES GRID — Digikala-style 4-col (replaces tala's alternating cards)
+         9. DUAL CTA BAND (آماده خرید یا سرمایه‌گذاری هستید؟)
          ============================================================ -->
-    <section class="ts-section">
-        <div class="container-page">
-            <div class="text-center mb-10 lg:mb-12 max-w-2xl mx-auto">
-                <div class="flex items-center justify-center gap-3 mb-4">
-                    <span class="h-px w-10 bg-gold-400"></span>
-                    <span class="text-caption font-bold text-gold-600 uppercase tracking-widest font-latin">Our Values</span>
-                    <span class="h-px w-10 bg-gold-400"></span>
-                </div>
-                <h2 class="text-section lg:text-2xl font-black text-content-heading mb-3">ارزش‌های ما</h2>
-                <p class="text-body text-content-body leading-loose">آنچه ما را متفاوت می‌کند.</p>
-            </div>
+    <section class="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white relative overflow-hidden py-14 lg:py-16">
+        <div class="absolute top-0 start-0 w-64 h-64 bg-gold-400/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 end-0 w-64 h-64 bg-gold-400/10 rounded-full blur-3xl"></div>
 
-            <!-- BACKEND: FOREACH VALUE LOOP START -->
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-
-                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-500 transition-colors duration-300">
-                        <i class='bx bx-shield-quarter text-3xl text-primary-500 group-hover:text-white transition-colors duration-300'></i>
-                    </div>
-                    <h3 class="text-product font-bold text-content-heading mb-2">اعتماد و اصالت</h3>
-                    <p class="text-caption text-content-body leading-7">هر محصول با گواهی اصالت و ضمانت طلای ۱۸ عیار. سه دهه تجربه برزیگر، پشتوانه هر معامله.</p>
-                </div>
-
-                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gold-50 flex items-center justify-center group-hover:bg-gold-500 transition-colors duration-300">
-                        <i class='bx bxs-bolt text-3xl text-gold-600 group-hover:text-white transition-colors duration-300'></i>
-                    </div>
-                    <h3 class="text-product font-bold text-content-heading mb-2">سرعت و سادگی</h3>
-                    <p class="text-caption text-content-body leading-7">خرید و فروش آنلاین طلای دیجیتال در کمتر از ۲ دقیقه. از یک میلی‌گرم تا میلیون‌ها تومان.</p>
-                </div>
-
-                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-primary-50 flex items-center justify-center group-hover:bg-primary-500 transition-colors duration-300">
-                        <i class='bx bx-palette text-3xl text-primary-500 group-hover:text-white transition-colors duration-300'></i>
-                    </div>
-                    <h3 class="text-product font-bold text-content-heading mb-2">طراحی اختصاصی</h3>
-                    <p class="text-caption text-content-body leading-7">تیم طراحی داخلی، از ایده تا ساخت. هر قطعه، امضای ماست.</p>
-                </div>
-
-                <div class="ts-card text-center hover:shadow-hover transition-shadow duration-300 group">
-                    <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gold-50 flex items-center justify-center group-hover:bg-gold-500 transition-colors duration-300">
-                        <i class='bx bx-support text-3xl text-gold-600 group-hover:text-white transition-colors duration-300'></i>
-                    </div>
-                    <h3 class="text-product font-bold text-content-heading mb-2">پشتیبانی ۲۴/۷</h3>
-                    <p class="text-caption text-content-body leading-7">هفت روز هفته، ۲۴ ساعته. هر زمان که نیاز داشتید، ما اینجاییم.</p>
-                </div>
-            </div>
-            <!-- BACKEND: FOREACH VALUE LOOP END -->
-        </div>
-    </section>
-
-
-    <!-- ============================================================
-         12. CTA — back to top of action (Digikala-style dual CTA band)
-         ============================================================ -->
-    <section class="bg-primary-700 text-white relative overflow-hidden">
-        <div class="absolute top-0 start-0 w-64 h-64 bg-gold-400/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 end-0 w-64 h-64 bg-gold-400/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
-
-        <div class="container-page py-12 lg:py-16 relative z-10">
-            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div class="container-page relative z-10">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div class="text-center lg:text-right">
-                    <h2 class="text-section lg:text-2xl font-black mb-2">آماده خرید هستید؟</h2>
-                    <p class="text-white/80 text-body">مجموعه‌ای از بهترین جواهرات و طلا را در فروشگاه ما ببینید.</p>
+                    <h2 class="text-2xl sm:text-3xl font-black mb-3">به خانواده خریداران طلاشو بپیوندید</h2>
+                    <p class="text-white/80 text-base max-w-xl">
+                        از جدیدترین کاتالوگ زیورآلات دیدن کنید یا با معامله طلای آبشده در صندوق هوشمند، سرمایه خود را حفظ نمایید.
+                    </p>
                 </div>
-                <div class="flex flex-wrap items-center gap-3 justify-center">
-                    <a href="./products.html" class="btn-gold text-sm px-6 py-3 inline-flex items-center gap-2">
-                        <i class='bx bx-store text-lg'></i>
-                        مشاهده محصولات
+                <div class="flex flex-wrap items-center gap-4 justify-center">
+                    <a href="./products.html" class="btn-gold px-7 py-3.5 text-sm inline-flex items-center gap-2">
+                        <i class='bx bx-shopping-bag text-lg'></i>
+                        مشاهده ویترین محصولات
                     </a>
-                    <a href="./contact.html"
-                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/30 text-white text-sm font-bold hover:bg-white/10 hover:border-white transition-all">
-                        <i class='bx bx-chat text-lg'></i>
-                        گفتگو با ما
+                    <a href="./wallet/login.html" class="px-6 py-3.5 rounded-full bg-white/10 border border-white/30 text-white font-bold text-sm hover:bg-white/20 transition-all inline-flex items-center gap-2">
+                        <i class='bx bx-wallet text-lg text-gold-400'></i>
+                        ورود به صندوق طلای آبشده
                     </a>
                 </div>
             </div>
@@ -916,9 +1024,6 @@
     </section>
 
 
-    <!-- ============================================================
-         13. FOOTER (Dark luxury — matches index)
-         ============================================================ -->
     <!-- GLOBAL SITE FOOTER: START -->
 <footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
             <div class="container mx-auto px-4 md:px-6">
@@ -1131,10 +1236,7 @@
         </footer>
 <!-- GLOBAL SITE FOOTER: END -->
 
-
-    <!-- ============================================================
-         MOBILE BOTTOM NAV
-         ============================================================ -->
+    <!-- MOBILE BOTTOM NAV -->
     <nav class="md:hidden fixed bottom-0 inset-x-0 bg-surface shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-[60] rounded-t-2xl px-6 py-2 pb-[env(safe-area-inset-bottom,0.5rem)]">
         <ul class="flex justify-between items-center text-xs text-content-muted">
             <li>
@@ -1144,67 +1246,56 @@
                 </a>
             </li>
             <li>
-                <button type="button" id="mobileSearchBtn" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
-                    <i class='bx bx-search-alt-2 text-2xl'></i>
-                    <span>جستجو</span>
-                </button>
-            </li>
-            <li>
                 <a href="./products.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
                     <i class='bx bx-grid-alt text-2xl'></i>
-                    <span>دسته‌بندی</span>
+                    <span>محصولات</span>
                 </a>
             </li>
             <li>
-                <a href="#" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
-                    <i class='bx bx-user text-2xl'></i>
-                    <span>پروفایل</span>
+                <a href="./about.html" class="flex flex-col items-center gap-1 text-primary-500 p-2 font-bold">
+                    <i class='bx bx-info-circle text-2xl'></i>
+                    <span>درباره ما</span>
+                </a>
+            </li>
+            <li>
+                <a href="./contact.html" class="flex flex-col items-center gap-1 hover:text-primary-500 transition-colors p-2">
+                    <i class='bx bx-phone-call text-2xl'></i>
+                    <span>تماس</span>
                 </a>
             </li>
         </ul>
     </nav>
-    <div id="mobileSearchOverlay" class="fixed inset-0 bg-surface z-[70] hidden flex-col transition-opacity duration-300 opacity-0">
-        <div class="flex items-center gap-4 p-4 border-b border-border shadow-sm bg-white">
-            <button id="closeSearchBtn" type="button" class="text-content-heading hover:text-error transition-colors p-2 -ms-2">
-                <i class='bx bx-arrow-back text-2xl'></i>
-            </button>
-            <form action="#" method="get" class="flex-1 relative">
-                <input type="text" name="q" placeholder="جستجوی جواهرات..." class="w-full bg-background border border-border focus:border-primary-500 rounded-full py-2.5 ps-10 pe-4 outline-none text-body">
-                <button type="submit" class="absolute inset-y-0 start-0 flex items-center ps-3 text-content-muted">
-                    <i class='bx bx-search-alt-2 text-xl'></i>
-                </button>
-            </form>
-        </div>
-    </div>
 
-
-    <!-- ============================================================
-         SCRIPTS
-         ============================================================ -->
+    <!-- SCRIPTS -->
     <script src="./assets/js/vendor/swiper-bundle.min.js"></script>
     <script src="./assets/js/main.js?v=6"></script>
     <script>
-        // Mobile menu toggle
+        // Timeline Tab switching logic
         document.addEventListener('DOMContentLoaded', () => {
-            const toggle = document.getElementById('mobileMenuToggle');
-            const close = document.getElementById('mobileMenuClose');
-            const menu = document.getElementById('mobileMenu');
-            const overlay = document.getElementById('mobileMenuOverlay');
-            const open = () => { menu.classList.remove('translate-x-full'); menu.classList.add('translate-x-0'); menu.setAttribute('aria-hidden', 'false'); overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.remove('opacity-0'), 10); document.body.style.overflow = 'hidden'; };
-            const shut = () => { menu.classList.add('translate-x-full'); menu.classList.remove('translate-x-0'); menu.setAttribute('aria-hidden', 'true'); overlay.classList.add('opacity-0'); setTimeout(() => overlay.classList.add('hidden'), 300); document.body.style.overflow = ''; };
-            toggle?.addEventListener('click', open);
-            close?.addEventListener('click', shut);
-            overlay?.addEventListener('click', shut);
+            const tabs = document.querySelectorAll('.timeline-tab');
+            const panels = document.querySelectorAll('.timeline-panel');
 
-            // Mobile search overlay
-            const searchBtn = document.getElementById('mobileSearchBtn');
-            const searchOverlay = document.getElementById('mobileSearchOverlay');
-            const closeSearchBtn = document.getElementById('closeSearchBtn');
-            const searchInput = searchOverlay?.querySelector('input');
-            if (searchBtn && searchOverlay && closeSearchBtn) {
-                searchBtn.addEventListener('click', () => { searchOverlay.classList.remove('hidden'); searchOverlay.classList.add('flex'); setTimeout(() => { searchOverlay.classList.remove('opacity-0'); searchInput?.focus(); }, 10); document.body.style.overflow = 'hidden'; });
-                closeSearchBtn.addEventListener('click', () => { searchOverlay.classList.add('opacity-0'); setTimeout(() => { searchOverlay.classList.add('hidden'); searchOverlay.classList.remove('flex'); document.body.style.overflow = ''; }, 300); });
-            }
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-target');
+                    
+                    // Reset all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('border-primary-500', 'bg-primary-500', 'text-white', 'shadow-sm');
+                        t.classList.add('border-border', 'bg-surface', 'text-content-body');
+                    });
+
+                    // Highlight active tab
+                    tab.classList.remove('border-border', 'bg-surface', 'text-content-body');
+                    tab.classList.add('border-primary-500', 'bg-primary-500', 'text-white', 'shadow-sm');
+
+                    // Show target panel with smooth scroll
+                    const targetPanel = document.getElementById(target);
+                    if (targetPanel) {
+                        targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                });
+            });
         });
     </script>
 </body>
