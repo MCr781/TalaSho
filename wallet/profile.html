@@ -1,131 +1,37 @@
 <!DOCTYPE html>
-<!--
-  ============================================================================
-  طلاشو VIP — User Profile + Gold Box Balance Widget
-  ----------------------------------------------------------------------------
-  Phase D: Profile dashboard with talasho-specific Gold Box balance widget.
-
-  Creative differentiation from tala/Ordibehesht:
-    • Dashboard layout (tala uses sidebar + main)
-    • Gold Box balance widget as HERO at top (tala has no equivalent)
-    • Horizontal pill tab bar (tala uses vertical sidebar nav)
-    • Purple gradient balance card with live sparkline (tala is flat)
-    • Asymmetric content sections (tala is uniform grid)
-
-  impeccable.style applied:
-    /layout — Gold Box hero at top, tabs below, content below that
-    /bolder — Balance widget dominates with big gold numbers on purple
-    /distill — Only essential info per tab
-    /colorize — Purple gradient + gold accents for balance, silver for history
-    /polish — Smooth tab transitions, hover states
-    /clarify — Conversational labels, not generic
-    /delight — Balance sparkline, smooth number transitions
-
-  Front-end only: mock data. data-backend-hook markers for real API.
-  ============================================================================
--->
 <html lang="fa" dir="rtl">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>پروفایل کاربری | طلاشو VIP</title>
-  <meta name="description" content="مدیریت پروفایل، کیف پول و گلد باکس طلاشو VIP">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>پروفایل و مرکز حساب کاربری | طلاشو VIP</title>
+    <meta name="description" content="مدیریت حساب کاربری، موجودی صندوق طلای آبشده، کیف پول ریالی، سفارش‌ها و احراز هویت در طلاشو VIP">
 
-  <meta name="theme-color" content="#6E436E">
-  <link rel="manifest" href="../pwa/manifest.webmanifest">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="طلاشو VIP">
-  <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="../pwa/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../pwa/icons/favicon-16.png">
-  <link rel="apple-touch-icon" href="../pwa/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#4A154B">
+    <link rel="manifest" href="../pwa/manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 
-  <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
 
-  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+    <script src="../pwa/js/sw-register.js" defer></script>
+    <script src="../assets/js/global-shell.js?v=1" defer></script>
 
-  <script src="../pwa/js/sw-register.js" defer></script>
-
-  <style>
-    /* ─── Gold Box balance widget (the hero) ─── */
-    .goldbox-widget {
-      background: linear-gradient(140deg, #8A5A8A 0%, #6E436E 50%, #4A154B 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .goldbox-widget::before {
-      content: '';
-      position: absolute;
-      top: -30%; left: -10%;
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(232, 185, 72, 0.12) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .goldbox-widget::after {
-      content: '';
-      position: absolute;
-      bottom: -20%; right: -10%;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(232, 185, 72, 0.06) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    /* ─── Tab bar ─── */
-    .profile-tab {
-      transition: all 0.25s ease;
-      border-bottom: 3px solid transparent;
-    }
-    .profile-tab.active {
-      color: #6E436E;
-      border-bottom-color: #E8B948;
-      font-weight: 700;
-    }
-    .profile-tab:hover:not(.active) {
-      color: #23254A;
-      background: #F5F5F5;
-    }
-
-    /* ─── Tab panel transitions ─── */
-    .tab-panel {
-      display: none;
-      animation: tab-in 0.3s ease-out;
-    }
-    .tab-panel.active { display: block; }
-    @keyframes tab-in {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ─── Transaction row ─── */
-    .tx-row {
-      transition: background 0.2s ease;
-    }
-    .tx-row:hover {
-      background: #FAFAFA;
-    }
-
-
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
-  <script src="../assets/js/global-shell.js?v=1" defer></script>
+    <style>
+        .profile-tab-btn { transition: all 0.2s ease; border-radius: 12px; }
+        .profile-tab-btn.active { background: #4A154B; color: #ffffff; font-weight: 700; box-shadow: 0 4px 12px rgba(74, 21, 75, 0.25); }
+        .tab-content-panel { display: none; }
+        .tab-content-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 
 <body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       HEADER (shared)
-       ════════════════════════════════════════════════════════════════════ -->
-  <!-- GLOBAL SITE HEADER: START -->
+    <!-- GLOBAL SITE HEADER: START -->
 <!-- ========================================== -->
     <!-- 1. ANNOUNCEMENT BAR (Vertical Slider)      -->
     <!-- ========================================== -->
@@ -551,429 +457,481 @@
 <!-- GLOBAL SITE HEADER: END -->
 
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       PROFILE CONTENT
-       ════════════════════════════════════════════════════════════════════ -->
-  <main class="flex-1 py-6 lg:py-10">
-    <div class="container-page max-w-5xl">
-
-      <!-- ═══ Breadcrumb + greeting ════════════════════════════════════════ -->
-      <div class="flex items-center justify-between mb-6 lg:mb-8">
-        <nav class="flex items-center gap-2 text-sm text-content-body" aria-label="مسیر">
-          <a href="../wallet/index.html" class="hover:text-primary-600 transition-colors">خانه</a>
-          <span class="text-content-muted">/</span>
-          <span class="text-content-heading font-medium">پروفایل</span>
-        </nav>
-        <span class="text-sm text-content-muted" data-backend-hook="last-login">
-          آخرین ورود: <span class="font-latin font-medium text-content-heading">۱۴:۳۲</span>
-        </span>
-      </div>
-
-
-      <!-- ════════════════════════════════════════════════════════════════════
-           GOLD BOX BALANCE WIDGET — THE HERO
-           ────────────────────────────────────────────────────────────────────
-           Talasho-specific: shows current Gold Box موجودی (gold grams) +
-           معادل ریالی + today's change + sparkline.
-           This is the "گلد باکس" (Gold Box) — talasho's milli-gold equivalent.
-           ════════════════════════════════════════════════════════════════════ -->
-      <div class="goldbox-widget rounded-2xl p-6 lg:p-8 mb-6 lg:mb-8 text-white relative">
-
-        <div class="relative z-10">
-
-          <!-- Top row: label + live indicator -->
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-2">
-              <span class="h-px w-8 bg-gold-400 inline-block"></span>
-              <span class="text-sm font-bold tracking-wider text-gold-300 uppercase font-latin">Gold Box</span>
-            </div>
-            <span class="flex items-center gap-1.5 text-xs text-white/60">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span class="font-latin">LIVE</span>
-            </span>
-          </div>
-
-          <!-- Balance display — asymmetric 2-col -->
-          <div class="grid sm:grid-cols-2 gap-6 items-end mb-6">
-
-            <!-- LEFT: gold balance (the hero number) -->
-            <div>
-              <div class="text-sm text-white/60 mb-1">موجودی طلای شما</div>
-              <div class="flex items-baseline gap-2">
-                <!-- BACKEND: wire to real gold balance API -->
-                <span class="font-latin text-4xl lg:text-5xl font-bold text-gold-300" data-backend-hook="gold-balance">
-                  ۱۲،۴۵۰
-                </span>
-                <span class="text-sm text-white/60">میلی‌گرم</span>
-              </div>
-              <div class="text-sm text-white/50 mt-1">
-                معادل <span class="font-latin font-bold text-white" data-backend-hook="gold-rial-equiv">۲۳،۱۸۶،۱۰۰</span> ریال
-              </div>
-            </div>
-
-            <!-- RIGHT: today's change + sparkline -->
-            <div class="sm:text-left">
-              <div class="text-sm text-white/60 mb-1">تغییرات امروز</div>
-              <div class="flex items-center gap-2 mb-2">
-                <!-- BACKEND: wire to real change data -->
-                <span class="flex items-center gap-1 text-emerald-400" data-backend-hook="gold-change">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                  </svg>
-                  <span class="font-latin text-xl font-bold">۰.۸٪</span>
-                </span>
-                <span class="text-sm text-white/50">+<span class="font-latin font-medium">۱۸۴،۰۰۰</span> ریال</span>
-              </div>
-              <!-- Mini sparkline (balance history) -->
-              <svg class="w-full h-12 sm:max-w-[200px]" viewBox="0 0 200 48" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="balanceFill" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#F0D050" stop-opacity="0.3"/>
-                    <stop offset="100%" stop-color="#F0D050" stop-opacity="0"/>
-                  </linearGradient>
-                </defs>
-                <path d="M0,36 L20,32 L40,34 L60,28 L80,30 L100,24 L120,26 L140,20 L160,22 L180,16 L200,18 L200,48 L0,48 Z"
-                      fill="url(#balanceFill)"/>
-                <path d="M0,36 L20,32 L40,34 L60,28 L80,30 L100,24 L120,26 L140,20 L160,22 L180,16 L200,18"
-                      stroke="#F0D050" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="200" cy="18" r="3" fill="#F0D050"/>
-              </svg>
-            </div>
-          </div>
-
-          <!-- Action buttons -->
-          <div class="grid grid-cols-2 gap-3 pt-6 border-t border-white/10">
-            <!-- BACKEND: wire to buy/sell flow -->
-            <a href="../wallet/index.html?action=buy" class="flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-300 text-primary-700 font-bold rounded-xl py-3 transition-all duration-250">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-              </svg>
-              <span>خرید طلا</span>
-            </a>
-            <a href="../wallet/index.html?action=sell" class="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold rounded-xl py-3 transition-all duration-250">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>
-              </svg>
-              <span>فروش طلا</span>
-            </a>
-          </div>
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="bg-surface border-b border-border">
+        <div class="container-page py-3">
+            <nav class="flex items-center gap-2 text-caption text-content-body flex-wrap" aria-label="مسیر">
+                <a href="../index.html" class="hover:text-primary-500 transition-colors flex items-center gap-1">
+                    <i class='bx bx-home text-base'></i>
+                    خانه
+                </a>
+                <i class='bx bx-chevron-left text-base text-content-muted'></i>
+                <a href="./index.html" class="hover:text-primary-500 transition-colors">کیف پول و صندوق</a>
+                <i class='bx bx-chevron-left text-base text-content-muted'></i>
+                <span class="text-content-heading font-bold">پروفایل کاربری</span>
+            </nav>
         </div>
-      </div>
-
-
-      <!-- ════════════════════════════════════════════════════════════════════
-           USER BRIEF + TAB BAR
-           ════════════════════════════════════════════════════════════════════ -->
-      <div class="bg-surface rounded-2xl border border-border shadow-card mb-6">
-
-        <!-- User brief row -->
-        <div class="flex items-center gap-4 p-5 lg:p-6 border-b border-border">
-          <!-- Avatar -->
-          <div class="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-            </svg>
-          </div>
-          <div class="flex-1 min-w-0">
-            <!-- BACKEND: wire to real user name -->
-            <div class="text-lg font-bold text-content-heading" data-backend-hook="user-name">محمد رضایی</div>
-            <div class="text-sm text-content-body flex items-center gap-2">
-              <span class="font-latin" data-backend-hook="user-phone" dir="ltr">0912xxxx567</span>
-              <span class="text-content-muted">•</span>
-              <span class="inline-flex items-center gap-1 text-status-success">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-sm font-medium">تأیید شده</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab bar — horizontal pills -->
-        <div class="flex overflow-x-auto no-scrollbar border-b border-border" role="tablist">
-          <button class="profile-tab active flex-shrink-0 px-5 py-4 text-sm font-medium text-content-body transition-colors" data-tab="purchases" role="tab" aria-selected="true">
-            خریدها
-          </button>
-          <button class="profile-tab flex-shrink-0 px-5 py-4 text-sm font-medium text-content-body transition-colors" data-tab="favorites" role="tab" aria-selected="false">
-            علاقه‌مندی‌ها
-          </button>
-          <button class="profile-tab flex-shrink-0 px-5 py-4 text-sm font-medium text-content-body transition-colors" data-tab="info" role="tab" aria-selected="false">
-            ویرایش اطلاعات
-          </button>
-          <button class="profile-tab flex-shrink-0 px-5 py-4 text-sm font-medium text-content-body transition-colors" data-tab="addresses" role="tab" aria-selected="false">
-            آدرس‌ها
-          </button>
-          <button class="profile-tab flex-shrink-0 px-5 py-4 text-sm font-medium text-content-body transition-colors" data-tab="transactions" role="tab" aria-selected="false">
-            تراکنش‌ها
-          </button>
-        </div>
-      </div>
-
-
-      <!-- ════════════════════════════════════════════════════════════════════
-           TAB PANELS
-           ════════════════════════════════════════════════════════════════════ -->
-
-      <!-- ─── TAB: PURCHASES ─── -->
-      <div class="tab-panel active" data-panel="purchases">
-        <div class="bg-surface rounded-2xl border border-border shadow-card p-5 lg:p-6">
-
-          <div class="flex items-baseline justify-between mb-5">
-            <h2 class="text-lg font-bold text-content-heading">تاریخچه خریدها</h2>
-            <span class="text-sm text-content-body font-latin">
-              <!-- BACKEND: wire to real count -->
-              <span data-backend-hook="purchase-count">۳</span> خرید
-            </span>
-          </div>
-
-          <!-- Purchase list -->
-          <div class="space-y-3">
-            <!-- BACKEND: wire to real purchase data — LOOP START -->
-            <div class="tx-row flex items-center gap-4 p-4 rounded-xl border border-border">
-              <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="text-sm font-bold text-content-heading">طلای ۱۸ عیار — ۲۰۰۰ میلی‌گرم</div>
-                <div class="text-sm text-content-body font-latin">۱۴۰۳/۰۵/۱۰ • ۱۴:۳۲</div>
-              </div>
-              <div class="text-left">
-                <div class="font-latin text-base font-bold text-content-heading">۹،۰۹۰،۰۰۰</div>
-                <div class="text-sm text-content-body">ریال</div>
-              </div>
-            </div>
-            <!-- Another purchase -->
-            <div class="tx-row flex items-center gap-4 p-4 rounded-xl border border-border">
-              <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="text-sm font-bold text-content-heading">سکه امامی — ۱ عدد</div>
-                <div class="text-sm text-content-body font-latin">۱۴۰۳/۰۴/۲۲ • ۰۹:۱۵</div>
-              </div>
-              <div class="text-left">
-                <div class="font-latin text-base font-bold text-content-heading">۴۵،۴۵۰،۰۰۰</div>
-                <div class="text-sm text-content-body">ریال</div>
-              </div>
-            </div>
-            <!-- BACKEND: LOOP END -->
-          </div>
-
-          <div class="mt-5 pt-5 border-t border-border text-center">
-            <a href="#" data-backend-hook="view-all-purchases" class="text-sm text-primary-600 font-medium hover:underline">
-              مشاهده همه خریدها
-            </a>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- ─── TAB: FAVORITES ─── -->
-      <div class="tab-panel" data-panel="favorites">
-        <div class="bg-surface rounded-2xl border border-border shadow-card p-5 lg:p-6">
-
-          <div class="flex items-baseline justify-between mb-5">
-            <h2 class="text-lg font-bold text-content-heading">علاقه‌مندی‌ها</h2>
-            <span class="text-sm text-content-body font-latin">
-              <!-- BACKEND: wire to real count -->
-              <span data-backend-hook="favorite-count">۵</span> مورد
-            </span>
-          </div>
-
-          <!-- Favorites grid -->
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <!-- BACKEND: wire to real favorites — LOOP START -->
-            <div class="tx-row p-4 rounded-xl border border-border hover:border-gold-400 cursor-pointer transition-all">
-              <div class="w-full aspect-square bg-primary-50 rounded-lg flex items-center justify-center mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
-                </svg>
-              </div>
-              <div class="text-sm font-bold text-content-heading">انگشتر طلای ۱۸ عیار</div>
-              <div class="text-sm text-content-body font-latin mt-1"><span class="numeric-measure"><span class="numeric-measure__unit">ریال</span><span class="font-latin">۴،۵۰۰،۰۰۰</span></span></div>
-            </div>
-            <div class="tx-row p-4 rounded-xl border border-border hover:border-gold-400 cursor-pointer transition-all">
-              <div class="w-full aspect-square bg-primary-50 rounded-lg flex items-center justify-center mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                </svg>
-              </div>
-              <div class="text-sm font-bold text-content-heading">گردنبند طلای سفید</div>
-              <div class="text-sm text-content-body font-latin mt-1"><span class="numeric-measure"><span class="numeric-measure__unit">ریال</span><span class="font-latin">۸،۲۰۰،۰۰۰</span></span></div>
-            </div>
-            <!-- BACKEND: LOOP END -->
-          </div>
-        </div>
-      </div>
-
-
-      <!-- ─── TAB: EDIT INFO ─── -->
-      <div class="tab-panel" data-panel="info">
-        <div class="bg-surface rounded-2xl border border-border shadow-card p-5 lg:p-6">
-
-          <h2 class="text-lg font-bold text-content-heading mb-5">ویرایش اطلاعات</h2>
-
-          <!-- BACKEND: wire to update profile API -->
-          <form data-backend-hook="update-profile" onsubmit="return false;" class="space-y-5">
-            <div class="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-bold text-content-heading mb-2">نام</label>
-                <input type="text" value="محمد" class="auth-input" data-backend-hook="edit-firstname" style="width:100%;background:#F5F5F5;border:2px solid #ECECEC;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:600;color:#23254A;outline:none;">
-              </div>
-              <div>
-                <label class="block text-sm font-bold text-content-heading mb-2">نام خانوادگی</label>
-                <input type="text" value="رضایی" class="auth-input" data-backend-hook="edit-lastname" style="width:100%;background:#F5F5F5;border:2px solid #ECECEC;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:600;color:#23254A;outline:none;">
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-content-heading mb-2">شماره موبایل</label>
-              <input type="tel" value="09121234567" dir="ltr" class="auth-input font-latin text-left" data-backend-hook="edit-phone" style="width:100%;background:#F5F5F5;border:2px solid #ECECEC;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:600;color:#23254A;outline:none;" readonly>
-              <p class="text-sm text-content-body mt-2">شماره موبایل قابل تغییر نیست.</p>
-            </div>
-            <div>
-              <label class="block text-sm font-bold text-content-heading mb-2">کد ملی</label>
-              <input type="tel" value="1234567890" dir="ltr" class="auth-input font-latin text-left" data-backend-hook="edit-nid" style="width:100%;background:#F5F5F5;border:2px solid #ECECEC;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:600;color:#23254A;outline:none;" readonly>
-            </div>
-            <button type="submit" class="btn-gold px-6 py-3 text-base" data-backend-hook="save-profile">
-              <span>ذخیره تغییرات</span>
-            </button>
-          </form>
-        </div>
-      </div>
-
-
-      <!-- ─── TAB: ADDRESSES ─── -->
-      <div class="tab-panel" data-panel="addresses">
-        <div class="bg-surface rounded-2xl border border-border shadow-card p-5 lg:p-6">
-
-          <div class="flex items-baseline justify-between mb-5">
-            <h2 class="text-lg font-bold text-content-heading">آدرس‌های من</h2>
-            <!-- BACKEND: wire to add address flow -->
-            <button class="text-sm text-primary-600 font-medium hover:underline flex items-center gap-1" data-backend-hook="add-address">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-              </svg>
-              <span>افزودن آدرس</span>
-            </button>
-          </div>
-
-          <div class="space-y-3">
-            <!-- BACKEND: wire to real addresses — LOOP START -->
-            <div class="tx-row p-4 rounded-xl border border-border">
-              <div class="flex items-start justify-between mb-2">
-                <div class="text-sm font-bold text-content-heading">خانه</div>
-                <span class="text-xs px-2.5 py-1 rounded-full bg-primary-50 text-primary-600 font-medium">پیش‌فرض</span>
-              </div>
-              <div class="text-sm text-content-body leading-6">
-                تهران، خیابان ولیعصر، پلاک ۱۲۳، واحد ۴
-              </div>
-              <div class="text-sm text-content-body font-latin mt-1">09121234567</div>
-            </div>
-            <div class="tx-row p-4 rounded-xl border border-border">
-              <div class="flex items-start justify-between mb-2">
-                <div class="text-sm font-bold text-content-heading">محل کار</div>
-              </div>
-              <div class="text-sm text-content-body leading-6">
-                تهران، خیابان میرداماد، برج آسمان، طبقه ۸
-              </div>
-              <div class="text-sm text-content-body font-latin mt-1">021-22884455</div>
-            </div>
-            <!-- BACKEND: LOOP END -->
-          </div>
-        </div>
-      </div>
-
-
-      <!-- ─── TAB: TRANSACTIONS ─── -->
-      <div class="tab-panel" data-panel="transactions">
-        <div class="bg-surface rounded-2xl border border-border shadow-card p-5 lg:p-6">
-
-          <div class="flex items-baseline justify-between mb-5">
-            <h2 class="text-lg font-bold text-content-heading">تراکنش‌های گلد باکس</h2>
-            <span class="text-sm text-content-body font-latin">
-              <!-- BACKEND: wire to real count -->
-              <span data-backend-hook="tx-count">۷</span> تراکنش
-            </span>
-          </div>
-
-          <div class="space-y-2">
-            <!-- BACKEND: wire to real transactions — LOOP START -->
-            <div class="tx-row flex items-center gap-4 p-4 rounded-xl border border-border">
-              <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-status-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="text-sm font-bold text-content-heading">خرید طلا</div>
-                <div class="text-sm text-content-body font-latin">۱۴۰۳/۰۵/۱۰ • ۱۴:۳۲</div>
-              </div>
-              <div class="text-left">
-                <div class="font-latin text-base font-bold text-status-success">+۲۰۰۰</div>
-                <div class="text-sm text-content-body">میلی‌گرم</div>
-              </div>
-            </div>
-            <div class="tx-row flex items-center gap-4 p-4 rounded-xl border border-border">
-              <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-status-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"/>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="text-sm font-bold text-content-heading">فروش طلا</div>
-                <div class="text-sm text-content-body font-latin">۱۴۰۳/۰۴/۲۸ • ۱۰:۱۵</div>
-              </div>
-              <div class="text-left">
-                <div class="font-latin text-base font-bold text-status-error">-۵۵۰</div>
-                <div class="text-sm text-content-body">میلی‌گرم</div>
-              </div>
-            </div>
-            <!-- BACKEND: LOOP END -->
-          </div>
-        </div>
-      </div>
-
     </div>
-  </main>
 
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       INLINE JS — Tab switching
-       ════════════════════════════════════════════════════════════════════ -->
-  <script>
-    (function () {
-      var tabs = document.querySelectorAll('.profile-tab');
-      var panels = document.querySelectorAll('.tab-panel');
+    <!-- ================= MAIN PROFILE CONTENT ================= -->
+    <main class="flex-1 py-6 lg:py-10">
+        <div class="container-page">
+            
+            <!-- 1. USER HERO BANNER (Digikala Style Account Banner) -->
+            <div class="bg-surface rounded-3xl p-6 lg:p-8 border border-border shadow-card mb-8 relative overflow-hidden">
+                <div class="absolute top-0 end-0 w-64 h-64 bg-gold-400/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var target = tab.getAttribute('data-tab');
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                    
+                    <!-- Left: Avatar + Info -->
+                    <div class="flex flex-col sm:flex-row items-center text-center sm:text-right gap-4">
+                        <div class="relative group shrink-0">
+                            <img src="../assets/images/user-avatar.jpg" alt="محمد رضایی" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-gold-400 shadow-xl">
+                            <button type="button" class="absolute bottom-0 end-0 w-8 h-8 rounded-full bg-primary-700 text-white flex items-center justify-center shadow-md hover:bg-gold-500 transition-colors" title="تغییر تصویر پروفایل">
+                                <i class='bx bx-camera text-base'></i>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                                <h1 class="text-xl sm:text-2xl font-black text-content-heading">محمد رضایی</h1>
+                                <span class="px-2.5 py-0.5 rounded-full bg-status-success-bg text-status-success text-[11px] font-bold border border-status-success/30 flex items-center gap-1">
+                                    <i class='bx bxs-badge-check'></i>
+                                    <span>احراز هویت شده (سطح ۲)</span>
+                                </span>
+                            </div>
+                            <div class="text-xs text-content-muted flex items-center justify-center sm:justify-start gap-3 flex-wrap">
+                                <span>شماره همراه: <strong class="numeric-measure text-content-heading"><span class="font-latin">۰۹۱۲۳۴۵۶۷۸۹</span></strong></span>
+                                <span>کد ملی: <strong class="numeric-measure text-content-heading"><span class="font-latin">۰۰۱۲۳۴۵۶۷۸</span></strong></span>
+                                <span>عضویت از: <strong class="numeric-measure text-content-heading"><span class="numeric-measure__unit">فروردین</span><span class="font-latin">۱۴۰۲</span></strong></span>
+                            </div>
+                        </div>
+                    </div>
 
-          tabs.forEach(function (t) {
-            t.classList.remove('active');
-            t.setAttribute('aria-selected', 'false');
-          });
-          tab.classList.add('active');
-          tab.setAttribute('aria-selected', 'true');
+                    <!-- Right: Quick Profile Action Badges -->
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-center">
+                        <a href="./deposit.html" class="btn-gold text-xs py-2.5 px-4 flex-1 sm:flex-initial justify-center shadow-sm">
+                            <i class='bx bx-plus-circle text-base'></i>
+                            <span>واریز به کیف پول</span>
+                        </a>
+                        <a href="./withdraw.html" class="btn-secondary text-xs py-2.5 px-4 flex-1 sm:flex-initial justify-center">
+                            <i class='bx bx-export text-base'></i>
+                            <span>برداشت وجه</span>
+                        </a>
+                    </div>
 
-          panels.forEach(function (p) {
-            p.classList.remove('active');
-          });
-          var panel = document.querySelector('[data-panel="' + target + '"]');
-          if (panel) panel.classList.add('active');
-        });
-      });
-    })();
-  </script>
+                </div>
+
+                <!-- 4 KPI Metrics Strip -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-border">
+                    
+                    <!-- KPI 1: Gold Box -->
+                    <div class="bg-gradient-to-br from-gold-500/10 via-background to-background p-4 rounded-2xl border border-gold-400/30">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-content-muted">صندوق طلای آبشده</span>
+                            <i class='bx bxs-box text-gold-600 text-xl'></i>
+                        </div>
+                        <div class="text-lg sm:text-xl font-black text-primary-900 font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-xs text-content-muted font-normal">گرم</span>
+                                <span class="font-latin">۱۲.۴۵۰</span>
+                            </span>
+                        </div>
+                        <span class="text-[11px] text-content-muted mt-1 block">
+                            معادل <span class="numeric-measure text-content-heading font-bold"><span class="numeric-measure__unit">تومان</span><span class="font-latin">۵۶,۵۸۵,۲۵۰</span></span>
+                        </span>
+                    </div>
+
+                    <!-- KPI 2: Wallet Rial -->
+                    <div class="bg-background p-4 rounded-2xl border border-border">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-content-muted">موجودی کیف پول</span>
+                            <i class='bx bx-wallet text-primary-600 text-xl'></i>
+                        </div>
+                        <div class="text-lg sm:text-xl font-black text-content-heading font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                                <span class="font-latin">۴,۲۵۰,۰۰۰</span>
+                            </span>
+                        </div>
+                        <span class="text-[11px] text-status-success font-bold mt-1 block flex items-center gap-0.5">
+                            <i class='bx bx-check-circle'></i>
+                            <span>آماده برای معامله</span>
+                        </span>
+                    </div>
+
+                    <!-- KPI 3: Orders -->
+                    <div class="bg-background p-4 rounded-2xl border border-border">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-content-muted">سفارش‌های فعال</span>
+                            <i class='bx bx-shopping-bag text-primary-600 text-xl'></i>
+                        </div>
+                        <div class="text-lg sm:text-xl font-black text-content-heading font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-xs text-content-muted font-normal">سفارش</span>
+                                <span class="font-latin">۲</span>
+                            </span>
+                        </div>
+                        <span class="text-[11px] text-content-muted mt-1 block">در حال آماده‌سازی و ارسال</span>
+                    </div>
+
+                    <!-- KPI 4: VIP Points -->
+                    <div class="bg-background p-4 rounded-2xl border border-border">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-content-muted">باشگاه مشتریان VIP</span>
+                            <i class='bx bxs-award text-gold-500 text-xl'></i>
+                        </div>
+                        <div class="text-lg sm:text-xl font-black text-gold-600 font-latin">
+                            <span class="numeric-measure">
+                                <span class="numeric-measure__unit text-xs text-content-muted font-normal">امتیاز</span>
+                                <span class="font-latin">۱,۴۵۰</span>
+                            </span>
+                        </div>
+                        <span class="text-[11px] text-gold-600 font-bold mt-1 block">سطح طلایی VIP</span>
+                    </div>
+
+                </div>
+            </div>
 
 
+            <!-- 2. MAIN LAYOUT: SIDEBAR NAVIGATION + CONTENT PANELS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- Sidebar Menu (Desktop) / Tab Navigation Bar (Mobile) -->
+                <div class="lg:col-span-3">
+                    <div class="bg-surface rounded-2xl p-3 border border-border shadow-xs sticky top-24">
+                        <div class="space-y-1" id="profileTabNav">
+                            <button type="button" data-tab="overview" class="profile-tab-btn active w-full flex items-center justify-between p-3 text-xs font-bold transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-grid-alt text-lg'></i>
+                                    <span>خلاصه فعالیت‌ها</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
 
-<!-- GLOBAL SITE FOOTER: START -->
+                            <button type="button" data-tab="goldbox" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bxs-box text-lg text-gold-600'></i>
+                                    <span>صندوق طلاشو و کیف پول</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
+
+                            <button type="button" data-tab="orders" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-shopping-bag text-lg'></i>
+                                    <span>سفارش‌های من</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
+
+                            <button type="button" data-tab="info" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-user text-lg'></i>
+                                    <span>اطلاعات حساب کاربری</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
+
+                            <button type="button" data-tab="banks" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-credit-card text-lg'></i>
+                                    <span>کارت‌ها و حساب‌های بانکی</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
+
+                            <button type="button" data-tab="addresses" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-map text-lg'></i>
+                                    <span>آدرس‌های تحویل</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
+
+                            <button type="button" data-tab="wishlist" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-heart text-lg'></i>
+                                    <span>علاقه‌مندی‌ها</span>
+                                </span>
+                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                            </button>
+
+                            <a href="../wallet/login.html" class="w-full flex items-center justify-between p-3 text-xs font-bold text-status-error hover:bg-status-error-bg rounded-xl transition-all mt-3 pt-3 border-t border-border">
+                                <span class="flex items-center gap-2.5">
+                                    <i class='bx bx-log-out text-lg'></i>
+                                    <span>خروج از حساب</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Content Panels (Right Side) -->
+                <div class="lg:col-span-9">
+                    
+                    <!-- TAB 1: OVERVIEW (خلاصه فعالیت‌ها) -->
+                    <div id="panel-overview" class="tab-content-panel active">
+                        
+                        <!-- Recent Transactions Card -->
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs mb-6">
+                            <div class="flex items-center justify-between mb-5 pb-3 border-b border-border">
+                                <h3 class="text-base font-black text-content-heading flex items-center gap-2">
+                                    <i class='bx bx-history text-gold-600 text-xl'></i>
+                                    <span>آخرین تراکنش‌های صندوق و کیف پول</span>
+                                </h3>
+                                <a href="./transactions.html" class="text-xs font-bold text-primary-600 hover:text-primary-800 transition-colors">مشاهده همه</a>
+                            </div>
+
+                            <div class="space-y-3">
+                                <!-- Transaction 1 -->
+                                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border/80">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-status-success-bg text-status-success flex items-center justify-center text-xl font-bold">
+                                            <i class='bx bx-down-arrow-alt'></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-content-heading text-xs">خرید طلای آبشده (صندوق)</h4>
+                                            <span class="text-[11px] text-content-muted">۱۰ مرداد ۱۴۰۳ - ساعت ۱۴:۳۲</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-sm font-black text-status-success font-latin">
+                                            <span class="numeric-measure">
+                                                <span class="numeric-measure__unit text-xs font-normal">+ گرم</span>
+                                                <span class="font-latin">۲.۰۰۰</span>
+                                            </span>
+                                        </div>
+                                        <span class="text-[11px] text-content-muted font-latin">
+                                            <span class="numeric-measure"><span class="numeric-measure__unit">تومان</span><span class="font-latin">۹,۰۹۰,۰۰۰</span></span>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Transaction 2 -->
+                                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border/80">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center text-xl font-bold">
+                                            <i class='bx bx-wallet'></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-content-heading text-xs">شارژ کیف پول ریالی</h4>
+                                            <span class="text-[11px] text-content-muted">۰۵ مرداد ۱۴۰۳ - ساعت ۱۰:۱۵</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-sm font-black text-primary-700 font-latin">
+                                            <span class="numeric-measure">
+                                                <span class="numeric-measure__unit text-xs font-normal">+ تومان</span>
+                                                <span class="font-latin">۵,۰۰۰,۰۰۰</span>
+                                            </span>
+                                        </div>
+                                        <span class="text-[11px] text-status-success font-bold">موفق (درگاه ملت)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Transaction 3 -->
+                                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border/80">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xl font-bold">
+                                            <i class='bx bx-shopping-bag'></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-content-heading text-xs">خرید سکه امامی طرح جدید</h4>
+                                            <span class="text-[11px] text-content-muted">۲۲ تیر ۱۴۰۳ - ساعت ۰۹:۱۵</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-sm font-black text-content-heading font-latin">
+                                            <span class="numeric-measure">
+                                                <span class="numeric-measure__unit text-xs font-normal">تومان</span>
+                                                <span class="font-latin">۴۵,۴۵۰,۰۰۰</span>
+                                            </span>
+                                        </div>
+                                        <span class="text-[11px] text-content-muted">تحویل حضوری در شعبه</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- TAB 2: GOLDBOX & WALLET (صندوق طلاشو و کیف پول) -->
+                    <div id="panel-goldbox" class="tab-content-panel">
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
+                            <h3 class="text-base font-black text-content-heading mb-4 flex items-center gap-2">
+                                <i class='bx bxs-box text-gold-600 text-xl'></i>
+                                <span>جزئیات موجودی صندوق طلای آبشده</span>
+                            </h3>
+
+                            <div class="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-950 text-white rounded-2xl p-6 mb-6 relative overflow-hidden">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                    <div>
+                                        <span class="text-xs text-gold-300 font-bold">موجودی معادل طلا:</span>
+                                        <div class="text-3xl font-black text-white font-latin mt-1">
+                                            <span class="numeric-measure">
+                                                <span class="numeric-measure__unit text-sm text-gold-300 font-normal">گرم</span>
+                                                <span class="font-latin">۱۲.۴۵۰</span>
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-gray-300 mt-1">
+                                            ارزش بر اساس نرخ روز: <strong class="font-latin text-gold-400">۵۶,۵۸۵,۲۵۰ تومان</strong>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                                        <a href="./buy.html" class="btn-gold text-xs py-2.5 px-4 flex-1 sm:flex-initial justify-center shadow-md">خرید طلا</a>
+                                        <a href="./sell.html" class="btn-secondary text-xs py-2.5 px-4 flex-1 sm:flex-initial justify-center">فروش طلا</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 3: ORDERS (سفارش‌های من) -->
+                    <div id="panel-orders" class="tab-content-panel">
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
+                            <h3 class="text-base font-black text-content-heading mb-4 flex items-center gap-2">
+                                <i class='bx bx-shopping-bag text-gold-600 text-xl'></i>
+                                <span>تاریخچه سفارش‌های فروشگاهی</span>
+                            </h3>
+
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-2xl border border-border bg-background">
+                                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-border/80">
+                                        <div>
+                                            <span class="text-xs font-bold text-content-heading">کد سفارش: <strong class="font-latin text-primary-700">#TLS-۹۰۴۲</strong></span>
+                                            <span class="text-[11px] text-content-muted ms-3">ثبت در ۱۰ مرداد ۱۴۰۳</span>
+                                        </div>
+                                        <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-800 text-xs font-bold">در حال آماده‌سازی</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-xs">
+                                        <span class="text-content-body">دستبند طلا مینیمال ۱۸ عیار (وزن ۲.۱۵ گرم)</span>
+                                        <span class="font-latin font-bold text-primary-700">۹,۷۷۰,۰۰۰ تومان</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 4: PROFILE INFO (اطلاعات فردی) -->
+                    <div id="panel-info" class="tab-content-panel">
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
+                            <h3 class="text-base font-black text-content-heading mb-6 flex items-center gap-2">
+                                <i class='bx bx-user-pin text-gold-600 text-xl'></i>
+                                <span>ویرایش اطلاعات کاربری و احراز هویت</span>
+                            </h3>
+
+                            <form action="#" method="post" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="profFirstName" class="block text-xs font-bold text-content-heading mb-1">نام:</label>
+                                        <input type="text" id="profFirstName" value="محمد" class="w-full bg-background border border-border rounded-xl py-2.5 px-3 text-xs font-bold text-content-heading outline-none focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label for="profLastName" class="block text-xs font-bold text-content-heading mb-1">نام خانوادگی:</label>
+                                        <input type="text" id="profLastName" value="رضایی" class="w-full bg-background border border-border rounded-xl py-2.5 px-3 text-xs font-bold text-content-heading outline-none focus:border-primary-500">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="profNatId" class="block text-xs font-bold text-content-heading mb-1">کد ملی:</label>
+                                        <input type="text" id="profNatId" value="۰۰۱۲۳۴۵۶۷۸" class="w-full bg-background border border-border rounded-xl py-2.5 px-3 text-xs font-bold font-latin text-content-heading outline-none focus:border-primary-500">
+                                    </div>
+                                    <div>
+                                        <label for="profMobile" class="block text-xs font-bold text-content-heading mb-1">شماره همراه:</label>
+                                        <input type="text" id="profMobile" value="۰۹۱۲۳۴۵۶۷۸۹" readonly class="w-full bg-background border border-border rounded-xl py-2.5 px-3 text-xs font-bold font-latin text-content-muted outline-none cursor-not-allowed">
+                                    </div>
+                                </div>
+
+                                <div class="pt-4 border-t border-border flex justify-end">
+                                    <button type="submit" class="btn-primary text-xs py-2.5 px-6">ذخیره تغییرات</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 5: BANK ACCOUNTS (حساب‌های بانکی) -->
+                    <div id="panel-banks" class="tab-content-panel">
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-base font-black text-content-heading flex items-center gap-2">
+                                    <i class='bx bx-credit-card text-gold-600 text-xl'></i>
+                                    <span>حساب‌ها و کارت‌های بانکی تایید شده</span>
+                                </h3>
+                                <a href="./bank-account.html" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1">
+                                    <i class='bx bx-plus'></i>
+                                    <span>افزودن کارت جدید</span>
+                                </a>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- Card 1 -->
+                                <div class="p-5 rounded-2xl bg-gradient-to-br from-primary-900 to-primary-950 text-white shadow-md relative overflow-hidden">
+                                    <div class="flex justify-between items-start mb-6">
+                                        <span class="text-xs font-bold text-gold-300">بانک ملت</span>
+                                        <span class="text-[10px] bg-status-success-bg text-status-success px-2 py-0.5 rounded-full font-bold">تایید شده</span>
+                                    </div>
+                                    <div class="font-latin text-base font-bold tracking-widest text-center my-4" dir="ltr">
+                                        ۶۱۰۴ - ۳۳۷۸ - ۹۰۱۲ - ۳۴۵۶
+                                    </div>
+                                    <div class="flex justify-between items-end text-xs text-gray-300 pt-2 border-t border-white/10">
+                                        <span>محمد رضایی</span>
+                                        <span class="font-latin text-[11px]" dir="ltr">IR92 0120 ... 3456</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 6: ADDRESSES (آدرس‌ها) -->
+                    <div id="panel-addresses" class="tab-content-panel">
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
+                            <h3 class="text-base font-black text-content-heading mb-4 flex items-center gap-2">
+                                <i class='bx bx-map text-gold-600 text-xl'></i>
+                                <span>آدرس‌های ثبت‌شده برای تحویل سفارش</span>
+                            </h3>
+                            <div class="p-4 rounded-2xl border border-border bg-background mb-3">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-bold text-xs text-content-heading">آدرس منزل (پیش‌فرض)</span>
+                                    <span class="text-[10px] bg-gold-500/20 text-gold-700 px-2 py-0.5 rounded-full font-bold">اصلی</span>
+                                </div>
+                                <p class="text-xs text-content-body leading-relaxed mb-2">
+                                    تهران، خیابان ولیعصر، بالاتر از میدان ونک، برج نگار، طبقه ۵، واحد ۵۰۲
+                                </p>
+                                <span class="text-xs text-content-muted font-latin">کد پستی: ۱۹۹۴۸-۱۲۳۴۵</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- TAB 7: WISHLIST (علاقه‌مندی‌ها) -->
+                    <div id="panel-wishlist" class="tab-content-panel">
+                        <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
+                            <h3 class="text-base font-black text-content-heading mb-4 flex items-center gap-2">
+                                <i class='bx bx-heart text-gold-600 text-xl'></i>
+                                <span>لیست علاقه‌مندی‌های شما</span>
+                            </h3>
+                            <p class="text-xs text-content-muted">محصولات ذخیره‌شده شما در این بخش قابل دسترسی است.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+
+    <!-- GLOBAL SITE FOOTER: START -->
 <footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
             <div class="container mx-auto px-4 md:px-6">
 
@@ -1185,5 +1143,32 @@
         </footer>
 <!-- GLOBAL SITE FOOTER: END -->
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabBtns = document.querySelectorAll('.profile-tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-content-panel');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+
+                    tabBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.classList.add('text-content-heading');
+                    });
+                    btn.classList.add('active');
+                    btn.classList.remove('text-content-heading');
+
+                    tabPanels.forEach(panel => {
+                        if (panel.id === `panel-${targetTab}`) {
+                            panel.classList.add('active');
+                        } else {
+                            panel.classList.remove('active');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
