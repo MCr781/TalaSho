@@ -1685,6 +1685,7 @@
                     const qty = parseFloat(rawQty);
 
                     if (!isNaN(qty) && qty > 0) {
+                        gramInput.value = toPersianDigits(rawQty);
                         const toman = qty * data.price;
                         tomanInput.value = formatToman(toman);
                         if (buyBtn) buyBtn.href = `./buy.html?item=${itemSelect.value}&qty=${qty}`;

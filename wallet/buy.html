@@ -1286,8 +1286,14 @@
     function parsePersianInput(str) {
       var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
       var clean = str.replace(/[۰-۹]/g, function (d) { return persian.indexOf(d); });
-      clean = clean.replace(/[^\d]/g, '');
-      return clean ? parseInt(clean, 10) : 0;
+      clean = clean.replace(/[^\d.]/g, '');
+      return clean ? parseFloat(clean) : 0;
+    }
+
+    function toPersianDecimal(str) {
+      var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      var clean = String(str).replace(/[۰-۹]/g, function (d) { return persian.indexOf(d); });
+      return toPersianDigits(clean.replace(/[^\d.]/g, ''));
     }
 
     function showToast(msg, duration) {
@@ -1322,7 +1328,8 @@
       });
 
       gramInput.addEventListener('input', function () {
-        var gram = parseFloat(gramInput.value.replace(/[^\d.]/g, '')) || 0;
+        var gram = parsePersianInput(gramInput.value);
+        gramInput.value = toPersianDecimal(gramInput.value);
         var rial = Math.round(gram * PRICE_PER_GRAM);
         if (document.activeElement !== rialInput) {
           rialInput.value = rial > 0 ? formatPersian(rial) : '';
