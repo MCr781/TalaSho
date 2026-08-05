@@ -762,21 +762,21 @@
 
         <!-- RIGHT: Prominent Quick Gold Buy Interactive Widget -->
         <div class="hidden lg:block hero-enter hero-enter-delay-3">
-          <div class="bg-gradient-to-b from-[#3D1142] to-[#230725] rounded-3xl p-6 border-2 border-gold-400 shadow-[0_12px_40px_rgba(232,185,72,0.25)] relative overflow-hidden">
-            
+          <div class="bg-white rounded-3xl p-6 border-2 border-gold-400 shadow-[0_12px_40px_rgba(232,185,72,0.3)] relative overflow-hidden">
+
             <!-- Top Tag -->
-            <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/15">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-border">
               <div class="flex items-center gap-2.5">
                 <div class="w-10 h-10 rounded-xl bg-gold-400 text-primary-950 flex items-center justify-center font-black shadow-md">
                   <i class='bx bx-cart-add text-2xl'></i>
                 </div>
                 <div>
-                  <h3 class="text-base font-black text-white leading-tight">خرید آنلاین و فوری طلا</h3>
-                  <span class="text-xs text-gold-300 font-bold">محاسبه آنی قیمت بدون کارمزد اضافی</span>
+                  <h3 class="text-base font-black text-content-heading leading-tight">خرید آنلاین و فوری طلا</h3>
+                  <span class="text-xs text-gold-700 font-bold">محاسبه آنی قیمت بدون کارمزد اضافی</span>
                 </div>
               </div>
-              <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/20 border border-gold-400/40 text-gold-300 text-xs font-black shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 live-pulse"></span>
+              <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-50 border border-gold-200 text-gold-700 text-xs font-black shadow-xs">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 live-pulse"></span>
                 <span>مظنه: ۴٬۵۴۵٬۰۰۰ تومان / گرم</span>
               </div>
             </div>
@@ -786,41 +786,41 @@
 
               <!-- Input 1: Toman Amount -->
               <div>
-                <label for="heroBuyRial" class="block text-xs font-bold text-gray-200 mb-1.5 flex items-center justify-between">
+                <label for="heroBuyRial" class="block text-xs font-bold text-content-body mb-1.5 flex items-center justify-between">
                   <span>مبلغ خرید (تومان):</span>
-                  <span class="text-xs text-gold-300 font-bold">حداقل ۵۰,۰۰۰ تومان</span>
+                  <span class="text-xs text-gold-700 font-bold">حداقل ۵۰,۰۰۰ تومان</span>
                 </label>
-                <div class="relative flex items-center bg-[#150316] border border-white/30 focus-within:border-gold-400 rounded-xl px-4 py-2.5 transition-all shadow-inner">
+                <div class="relative flex items-center bg-background border border-border focus-within:border-gold-500 rounded-xl px-4 py-2.5 transition-all">
                   <input type="text" id="heroBuyRial" name="amount" placeholder="مثلاً ۵٬۰۰۰٬۰۰۰"
-                         class="w-full bg-transparent text-sm font-black text-white placeholder-gray-400 outline-none border-none focus:ring-0 p-0 text-start" dir="rtl">
-                  <span class="text-xs font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2">تومان</span>
+                         class="w-full bg-transparent text-sm font-black text-content-heading placeholder-content-muted outline-none border-none focus:ring-0 p-0 text-start" dir="rtl">
+                  <span class="text-xs font-bold text-gold-700 whitespace-nowrap flex-shrink-0 ms-2">تومان</span>
                 </div>
               </div>
 
               <!-- Input 2: Gram Weight -->
               <div>
-                <label for="heroBuyGram" class="block text-xs font-bold text-gray-200 mb-1.5 flex items-center justify-between">
+                <label for="heroBuyGram" class="block text-xs font-bold text-content-body mb-1.5 flex items-center justify-between">
                   <span>وزن معادل طلا (گرم):</span>
-                  <span class="text-xs text-emerald-300 font-bold">تحویل فیزیکی یا خزانه‌داری</span>
+                  <span class="text-xs text-emerald-600 font-bold">تحویل فیزیکی یا خزانه‌داری</span>
                 </label>
-                <div class="relative flex items-center bg-[#150316] border border-white/30 focus-within:border-gold-400 rounded-xl px-4 py-2.5 transition-all shadow-inner">
+                <div class="relative flex items-center bg-background border border-border focus-within:border-gold-500 rounded-xl px-4 py-2.5 transition-all">
                   <input type="text" id="heroBuyGram" name="gram" placeholder="مثلاً ۱.۱۰۰"
-                         class="w-full bg-transparent text-sm font-black text-gold-300 placeholder-gray-400 outline-none border-none focus:ring-0 p-0 text-start" dir="rtl">
-                  <span class="text-xs font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2">گرم</span>
+                         class="w-full bg-transparent text-sm font-black text-gold-700 placeholder-content-muted outline-none border-none focus:ring-0 p-0 text-start" dir="rtl">
+                  <span class="text-xs font-bold text-gold-700 whitespace-nowrap flex-shrink-0 ms-2">گرم</span>
                 </div>
               </div>
 
               <!-- Quick Presets with Persian Text -->
               <div class="flex items-center gap-2 pt-1">
-                <button type="button" class="hero-preset-btn flex-1 py-2 bg-white/10 hover:bg-gold-400 hover:text-primary-950 text-white rounded-xl text-xs font-bold transition-all border border-white/15" data-rial="1000000">۱ میلیون تومان</button>
-                <button type="button" class="hero-preset-btn flex-1 py-2 bg-white/10 hover:bg-gold-400 hover:text-primary-950 text-white rounded-lg text-xs font-bold transition-all border border-white/15" data-rial="5000000">۵ میلیون تومان</button>
-                <button type="button" class="hero-preset-btn flex-1 py-2 bg-white/10 hover:bg-gold-400 hover:text-primary-950 text-white rounded-xl text-xs font-bold transition-all border border-white/15" data-rial="10000000">۱۰ میلیون تومان</button>
-                <button type="button" class="hero-preset-btn flex-1 py-2 bg-white/10 hover:bg-gold-400 hover:text-primary-950 text-white rounded-xl text-xs font-bold transition-all border border-white/15" data-gram="1">۱ گرم طلا</button>
+                <button type="button" class="hero-preset-btn flex-1 py-2 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-xl text-xs font-bold transition-all border border-primary-100" data-rial="1000000">۱ میلیون تومان</button>
+                <button type="button" class="hero-preset-btn flex-1 py-2 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-lg text-xs font-bold transition-all border border-primary-100" data-rial="5000000">۵ میلیون تومان</button>
+                <button type="button" class="hero-preset-btn flex-1 py-2 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-xl text-xs font-bold transition-all border border-primary-100" data-rial="10000000">۱۰ میلیون تومان</button>
+                <button type="button" class="hero-preset-btn flex-1 py-2 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-xl text-xs font-bold transition-all border border-primary-100" data-gram="1">۱ گرم طلا</button>
               </div>
 
               <!-- Submit CTA -->
               <button type="submit"
-                      class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-400 via-amber-400 to-gold-500 hover:from-gold-300 hover:to-amber-400 text-primary-950 font-black rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-gold-400/30 mt-2">
+                      class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-400 via-amber-400 to-gold-500 hover:from-gold-300 hover:to-amber-400 text-primary-950 font-black rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-gold-400/40 mt-2">
                 <i class='bx bx-cart-add text-xl'></i>
                 <span>ثبت سفارش و ادامه خرید طلا</span>
               </button>
