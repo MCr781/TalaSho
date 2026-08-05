@@ -166,7 +166,7 @@
 
     /* ─── Gold portfolio card ambient glow ─── */
     .gold-portfolio-card {
-      background: linear-gradient(135deg, #3A0C3C 0%, #6E436E 50%, #1A051B 100%);
+      background: linear-gradient(135deg, #2A0A2E 0%, #431F4A 55%, #140319 100%);
       position: relative;
       overflow: hidden;
     }
@@ -174,16 +174,16 @@
       content: '';
       position: absolute;
       top: -50px; right: -50px;
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(232,185,72,0.3) 0%, transparent 70%);
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(232,185,72,0.14) 0%, transparent 70%);
       pointer-events: none;
     }
     .gold-portfolio-card::after {
       content: '';
       position: absolute;
       bottom: -40px; left: -40px;
-      width: 180px; height: 180px;
-      background: radial-gradient(circle, rgba(232,185,72,0.2) 0%, transparent 70%);
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(232,185,72,0.10) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -682,18 +682,23 @@
           </div>
 
           <!-- Sleek Balance Card (Brighter Matte Surface) -->
-          <div id="balanceCard" class="balance-card-shimmer bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-xl hero-enter hero-enter-delay-1 relative">
+          <div id="balanceCard" class="balance-card-shimmer bg-gradient-to-br from-primary-700/70 via-primary-800/50 to-primary-950/90 backdrop-blur-md rounded-2xl p-6 border border-gold-400/25 shadow-xl hero-enter hero-enter-delay-1 relative overflow-hidden">
+            <!-- Ambient glows + gold hairline -->
+            <div class="absolute -top-16 -start-16 w-48 h-48 bg-gold-400/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+            <div class="absolute -bottom-20 -end-10 w-56 h-56 bg-primary-400/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+            <div class="absolute top-0 start-6 end-6 h-px bg-gradient-to-r from-transparent via-gold-400/60 to-transparent pointer-events-none -z-10"></div>
+
             <!-- Top Card Tag -->
             <div class="flex items-center justify-between mb-5">
-              <div class="flex items-center gap-2.5 bg-primary-950/70 px-3 py-1.5 rounded-xl border border-white/15">
-                <div class="w-7 h-7 rounded-lg bg-gold-400/25 flex items-center justify-center">
+              <div class="flex items-center gap-2.5 bg-black/25 px-3 py-1.5 rounded-xl border border-gold-400/20">
+                <div class="w-7 h-7 rounded-lg bg-gold-400/20 flex items-center justify-center">
                   <i class='bx bx-wallet text-gold-300 text-lg'></i>
                 </div>
                 <span class="text-gold-200 text-xs font-bold">کیف پول طلاشو VIP</span>
               </div>
               <!-- Eye toggle -->
               <button id="eyeToggle" type="button"
-                class="w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 transition-all text-white border border-white/20 shadow-xs flex items-center justify-center"
+                class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 transition-all text-white border border-white/15 shadow-xs flex items-center justify-center"
                 aria-label="نمایش/مخفی کردن موجودی">
                 <i id="eyeOpen" class='bx bx-show text-xl text-white block'></i>
                 <i id="eyeClosed" class='bx bx-hide text-xl text-white hidden'></i>
@@ -702,7 +707,7 @@
 
             <!-- Rial balance (primary) -->
             <div class="mb-5">
-              <p class="text-gray-200 text-xs font-bold mb-1.5">موجودی نقد کیف پول (ریالی)</p>
+              <p class="text-gold-100/70 text-xs font-bold mb-1.5">موجودی نقد کیف پول (ریالی)</p>
               <div class="balance-value flex items-baseline gap-2">
                 <span class="text-3xl sm:text-4xl font-black text-white font-latin" id="rialBalanceDisplay">
                   <span class="numeric-measure">
@@ -714,10 +719,10 @@
             </div>
 
             <!-- Divider -->
-            <div class="border-t border-white/20 mb-5"></div>
+            <div class="border-t border-white/15 mb-5"></div>
 
             <!-- Gold balance (secondary) -->
-            <div class="flex items-center justify-between bg-primary-950/60 p-3.5 rounded-xl border border-white/15">
+            <div class="flex items-center justify-between bg-black/25 p-3.5 rounded-xl border border-gold-400/15">
               <div>
                 <p class="text-gold-200 text-xs font-bold mb-1">صندوق طلای آبشده</p>
                 <div class="balance-value flex items-center gap-3">
@@ -991,12 +996,15 @@
         <div class="space-y-6">
 
           <!-- ═══ A. GOLD PORTFOLIO CARD ═══ -->
-          <div class="gold-portfolio-card rounded-3xl p-6 text-white dash-card relative overflow-hidden shadow-xl" aria-label="صندوق طلای آبشده">
-            <div class="relative z-10">
+          <div class="gold-portfolio-card rounded-3xl text-white dash-card relative overflow-hidden shadow-xl" aria-label="صندوق طلای آبشده">
+            <!-- Top decorative gradient bar -->
+            <div class="h-[3px] bg-gradient-to-r from-gold-400/50 via-primary-400/30 to-gold-400/50"></div>
+
+            <div class="relative z-10 p-6 lg:p-7">
               <!-- Header -->
-              <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
-                  <div class="w-11 h-11 rounded-2xl bg-gold-400/30 border border-gold-400/40 flex items-center justify-center shadow-sm">
+                  <div class="w-11 h-11 rounded-2xl bg-gold-400/25 border border-gold-400/40 flex items-center justify-center shadow-sm">
                     <i class='bx bxs-box text-gold-300 text-2xl'></i>
                   </div>
                   <div>
@@ -1004,35 +1012,68 @@
                     <span class="text-gold-200 text-xs font-bold">موجودی کل پرتفولیو کاربری</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 text-xs font-black">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-xs font-black">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 live-pulse"></span>
                   بروزرسانی زنده
                 </div>
               </div>
 
-              <!-- Main balance -->
-              <div class="mb-6 bg-primary-950/40 p-4 rounded-2xl border border-white/10">
-                <div class="balance-value text-4xl font-black text-gold-300 mb-2 font-latin drop-shadow-sm">
-                  <span class="numeric-measure">
-                    <span class="numeric-measure__unit text-xl text-gold-400 font-bold">گرم</span>
-                    <span class="font-latin" id="goldGramDisplay">۱۲.۴۵۰</span>
-                  </span>
-                </div>
-                <p class="text-gray-200 text-sm font-bold">
-                  ارزش تخمینی کل:
-                  <span class="text-white font-black font-latin text-base">
+              <!-- Header accent -->
+              <div class="h-px bg-gradient-to-r from-gold-400/30 via-transparent to-transparent mb-4"></div>
+
+              <!-- Balance + trend grid -->
+              <div class="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
+                <!-- Main balance — gold-tinted -->
+                <div class="bg-gold-400/[0.05] p-4 rounded-2xl border border-s border-gold-400/20 flex flex-col justify-between gap-3">
+                  <p class="text-gold-200/80 text-xs font-bold">موجودی کل (گرم)</p>
+                  <div class="balance-value text-4xl font-black text-gold-300 font-latin drop-shadow-sm">
                     <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs text-gold-200 font-normal">تومان</span>
-                      <span class="font-latin">۵۶٬۵۸۵٬۲۵۰</span>
+                      <span class="numeric-measure__unit text-xl text-gold-400 font-bold">گرم</span>
+                      <span class="font-latin" id="goldGramDisplay">۱۲.۴۵۰</span>
                     </span>
-                  </span>
-                </p>
+                  </div>
+                  <p class="text-gray-200 text-sm font-bold">
+                    ارزش تخمینی کل:
+                    <span class="text-white font-black font-latin text-base">
+                      <span class="numeric-measure">
+                        <span class="numeric-measure__unit text-xs text-gold-200 font-normal">تومان</span>
+                        <span class="font-latin">۵۶٬۵۸۵٬۲۵۰</span>
+                      </span>
+                    </span>
+                  </p>
+                </div>
+
+                <!-- 7-day trend sparkline — emerald-tinted -->
+                <div class="bg-emerald-400/[0.05] rounded-2xl border border-s border-emerald-400/20 p-4 flex flex-col justify-between gap-2">
+                  <div class="flex items-center justify-between">
+                    <span class="flex items-center gap-2 text-xs font-bold text-emerald-200 whitespace-nowrap">
+                      <i class='bx bx-line-chart text-emerald-300 text-base'></i>
+                      روند ۷ روز اخیر
+                    </span>
+                    <span class="text-emerald-300 text-xs font-black font-latin flex items-center gap-1 whitespace-nowrap">
+                      <i class='bx bx-trending-up text-sm'></i>+۲.۴٪
+                    </span>
+                  </div>
+                  <svg viewBox="0 0 220 64" class="w-full h-16 min-w-0" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="goldSparkFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#E8B948" stop-opacity="0.35"/>
+                        <stop offset="100%" stop-color="#E8B948" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M0,48 L20,41 L40,44 L60,32 L80,36 L100,22 L120,28 L140,14 L160,22 L180,10 L200,17 L220,8 L220,64 L0,64 Z" fill="url(#goldSparkFill)"/>
+                    <path d="M0,48 L20,41 L40,44 L60,32 L80,36 L100,22 L120,28 L140,14 L160,22 L180,10 L200,17 L220,8" fill="none" stroke="#E8B948" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
               </div>
 
               <!-- Stats row -->
-              <div class="grid grid-cols-3 gap-3 mb-6">
-                <div class="bg-white/10 rounded-2xl p-4 border border-white/15">
-                  <p class="text-gray-200 text-xs font-bold mb-1.5">قابل معامله</p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div class="bg-black/25 rounded-2xl p-4 border border-white/10 border-t-gold-400/40">
+                  <p class="text-gray-200 text-xs font-bold mb-1.5 flex items-center gap-1.5">
+                    <i class='bx bx-check-circle text-gold-300 text-sm'></i>
+                    قابل معامله
+                  </p>
                   <p class="text-white font-black font-latin text-base">
                     <span class="numeric-measure">
                       <span class="numeric-measure__unit text-xs font-normal text-gold-200">گرم</span>
@@ -1040,8 +1081,11 @@
                     </span>
                   </p>
                 </div>
-                <div class="bg-white/10 rounded-2xl p-4 border border-white/15">
-                  <p class="text-gray-200 text-xs font-bold mb-1.5">در انتظار</p>
+                <div class="bg-black/25 rounded-2xl p-4 border border-white/10 border-t-gray-400/40">
+                  <p class="text-gray-200 text-xs font-bold mb-1.5 flex items-center gap-1.5">
+                    <i class='bx bx-time-five text-gray-300 text-sm'></i>
+                    در انتظار
+                  </p>
                   <p class="text-white font-black font-latin text-base">
                     <span class="numeric-measure">
                       <span class="numeric-measure__unit text-xs font-normal text-gray-300">گرم</span>
@@ -1049,13 +1093,27 @@
                     </span>
                   </p>
                 </div>
-                <div class="bg-white/10 rounded-2xl p-4 border border-white/15">
-                  <p class="text-gray-200 text-xs font-bold mb-1.5">تغییر ۲۴h</p>
+                <div class="bg-black/25 rounded-2xl p-4 border border-white/10 border-t-emerald-400/40">
+                  <p class="text-gray-200 text-xs font-bold mb-1.5 flex items-center gap-1.5">
+                    <i class='bx bx-trending-up text-emerald-300 text-sm'></i>
+                    تغییر ۲۴h
+                  </p>
                   <p class="text-emerald-300 font-black font-latin text-base flex items-center gap-1">
-                    <i class='bx bx-trending-up text-lg'></i>
                     <span class="numeric-measure">
                       <span class="numeric-measure__unit text-xs font-bold">٪</span>
                       <span>+۰.۸</span>
+                    </span>
+                  </p>
+                </div>
+                <div class="bg-black/25 rounded-2xl p-4 border border-white/10 border-t-primary-400/40">
+                  <p class="text-gray-200 text-xs font-bold mb-1.5 flex items-center gap-1.5">
+                    <i class='bx bx-purchase-tag text-primary-300 text-sm'></i>
+                    میانگین خرید
+                  </p>
+                  <p class="text-white font-black font-latin text-base">
+                    <span class="numeric-measure">
+                      <span class="numeric-measure__unit text-xs font-normal text-gold-200">تومان</span>
+                      <span>۴٬۴۷۰٬۰۰۰</span>
                     </span>
                   </p>
                 </div>
@@ -1076,6 +1134,9 @@
                 </a>
               </div>
             </div>
+
+            <!-- Decorative ambient circle -->
+            <div class="absolute bottom-0 end-0 w-40 h-40 bg-gold-400/[0.03] rounded-full blur-3xl pointer-events-none"></div>
           </div>
 
 
@@ -1397,7 +1458,7 @@
 
 
         <!-- ──────────── SIDEBAR ──────────── -->
-        <aside class="space-y-5">
+        <aside class="space-y-5 lg:sticky lg:top-32 self-start">
 
           <!-- ═══ D. BANK CARD WIDGET ═══ -->
           <div class="bg-surface rounded-3xl border border-border shadow-sm dash-card overflow-hidden p-5" aria-label="کارت‌های بانکی">
