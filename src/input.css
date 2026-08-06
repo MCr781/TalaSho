@@ -231,10 +231,14 @@
 
   /* The real visible box sits inside the padding-top area */
   .header-dropdown-panel > div {
-    background: #FEFEFE;
-    border-radius: 16px;
-    border: 1px solid #E8E2DC;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.10);
+    background: rgba(254, 254, 254, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1.5px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9) inset,
+                0 14px 40px -4px rgba(46, 13, 46, 0.18),
+                0 28px 64px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
   }
 
@@ -242,24 +246,48 @@
   .header-dropdown-panel::before {
     content: '';
     position: absolute;
-    top: 4px; /* inside the 10px padding-top area */
-    width: 12px;
-    height: 12px;
+    top: 3px; /* inside the 10px padding-top area */
+    width: 13px;
+    height: 13px;
     background: #FEFEFE;
-    border-top: 1px solid #E8E2DC;
-    border-right: 1px solid #E8E2DC;
-    transform: rotate(-45deg);
+    border-top: 1.5px solid rgba(212, 175, 55, 0.4);
+    border-right: 1.5px solid rgba(212, 175, 55, 0.4);
     border-radius: 2px;
     z-index: 1;
   }
 
-  /* In RTL (default) the notch sits near the left edge (visual right) */
-  .header-dropdown-panel--end::before {
-    left: 22px;
+  /* Centered variant — centers both panel and arrow notch dead-center under the icon trigger */
+  .header-dropdown-panel--center {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(-8px) scale(0.98);
   }
-  /* Variant where trigger is on the left (visual left in RTL = end) */
-  .header-dropdown-panel--start::before {
-    right: 22px;
+  .header-dropdown-panel--center::before {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) rotate(-45deg);
+  }
+
+  /* Left-anchored fallback variant */
+  .header-dropdown-panel--left {
+    left: 0;
+    right: auto;
+  }
+  .header-dropdown-panel--left::before {
+    left: 18px;
+    right: auto;
+    transform: rotate(-45deg);
+  }
+
+  /* Right-anchored fallback variant */
+  .header-dropdown-panel--right {
+    right: 0;
+    left: auto;
+  }
+  .header-dropdown-panel--right::before {
+    right: 18px;
+    left: auto;
+    transform: rotate(-45deg);
   }
 
   /* Activated on hover — show + slide into position */
@@ -268,7 +296,12 @@
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
-    transform: translateY(0) !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  .header-dropdown-hover-area:hover .header-dropdown-panel--center,
+  .header-dropdown-panel--center:hover {
+    transform: translateX(-50%) translateY(0) scale(1) !important;
   }
 
   /* Shimmer animation for countdown timer */

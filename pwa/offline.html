@@ -200,86 +200,86 @@
                                 class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
                         </a>
 
-                        <!-- Wishlist Dropdown Panel -->
-                        <div class="header-dropdown-panel header-dropdown-panel--start" style="right: 0;">
+                        <!-- Wishlist Dropdown Panel (Centered directly under icon) -->
+                        <div class="header-dropdown-panel header-dropdown-panel--center">
                             <!-- Single inner div — required for the CSS > div styling rule -->
-                            <div>
+                            <div class="w-[400px]">
                                 <!-- Panel header -->
-                                <div class="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border">
-                                    <span class="text-body font-black text-content-heading">علاقه‌مندی‌ها</span>
-                                    <span class="text-caption text-content-muted bg-background rounded-full px-2 py-0.5">۳ مورد</span>
+                                <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-background/50">
+                                    <div class="flex items-center gap-2.5">
+                                        <i class='bx bxs-heart text-status-error text-xl'></i>
+                                        <span class="text-sm font-black text-content-heading">علاقه‌مندی‌های من</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-status-error bg-status-error-bg px-3 py-1 rounded-full">۳ کالا</span>
                                 </div>
 
                                 <!-- BACKEND: FOREACH WISHLIST ITEM — repeat this block per item -->
-                                <ul class="divide-y divide-border">
+                                <ul class="divide-y divide-border/50 max-h-[310px] overflow-y-auto cat-scroll">
                                     <!-- Item 1 -->
-                                    <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
-                                        <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                            <svg class="w-7 h-7 text-primary-300" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-caption font-bold text-content-heading line-clamp-1">انگشتر سولیتر طلا ۱۸ عیار</p>
-                                            <p class="text-[11px] text-content-muted mt-0.5">
-                                                <span class="numeric-measure font-latin">
-                                                    <span class="numeric-measure__unit">تومان</span>
+                                    <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
+                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="../assets/images/products/rose-gold-diamond-engagement-ring.png" alt="انگشتر سولیتر الماس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        </a>
+                                        <div class="flex-1 min-w-0 space-y-1">
+                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">انگشتر سولیتر الماس ۱۸ عیار</a>
+                                            <span class="text-xs text-content-muted block">طلا روزگلد | وزن: ۲٫۴ گرم</span>
+                                            <div class="text-sm font-black text-primary-700 font-latin pt-0.5">
+                                                <span class="numeric-measure">
+                                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
                                                     <span>۱۲٬۵۰۰٬۰۰۰</span>
                                                 </span>
-                                            </p>
+                                            </div>
                                         </div>
-                                        <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all" aria-label="حذف از علاقه‌مندی‌ها">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg opacity-70 group-hover:opacity-100 transition-all shrink-0 ms-1" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bx-trash text-lg'></i>
                                         </button>
                                     </li>
                                     <!-- Item 2 -->
-                                    <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
-                                        <div class="w-12 h-12 rounded-lg bg-gold-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                            <svg class="w-7 h-7 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-caption font-bold text-content-heading line-clamp-1">گردنبند پلاک طلا زرد</p>
-                                            <p class="text-[11px] text-content-muted mt-0.5">
-                                                <span class="numeric-measure font-latin">
-                                                    <span class="numeric-measure__unit">تومان</span>
+                                    <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
+                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="../assets/images/products/Pendant.webp" alt="آویز و پلاک طلا زرد" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        </a>
+                                        <div class="flex-1 min-w-0 space-y-1">
+                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">آویز و پلاک طلا زرد ۱۸ عیار</a>
+                                            <span class="text-xs text-content-muted block">طرح لوکس بانوان | وزن: ۱٫۸ گرم</span>
+                                            <div class="text-sm font-black text-primary-700 font-latin pt-0.5">
+                                                <span class="numeric-measure">
+                                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
                                                     <span>۸٬۳۰۰٬۰۰۰</span>
                                                 </span>
-                                            </p>
+                                            </div>
                                         </div>
-                                        <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all" aria-label="حذف از علاقه‌مندی‌ها">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg opacity-70 group-hover:opacity-100 transition-all shrink-0 ms-1" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bx-trash text-lg'></i>
                                         </button>
                                     </li>
                                     <!-- Item 3 -->
-                                    <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
-                                        <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                            <svg class="w-7 h-7 text-primary-300" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-caption font-bold text-content-heading line-clamp-1">دستبند کارتیر طلا سفید</p>
-                                            <p class="text-[11px] text-content-muted mt-0.5">
-                                                <span class="numeric-measure font-latin">
-                                                    <span class="numeric-measure__unit">تومان</span>
+                                    <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
+                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="../assets/images/products/bracelet.png" alt="دستبند طلا کارتیر" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        </a>
+                                        <div class="flex-1 min-w-0 space-y-1">
+                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">دستبند طلا سفید طرح کارتیر</a>
+                                            <span class="text-xs text-content-muted block">طلای ۱۸ عیار | وزن: ۴٫۵ گرم</span>
+                                            <div class="text-sm font-black text-primary-700 font-latin pt-0.5">
+                                                <span class="numeric-measure">
+                                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
                                                     <span>۲۲٬۰۰۰٬۰۰۰</span>
                                                 </span>
-                                            </p>
+                                            </div>
                                         </div>
-                                        <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all" aria-label="حذف از علاقه‌مندی‌ها">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg opacity-70 group-hover:opacity-100 transition-all shrink-0 ms-1" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bx-trash text-lg'></i>
                                         </button>
                                     </li>
                                 </ul>
                                 <!-- BACKEND: END FOREACH -->
 
                                 <!-- CTA -->
-                                <div class="px-4 py-3 border-t border-border">
-                                    <a href="#" class="flex items-center justify-center gap-2 w-full rounded-full border border-primary-500 text-primary-500 hover:bg-primary-50 transition-colors text-caption font-bold py-2">
-                                        مشاهده همه علاقه‌مندی‌ها
-                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                <div class="p-4 border-t border-border/70 bg-background/40">
+                                    <a href="#" class="flex items-center justify-center gap-2 w-full rounded-full border border-primary-500/40 text-primary-600 hover:bg-primary-50 hover:border-primary-500 transition-all duration-250 text-xs font-black h-11">
+                                        <span>مشاهده و مدیریت لیست علاقه‌مندی‌ها</span>
+                                        <i class='bx bx-chevron-left text-xl'></i>
                                     </a>
                                 </div>
                             </div>
@@ -310,74 +310,75 @@
                                 class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
                         </a>
 
-                        <!-- Cart Dropdown Panel -->
-                        <div class="header-dropdown-panel header-dropdown-panel--start" style="right: 0;">
+                        <!-- Cart Dropdown Panel (Centered directly under icon) -->
+                        <div class="header-dropdown-panel header-dropdown-panel--center">
                             <!-- Single inner div — required for the CSS > div styling rule -->
-                            <div>
+                            <div class="w-[400px]">
                                 <!-- Panel header -->
-                                <div class="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border">
-                                    <span class="text-body font-black text-content-heading">سبد خرید</span>
-                                    <span class="text-caption text-content-muted bg-background rounded-full px-2 py-0.5">۲ کالا</span>
+                                <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-background/50">
+                                    <div class="flex items-center gap-2.5">
+                                        <i class='bx bxs-shopping-bag text-primary-500 text-xl'></i>
+                                        <span class="text-sm font-black text-content-heading">سبد خرید شما</span>
+                                    </div>
+                                    <span class="text-xs font-bold text-primary-600 bg-primary-50 px-3 py-1 rounded-full">۲ کالا</span>
                                 </div>
 
                                 <!-- BACKEND: FOREACH CART ITEM — repeat this block per item -->
-                                <ul class="divide-y divide-border">
+                                <ul class="divide-y divide-border/50 max-h-[310px] overflow-y-auto cat-scroll">
                                     <!-- Cart Item 1 -->
-                                    <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
-                                        <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                            <svg class="w-7 h-7 text-primary-300" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-caption font-bold text-content-heading line-clamp-1">حلقه ازدواج طلا ۱۸ عیار</p>
-                                            <div class="flex items-center justify-between mt-0.5 gap-2">
-                                                <p class="text-[11px] text-content-muted">
-                                                    <span class="numeric-measure font-latin">
-                                                        <span class="numeric-measure__unit">تومان</span>
+                                    <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
+                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="../assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        </a>
+                                        <div class="flex-1 min-w-0 space-y-1">
+                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">حلقه ازدواج طرح اشک تنیس</a>
+                                            <span class="text-xs text-content-muted block">طلای ۱۸ عیار | سایز: ۵۴</span>
+                                            <div class="flex items-center justify-between pt-1 gap-2">
+                                                <div class="text-sm font-black text-primary-700 font-latin">
+                                                    <span class="numeric-measure">
+                                                        <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
                                                         <span>۱۸٬۴۰۰٬۰۰۰</span>
                                                     </span>
-                                                </p>
-                                                <span class="text-[11px] text-content-muted">× ۱</span>
+                                                </div>
+                                                <span class="text-xs font-bold text-content-muted bg-background px-2.5 py-0.5 rounded-md border border-border/60">تعداد: ۱</span>
                                             </div>
                                         </div>
-                                        <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" aria-label="حذف از سبد خرید">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg opacity-70 group-hover:opacity-100 transition-all shrink-0 ms-1" title="حذف از سبد خرید" aria-label="حذف از سبد خرید">
+                                            <i class='bx bx-trash text-lg'></i>
                                         </button>
                                     </li>
                                     <!-- Cart Item 2 -->
-                                    <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
-                                        <div class="w-12 h-12 rounded-lg bg-gold-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                                            <svg class="w-7 h-7 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
-                                            </svg>
-                                        </div>
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-caption font-bold text-content-heading line-clamp-1">گردنبند اشک طلا سفید</p>
-                                            <div class="flex items-center justify-between mt-0.5 gap-2">
-                                                <p class="text-[11px] text-content-muted">
-                                                    <span class="numeric-measure font-latin">
-                                                        <span class="numeric-measure__unit">تومان</span>
+                                    <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
+                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="../assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        </a>
+                                        <div class="flex-1 min-w-0 space-y-1">
+                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">گردنبند طلا فانتزی طرح اشک</a>
+                                            <span class="text-xs text-content-muted block">طلای ۱۸ عیار | وزن: ۲٫۱ گرم</span>
+                                            <div class="flex items-center justify-between pt-1 gap-2">
+                                                <div class="text-sm font-black text-primary-700 font-latin">
+                                                    <span class="numeric-measure">
+                                                        <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
                                                         <span>۹٬۸۰۰٬۰۰۰</span>
                                                     </span>
-                                                </p>
-                                                <span class="text-[11px] text-content-muted">× ۱</span>
+                                                </div>
+                                                <span class="text-xs font-bold text-content-muted bg-background px-2.5 py-0.5 rounded-md border border-border/60">تعداد: ۱</span>
                                             </div>
                                         </div>
-                                        <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" aria-label="حذف از سبد خرید">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg opacity-70 group-hover:opacity-100 transition-all shrink-0 ms-1" title="حذف از سبد خرید" aria-label="حذف از سبد خرید">
+                                            <i class='bx bx-trash text-lg'></i>
                                         </button>
                                     </li>
                                 </ul>
                                 <!-- BACKEND: END FOREACH -->
 
                                 <!-- Subtotal + CTAs -->
-                                <div class="px-4 py-3 border-t border-border space-y-2.5">
-                                    <div class="flex items-center justify-between text-caption">
-                                        <span class="text-content-muted">مجموع (۲ کالا):</span>
-                                        <span class="font-black text-content-heading">
-                                            <span class="numeric-measure font-latin">
-                                                <span class="numeric-measure__unit text-content-muted font-normal">تومان</span>
+                                <div class="p-5 border-t border-border/70 bg-background/50 space-y-4">
+                                    <div class="flex items-center justify-between text-xs px-0.5">
+                                        <span class="text-content-body font-bold">مبلغ قابل پرداخت (۲ کالا):</span>
+                                        <span class="text-base font-black text-primary-700 font-latin">
+                                            <span class="numeric-measure">
+                                                <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
                                                 <span>۲۸٬۲۰۰٬۰۰۰</span>
                                             </span>
                                         </span>

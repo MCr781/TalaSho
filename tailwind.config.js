@@ -102,8 +102,9 @@ module.exports = {
     // Header icon dropdowns (cart, wishlist, …)
     'header-dropdown-hover-area',
     'header-dropdown-panel',
-    'header-dropdown-panel--end',
-    'header-dropdown-panel--start',
+    'header-dropdown-panel--center',
+    'header-dropdown-panel--left',
+    'header-dropdown-panel--right',
   ],
   theme: {
     extend: {
