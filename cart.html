@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  طلاشو WALLET — Withdraw / Withdrawal Page (Digikala style)
+  طلاشو — Shopping Cart (سبد خرید)
   ----------------------------------------------------------------------------
-  Two-column layout: withdraw form (main) + sidebar (balance, recent, help).
-  Bank account selector (Mellat / Melli) with IBAN.
-  1% fee (min 10K tomans) → confirm sheet → receipt redirect.
-  DESIGN tokens from DESIGN.md: Canvas #f2f4f5, Surface #ffffff,
-  28px card radius, 9999px pills, purple/gold/silver palette.
+  Digikala-inspired cart: item list + saved-for-later (wishlist) section on the
+  main column, sticky price summary on the sidebar, mobile sticky buy bar.
+  Static prototype — backend wires quantity steppers, remove / save actions and
+  the empty state via the BACKEND markers below.
   ============================================================================
 -->
 <html lang="fa" dir="rtl">
@@ -15,127 +14,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>برداشت ریالی | طلاشو VIP</title>
-  <meta name="description" content="برداشت وجه از کیف پول طلاشو به حساب بانکی تأییدشده">
+  <title>سبد خرید | طلاشو VIP</title>
+  <meta name="description" content="سبد خرید طلاشو — مدیریت کالاهای انتخابی، کالاهای ذخیره‌شده و نهایی‌سازی سفارش خرید جواهرات طلا">
 
   <meta name="theme-color" content="#6E436E">
-  <link rel="manifest" href="../pwa/manifest.webmanifest">
+  <link rel="manifest" href="./pwa/manifest.webmanifest">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="طلاشو">
-  <link rel="icon" type="image/x-icon" href="../pwa/icons/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="../pwa/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../pwa/icons/favicon-16.png">
-  <link rel="apple-touch-icon" href="../pwa/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/x-icon" href="./pwa/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="./pwa/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="../assets/vendor/swiper-bundle.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
 
-  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
-  <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
 
-  <script src="../pwa/js/sw-register.js" defer></script>
+  <script src="./pwa/js/sw-register.js" defer></script>
 
   <style>
-    /* ─── Nav link hover ─── */
-    .wallet-nav-link {
-      position: relative;
-      padding-bottom: 4px;
-      transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .wallet-nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, #E8B948, #B8941F);
-      border-radius: 2px;
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .wallet-nav-link:hover::after { width: 100%; }
-    .wallet-nav-link:hover { color: #6E436E; }
-
-    /* ─── Announcement marquee ─── */
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-marquee { animation: marquee 30s linear infinite; }
-    .announcement-marquee:hover { animation-play-state: paused; }
-
-    /* ─── Live pulse ─── */
-    @keyframes live-pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-    .live-dot { animation: live-pulse 1.8s ease-in-out infinite; }
-
-    /* ─── Amount input focus ─── */
-    .amount-field:focus {
-      border-color: #6E436E;
-      box-shadow: 0 0 0 3px rgba(110, 67, 110, 0.12);
-    }
-
-    /* ─── Quick amounts ─── */
-    .quick-amount-btn {
-      transition: all 0.2s ease;
-    }
-    .quick-amount-btn:hover {
-      border-color: #6E436E;
-      background: rgba(110, 67, 110, 0.04);
-      color: #6E436E;
-    }
-
-    /* ─── Bank account selector ─── */
-    .bank-account {
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-    .bank-account:hover {
-      border-color: #E8B948;
-      background: rgba(232, 185, 72, 0.04);
-    }
-    .bank-account.active {
-      border-color: #6E436E;
-      background: rgba(110, 67, 110, 0.04);
-      box-shadow: 0 0 0 2px rgba(110, 67, 110, 0.15);
-    }
-
-    /* ─── Sidebar card ─── */
-    .sidebar-card {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .sidebar-card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 24px rgba(110, 67, 110, 0.08);
-    }
-
-    /* ─── Bottom sheet ─── */
-
-
-    /* ─── Toast ─── */
-    @keyframes toast-in {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .toast-animate { animation: toast-in 0.3s ease-out; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
-  <script src="../assets/js/global-shell.js?v=1" defer></script>
+  <script src="./assets/js/global-shell.js?v=1" defer></script>
 </head>
 
 <body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
 
-
-  <!-- ════════════════════════════════════════════════════════════════════
-       ANNOUNCEMENT MARQUEE
-       ════════════════════════════════════════════════════════════════════ -->
+  <!-- HEADER (shared) -->
   <!-- GLOBAL SITE HEADER: START -->
 <!-- ========================================== -->
     <!-- 1. ANNOUNCEMENT BAR (Vertical Slider)      -->
@@ -238,8 +146,8 @@
 
                     <!-- Logo -->
                     <!-- BACKEND: INJECT LOGO IMAGE — recommended height 36-40px -->
-                    <a href="../index.html" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو VIP — صفحه اصلی">
-                        <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-full w-auto object-contain">
+                    <a href="./index.html" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو VIP — صفحه اصلی">
+                        <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-full w-auto object-contain">
                         <span
                             class="text-xl lg:text-2xl font-black text-primary-500 leading-none">طلاشو VIP</span>
                     </a>
@@ -272,7 +180,7 @@
 
                     <!-- Profile / Login -->
                     <!-- BACKEND: IF USER IS LOGGED IN -> SHOW USER AVATAR/MENU, ELSE SHOW LOGIN BUTTON -->
-                    <a href="../wallet/login.html"
+                    <a href="./wallet/login.html"
                         class="hidden md:flex items-center gap-2 px-3 py-2 rounded-full hover:bg-background-hover transition-colors text-content-heading">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -285,7 +193,7 @@
                     <!-- Wishlist — with hover dropdown panel -->
                     <!-- BACKEND: IF USER LOGGED IN → show real wishlist items via data-backend-hook -->
                     <div class="header-dropdown-hover-area hidden md:block">
-                        <a href="../cart.html#saved-for-later"
+                        <a href="./cart.html#saved-for-later"
                             class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading flex items-center"
                             aria-label="علاقه‌مندی‌ها">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -315,11 +223,11 @@
                                 <ul class="divide-y divide-border/50 max-h-[310px] overflow-y-auto cat-scroll">
                                     <!-- Item 1 -->
                                     <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
-                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                                            <img src="../assets/images/products/rose-gold-diamond-engagement-ring.png" alt="انگشتر سولیتر الماس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png" alt="انگشتر سولیتر الماس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                         </a>
                                         <div class="flex-1 min-w-0 space-y-1">
-                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">انگشتر سولیتر الماس ۱۸ عیار</a>
+                                            <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">انگشتر سولیتر الماس ۱۸ عیار</a>
                                             <span class="text-xs text-content-muted block">طلا روزگلد | وزن: ۲٫۴ گرم</span>
                                             <div class="text-sm font-black text-primary-700 font-latin pt-0.5">
                                                 <span class="numeric-measure">
@@ -334,11 +242,11 @@
                                     </li>
                                     <!-- Item 2 -->
                                     <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
-                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                                            <img src="../assets/images/products/Pendant.webp" alt="آویز و پلاک طلا زرد" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="./assets/images/products/Pendant.webp" alt="آویز و پلاک طلا زرد" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                         </a>
                                         <div class="flex-1 min-w-0 space-y-1">
-                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">آویز و پلاک طلا زرد ۱۸ عیار</a>
+                                            <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">آویز و پلاک طلا زرد ۱۸ عیار</a>
                                             <span class="text-xs text-content-muted block">طرح لوکس بانوان | وزن: ۱٫۸ گرم</span>
                                             <div class="text-sm font-black text-primary-700 font-latin pt-0.5">
                                                 <span class="numeric-measure">
@@ -353,11 +261,11 @@
                                     </li>
                                     <!-- Item 3 -->
                                     <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
-                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                                            <img src="../assets/images/products/bracelet.png" alt="دستبند طلا کارتیر" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="./assets/images/products/bracelet.png" alt="دستبند طلا کارتیر" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                         </a>
                                         <div class="flex-1 min-w-0 space-y-1">
-                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">دستبند طلا سفید طرح کارتیر</a>
+                                            <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">دستبند طلا سفید طرح کارتیر</a>
                                             <span class="text-xs text-content-muted block">طلای ۱۸ عیار | وزن: ۴٫۵ گرم</span>
                                             <div class="text-sm font-black text-primary-700 font-latin pt-0.5">
                                                 <span class="numeric-measure">
@@ -375,7 +283,7 @@
 
                                 <!-- CTA -->
                                 <div class="p-4 border-t border-border/70 bg-background/40">
-                                    <a href="../cart.html#saved-for-later" class="flex items-center justify-center gap-2 w-full rounded-full border border-primary-500/40 text-primary-600 hover:bg-primary-50 hover:border-primary-500 transition-all duration-250 text-xs font-black h-11">
+                                    <a href="./cart.html#saved-for-later" class="flex items-center justify-center gap-2 w-full rounded-full border border-primary-500/40 text-primary-600 hover:bg-primary-50 hover:border-primary-500 transition-all duration-250 text-xs font-black h-11">
                                         <span>مشاهده و مدیریت لیست علاقه‌مندی‌ها</span>
                                         <i class='bx bx-chevron-left text-xl'></i>
                                     </a>
@@ -385,7 +293,7 @@
                     </div>
 
                     <!-- Wishlist icon visible on mobile (no dropdown) -->
-                    <a href="../cart.html#saved-for-later" class="md:hidden relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading" aria-label="علاقه‌مندی‌ها">
+                    <a href="./cart.html#saved-for-later" class="md:hidden relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading" aria-label="علاقه‌مندی‌ها">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
@@ -395,7 +303,7 @@
                     <!-- Cart — with hover dropdown panel -->
                     <!-- BACKEND: IF USER LOGGED IN → show real cart items via data-backend-hook -->
                     <div class="header-dropdown-hover-area hidden md:block">
-                        <a href="../cart.html"
+                        <a href="./cart.html"
                             class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading flex items-center"
                             aria-label="سبد خرید">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -425,11 +333,11 @@
                                 <ul class="divide-y divide-border/50 max-h-[310px] overflow-y-auto cat-scroll">
                                     <!-- Cart Item 1 -->
                                     <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
-                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                                            <img src="../assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="./assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                         </a>
                                         <div class="flex-1 min-w-0 space-y-1">
-                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">حلقه ازدواج طرح اشک تنیس</a>
+                                            <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">حلقه ازدواج طرح اشک تنیس</a>
                                             <span class="text-xs text-content-muted block">طلای ۱۸ عیار | سایز: ۵۴</span>
                                             <div class="flex items-center justify-between pt-1 gap-2">
                                                 <div class="text-sm font-black text-primary-700 font-latin">
@@ -447,11 +355,11 @@
                                     </li>
                                     <!-- Cart Item 2 -->
                                     <li class="flex items-center gap-4 px-5 py-4 hover:bg-background/80 transition-colors group">
-                                        <a href="../product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                                            <img src="../assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                                        <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 rounded-xl bg-surface border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                                            <img src="./assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                                         </a>
                                         <div class="flex-1 min-w-0 space-y-1">
-                                            <a href="../product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">گردنبند طلا فانتزی طرح اشک</a>
+                                            <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">گردنبند طلا فانتزی طرح اشک</a>
                                             <span class="text-xs text-content-muted block">طلای ۱۸ عیار | وزن: ۲٫۱ گرم</span>
                                             <div class="flex items-center justify-between pt-1 gap-2">
                                                 <div class="text-sm font-black text-primary-700 font-latin">
@@ -481,7 +389,7 @@
                                             </span>
                                         </span>
                                     </div>
-                                    <a href="../cart.html" class="flex items-center justify-center gap-2 w-full btn-primary py-2 text-caption">
+                                    <a href="./cart.html" class="flex items-center justify-center gap-2 w-full btn-primary py-2 text-caption">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                                         مشاهده سبد خرید
                                     </a>
@@ -491,7 +399,7 @@
                     </div>
 
                     <!-- Cart icon visible on mobile (no dropdown) -->
-                    <a href="../cart.html" class="md:hidden relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading" aria-label="سبد خرید">
+                    <a href="./cart.html" class="md:hidden relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading" aria-label="سبد خرید">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
@@ -616,7 +524,7 @@
                             <!-- Column 4: promo image -->
                             <!-- BACKEND: INJECT MEGA MENU BANNER IMAGE -->
                             <a href="#" class="group relative rounded-lg overflow-hidden h-full min-h-[200px] block">
-                                <img src="../assets/images/car-prize-purple-bow-tie.PNG" alt="جشنواره ویژه"
+                                <img src="./assets/images/car-prize-purple-bow-tie.PNG" alt="جشنواره ویژه"
                                     class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-primary-900/90 via-primary-900/40 to-transparent">
@@ -690,7 +598,7 @@
                      fluctuation chip and a heartbeat sparkline.
                      Driven by assets/js/price-board.js.
                      Links to the live rates board (نرخ‌نامه زنده). -->
-                <a href="../wallet/rates.html"
+                <a href="./wallet/rates.html"
                     data-price-row data-price-name="طلای ۱۸ عیار" data-price-current="4545000" data-price-prev="4510000"
                     title="قیمت لحظه‌ای طلای ۱۸ عیار — نرخ‌نامه زنده طلاشو"
                     class="group relative flex items-center gap-2 h-8.5 shrink-0 px-3 rounded-full
@@ -756,7 +664,7 @@
             class="fixed inset-y-0 start-0 w-72 bg-surface shadow-lg z-[60] transform translate-x-full rtl:translate-x-full transition-transform duration-300 lg:hidden flex flex-col"
             aria-hidden="true">
             <div class="p-4 border-b border-border flex items-center justify-between">
-                <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-10 w-auto">
+                <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-10 w-auto">
                 <button id="globalMobileMenuClose" type="button"
                     class="p-1.5 text-content-muted hover:text-primary-500 transition-colors" aria-label="بستن منو">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -795,7 +703,7 @@
                     class="block py-3 text-status-error font-bold hover:opacity-80 transition-opacity text-body border-b border-border">شگفت‌انگیزها</a>
             </nav>
             <div class="p-4 border-t border-border">
-                <a href="../wallet/login.html" class="flex items-center justify-center gap-2 w-full btn-primary">
+                <a href="./wallet/login.html" class="flex items-center justify-center gap-2 w-full btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -817,352 +725,400 @@
          Backend: keep this for the header instrument, but call
          window.TALASHO.updatePrices(payload) with live data instead of the
          built-in random-walk demo. See assets/js/price-board.js header comment. -->
-    <script src="../assets/js/price-board.js" defer></script>
+    <script src="./assets/js/price-board.js" defer></script>
 <!-- GLOBAL SITE HEADER: END -->
 
+  <main class="flex-1 pb-24 lg:pb-0">
 
-  <main class="flex-1">
-
-    <!-- ════════════════════════════════════════════════════════════════════
-         BREADCRUMB + PAGE HEADER
-         ════════════════════════════════════════════════════════════════════ -->
-    <section class="bg-surface border-b border-border">
-      <div class="container-page py-3">
-        <nav class="flex items-center gap-2 text-xs text-content-muted" aria-label="مسیر صفحه">
-          <a href="../wallet/index.html" class="hover:text-primary-500 transition-colors">خانه</a>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-          </svg>
-          <span class="text-content-heading font-medium">برداشت ریالی</span>
+    <!-- BREADCRUMB -->
+    <section class="pt-6 lg:pt-8 pb-4 lg:pb-6">
+      <div class="container-page">
+        <nav class="flex items-center gap-2 text-sm text-content-body" aria-label="مسیر صفحه">
+          <a href="./index.html" class="hover:text-primary-600 transition-colors">خانه</a>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-content-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span class="text-content-heading font-medium">سبد خرید</span>
         </nav>
       </div>
     </section>
 
-
-    <!-- ════════════════════════════════════════════════════════════════════
-         TWO-COLUMN LAYOUT: FORM + SIDEBAR
-         ════════════════════════════════════════════════════════════════════ -->
-    <section class="py-6 lg:py-8">
+    <!-- PAGE TITLE -->
+    <section class="pb-6 lg:pb-8">
       <div class="container-page">
-        <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8">
-
-          <!-- ════════════ MAIN FORM COLUMN ════════════ -->
-          <div class="space-y-5">
-
-            <!-- PAGE TITLE -->
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-                </svg>
-              </div>
-              <div>
-                <h1 class="text-lg lg:text-xl font-bold text-content-heading">برداشت ریالی</h1>
-                <p class="text-xs text-content-muted mt-0.5">مبلغ ریالی قابل برداشت را به حساب بانکی تأییدشده خود منتقل کنید</p>
-              </div>
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <span class="h-px w-8 bg-gold-400"></span>
+              <span class="text-xs font-bold tracking-wider text-gold-700 uppercase font-latin">Shopping Cart</span>
             </div>
-
-            <!-- BALANCE BANNER -->
-            <div class="flex items-center justify-between bg-primary-50 rounded-2xl px-5 py-3.5 border border-primary-100">
-              <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-                </svg>
-                <span class="text-sm text-content-body">موجودی قابل برداشت:</span>
-                <span class="font-latin text-sm font-bold text-primary-600" data-backend-hook="wallet-balance">۱۲،۵۰۰،۰۰۰</span>
-                <span class="text-xs text-content-muted">تومان</span>
-              </div>
-              <span class="text-xs font-bold text-amber-600">سقف برداشت: ۵۰ میلیون</span>
-            </div>
-
-            <!-- AMOUNT INPUT -->
-            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5 lg:p-6">
-              <div class="flex flex-col gap-2 mb-4">
-                <label class="text-xs lg:text-sm font-medium text-content-body" for="withdrawAmount">مبلغ برداشت</label>
-                <div class="relative">
-                  <input type="text" inputmode="numeric" dir="ltr" placeholder="۰"
-                         id="withdrawAmount" data-backend-hook="withdraw-amount"
-                         class="amount-field w-full bg-background border border-border-strong rounded-full ps-4 pr-16 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none transition-all duration-250">
-                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-content-muted">تومان</span>
-                </div>
-              </div>
-
-              <!-- QUICK AMOUNT BUTTONS -->
-              <div class="flex flex-wrap gap-2">
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="5000000">۵ میلیون</button>
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="10000000">۱۰ میلیون</button>
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="20000000">۲۰ میلیون</button>
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="all">همه</button>
-              </div>
-
-              <!-- Fee estimate -->
-              <div id="feeEstimate" class="hidden mt-4 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-xs text-amber-700">کارمزد انتقال (۱٪)</span>
-                  <span id="feeDisplay" class="font-latin text-xs font-bold text-amber-800">—</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-xs text-amber-700">مبلغ کسر شده از کیف پول</span>
-                  <span id="totalDisplay" class="font-latin text-xs font-bold text-amber-800">—</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- BANK ACCOUNT SELECTOR -->
-            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5 lg:p-6">
-              <h3 class="text-sm font-bold text-content-heading mb-4">حساب مقصد</h3>
-              <div class="space-y-3">
-                <!-- Bank Mellat -->
-                <label class="bank-account active flex items-start gap-3 p-4 border-2 border-primary-500 rounded-2xl bg-primary-50/40 cursor-pointer">
-                  <input type="radio" name="bankAccount" value="mellat" checked class="sr-only">
-                  <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                      <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center flex-shrink-0">
-                        <span class="text-xs font-bold text-red-700">ملت</span>
-                      </div>
-                      <div>
-                        <span class="text-sm font-bold text-content-heading">بانک ملت</span>
-                        <p class="font-latin text-xs text-content-muted mt-0.5" dir="ltr">IR** **** **** **** 1234</p>
-                        <p class="text-xs text-content-muted mt-0.5">به نام: محمد رضایی</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-primary-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div class="w-2.5 h-2.5 rounded-full bg-primary-600"></div>
-                  </div>
-                </label>
-
-                <!-- Bank Melli -->
-                <label class="bank-account flex items-start gap-3 p-4 border-2 border-border rounded-2xl cursor-pointer">
-                  <input type="radio" name="bankAccount" value="melli" class="sr-only">
-                  <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                      <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                        <span class="text-xs font-bold text-blue-700">ملی</span>
-                      </div>
-                      <div>
-                        <span class="text-sm font-bold text-content-heading">بانک ملی</span>
-                        <p class="font-latin text-xs text-content-muted mt-0.5" dir="ltr">IR** **** **** **** 5678</p>
-                        <p class="text-xs text-content-muted mt-0.5">به نام: محمد رضایی</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="radio-circle w-5 h-5 rounded-full border-2 border-border flex items-center justify-center flex-shrink-0 mt-0.5"></div>
-                </label>
-              </div>
-
-              <!-- Add new bank account link -->
-              <a href="../wallet/bank-account.html" class="inline-flex items-center gap-2 mt-4 text-xs font-bold text-primary-500 hover:text-primary-600 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                </svg>
-                ثبت حساب بانکی جدید — افزودن حساب بانکی
-              </a>
-            </div>
-
-            <!-- INFO NOTE -->
-            <div class="flex items-start gap-3 bg-amber-50 rounded-2xl px-5 py-4 border border-amber-100">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-              </svg>
-              <p class="text-sm text-amber-800">واریز فقط به حساب بانکی متعلق به خود شما انجام می‌شود. کارمزد انتقال ۱٪ (حداقل ۱۰،۰۰۰ تومان) است.</p>
-            </div>
-
-            <!-- SUBMIT BUTTON -->
-            <button id="withdrawBtn" type="button" disabled
-                    class="w-full py-4 rounded-full font-bold text-base transition-all duration-300
-                           bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
-                           disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
-              ثبت درخواست برداشت
-            </button>
-
+            <h1 class="text-2xl sm:text-3xl font-bold text-content-heading leading-tight">سبد خرید شما</h1>
+            <!-- BACKEND: INJECT CART COUNT -->
+            <p class="text-sm text-content-muted mt-2"><span class="font-latin font-bold text-content-heading">۲</span> کالا در سبد خرید شما</p>
           </div>
-
-          <!-- ════════════ SIDEBAR ════════════ -->
-          <aside class="space-y-4">
-
-            <!-- BALANCE DETAIL CARD -->
-            <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
-              <h3 class="text-sm font-bold text-content-heading mb-4">جزئیات موجودی</h3>
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <span class="text-xs text-content-muted">قابل برداشت</span>
-                  <span class="font-latin text-sm font-bold text-primary-600" data-backend-hook="balance-withdrawable"><span class="numeric-measure"><span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span><span class="font-latin">۱۲،۵۰۰،۰۰۰</span></span></span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-xs text-content-muted">در انتظار واریز</span>
-                  <span class="font-latin text-sm font-bold text-amber-600" data-backend-hook="balance-pending"><span class="numeric-measure"><span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span><span class="font-latin">۰</span></span></span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-xs text-content-muted">در حال بررسی</span>
-                  <span class="font-latin text-sm font-bold text-blue-600" data-backend-hook="balance-review"><span class="numeric-measure"><span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span><span class="font-latin">۰</span></span></span>
-                </div>
-              </div>
-            </div>
-
-            <!-- RECENT HISTORY -->
-            <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
-              <h3 class="text-sm font-bold text-content-heading mb-3">برداشت‌های اخیر</h3>
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-xs font-medium text-content-heading">برداشت به بانک ملت</p>
-                    <p class="text-[11px] text-content-muted mt-0.5">دیروز — ۱۶:۲۰</p>
-                  </div>
-                  <span class="font-latin text-xs font-bold text-red-600">-۲۰،۰۰۰،۰۰۰</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-xs font-medium text-content-heading">برداشت به بانک ملی</p>
-                    <p class="text-[11px] text-content-muted mt-0.5">۵ روز پیش — ۱۱:۰۵</p>
-                  </div>
-                  <span class="font-latin text-xs font-bold text-red-600">-۵،۰۰۰،۰۰۰</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-xs font-medium text-content-heading">برداشت به بانک ملت</p>
-                    <p class="text-[11px] text-content-muted mt-0.5">۲ هفته پیش — ۰۸:۳۰</p>
-                  </div>
-                  <span class="font-latin text-xs font-bold text-red-600">-۱۰،۰۰۰،۰۰۰</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- HELP CARD -->
-            <div class="sidebar-card bg-primary-50 rounded-2xl border border-primary-100 p-5">
-              <div class="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <div>
-                  <h4 class="text-sm font-bold text-primary-700">زمان واریز</h4>
-                  <p class="text-xs text-primary-600 mt-1 leading-6">درخواست‌های برداشت ظرف ۲۴ تا ۴۸ ساعت کاری بررسی و واریز می‌شوند.</p>
-                </div>
-              </div>
-            </div>
-
-          </aside>
+          <a href="./products.html" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors shrink-0">
+            <i class='bx bx-plus text-lg'></i>
+            <span>افزودن کالای بیشتر</span>
+          </a>
         </div>
       </div>
     </section>
 
-  </main>
+    <!-- TWO-COLUMN LAYOUT -->
+    <section class="pb-10 lg:pb-14">
+      <div class="container-page">
+        <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
 
+          <!-- ══════════════ MAIN COLUMN ══════════════ -->
+          <div class="space-y-6">
 
-  <!-- ════════════════════════════════════════════════════════════════════
-       PRE-CONFIRM BOTTOM SHEET
-       ════════════════════════════════════════════════════════════════════ -->
-  <div id="confirmOverlay" class="sheet-overlay fixed inset-0 z-50 bg-black/50" aria-hidden="true">
-    <div class="absolute inset-0" data-sheet-close></div>
-    <div class="bottom-sheet absolute bottom-0 inset-x-0 bg-surface rounded-t-[28px] max-h-[85vh] overflow-y-auto shadow-2xl">
-      <div class="container-page py-6">
+            <!-- ============ CART ITEMS ============ -->
+            <div class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
+              <!-- Card header -->
+              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-background/50">
+                <div class="flex items-center gap-2.5">
+                  <i class='bx bxs-shopping-bag text-primary-500 text-xl'></i>
+                  <span class="text-sm font-black text-content-heading">کالاهای سبد خرید</span>
+                </div>
+                <!-- BACKEND: INJECT CART COUNT -->
+                <span class="text-xs font-bold text-primary-600 bg-primary-50 px-3 py-1 rounded-full">۲ کالا</span>
+              </div>
 
-        <!-- Handle -->
-        <div class="flex justify-center mb-4 sm:hidden">
-          <div class="w-10 h-1 rounded-full bg-border-strong"></div>
-        </div>
+              <ul class="divide-y divide-border/60">
+                <!-- BACKEND: FOREACH CART ITEM LOOP START -->
+                <li class="flex gap-4 p-4 sm:p-5 group" data-cart-item>
+                  <!-- Select checkbox -->
+                  <input type="checkbox" class="mt-2 shrink-0 w-4 h-4 accent-primary-600 cursor-pointer" checked aria-label="انتخاب کالا">
+                  <!-- BACKEND: checkbox state = item selected for checkout -->
 
-        <!-- Title -->
-        <div class="flex items-center justify-between mb-5">
-          <h2 class="text-base font-bold text-content-heading">تأیید درخواست برداشت</h2>
-          <button id="confirmClose" type="button" class="p-1 text-content-muted hover:text-content-heading transition-colors" aria-label="بستن">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
+                  <!-- Product image -->
+                  <a href="./product/tear-tennis-gold-ring.html" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-background border border-border/80 p-2 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                    <img src="./assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                  </a>
 
-        <!-- Countdown -->
-        <div class="flex justify-center mb-5">
-          <div class="flex flex-col items-center gap-2">
-            <div class="countdown-wrap" id="countdownWrap" aria-describedby="countdownLabel">
-              <svg class="countdown-svg" viewBox="0 0 100 100" aria-hidden="true">
-                <defs>
-                  <linearGradient id="cd-grad" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#E8B948"/>
-                    <stop offset="100%" stop-color="#6E436E"/>
-                  </linearGradient>
-                  <linearGradient id="cd-grad-low" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#FCD34D"/>
-                    <stop offset="100%" stop-color="#D97706"/>
-                  </linearGradient>
-                  <linearGradient id="cd-grad-critical" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#FCA5A5"/>
-                    <stop offset="100%" stop-color="#DC2626"/>
-                  </linearGradient>
-                </defs>
-                <circle class="countdown-track" cx="50" cy="50" r="44"/>
-                <circle class="countdown-progress" id="countdownCircle" cx="50" cy="50" r="44"/>
-                <circle class="countdown-tip" id="countdownTip" cx="50" cy="50" r="44"/>
-              </svg>
-              <div class="countdown-center">
-                <span class="countdown-time font-latin" id="countdownTime">۱۰:۰۰</span>
+                  <!-- Product info -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                      <div class="min-w-0 space-y-1">
+                        <a href="./product/tear-tennis-gold-ring.html" class="text-sm font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">حلقه ازدواج طرح اشک تنیس</a>
+                        <p class="text-xs text-content-muted">طلای ۱۸ عیار | سایز: <span class="font-latin font-bold">۵۴</span></p>
+                        <!-- BACKEND: INJECT ITEM META (karat, weight, size, seller) -->
+                        <span class="inline-flex items-center gap-1 text-[10.5px] font-bold text-status-success bg-status-success-bg px-2 py-0.5 rounded-md">
+                          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                          ارسال رایگان
+                        </span>
+                      </div>
+
+                      <!-- Unit price -->
+                      <div class="text-sm sm:text-base font-black text-primary-700 font-latin shrink-0 sm:text-left">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                          <span>۱۸٬۴۰۰٬۰۰۰</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Bottom row: quantity + actions -->
+                    <div class="flex items-center justify-between gap-3 mt-3 pt-3 border-t border-border/50">
+                      <!-- Quantity stepper (static prototype) -->
+                      <!-- BACKEND: wire +/- buttons to update quantity + line totals -->
+                      <div class="inline-flex items-center rounded-full border border-border bg-background shadow-xs" data-quantity="1">
+                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="کاهش تعداد"><i class='bx bx-minus'></i></button>
+                        <span class="w-9 text-center text-sm font-bold text-content-heading font-latin">۱</span>
+                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="افزایش تعداد"><i class='bx bx-plus'></i></button>
+                      </div>
+
+                      <div class="flex items-center gap-1">
+                        <!-- BACKEND: move item to saved-for-later -->
+                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-primary-600 hover:bg-primary-50 transition-all text-xs font-medium flex items-center gap-1" title="ذخیره برای بعد" aria-label="ذخیره برای بعد">
+                          <i class='bx bx-heart text-base'></i>
+                          <span class="hidden md:inline">ذخیره برای بعد</span>
+                        </button>
+                        <!-- BACKEND: remove item from cart -->
+                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از سبد خرید" aria-label="حذف از سبد خرید">
+                          <i class='bx bx-trash text-lg'></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="flex gap-4 p-4 sm:p-5 group" data-cart-item>
+                  <input type="checkbox" class="mt-2 shrink-0 w-4 h-4 accent-primary-600 cursor-pointer" checked aria-label="انتخاب کالا">
+
+                  <a href="./product/tear-tennis-gold-ring.html" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl bg-background border border-border/80 p-2 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                    <img src="./assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی طرح اشک" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                  </a>
+
+                  <div class="flex-1 min-w-0">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                      <div class="min-w-0 space-y-1">
+                        <a href="./product/tear-tennis-gold-ring.html" class="text-sm font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">گردنبند طلا فانتزی طرح اشک</a>
+                        <p class="text-xs text-content-muted">طلای ۱۸ عیار | وزن: <span class="font-latin font-bold">۲.۱</span> گرم</p>
+                        <span class="inline-flex items-center gap-1 text-[10.5px] font-bold text-status-success bg-status-success-bg px-2 py-0.5 rounded-md">
+                          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                          ارسال رایگان
+                        </span>
+                      </div>
+
+                      <div class="text-sm sm:text-base font-black text-primary-700 font-latin shrink-0 sm:text-left">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                          <span>۹٬۸۰۰٬۰۰۰</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-3 mt-3 pt-3 border-t border-border/50">
+                      <div class="inline-flex items-center rounded-full border border-border bg-background shadow-xs" data-quantity="1">
+                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="کاهش تعداد"><i class='bx bx-minus'></i></button>
+                        <span class="w-9 text-center text-sm font-bold text-content-heading font-latin">۱</span>
+                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="افزایش تعداد"><i class='bx bx-plus'></i></button>
+                      </div>
+
+                      <div class="flex items-center gap-1">
+                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-primary-600 hover:bg-primary-50 transition-all text-xs font-medium flex items-center gap-1" title="ذخیره برای بعد" aria-label="ذخیره برای بعد">
+                          <i class='bx bx-heart text-base'></i>
+                          <span class="hidden md:inline">ذخیره برای بعد</span>
+                        </button>
+                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از سبد خرید" aria-label="حذف از سبد خرید">
+                          <i class='bx bx-trash text-lg'></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- BACKEND: FOREACH CART ITEM LOOP END -->
+              </ul>
+
+              <!-- EMPTY CART STATE (default hidden) -->
+              <!-- BACKEND: toggle this block when cart has zero items -->
+              <div id="cartEmptyState" class="hidden flex-col items-center justify-center text-center py-14 px-6">
+                <div class="w-20 h-20 rounded-full bg-primary-50 flex items-center justify-center mb-4">
+                  <i class='bx bxs-shopping-bag text-4xl text-primary-300'></i>
+                </div>
+                <h2 class="text-lg font-bold text-content-heading mb-1.5">سبد خرید شما خالی است</h2>
+                <p class="text-sm text-content-muted mb-5">برای شروع خرید، به فروشگاه طلاشو سر بزنید</p>
+                <a href="./products.html" class="btn-primary">شروع خرید از فروشگاه</a>
               </div>
             </div>
-            <span class="text-xs text-content-muted" id="countdownLabel">زمان باقی‌مانده برای پرداخت</span>
+
+            <!-- ============ SAVED FOR LATER / WISHLIST ============ -->
+            <!-- Wishlist is surfaced here, Digikala-style: items the user saved
+                 from the cart or from product pages, with a one-tap add-back. -->
+            <div id="saved-for-later" class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden scroll-mt-24">
+              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-background/50">
+                <div class="flex items-center gap-2.5">
+                  <i class='bx bxs-heart text-status-error text-xl'></i>
+                  <div>
+                    <span class="text-sm font-black text-content-heading block">کالاهای ذخیره‌شده (علاقه‌مندی‌ها)</span>
+                    <span class="text-xs text-content-muted">برای خرید بعدی ذخیره کردید</span>
+                  </div>
+                </div>
+                <!-- BACKEND: INJECT WISHLIST COUNT -->
+                <span class="text-xs font-bold text-status-error bg-status-error-bg px-3 py-1 rounded-full">۳ کالا</span>
+              </div>
+
+              <ul class="divide-y divide-border/60">
+                <!-- BACKEND: FOREACH WISHLIST ITEM LOOP START -->
+                <li class="flex items-center gap-4 p-4 sm:p-5 group">
+                  <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                    <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png" alt="انگشتر سولیتر الماس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                  </a>
+                  <div class="flex-1 min-w-0 space-y-1">
+                    <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">انگشتر سولیتر الماس ۱۸ عیار</a>
+                    <span class="text-xs text-content-muted block">طلا روزگلد | وزن: <span class="font-latin font-bold">۲.۴</span> گرم</span>
+                    <div class="text-sm font-black text-primary-700 font-latin">
+                      <span class="numeric-measure">
+                        <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                        <span>۱۲٬۵۰۰٬۰۰۰</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-end gap-2 shrink-0">
+                    <!-- BACKEND: move item back to cart -->
+                    <button type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors px-3.5 py-2 rounded-full whitespace-nowrap">
+                      <i class='bx bxs-cart-add text-base'></i>
+                      <span>افزودن به سبد</span>
+                    </button>
+                    <button type="button" class="p-1.5 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                      <i class='bx bx-trash text-base'></i>
+                    </button>
+                  </div>
+                </li>
+
+                <li class="flex items-center gap-4 p-4 sm:p-5 group">
+                  <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                    <img src="./assets/images/products/Pendant.webp" alt="آویز و پلاک طلا زرد" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                  </a>
+                  <div class="flex-1 min-w-0 space-y-1">
+                    <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">آویز و پلاک طلا زرد ۱۸ عیار</a>
+                    <span class="text-xs text-content-muted block">طرح لوکس بانوان | وزن: <span class="font-latin font-bold">۱.۸</span> گرم</span>
+                    <div class="text-sm font-black text-primary-700 font-latin">
+                      <span class="numeric-measure">
+                        <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                        <span>۸٬۳۰۰٬۰۰۰</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-end gap-2 shrink-0">
+                    <button type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors px-3.5 py-2 rounded-full whitespace-nowrap">
+                      <i class='bx bxs-cart-add text-base'></i>
+                      <span>افزودن به سبد</span>
+                    </button>
+                    <button type="button" class="p-1.5 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                      <i class='bx bx-trash text-base'></i>
+                    </button>
+                  </div>
+                </li>
+
+                <li class="flex items-center gap-4 p-4 sm:p-5 group">
+                  <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
+                    <img src="./assets/images/products/bracelet.png" alt="دستبند طلا سفید طرح کارتیر" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
+                  </a>
+                  <div class="flex-1 min-w-0 space-y-1">
+                    <a href="./product/tear-tennis-gold-ring.html" class="text-[13.5px] font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">دستبند طلا سفید طرح کارتیر</a>
+                    <span class="text-xs text-content-muted block">طلای ۱۸ عیار | وزن: <span class="font-latin font-bold">۴.۵</span> گرم</span>
+                    <div class="text-sm font-black text-primary-700 font-latin">
+                      <span class="numeric-measure">
+                        <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                        <span>۲۲٬۰۰۰٬۰۰۰</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-end gap-2 shrink-0">
+                    <button type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors px-3.5 py-2 rounded-full whitespace-nowrap">
+                      <i class='bx bxs-cart-add text-base'></i>
+                      <span>افزودن به سبد</span>
+                    </button>
+                    <button type="button" class="p-1.5 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                      <i class='bx bx-trash text-base'></i>
+                    </button>
+                  </div>
+                </li>
+                <!-- BACKEND: FOREACH WISHLIST ITEM LOOP END -->
+              </ul>
+
+              <!-- EMPTY SAVED-FOR-LATER STATE (default hidden) -->
+              <!-- BACKEND: toggle this block when wishlist has zero items -->
+              <div id="savedEmptyState" class="hidden flex-col items-center justify-center text-center py-12 px-6 border-t border-border/60">
+                <div class="w-16 h-16 rounded-full bg-status-error-bg flex items-center justify-center mb-3">
+                  <i class='bx bx-heart text-3xl text-status-error'></i>
+                </div>
+                <p class="text-sm text-content-muted">کالایی در علاقه‌مندی‌های شما ذخیره نشده است</p>
+              </div>
+            </div>
           </div>
+
+          <!-- ══════════════ SIDEBAR ══════════════ -->
+          <aside class="space-y-4 lg:sticky lg:top-24">
+            <!-- Price summary -->
+            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5">
+              <h2 class="text-sm font-black text-content-heading mb-4 flex items-center gap-2">
+                <i class='bx bx-receipt text-primary-500 text-lg'></i>
+                خلاصه سفارش
+              </h2>
+
+              <div class="space-y-3 text-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-content-muted">مبلغ کالاها (<span class="font-latin font-bold text-content-heading">۲</span> کالا)</span>
+                  <span class="font-latin font-black text-content-heading">
+                    <span class="numeric-measure">
+                      <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                      <span>۲۸٬۲۰۰٬۰۰۰</span>
+                    </span>
+                  </span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-content-muted">سود شما از خرید</span>
+                  <!-- BACKEND: INJECT DISCOUNT/SAVINGS -->
+                  <span class="font-bold text-status-success">۰</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-content-muted">هزینه ارسال</span>
+                  <!-- BACKEND: INJECT SHIPPING FEE -->
+                  <span class="font-bold text-status-success">رایگان</span>
+                </div>
+              </div>
+
+              <div class="mt-4 pt-4 border-t border-border flex items-center justify-between gap-2">
+                <span class="text-sm font-bold text-content-heading">مبلغ قابل پرداخت</span>
+                <span class="text-base font-black text-primary-700 font-latin">
+                  <span class="numeric-measure">
+                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                    <span>۲۸٬۲۰۰٬۰۰۰</span>
+                  </span>
+                </span>
+              </div>
+
+              <!-- CTA → checkout -->
+              <a href="./checkout.html" class="btn-primary w-full mt-5 text-base py-3.5 shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 transition-all">
+                ادامه خرید
+                <i class='bx bx-chevron-left text-xl'></i>
+              </a>
+              <a href="./products.html" class="flex items-center justify-center gap-2 w-full mt-3 rounded-full border border-border-strong text-content-heading hover:bg-background-hover transition-colors text-xs font-bold h-11">
+                ادامه خرید از فروشگاه
+              </a>
+            </div>
+
+            <!-- Discount code -->
+            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5">
+              <label for="cartDiscountCode" class="text-sm font-bold text-content-heading flex items-center gap-2 mb-3">
+                <i class='bx bx-purchase-tag text-gold-600 text-lg'></i>
+                کد تخفیف
+              </label>
+              <!-- BACKEND: form action + method -->
+              <form action="#" method="post" class="flex gap-2">
+                <input id="cartDiscountCode" type="text" name="discount_code" placeholder="مثلا FIRST10"
+                  class="flex-1 min-w-0 bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-full px-4 py-2.5 text-xs text-content-heading placeholder-content-muted transition-all">
+                <button type="submit" class="shrink-0 rounded-full border border-primary-500/40 text-primary-600 hover:bg-primary-50 transition-colors text-xs font-bold px-4">اعمال</button>
+              </form>
+              <!-- BACKEND: applied code pill (show after submit) -->
+              <div class="hidden items-center justify-between mt-3 bg-primary-50 border border-primary-100 rounded-full px-4 py-2">
+                <span class="text-xs font-bold text-primary-700">کد <span class="font-latin" dir="ltr">FIRST10</span> اعمال شد</span>
+                <span class="font-latin text-xs font-black text-status-success" dir="ltr">۱۰٪−</span>
+              </div>
+            </div>
+
+            <!-- Trust / support -->
+            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5 space-y-3">
+              <div class="flex items-center gap-3 text-xs text-content-body">
+                <span class="w-9 h-9 rounded-xl bg-status-success-bg text-status-success flex items-center justify-center shrink-0"><i class='bx bx-shield-quarter text-lg'></i></span>
+                ضمانت اصالت طلا با کد فاکتور رسمی
+              </div>
+              <div class="flex items-center gap-3 text-xs text-content-body">
+                <span class="w-9 h-9 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0"><i class='bx bx-package text-lg'></i></span>
+                ارسال بیمه‌شده و رایگان بالای ۱۰ میلیون تومان
+              </div>
+              <div class="flex items-center gap-3 text-xs text-content-body">
+                <span class="w-9 h-9 rounded-xl bg-gold-50 text-gold-700 flex items-center justify-center shrink-0"><i class='bx bx-headphone text-lg'></i></span>
+                پشتیبانی: <span class="font-latin font-bold text-content-heading" dir="ltr">۰۲۱ – ۹۱۰۰۶۱۲۳</span>
+              </div>
+            </div>
+          </aside>
         </div>
-
-        <!-- Receipt rows -->
-        <div class="space-y-3 mb-6">
-          <div class="flex items-center justify-between py-2 border-b border-border">
-            <span class="text-sm text-content-muted">مبلغ برداشت</span>
-            <span id="confirmAmount" class="font-latin text-sm font-bold text-content-heading">—</span>
-          </div>
-          <div class="flex items-center justify-between py-2 border-b border-border">
-            <span class="text-sm text-content-muted">بانک مقصد</span>
-            <span id="confirmBank" class="text-sm font-bold text-content-heading">—</span>
-          </div>
-          <div class="flex items-center justify-between py-2 border-b border-border">
-            <span class="text-sm text-content-muted">شماره شبا</span>
-            <span id="confirmIban" class="font-latin text-xs font-bold text-content-heading" dir="ltr">—</span>
-          </div>
-          <div class="flex items-center justify-between py-2 border-b border-border">
-            <span class="text-sm text-content-muted">به نام</span>
-            <span id="confirmHolder" class="text-sm font-bold text-content-heading">—</span>
-          </div>
-          <div class="flex items-center justify-between py-2 border-b border-border">
-            <span class="text-sm text-content-muted">کارمزد انتقال</span>
-            <span id="confirmFee" class="font-latin text-sm font-bold text-red-600">—</span>
-          </div>
-          <div class="flex items-center justify-between py-2 border-b border-border bg-primary-50 -mx-5 px-5 rounded-xl">
-            <span class="text-sm font-bold text-primary-700">مبلغ کسر شده از کیف پول</span>
-            <span id="confirmTotal" class="font-latin text-sm font-bold text-primary-700">—</span>
-          </div>
-          <div class="flex items-center justify-between py-2">
-            <span class="text-sm text-content-muted">زمان تقریبی واریز</span>
-            <span class="text-sm font-bold text-status-success">۲۴ تا ۴۸ ساعت کاری</span>
-          </div>
-        </div>
-
-        <!-- Terms -->
-        <label class="flex items-start gap-3 mb-5 cursor-pointer">
-          <input type="checkbox" id="confirmTerms" class="mt-1 accent-primary-600">
-          <span class="text-xs text-content-body leading-6">قوانین و شرایط برداشت را مطالعه کرده و می‌پذیرم.</span>
-        </label>
-
-        <!-- Submit -->
-        <button id="confirmBtn" type="button" disabled
-                class="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300
-                       bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
-                       disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
-          تأیید نهایی و ثبت برداشت
-        </button>
-
       </div>
+    </section>
+  </main>
+
+  <!-- MOBILE STICKY SUMMARY BAR (lg:hidden) -->
+  <div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-surface border-t border-border shadow-lg px-4 py-3" style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));">
+    <div class="flex items-center justify-between gap-3">
+      <div class="min-w-0">
+        <span class="text-xs text-content-muted block">مبلغ قابل پرداخت</span>
+        <span class="text-sm font-black text-primary-700 font-latin">
+          <span class="numeric-measure">
+            <span class="numeric-measure__unit text-[10px] text-content-muted font-normal">تومان</span>
+            <span>۲۸٬۲۰۰٬۰۰۰</span>
+          </span>
+        </span>
+      </div>
+      <a href="./checkout.html" class="btn-primary flex-1 max-w-[180px] py-3 text-sm shrink-0">
+        ادامه خرید
+        <i class='bx bx-chevron-left text-lg'></i>
+      </a>
     </div>
   </div>
 
-
-  <!-- ════════════════════════════════════════════════════════════════════
-       TOAST CONTAINER
-       ════════════════════════════════════════════════════════════════════ -->
-  <div id="toastContainer" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 pointer-events-none"></div>
-
-
-  <!-- ════════════════════════════════════════════════════════════════════
-       FOOTER
-       ════════════════════════════════════════════════════════════════════ -->
+  <!-- FOOTER (shared) -->
   <!-- GLOBAL SITE FOOTER: START -->
 <footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
             <div class="container mx-auto px-4 md:px-6">
@@ -1173,7 +1129,7 @@
                     <!-- Brand Details (Logo + Luxury Typography) -->
                     <div class="flex items-center">
                         <!-- Logo Element -->
-                        <img src="../assets/images/White-Logo.png" alt="طلاشو"
+                        <img src="./assets/images/White-Logo.png" alt="طلاشو"
                             class="h-16 md:h-20 w-auto object-contain shrink-0 pl-4 border-l border-white/10 drop-shadow-md">
 
                         <!-- Beautiful VIP Typography (Visually on the Left) -->
@@ -1346,12 +1302,12 @@
                             <div class="flex items-center gap-4">
                                 <a href="#"
                                     class="w-20 h-20 rounded-2xl flex items-center justify-center p-2 bg-white hover:bg-gray-100 transition-colors shadow-sm hover:shadow-md">
-                                    <img src="../assets/images/enamad.webp" alt="نماد اعتماد الکترونیکی"
+                                    <img src="./assets/images/enamad.webp" alt="نماد اعتماد الکترونیکی"
                                         class="w-full h-full object-contain">
                                 </a>
                                 <a href="#"
                                     class="w-20 h-20 rounded-2xl flex items-center justify-center p-2 bg-white hover:bg-gray-100 transition-colors shadow-sm hover:shadow-md">
-                                    <img src="../assets/images/union.png" alt="اتحادیه طلا و جواهر"
+                                    <img src="./assets/images/union.png" alt="اتحادیه طلا و جواهر"
                                         class="w-full h-full object-contain">
                                 </a>
                             </div>
@@ -1375,310 +1331,6 @@
         </footer>
 <!-- GLOBAL SITE FOOTER: END -->
 
-
-  <!-- ════════════════════════════════════════════════════════════════════
-       MOBILE BOTTOM NAV
-       ════════════════════════════════════════════════════════════════════ -->
-  <nav class="lg:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-border z-50 safe-bottom">
-    <div class="grid grid-cols-4 h-14">
-      <a href="../wallet/index.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-        <span class="text-[10px]">خانه</span>
-      </a>
-      <a href="../wallet/rates.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        <span class="text-[10px]">نرخ‌ها</span>
-      </a>
-      <a href="../wallet/buy.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
-        <div class="w-10 h-10 -mt-4 rounded-full bg-gold-400 text-primary-700 flex items-center justify-center shadow-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-        </div>
-        <span class="text-[10px] font-bold">خرید</span>
-      </a>
-      <a href="../wallet/profile.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-        <span class="text-[10px]">حساب</span>
-      </a>
-    </div>
-  </nav>
-
-
-  <script>
-    // ─── Mobile menu toggle ───
-    (function () {
-      var toggle = document.getElementById('mobileMenuToggle');
-      var menu = document.getElementById('mobileMenu');
-      if (!toggle || !menu) return;
-      toggle.addEventListener('click', function () {
-        var isOpen = !menu.classList.contains('hidden');
-        menu.classList.toggle('hidden');
-        toggle.setAttribute('aria-expanded', String(!isOpen));
-      });
-    })();
-
-    // ─── Helpers ───
-    function toPersianDigits(num) {
-      var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-      return String(num).replace(/[0-9]/g, function (d) { return persian[d]; });
-    }
-
-    function formatPersian(num) {
-      if (!num || isNaN(num)) return '';
-      return toPersianDigits(Number(num).toLocaleString('en-US'));
-    }
-
-    function parsePersianInput(str) {
-      var persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-      var clean = str.replace(/[۰-۹]/g, function (d) { return persian.indexOf(d); });
-      clean = clean.replace(/[^\d]/g, '');
-      return clean ? parseInt(clean, 10) : 0;
-    }
-
-    function showToast(msg, duration) {
-      duration = duration || 3000;
-      var container = document.getElementById('toastContainer');
-      var el = document.createElement('div');
-      el.className = 'toast-animate bg-primary-700 text-white text-sm font-medium px-5 py-3 rounded-2xl shadow-lg pointer-events-auto';
-      el.textContent = msg;
-      container.appendChild(el);
-      setTimeout(function () { el.remove(); }, duration);
-    }
-
-    // ─── Amount input + button sync + fee calc ───
-    (function () {
-      var amountInput = document.getElementById('withdrawAmount');
-      var withdrawBtn = document.getElementById('withdrawBtn');
-      var feeEstimate = document.getElementById('feeEstimate');
-      var feeDisplay = document.getElementById('feeDisplay');
-      var totalDisplay = document.getElementById('totalDisplay');
-      var MIN_AMOUNT = 10000;
-      var MAX_AMOUNT = 50000000; // 50M tomans
-      var FEE_RATE = 0.01; // 1%
-      var MIN_FEE = 10000; // 10K tomans
-
-      if (!amountInput || !withdrawBtn) return;
-
-      function updateFee() {
-        var amount = parsePersianInput(amountInput.value);
-        if (amount >= MIN_AMOUNT) {
-          var fee = Math.max(MIN_FEE, Math.round(amount * FEE_RATE));
-          var total = amount + fee;
-          feeDisplay.textContent = formatPersian(fee) + ' تومان';
-          totalDisplay.textContent = formatPersian(total) + ' تومان';
-          feeEstimate.classList.remove('hidden');
-
-          if (total > MAX_AMOUNT) {
-            withdrawBtn.disabled = true;
-          } else {
-            withdrawBtn.disabled = false;
-          }
-        } else {
-          feeEstimate.classList.add('hidden');
-          withdrawBtn.disabled = true;
-        }
-      }
-
-      amountInput.addEventListener('input', function () {
-        var val = parsePersianInput(amountInput.value);
-        amountInput.value = formatPersian(val);
-        updateFee();
-      });
-
-      // Quick amounts
-      document.querySelectorAll('.quick-amount-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var amt = btn.getAttribute('data-amount');
-          if (amt === 'all') {
-            // Demo: set to 12,500,000
-            amountInput.value = formatPersian(12500000);
-          } else {
-            amountInput.value = formatPersian(parseInt(amt, 10));
-          }
-          updateFee();
-        });
-      });
-    })();
-
-    // ─── Bank account selector ───
-    (function () {
-      var accounts = document.querySelectorAll('.bank-account');
-      accounts.forEach(function (account) {
-        account.addEventListener('click', function () {
-          accounts.forEach(function (a) {
-            a.classList.remove('active');
-            a.classList.remove('border-primary-500');
-            a.classList.remove('bg-primary-50/40');
-            a.classList.add('border-border');
-            var circle = a.querySelector('.radio-circle');
-            if (circle) {
-              circle.classList.remove('border-primary-500', 'bg-primary-600');
-              circle.classList.add('border-border');
-              circle.innerHTML = '';
-            }
-          });
-          account.classList.add('active');
-          account.classList.remove('border-border');
-          account.classList.add('border-primary-500');
-          account.classList.add('bg-primary-50/40');
-          var circle = account.querySelector('.radio-circle');
-          if (circle) {
-            circle.classList.remove('border-border');
-            circle.classList.add('border-primary-500');
-            circle.innerHTML = '<div class="w-2.5 h-2.5 rounded-full bg-primary-600"></div>';
-          }
-          var radio = account.querySelector('input[type="radio"]');
-          if (radio) radio.checked = true;
-        });
-      });
-    })();
-
-    // ─── Confirm bottom sheet ───
-    (function () {
-      var overlay = document.getElementById('confirmOverlay');
-      var closeBtn = document.getElementById('confirmClose');
-      var confirmBtn = document.getElementById('confirmBtn');
-      var termsCheck = document.getElementById('confirmTerms');
-      var withdrawBtn = document.getElementById('withdrawBtn');
-      var countdownInterval = null;
-
-      var FEE_RATE = 0.01;
-      var MIN_FEE = 10000;
-
-      if (!overlay || !withdrawBtn) return;
-
-      withdrawBtn.addEventListener('click', function () {
-        if (withdrawBtn.disabled) return;
-
-        var amount = parsePersianInput(document.getElementById('withdrawAmount').value);
-        var fee = Math.max(MIN_FEE, Math.round(amount * FEE_RATE));
-        var total = amount + fee;
-        var activeBank = document.querySelector('.bank-account.active');
-        var bankName = activeBank ? activeBank.querySelector('.text-sm.font-bold') : null;
-        var ibanEl = activeBank ? activeBank.querySelector('.font-latin') : null;
-        var holderEl = activeBank ? activeBank.querySelectorAll('.text-xs.text-content-muted')[1] : null;
-
-        document.getElementById('confirmAmount').textContent = formatPersian(amount) + ' تومان';
-        document.getElementById('confirmBank').textContent = bankName ? bankName.textContent : '—';
-        document.getElementById('confirmIban').textContent = ibanEl ? ibanEl.textContent : '—';
-        document.getElementById('confirmHolder').textContent = holderEl ? holderEl.textContent.replace('به نام: ', '') : '—';
-        document.getElementById('confirmFee').textContent = formatPersian(fee) + ' تومان';
-        document.getElementById('confirmTotal').textContent = formatPersian(total) + ' تومان';
-
-        termsCheck.checked = false;
-        confirmBtn.disabled = true;
-        overlay.classList.add('open');
-        overlay.setAttribute('aria-hidden', 'false');
-        startCountdown(598);
-      });
-
-      if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          overlay.classList.remove('open');
-          overlay.setAttribute('aria-hidden', 'true');
-          stopCountdown();
-        });
-      }
-
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay || e.target.hasAttribute('data-sheet-close')) {
-          overlay.classList.remove('open');
-          overlay.setAttribute('aria-hidden', 'true');
-          stopCountdown();
-        }
-      });
-
-      termsCheck.addEventListener('change', function () {
-        confirmBtn.disabled = !termsCheck.checked;
-      });
-
-      confirmBtn.addEventListener('click', function () {
-        if (!termsCheck.checked) {
-          showToast('لطفاً قوانین و شرایط را تأیید کنید.');
-          return;
-        }
-        overlay.classList.remove('open');
-        overlay.setAttribute('aria-hidden', 'true');
-        stopCountdown();
-
-        showToast('در حال ثبت درخواست برداشت...');
-
-        setTimeout(function () {
-          var amount = parsePersianInput(document.getElementById('withdrawAmount').value);
-          var fee = Math.max(MIN_FEE, Math.round(amount * FEE_RATE));
-          var activeBank = document.querySelector('.bank-account.active');
-          var bankName = activeBank ? activeBank.querySelector('.text-sm.font-bold') : null;
-          var ibanEl = activeBank ? activeBank.querySelector('.font-latin') : null;
-          var holderEl = activeBank ? activeBank.querySelectorAll('.text-xs.text-content-muted')[1] : null;
-          var tracking = 'TL' + Date.now();
-
-          var params = new URLSearchParams({
-            type: 'withdraw',
-            amount: amount,
-            fee: fee,
-            bank: bankName ? bankName.textContent : '',
-            iban: ibanEl ? ibanEl.textContent : '',
-            holder: holderEl ? holderEl.textContent.replace('به نام: ', '') : '',
-            tracking: tracking,
-            status: 'pending'
-          });
-
-          window.location.href = '../wallet/receipt.html?' + params.toString();
-        }, 1500);
-      });
-
-      function startCountdown(seconds) {
-        var wrap = document.getElementById('countdownWrap');
-        var circle = document.getElementById('countdownCircle');
-        var tip = document.getElementById('countdownTip');
-        var timeEl = document.getElementById('countdownTime');
-        var C = 276.46;
-        var endTime = Date.now() + seconds * 1000;
-        var shownSec = -1;
-
-        stopCountdown();
-        if (circle) circle.style.strokeDashoffset = '0';
-        if (tip) tip.style.strokeDashoffset = '0';
-
-        countdownInterval = setInterval(function () {
-          var msLeft = endTime - Date.now();
-          if (msLeft <= 0) {
-            stopCountdown();
-            if (wrap) wrap.classList.add('is-ended');
-            confirmBtn.disabled = true;
-            showToast('زمان اعتبار درخواست به پایان رسید. لطفاً دوباره تلاش کنید.');
-            return;
-          }
-          var offset = C * (1 - msLeft / (seconds * 1000));
-          if (circle) circle.style.strokeDashoffset = String(offset);
-          if (tip) tip.style.strokeDashoffset = String(offset);
-
-          var sLeft = Math.ceil(msLeft / 1000);
-          if (sLeft !== shownSec) {
-            shownSec = sLeft;
-            var min = Math.floor(sLeft / 60);
-            var sec = sLeft % 60;
-            if (timeEl) {
-              timeEl.textContent = toPersianDigits(min) + ':' + toPersianDigits(sec < 10 ? '0' + sec : sec);
-              timeEl.classList.remove('cd-tick');
-              void timeEl.offsetWidth;
-              timeEl.classList.add('cd-tick');
-            }
-            if (wrap) {
-              wrap.classList.toggle('is-critical', sLeft <= 10);
-              wrap.classList.toggle('is-low', sLeft <= 30 && sLeft > 10);
-            }
-          }
-        }, 100);
-      }
-
-      function stopCountdown() {
-        if (countdownInterval) {
-          clearInterval(countdownInterval);
-          countdownInterval = null;
-        }
-      }
-    })();
-  </script>
-
 </body>
+
 </html>
