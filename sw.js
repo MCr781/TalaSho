@@ -30,7 +30,7 @@
    If you forget to bump this, users will keep seeing the old cached version
    for up to 24h (Cache API has no TTL).
    Example bump: 'talasho-v1' → 'talasho-v2' → 'talasho-v3' ... */
-const CACHE_VERSION = 'talasho-v23';
+const CACHE_VERSION = 'talasho-v24';
 const OFFLINE_URL = '/pwa/offline.html';
 
 /* Critical assets to pre-cache during install so the app shell + offline page

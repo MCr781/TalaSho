@@ -47,22 +47,22 @@
 
         // Reset classes
         chipEl.classList.remove(
-            'text-status-success', 'bg-status-success-bg',
-            'text-status-error',   'bg-status-error-bg',
-            'text-content-muted',  'bg-primary-50'
+            'text-emerald-700',    'bg-status-success-bg',  'border-emerald-700/20',
+            'text-red-700',        'bg-status-error-bg',    'border-red-700/20',
+            'text-slate-800',      'bg-primary-100',        'border-primary-200/70'
         );
 
         if (pct > 0.01) {
-            // up — green
-            chipEl.classList.add('text-status-success', 'bg-status-success-bg');
+            // up — green tinted pill with dark text (WCAG AA)
+            chipEl.classList.add('text-emerald-700', 'bg-status-success-bg', 'border-emerald-700/20');
             if (arrowSvg) arrowSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>';
         } else if (pct < -0.01) {
-            // down — red
-            chipEl.classList.add('text-status-error', 'bg-status-error-bg');
+            // down — red tinted pill with dark text (WCAG AA)
+            chipEl.classList.add('text-red-700', 'bg-status-error-bg', 'border-red-700/20');
             if (arrowSvg) arrowSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>';
         } else {
-            // flat — gray
-            chipEl.classList.add('text-content-muted', 'bg-primary-50');
+            // flat — neutral lavender pill with dark text
+            chipEl.classList.add('text-slate-800', 'bg-primary-100', 'border-primary-200/70');
             if (arrowSvg) arrowSvg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14"/>';
         }
 
