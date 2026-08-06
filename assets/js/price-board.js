@@ -150,13 +150,49 @@
     window.TALASHO = window.TALASHO || {};
     window.TALASHO.updatePrices = updatePrices;
 
+    // Initialize sparklines immediately on load so chart is visible instantly
+    function initSparklines() {
+        var rows = document.querySelectorAll('[data-price-row]');
+        if (!rows.length) return;
+
+        rows.forEach(function (row) {
+            var name = row.getAttribute('data-price-name');
+            if (!name) return;
+
+            if (!sparkHistory[name] || sparkHistory[name].length < 2) {
+                var current = parseFloat(row.getAttribute('data-price-current')) || 4545000;
+                var prev = parseFloat(row.getAttribute('data-price-prev')) || (current * 0.992);
+
+                // Seed a realistic 10-point historical curve from prev to current
+                var seed = [];
+                var steps = 10;
+                var base = prev;
+                var totalDiff = current - prev;
+                for (var i = 0; i < steps; i++) {
+                    var ratio = i / (steps - 1);
+                    var wave = Math.sin(i * 0.9) * 0.0015 * base;
+                    seed.push(Math.round(base + totalDiff * ratio + wave));
+                }
+                sparkHistory[name] = seed;
+            }
+
+            var sparkEl = row.querySelector('[data-sparkline]');
+            if (sparkEl) {
+                updateSparkline(sparkEl, sparkHistory[name]);
+            }
+        });
+    }
+
     // ----------------------------------------------------------------
     // DEMO MODE: random-walk prices every 5 seconds
     // Backend: delete this whole block, just keep updatePrices() above
     // ----------------------------------------------------------------
-    document.addEventListener('DOMContentLoaded', function () {
+    function startDemoEngine() {
         const rows = document.querySelectorAll('[data-price-row]');
         if (!rows.length) return;
+
+        // Render sparkline and rows immediately on startup
+        initSparklines();
 
         setInterval(function () {
             // One random-walk per instrument name so every widget with the same
@@ -186,7 +222,13 @@
             const tsEls = document.querySelectorAll('[data-last-update]');
             tsEls.forEach(function (el) { el.textContent = ts; });
         }, 5000);
-    });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startDemoEngine);
+    } else {
+        startDemoEngine();
+    }
 
     function pad(n) { return toPersianDigits((n < 10 ? '0' : '') + n); }
 

@@ -415,55 +415,66 @@
                 </ul>
 
                 <!-- LIVE 18K GOLD INDEX — nav row, far-left (RTL end)
-                     Digikala-style live instrument chip: gold coin with a
-                     sheen sweep, numeric-measure price (flashes on change),
+                     Digikala-style live instrument chip: gold coin medallion with
+                     sheen sweep, live pulse beacon, numeric-measure price (flashes on change),
                      fluctuation chip and a heartbeat sparkline.
                      Driven by assets/js/price-board.js.
                      Links to the live rates board (نرخ‌نامه زنده). -->
                 <a href="./wallet/rates.html"
                     data-price-row data-price-name="طلای ۱۸ عیار" data-price-current="4545000" data-price-prev="4510000"
                     title="قیمت لحظه‌ای طلای ۱۸ عیار — نرخ‌نامه زنده طلاشو"
-                    class="flex items-center gap-1.5 h-8 shrink-0 px-3 rounded-full
-                           bg-gradient-to-b from-gold-100 via-gold-300 to-gold-500
-                           text-primary-700 border border-gold-600/40
-                           shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_2px_6px_rgba(212,175,55,0.35)]
-                           hover:from-gold-200 hover:via-gold-300 hover:to-gold-400
-                           hover:border-gold-600/70 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_14px_rgba(212,175,55,0.5)]
-                           transition-all duration-250">
+                    class="group relative flex items-center gap-2 h-8.5 shrink-0 px-3 rounded-full
+                           bg-gradient-to-r from-primary-950 via-[#1f0921] to-primary-950
+                           text-white border border-gold-400/40 hover:border-gold-300
+                           shadow-[0_2px_10px_rgba(46,13,46,0.25),0_0_12px_rgba(212,175,55,0.15)]
+                           hover:shadow-[0_4px_20px_rgba(212,175,55,0.35)]
+                           transition-all duration-300 select-none">
 
-                    <!-- Gold coin with animated sheen -->
-                    <span class="gold-coin relative w-4 h-4 shrink-0" aria-hidden="true">
+                    <!-- Ambient gold glow backdrop -->
+                    <span class="absolute inset-0 rounded-full bg-gradient-to-r from-gold-500/10 via-gold-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" aria-hidden="true"></span>
+
+                    <!-- Gold coin medallion with animated sheen -->
+                    <span class="gold-coin relative w-5 h-5 rounded-full bg-gradient-to-tr from-amber-600 via-gold-400 to-amber-200 text-slate-950 flex items-center justify-center p-0.5 shadow-[0_0_8px_rgba(232,185,72,0.5)] shrink-0" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full">
                             <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4.4a3.4 3.4 0 1 1 0 6.8 3.4 3.4 0 0 1 0-6.8zm0 11.6c-2.9 0-5.4-1.5-6.8-3.8.04-2.3 4.6-3.5 6.8-3.5s6.76 1.2 6.8 3.5c-1.4 2.3-3.9 3.8-6.8 3.8z"/>
                         </svg>
                         <span class="gold-coin__sheen"></span>
                     </span>
 
-                    <!-- Label -->
-                    <span class="text-[11px] font-bold whitespace-nowrap">طلای ۱۸ عیار</span>
+                    <!-- Live status beacon & Instrument Label -->
+                    <div class="flex items-center gap-1.5">
+                        <span class="relative flex h-1.5 w-1.5 shrink-0" title="بازار زنده">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-400"></span>
+                        </span>
+                        <span class="text-[11px] font-black text-gold-300 tracking-tight whitespace-nowrap">طلای ۱۸ عیار</span>
+                    </div>
+
+                    <!-- Vertical micro-divider -->
+                    <span class="w-px h-3.5 bg-gold-400/20 shrink-0" aria-hidden="true"></span>
 
                     <!-- Live price — flashes green/red on every tick -->
-                    <span data-price-flash class="inline-flex items-center rounded-md px-1 -mx-1">
-                        <span class="numeric-measure font-latin font-black text-[12px]">
-                            <span class="numeric-measure__unit text-[8px] font-medium text-primary-700/70">تومان</span>
-                            <span class="font-latin" data-price-display>۴٬۵۴۵٬۰۰۰</span>
+                    <span data-price-flash class="inline-flex items-center rounded-md px-1 py-0.5 transition-all duration-300">
+                        <span class="numeric-measure font-latin">
+                            <span class="numeric-measure__unit text-[9px] font-medium text-gold-200/80">تومان</span>
+                            <span class="font-latin text-[12.5px] font-black text-white tracking-tight" data-price-display>۴٬۵۴۵٬۰۰۰</span>
                         </span>
                     </span>
 
                     <!-- Fluctuation chip (price-board.js swaps the up/down/flat state) -->
                     <span data-fluctuation-display
-                        class="flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary-50 text-content-muted">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="flex items-center gap-0.5 text-[9.5px] font-extrabold px-1.5 py-0.5 rounded-full bg-white/10 text-slate-200 border border-white/10 transition-colors duration-300">
+                        <svg class="w-3 h-3 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14"/>
                         </svg>
                         <span data-fluctuation-percent dir="ltr">۰٫۰٪</span>
                     </span>
 
                     <!-- Heartbeat sparkline -->
-                    <svg class="w-7 h-4 shrink-0" data-sparkline viewBox="0 0 28 16"
+                    <svg class="w-7 h-4 shrink-0 text-gold-400 drop-shadow-[0_0_4px_rgba(232,185,72,0.4)]" data-sparkline viewBox="0 0 28 16"
                         preserveAspectRatio="none" aria-hidden="true">
-                        <polyline fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                            stroke-linejoin="round" points=""/>
+                        <polyline fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"
+                            stroke-linejoin="round" points="1.5,12.5 5.2,11.0 8.9,12.0 12.6,8.5 16.3,9.5 20.0,6.0 23.7,7.0 26.5,3.5"/>
                     </svg>
                 </a>
             </div>

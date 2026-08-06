@@ -643,12 +643,12 @@
 
   /* Price-cell flash on every tick — green when rising, red when falling */
   @keyframes flash-green {
-    0% { background-color: rgba(16, 185, 129, 0.22); }
-    100% { background-color: transparent; }
+    0% { background-color: rgba(16, 185, 129, 0.35); box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); text-shadow: 0 0 8px rgba(16, 185, 129, 0.8); }
+    100% { background-color: transparent; box-shadow: none; text-shadow: none; }
   }
   @keyframes flash-red {
-    0% { background-color: rgba(239, 68, 68, 0.22); }
-    100% { background-color: transparent; }
+    0% { background-color: rgba(239, 68, 68, 0.35); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); text-shadow: 0 0 8px rgba(239, 68, 68, 0.8); }
+    100% { background-color: transparent; box-shadow: none; text-shadow: none; }
   }
   .flash-up   { animation: flash-green 1.2s ease-out; }
   .flash-down { animation: flash-red   1.2s ease-out; }
