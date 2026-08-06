@@ -677,6 +677,10 @@
   #success-panel {
     display: flex;
   }
+  /* Show whichever panel is targeted by the URL hash (#success/#failed/#cancelled) */
+  .result-panel:target {
+    display: flex;
+  }
   body:has(.result-panel:target) #success-panel {
     display: none;
   }

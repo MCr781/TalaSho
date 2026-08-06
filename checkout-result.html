@@ -4,12 +4,14 @@
   طلاشو — Payment Result (نتیجه پرداخت)
   ----------------------------------------------------------------------------
   Shows the outcome of a checkout payment. Three variations are built in and
-  switched purely with the URL hash (no JS — matches the static prototype):
+  switched purely with the URL hash:
       checkout-result.html#success     → payment succeeded (default)
       checkout-result.html#failed      → payment failed
       checkout-result.html#cancelled   → user cancelled the payment
   The backend redirects the user here after the payment gateway responds.
-  See the "result-panel" CSS block in src/input.css for the :target rules.
+  The "result-panel" CSS block in src/input.css provides a no-JS :target fallback,
+  and a small DEMO-ONLY inline script toggles the panels so the preview links
+  below work in every browser (remove that script in production).
   ============================================================================
 -->
 <html lang="fa" dir="rtl">
@@ -849,6 +851,26 @@
       </div>
     </section>
   </main>
+
+  <!-- DEMO ONLY — remove in production. Hash switcher (vanilla JS) that toggles
+       the three result panels so the preview links work in every browser. In
+       production the backend simply redirects to checkout-result.html#success /
+       #failed / #cancelled, so this block should be deleted. -->
+  <script>
+    (function () {
+      var PANELS = { success: 'success-panel', failed: 'failed-panel', cancelled: 'cancelled-panel' };
+      function applyHash() {
+        var key = (location.hash || '').replace('#', '');
+        if (!Object.prototype.hasOwnProperty.call(PANELS, key)) key = 'success';
+        Object.keys(PANELS).forEach(function (name) {
+          var panel = document.getElementById(PANELS[name]);
+          if (panel) panel.style.display = name === key ? 'flex' : 'none';
+        });
+      }
+      window.addEventListener('hashchange', applyHash);
+      applyHash();
+    })();
+  </script>
 
   <!-- FOOTER (shared) -->
   <!-- GLOBAL SITE FOOTER: START -->
