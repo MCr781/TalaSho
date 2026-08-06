@@ -822,7 +822,7 @@
     <section class="relative z-20 -mt-8">
         <div class="container-page">
             <div class="bg-surface rounded-2xl p-6 lg:p-8 shadow-xl border border-border">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x divide-x-reverse divide-border/60">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:divide-x md:divide-x-reverse divide-border/60">
 
                     <!-- Metric 1: Experience -->
                     <div class="px-3 py-2">
@@ -894,17 +894,17 @@
             </div>
 
             <!-- Timeline Interactive Tabs (Digikala Specs) -->
-            <div class="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 no-scrollbar" id="timelineTabs">
-                <button type="button" data-target="phase1" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-primary-500 bg-primary-500 text-white shadow-sm">
+            <div class="flex items-center justify-start md:justify-center gap-2 mb-10 overflow-x-auto pb-2 no-scrollbar" id="timelineTabs">
+                <button type="button" data-target="phase1" class="timeline-tab shrink-0 whitespace-nowrap px-4 py-2 md:px-5 md:py-2.5 rounded-full border text-xs md:text-sm font-bold transition-all duration-250 border-primary-500 bg-primary-500 text-white shadow-sm">
                     ۱۳۷۶ - ۱۳۸۶ | آغاز راه
                 </button>
-                <button type="button" data-target="phase2" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
+                <button type="button" data-target="phase2" class="timeline-tab shrink-0 whitespace-nowrap px-4 py-2 md:px-5 md:py-2.5 rounded-full border text-xs md:text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
                     ۱۳۸۶ - ۱۳۹۷ | حضور در مرکز استان
                 </button>
-                <button type="button" data-target="phase3" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
+                <button type="button" data-target="phase3" class="timeline-tab shrink-0 whitespace-nowrap px-4 py-2 md:px-5 md:py-2.5 rounded-full border text-xs md:text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
                     ۱۳۹۷ - ۱۴۰۲ | جهش دیجیتال
                 </button>
-                <button type="button" data-target="phase4" class="timeline-tab px-5 py-2.5 rounded-full border text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
+                <button type="button" data-target="phase4" class="timeline-tab shrink-0 whitespace-nowrap px-4 py-2 md:px-5 md:py-2.5 rounded-full border text-xs md:text-sm font-bold transition-all duration-250 border-border bg-surface text-content-body hover:border-primary-300">
                     ۱۴۰۲ تا آینده | نسل دوم و مسقط
                 </button>
             </div>
@@ -1232,16 +1232,16 @@
                     </p>
                 </div>
 
-                <div class="flex items-center gap-6">
-                    <div class="p-4 bg-background rounded-2xl border border-border flex items-center gap-3">
-                        <img src="./assets/images/enamad.webp" alt="اینماد" class="w-14 h-14 object-contain">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                    <div class="p-4 bg-background rounded-2xl border border-border flex items-center justify-center gap-3 w-full sm:w-auto">
+                        <img src="./assets/images/enamad.webp" alt="اینماد" class="w-14 h-14 object-contain shrink-0">
                         <div>
                             <div class="text-sm font-bold text-content-heading">نماد اعتماد الکترونیکی</div>
                             <div class="text-xs text-content-muted">وزارت صمت ایران</div>
                         </div>
                     </div>
-                    <div class="p-4 bg-background rounded-2xl border border-border flex items-center gap-3">
-                        <img src="./assets/images/union.png" alt="اتحادیه طلا" class="w-14 h-14 object-contain">
+                    <div class="p-4 bg-background rounded-2xl border border-border flex items-center justify-center gap-3 w-full sm:w-auto">
+                        <img src="./assets/images/union.png" alt="اتحادیه طلا" class="w-14 h-14 object-contain shrink-0">
                         <div>
                             <div class="text-sm font-bold text-content-heading">اتحادیه طلا و جواهر</div>
                             <div class="text-xs text-content-muted">پروانه رسمی کد ۷۷۲</div>
@@ -1284,7 +1284,7 @@
 
 
     <!-- GLOBAL SITE FOOTER: START -->
-<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium">
+<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium pb-24 md:pb-0">
             <div class="container mx-auto px-4 md:px-6">
 
                 <!-- === Top Tier: Brand, Phone, Back to Top === -->
