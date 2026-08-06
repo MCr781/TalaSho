@@ -529,7 +529,7 @@
                     <!-- BACKEND: FOREACH MAIN-CATEGORY LOOP START -->
 
                     <!-- Category 1: Women's Jewelry (with mega menu) -->
-                    <li class="mega-menu-hover-area static h-full flex items-center">
+                    <li class="mega-menu-hover-area relative h-full flex items-center">
                         <a href="../products.html"
                             class="flex items-center gap-1 ts-nav-link text-content-heading hover:text-primary-500 font-medium">
                             جواهرات بانوان
@@ -540,10 +540,10 @@
                             </svg>
                         </a>
 
-                        <!-- Mega menu panel — anchored to <nav> (which is position: relative), 900px wide, centered -->
-                        <div class="mega-menu-panel absolute top-full mt-0 opacity-0 invisible transition-all duration-300
-                                bg-surface rounded-xl shadow-hover p-6 grid grid-cols-4 gap-6 z-50"
-                            style="left: 50%; width: 900px; transform: translateX(-50%);">
+                        <!-- Mega menu panel — positioned below the trigger item,
+                             right edge aligned with the item's right edge -->
+                        <div class="mega-menu-panel absolute top-full mt-0 right-0 w-[900px] opacity-0 invisible transition-all duration-300
+                                bg-surface rounded-xl shadow-hover p-6 grid grid-cols-4 gap-6 z-50">
 
                             <!-- Column 1 -->
                             <div>
