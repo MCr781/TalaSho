@@ -614,11 +614,14 @@
   /* ============ FOOTER LINK HOVER EFFECT ============ */
 
   .ts-footer-link {
-    @apply transition-all duration-250;
+    position: relative;
+    display: inline-block;
+    transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, color;
   }
   .ts-footer-link:hover {
-    color: #D4AF37;
-    padding-right: 4px;
+    color: #D4AF37 !important;
+    transform: translateX(-4px);
   }
 
 
