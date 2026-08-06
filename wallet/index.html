@@ -1411,7 +1411,7 @@
                     <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500 text-white font-bold shadow-xs">۸۰٪ پیشرفت</span>
                   </div>
                   <div class="progress-bar-track bg-amber-200">
-                    <div class="progress-bar-fill" id="missionProgress" style="width:0%; background: linear-gradient(90deg,#D4AF37,#E8B948);"></div>
+                    <div class="progress-bar-fill" id="missionProgress" data-target-width="80%" style="width:0%; background: linear-gradient(90deg,#D4AF37,#E8B948);"></div>
                   </div>
                   <p class="text-xs text-amber-900 font-bold mt-1.5">موجودی فعلی: ۰.۸۰۰ گرم از ۱.۰۰۰ گرم هدف</p>
                 </div>
@@ -1526,7 +1526,7 @@
                   <span class="text-xs font-black text-gold-700 font-latin">۱٬۴۵۰ / ۲٬۰۰۰</span>
                 </div>
                 <div class="progress-bar-track bg-gold-200">
-                  <div class="vip-bar-fill" id="vipProgressBar" style="width:0%; height:100%; border-radius:999px; transition: width 1.4s cubic-bezier(0.22,1,0.36,1);"></div>
+                  <div class="vip-bar-fill" id="vipProgressBar" data-target-width="72.5%" style="width:0%; height:100%; border-radius:999px; transition: width 1.4s cubic-bezier(0.22,1,0.36,1);"></div>
                 </div>
                 <p class="text-xs text-content-heading font-bold mt-2.5">
                   فقط
@@ -1923,27 +1923,57 @@
     requestAnimationFrame(step);
   }
 
-  /* ─── Progress bars: animate on load ─── */
-  function animateProgressBars() {
-    // Mission progress (80%)
-    var missionBar = document.getElementById('missionProgress');
-    if (missionBar) {
-      setTimeout(function(){ missionBar.style.width = '80%'; }, 400);
+  /* ─── Scroll-triggered progress bars & count-up animations ─── */
+  function initScrollAnimations() {
+    var animatedSet = new Set();
+
+    function animateElement(el) {
+      if (!el || animatedSet.has(el)) return;
+      animatedSet.add(el);
+
+      var targetWidth = el.getAttribute('data-target-width');
+      if (targetWidth) {
+        el.style.width = targetWidth;
+      } else if (el.id === 'goldGramDisplay') {
+        countUp(el, 12.450, 1400, true, 3);
+      }
     }
-    // VIP progress (72.5% = 1450/2000)
-    var vipBar = document.getElementById('vipProgressBar');
-    if (vipBar) {
-      setTimeout(function(){ vipBar.style.width = '72.5%'; }, 600);
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateElement(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      var targets = [
+        document.getElementById('missionProgress'),
+        document.getElementById('vipProgressBar'),
+        document.getElementById('goldGramDisplay')
+      ];
+
+      targets.forEach(function(target) {
+        if (target) observer.observe(target);
+      });
+    } else {
+      // Fallback for legacy browsers without IntersectionObserver
+      var targets = [
+        document.getElementById('missionProgress'),
+        document.getElementById('vipProgressBar'),
+        document.getElementById('goldGramDisplay')
+      ];
+      targets.forEach(function(target) {
+        if (target) animateElement(target);
+      });
     }
   }
 
   /* ─── Run on DOM ready ─── */
   document.addEventListener('DOMContentLoaded', function(){
-    animateProgressBars();
-
-    // Count up gold grams display
-    var goldEl = document.getElementById('goldGramDisplay');
-    if (goldEl) countUp(goldEl, 12.450, 1400, true, 3);
+    initScrollAnimations();
   });
 
   /* ─── Simulated live rate tick (visual demo only) ─── */
