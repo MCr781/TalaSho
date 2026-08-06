@@ -639,6 +639,63 @@
   }
 
 
+  /* ============ LIVE GOLD MARKET CHIP (header instrument) ============ */
+
+  /* Price-cell flash on every tick — green when rising, red when falling */
+  @keyframes flash-green {
+    0% { background-color: rgba(16, 185, 129, 0.22); }
+    100% { background-color: transparent; }
+  }
+  @keyframes flash-red {
+    0% { background-color: rgba(239, 68, 68, 0.22); }
+    100% { background-color: transparent; }
+  }
+  .flash-up   { animation: flash-green 1.2s ease-out; }
+  .flash-down { animation: flash-red   1.2s ease-out; }
+
+  /* Pulsing "market is open" dot */
+  @keyframes pulse-ring {
+    0%   { transform: scale(0.95); opacity: 0.8; }
+    50%  { transform: scale(1.15); opacity: 0.4; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+  }
+  .live-pulse { animation: pulse-ring 2s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+
+  /* Gold coin icon — a diagonal sheen sweeps across it (the gleam of the metal) */
+  .gold-coin {
+    position: relative;
+    overflow: hidden;
+    border-radius: 9999px;
+  }
+  .gold-coin__sheen {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    left: -60%;
+    background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+    transform: skewX(-20deg);
+    animation: gold-sheen 3.6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes gold-sheen {
+    0%        { left: -60%; }
+    55%, 100% { left: 130%; }
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-vertical-ticker,
+    .live-pulse,
+    .gold-coin__sheen,
+    .flash-up,
+    .flash-down {
+      animation: none !important;
+    }
+  }
+
+
   /* ============ SWIPER NAV ARROWS (hero) ============ */
 
   .ts-swiper-arrow {
