@@ -209,7 +209,10 @@
   /* Panel — hidden by default, revealed on hover of wrapper OR panel itself */
   .header-dropdown-panel {
     position: absolute;
-    top: calc(100% + 10px); /* 10px gap so the notch arrow has room */
+    top: 100%; /* NO gap — panel starts right at the bottom of the trigger.
+                  The padding-top below creates the visual gap without a
+                  dead-zone that would lose hover and collapse the panel. */
+    padding-top: 10px; /* visual breathing room + room for the notch arrow */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -219,17 +222,27 @@
     transform: translateY(-6px);
     z-index: 50;
     min-width: 320px;
+  }
+
+  /* Inner visual container — carries the actual background, border, shadow */
+  .header-dropdown-panel > * {
+    /* Panels must have a single root child element (div) */
+  }
+
+  /* The real visible box sits inside the padding-top area */
+  .header-dropdown-panel > div {
     background: #FEFEFE;
     border-radius: 16px;
     border: 1px solid #E8E2DC;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.10);
+    overflow: hidden;
   }
 
-  /* Arrow notch — a small triangle pointing up to the icon */
+  /* Arrow notch — sits inside the padding-top gap, pointing up to the icon */
   .header-dropdown-panel::before {
     content: '';
     position: absolute;
-    top: -7px;
+    top: 4px; /* inside the 10px padding-top area */
     width: 12px;
     height: 12px;
     background: #FEFEFE;
@@ -237,6 +250,7 @@
     border-right: 1px solid #E8E2DC;
     transform: rotate(-45deg);
     border-radius: 2px;
+    z-index: 1;
   }
 
   /* In RTL (default) the notch sits near the left edge (visual right) */
