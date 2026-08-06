@@ -583,6 +583,65 @@
   }
 
 
+  /* ============ FORM CONTROLS — BRAND CHECKBOX & RADIO ============
+     Custom purple/gold-styled controls. Pure CSS, no JS required:
+     appearance is removed and the :checked state is drawn via
+     background. 20px visual size; the surrounding row/label padding
+     provides the touch target. Add class="ts-checkbox" / "ts-radio". */
+  .ts-checkbox,
+  .ts-radio {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.25rem;               /* 20px */
+    height: 1.25rem;
+    margin: 0;
+    flex-shrink: 0;
+    vertical-align: middle;
+    background-color: #FEFEFE;
+    border: 2px solid #DCD6CE;
+    cursor: pointer;
+    transition: border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .ts-checkbox { border-radius: 6px; }
+  .ts-radio    { border-radius: 9999px; }
+
+  .ts-checkbox:hover,
+  .ts-radio:hover {
+    border-color: #6E436E;
+  }
+
+  .ts-checkbox:focus-visible,
+  .ts-radio:focus-visible {
+    outline: none;
+    border-color: #6E436E;
+    box-shadow: 0 0 0 3px rgba(110, 67, 110, 0.25);
+  }
+
+  /* Checked — purple fill with a white check mark */
+  .ts-checkbox:checked {
+    background-color: #6E436E;
+    border-color: #6E436E;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+    background-size: 78% 78%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Checked — purple dot with a light ring inside the purple border */
+  .ts-radio:checked {
+    border-color: #6E436E;
+    background-image: radial-gradient(circle, #6E436E 0 42%, #FEFEFE 46%);
+  }
+
+  .ts-checkbox:disabled,
+  .ts-radio:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+
   /* ============ SECTION HEADERS (spec pattern) ============
      Structure: [icon] title ... view-all link →
      Title: 20px / 700. Space below title: 20px. */
