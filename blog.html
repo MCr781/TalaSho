@@ -211,32 +211,213 @@
                         <span class="text-body font-medium hidden lg:inline">ورود | ثبت‌نام</span>
                     </a>
 
-                    <!-- Wishlist -->
-                    <a href="#"
-                        class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading"
-                        aria-label="علاقه‌مندی‌ها">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <!-- Wishlist — with hover dropdown panel -->
+                    <!-- BACKEND: IF USER LOGGED IN → show real wishlist items via data-backend-hook -->
+                    <div class="header-dropdown-hover-area hidden md:block">
+                        <a href="#"
+                            class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading flex items-center"
+                            aria-label="علاقه‌مندی‌ها">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            <!-- BACKEND: INJECT WISHLIST COUNT -->
+                            <span
+                                class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
+                        </a>
+
+                        <!-- Wishlist Dropdown Panel -->
+                        <div class="header-dropdown-panel header-dropdown-panel--start" style="right: 0;">
+                            <!-- Panel header -->
+                            <div class="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border">
+                                <span class="text-body font-black text-content-heading">علاقه‌مندی‌ها</span>
+                                <span class="text-caption text-content-muted bg-background rounded-full px-2 py-0.5">۳ مورد</span>
+                            </div>
+
+                            <!-- BACKEND: FOREACH WISHLIST ITEM — repeat this block per item -->
+                            <ul class="divide-y divide-border">
+                                <!-- Item 1 -->
+                                <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
+                                    <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <svg class="w-7 h-7 text-primary-300" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-caption font-bold text-content-heading line-clamp-1">انگشتر سولیتر طلا ۱۸ عیار</p>
+                                        <p class="text-[11px] text-content-muted mt-0.5">
+                                            <span class="numeric-measure font-latin">
+                                                <span class="numeric-measure__unit">تومان</span>
+                                                <span>۱۲٬۵۰۰٬۰۰۰</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all" aria-label="حذف از علاقه‌مندی‌ها">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </li>
+                                <!-- Item 2 -->
+                                <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
+                                    <div class="w-12 h-12 rounded-lg bg-gold-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <svg class="w-7 h-7 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-caption font-bold text-content-heading line-clamp-1">گردنبند پلاک طلا زرد</p>
+                                        <p class="text-[11px] text-content-muted mt-0.5">
+                                            <span class="numeric-measure font-latin">
+                                                <span class="numeric-measure__unit">تومان</span>
+                                                <span>۸٬۳۰۰٬۰۰۰</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all" aria-label="حذف از علاقه‌مندی‌ها">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </li>
+                                <!-- Item 3 -->
+                                <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
+                                    <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <svg class="w-7 h-7 text-primary-300" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-caption font-bold text-content-heading line-clamp-1">دستبند کارتیر طلا سفید</p>
+                                        <p class="text-[11px] text-content-muted mt-0.5">
+                                            <span class="numeric-measure font-latin">
+                                                <span class="numeric-measure__unit">تومان</span>
+                                                <span>۲۲٬۰۰۰٬۰۰۰</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all" aria-label="حذف از علاقه‌مندی‌ها">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </li>
+                            </ul>
+                            <!-- BACKEND: END FOREACH -->
+
+                            <!-- CTA -->
+                            <div class="px-4 py-3 border-t border-border">
+                                <a href="#" class="flex items-center justify-center gap-2 w-full rounded-full border border-primary-500 text-primary-500 hover:bg-primary-50 transition-colors text-caption font-bold py-2">
+                                    مشاهده همه علاقه‌مندی‌ها
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist icon visible on mobile (no dropdown) -->
+                    <a href="#" class="md:hidden relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading" aria-label="علاقه‌مندی‌ها">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
-                        <!-- BACKEND: INJECT WISHLIST COUNT (optional) -->
-                        <span
-                            class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
+                        <span class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
                     </a>
 
-                    <!-- Cart -->
-                    <!-- BACKEND: INJECT CART COUNT -->
-                    <a href="#"
-                        class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading"
-                        aria-label="سبد خرید">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    <!-- Cart — with hover dropdown panel -->
+                    <!-- BACKEND: IF USER LOGGED IN → show real cart items via data-backend-hook -->
+                    <div class="header-dropdown-hover-area hidden md:block">
+                        <a href="#"
+                            class="relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading flex items-center"
+                            aria-label="سبد خرید">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <!-- BACKEND: INJECT CART COUNT -->
+                            <span
+                                class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
+                        </a>
+
+                        <!-- Cart Dropdown Panel -->
+                        <div class="header-dropdown-panel header-dropdown-panel--start" style="right: 0;">
+                            <!-- Panel header -->
+                            <div class="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border">
+                                <span class="text-body font-black text-content-heading">سبد خرید</span>
+                                <span class="text-caption text-content-muted bg-background rounded-full px-2 py-0.5">۲ کالا</span>
+                            </div>
+
+                            <!-- BACKEND: FOREACH CART ITEM — repeat this block per item -->
+                            <ul class="divide-y divide-border">
+                                <!-- Cart Item 1 -->
+                                <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
+                                    <div class="w-12 h-12 rounded-lg bg-primary-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <svg class="w-7 h-7 text-primary-300" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-caption font-bold text-content-heading line-clamp-1">حلقه ازدواج طلا ۱۸ عیار</p>
+                                        <div class="flex items-center justify-between mt-0.5 gap-2">
+                                            <p class="text-[11px] text-content-muted">
+                                                <span class="numeric-measure font-latin">
+                                                    <span class="numeric-measure__unit">تومان</span>
+                                                    <span>۱۸٬۴۰۰٬۰۰۰</span>
+                                                </span>
+                                            </p>
+                                            <span class="text-[11px] text-content-muted">× ۱</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" aria-label="حذف از سبد خرید">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </li>
+                                <!-- Cart Item 2 -->
+                                <li class="flex items-center gap-3 px-4 py-3 hover:bg-background transition-colors group">
+                                    <div class="w-12 h-12 rounded-lg bg-gold-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <svg class="w-7 h-7 text-gold-400" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 14.2a7.2 7.2 0 0 1-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 0 1-6 3.22z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-caption font-bold text-content-heading line-clamp-1">گردنبند اشک طلا سفید</p>
+                                        <div class="flex items-center justify-between mt-0.5 gap-2">
+                                            <p class="text-[11px] text-content-muted">
+                                                <span class="numeric-measure font-latin">
+                                                    <span class="numeric-measure__unit">تومان</span>
+                                                    <span>۹٬۸۰۰٬۰۰۰</span>
+                                                </span>
+                                            </p>
+                                            <span class="text-[11px] text-content-muted">× ۱</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="p-1 text-content-muted hover:text-status-error opacity-0 group-hover:opacity-100 transition-all flex-shrink-0" aria-label="حذف از سبد خرید">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </li>
+                            </ul>
+                            <!-- BACKEND: END FOREACH -->
+
+                            <!-- Subtotal + CTAs -->
+                            <div class="px-4 py-3 border-t border-border space-y-2.5">
+                                <div class="flex items-center justify-between text-caption">
+                                    <span class="text-content-muted">مجموع (۲ کالا):</span>
+                                    <span class="font-black text-content-heading">
+                                        <span class="numeric-measure font-latin">
+                                            <span class="numeric-measure__unit text-content-muted font-normal">تومان</span>
+                                            <span>۲۸٬۲۰۰٬۰۰۰</span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <a href="#" class="flex items-center justify-center gap-2 w-full btn-primary py-2 text-caption">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                                    مشاهده سبد خرید
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart icon visible on mobile (no dropdown) -->
+                    <a href="#" class="md:hidden relative p-2 rounded-full hover:bg-background-hover transition-colors text-content-heading" aria-label="سبد خرید">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
-                        <span
-                            class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
+                        <span class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
                     </a>
 
                 </div>

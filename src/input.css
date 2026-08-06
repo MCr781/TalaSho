@@ -191,6 +191,72 @@
     visibility: visible !important;
   }
 
+  /* ============ HEADER ICON DROPDOWN (cart, wishlist, …) ============
+     Shared pattern for any icon in the header action bar that opens a
+     hover panel. Mirrors the mega-menu approach so behavior is consistent.
+
+     Usage:
+       Wrap the icon <a> and the panel <div class="header-dropdown-panel">
+       together inside a <div class="header-dropdown-hover-area relative">.
+     The panel is absolutely positioned below the trigger; a small CSS
+     arrow notch is rendered via ::before. */
+
+  /* Trigger wrapper — must be position:relative */
+  .header-dropdown-hover-area {
+    position: relative;
+  }
+
+  /* Panel — hidden by default, revealed on hover of wrapper OR panel itself */
+  .header-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 10px); /* 10px gap so the notch arrow has room */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-6px);
+    z-index: 50;
+    min-width: 320px;
+    background: #FEFEFE;
+    border-radius: 16px;
+    border: 1px solid #E8E2DC;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.10);
+  }
+
+  /* Arrow notch — a small triangle pointing up to the icon */
+  .header-dropdown-panel::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    width: 12px;
+    height: 12px;
+    background: #FEFEFE;
+    border-top: 1px solid #E8E2DC;
+    border-right: 1px solid #E8E2DC;
+    transform: rotate(-45deg);
+    border-radius: 2px;
+  }
+
+  /* In RTL (default) the notch sits near the left edge (visual right) */
+  .header-dropdown-panel--end::before {
+    left: 22px;
+  }
+  /* Variant where trigger is on the left (visual left in RTL = end) */
+  .header-dropdown-panel--start::before {
+    right: 22px;
+  }
+
+  /* Activated on hover — show + slide into position */
+  .header-dropdown-hover-area:hover .header-dropdown-panel,
+  .header-dropdown-panel:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+
   /* Shimmer animation for countdown timer */
   @keyframes glass-shimmer {
     0% { transform: translateX(-100%); }

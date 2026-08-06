@@ -99,6 +99,11 @@ module.exports = {
     'product-review-card',
     'variant-chip',
     'variant-chip--active',
+    // Header icon dropdowns (cart, wishlist, …)
+    'header-dropdown-hover-area',
+    'header-dropdown-panel',
+    'header-dropdown-panel--end',
+    'header-dropdown-panel--start',
   ],
   theme: {
     extend: {
