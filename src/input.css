@@ -642,6 +642,49 @@
   }
 
 
+  /* ============ SELECTABLE OPTION CARDS (delivery / payment) ============
+     The selected card is outlined by the radio INSIDE it via :has(), so
+     the outline always follows the actual selection — never hard-coded
+     to "the first option". The backend just toggles `checked`. */
+  .option-card {
+    @apply flex items-start gap-3 p-4 rounded-2xl border-2 border-border cursor-pointer transition-colors duration-200;
+  }
+  .option-card:hover {
+    @apply border-primary-300;
+  }
+  .option-card:has(input:checked) {
+    @apply border-primary-500 bg-primary-50/40 shadow-sm;
+  }
+  /* Gold-theme variant — money-related options (wallet, final sum) */
+  .option-card--gold {
+    @apply border-gold-400/60 bg-gold-50/50;
+  }
+  .option-card--gold:hover {
+    @apply border-gold-500;
+  }
+  .option-card--gold:has(input:checked) {
+    @apply border-gold-600 bg-gold-50/70 shadow-sm;
+  }
+
+
+  /* ============ PAYMENT RESULT PAGE — outcome panels ============
+     Pure-CSS variation switcher (no JS): each outcome is a .result-panel.
+     The success panel shows by default; appending #success / #failed /
+     #cancelled to the URL hash shows that outcome instead. */
+  .result-panel {
+    display: none;
+  }
+  #success-panel {
+    display: flex;
+  }
+  body:has(.result-panel:target) #success-panel {
+    display: none;
+  }
+  body:has(#success-panel:target) #success-panel {
+    display: flex;
+  }
+
+
   /* ============ SECTION HEADERS (spec pattern) ============
      Structure: [icon] title ... view-all link →
      Title: 20px / 700. Space below title: 20px. */

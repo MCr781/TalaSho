@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <!--
   ============================================================================
-  طلاشو — Shopping Cart (سبد خرید)
+  طلاشو — Payment Result (نتیجه پرداخت)
   ----------------------------------------------------------------------------
-  Digikala-inspired cart: item list + saved-for-later (wishlist) section on the
-  main column, sticky price summary on the sidebar, mobile sticky buy bar.
-  Static prototype — backend wires quantity steppers, remove / save actions and
-  the empty state via the BACKEND markers below.
+  Shows the outcome of a checkout payment. Three variations are built in and
+  switched purely with the URL hash (no JS — matches the static prototype):
+      checkout-result.html#success     → payment succeeded (default)
+      checkout-result.html#failed      → payment failed
+      checkout-result.html#cancelled   → user cancelled the payment
+  The backend redirects the user here after the payment gateway responds.
+  See the "result-panel" CSS block in src/input.css for the :target rules.
   ============================================================================
 -->
 <html lang="fa" dir="rtl">
@@ -14,8 +17,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>سبد خرید | طلاشو VIP</title>
-  <meta name="description" content="سبد خرید طلاشو — مدیریت کالاهای انتخابی، کالاهای ذخیره‌شده و نهایی‌سازی سفارش خرید جواهرات طلا">
+  <title>نتیجه پرداخت | طلاشو VIP</title>
+  <meta name="description" content="نتیجه پرداخت سفارش در طلاشو — وضعیت موفق، ناموفق یا لغو پرداخت سفارش طلا و جواهر">
 
   <meta name="theme-color" content="#6E436E">
   <link rel="manifest" href="./pwa/manifest.webmanifest">
@@ -27,7 +30,6 @@
   <link rel="icon" type="image/png" sizes="16x16" href="./pwa/icons/favicon-16.png">
   <link rel="apple-touch-icon" href="./pwa/icons/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="./assets/vendor/swiper-bundle.min.css">
   <link rel="stylesheet" href="./assets/css/style.css">
 
   <link rel="preload" as="font" type="font/woff2" href="./assets/fonts/Vazirmatn-FD-Regular.woff2" crossorigin>
@@ -728,423 +730,125 @@
     <script src="./assets/js/price-board.js" defer></script>
 <!-- GLOBAL SITE HEADER: END -->
 
-  <main class="flex-1 pb-24 lg:pb-0">
+  <main class="flex-1 pb-16">
 
     <!-- BREADCRUMB -->
-    <section class="pt-6 lg:pt-8 pb-4 lg:pb-6">
+    <section class="pt-6 lg:pt-8 pb-6">
       <div class="container-page">
         <nav class="flex items-center gap-2 text-sm text-content-body" aria-label="مسیر صفحه">
           <a href="./index.html" class="hover:text-primary-600 transition-colors">خانه</a>
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-content-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          <span class="text-content-heading font-medium">سبد خرید</span>
+          <a href="./cart.html" class="hover:text-primary-600 transition-colors">سبد خرید</a>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-content-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <a href="./checkout.html" class="hover:text-primary-600 transition-colors">تکمیل سفارش</a>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-content-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span class="text-content-heading font-medium">نتیجه پرداخت</span>
         </nav>
       </div>
     </section>
 
-    <!-- PAGE TITLE -->
-    <section class="pb-6 lg:pb-8">
-      <div class="container-page">
-        <div class="flex items-end justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-3 mb-2">
-              <span class="h-px w-8 bg-gold-400"></span>
-              <span class="text-xs font-bold tracking-wider text-gold-700 uppercase font-latin">Shopping Cart</span>
-            </div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-content-heading leading-tight">سبد خرید شما</h1>
-            <!-- BACKEND: INJECT CART COUNT -->
-            <p class="text-sm text-content-muted mt-2"><span class="font-latin font-bold text-content-heading">۲</span> کالا در سبد خرید شما</p>
-          </div>
-          <a href="./products.html" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 transition-colors shrink-0">
-            <i class='bx bx-plus text-lg'></i>
-            <span>افزودن کالای بیشتر</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- TWO-COLUMN LAYOUT -->
+    <!-- RESULT CARD -->
     <section class="pb-10 lg:pb-14">
       <div class="container-page">
-        <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
+        <div class="max-w-xl mx-auto">
 
-          <!-- ══════════════ MAIN COLUMN ══════════════ -->
-          <div class="space-y-6">
+          <!-- BACKEND: after the gateway responds, redirect the user here →
+               checkout-result.html#success / #failed / #cancelled.
+               Each panel carries BACKEND markers for the real order data. -->
 
-            <!-- FREE-SHIPPING PROMO (colored, gold-on-purple brand gradient) -->
-            <!-- BACKEND: INJECT threshold progress (value / 10,000,000 تومان) -->
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-l from-primary-700 via-primary-500 to-gold-500 p-5 sm:p-6 text-white shadow-md shadow-primary-500/20">
-              <div class="absolute -start-10 -top-12 w-44 h-44 rounded-full bg-white/10" aria-hidden="true"></div>
-              <div class="absolute -end-8 -bottom-14 w-52 h-52 rounded-full bg-white/10" aria-hidden="true"></div>
-              <div class="relative flex items-center justify-between gap-4 flex-wrap">
-                <div class="flex items-center gap-3.5 min-w-0">
-                  <span class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center shrink-0"><i class='bx bxs-truck text-2xl'></i></span>
-                  <div class="min-w-0">
-                    <p class="font-black text-base sm:text-lg text-white">ارسال رایگان برای سفارش‌های بالای ۱۰ میلیون تومان</p>
-                    <p class="text-white/85 text-sm mt-0.5">ارسال بیمه‌شده — برای این سفارش فعال شد</p>
-                  </div>
-                </div>
-                <span class="inline-flex items-center gap-1.5 bg-gold-400 text-primary-700 font-black text-sm px-4 py-2 rounded-full shrink-0">
-                  <i class='bx bx-check-circle text-lg'></i>
-                  ارسال رایگان شد
+          <!-- ══════════════ SUCCESS ══════════════ -->
+          <div id="success-panel" class="result-panel flex-col items-center text-center bg-surface rounded-3xl border border-border shadow-sm p-8 sm:p-10" role="status">
+            <div class="w-20 h-20 rounded-full bg-status-success-bg flex items-center justify-center mb-5">
+              <i class='bx bx-check-circle text-5xl text-status-success'></i>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-content-heading mb-2">پرداخت شما با موفقیت انجام شد</h1>
+            <p class="text-sm sm:text-base text-content-muted mb-6 max-w-md">سفارش شما ثبت و به صف پردازش رفت. کارشناسان طلاشو برای هماهنگی ارسال با شما تماس می‌گیرند.</p>
+
+            <!-- BACKEND: INJECT ORDER DETAILS -->
+            <div class="w-full bg-emerald-50/60 border border-emerald-100 rounded-2xl p-5 text-start space-y-3.5 mb-6">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-content-muted">شماره سفارش</span>
+                <span class="font-latin text-sm font-bold text-content-heading" dir="ltr">۱۲۳۴۵۶</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-content-muted">کد پیگیری</span>
+                <span class="font-latin text-sm font-bold text-primary-600" dir="ltr">TL1753945200000</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-content-muted">مبلغ پرداخت‌شده</span>
+                <span class="font-latin text-sm font-black text-primary-700">
+                  <span class="numeric-measure"><span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span><span>۲۸٬۲۰۰٬۰۰۰</span></span>
                 </span>
               </div>
-              <div class="relative mt-4 h-2 rounded-full bg-white/25 overflow-hidden" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                <div class="h-full w-full rounded-full bg-gradient-to-r from-gold-300 to-gold-400"></div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-content-muted">روش پرداخت</span>
+                <span class="text-sm font-bold text-content-heading">درگاه پرداخت آنلاین</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-content-muted">تحویل سفارش</span>
+                <span class="text-sm font-bold text-content-heading">۲ تا ۴ روز کاری</span>
               </div>
             </div>
 
-            <!-- ============ CART ITEMS ============ -->
-            <div class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
-              <!-- Card header -->
-              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-primary-50/40">
-                <div class="flex items-center gap-2.5">
-                  <i class='bx bxs-shopping-bag text-primary-500 text-xl'></i>
-                  <span class="text-base font-black text-content-heading">کالاهای سبد خرید</span>
-                  <!-- BACKEND: toggle select-all state with item checkboxes -->
-                  <label class="hidden sm:flex items-center gap-1.5 ps-3 ms-1 border-s border-border/70 text-sm font-bold text-content-body cursor-pointer select-none">
-                    <input type="checkbox" class="ts-checkbox" checked>
-                    <span>انتخاب همه</span>
-                  </label>
-                </div>
-                <!-- BACKEND: INJECT CART COUNT -->
-                <span class="text-xs font-bold text-primary-600 bg-primary-50 px-3 py-1 rounded-full">۲ کالا</span>
-              </div>
-
-              <ul class="divide-y divide-border/60">
-                <!-- BACKEND: FOREACH CART ITEM LOOP START -->
-                <li class="flex gap-4 p-4 sm:p-5 group" data-cart-item>
-                  <!-- Select checkbox -->
-                  <input type="checkbox" class="ts-checkbox mt-0.5" checked aria-label="انتخاب کالا">
-                  <!-- BACKEND: checkbox state = item selected for checkout -->
-
-                  <!-- Product image — borderless and large (no frame around the photo) -->
-                  <a href="./product/tear-tennis-gold-ring.html" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shrink-0 block" aria-label="مشاهده محصول حلقه ازدواج طرح اشک تنیس">
-                    <img src="./assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                  </a>
-
-                  <!-- Product info -->
-                  <div class="flex-1 min-w-0">
-                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                      <div class="min-w-0 space-y-1">
-                        <a href="./product/tear-tennis-gold-ring.html" class="text-base font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">حلقه ازدواج طرح اشک تنیس</a>
-                        <p class="text-sm text-content-muted">طلای ۱۸ عیار | سایز: <span class="font-latin font-bold">۵۴</span></p>
-                        <!-- BACKEND: INJECT ITEM META (karat, weight, size, seller) -->
-                        <span class="inline-flex items-center gap-1 text-xs font-bold text-status-success bg-status-success-bg px-2 py-0.5 rounded-md">
-                          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                          ارسال رایگان
-                        </span>
-                      </div>
-
-                      <!-- Unit price -->
-                      <div class="text-base sm:text-lg font-black text-primary-700 font-latin shrink-0 sm:text-left">
-                        <span class="numeric-measure">
-                          <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                          <span>۱۸٬۴۰۰٬۰۰۰</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <!-- Bottom row: quantity + actions -->
-                    <div class="flex items-center justify-between gap-3 mt-3 pt-3 border-t border-border/50">
-                      <!-- Quantity stepper (static prototype) -->
-                      <!-- BACKEND: wire +/- buttons to update quantity + line totals -->
-                      <div class="inline-flex items-center rounded-full border border-border bg-background shadow-xs" data-quantity="1">
-                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="کاهش تعداد"><i class='bx bx-minus'></i></button>
-                        <span class="w-9 text-center text-base font-bold text-content-heading font-latin">۱</span>
-                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="افزایش تعداد"><i class='bx bx-plus'></i></button>
-                      </div>
-
-                      <div class="flex items-center gap-1">
-                        <!-- BACKEND: move item to saved-for-later -->
-                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-primary-600 hover:bg-primary-50 transition-all text-sm font-medium flex items-center gap-1" title="ذخیره برای بعد" aria-label="ذخیره برای بعد">
-                          <i class='bx bx-heart text-base'></i>
-                          <span class="hidden md:inline">ذخیره برای بعد</span>
-                        </button>
-                        <!-- BACKEND: remove item from cart -->
-                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از سبد خرید" aria-label="حذف از سبد خرید">
-                          <i class='bx bx-trash text-lg'></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-
-                <li class="flex gap-4 p-4 sm:p-5 group" data-cart-item>
-                  <input type="checkbox" class="ts-checkbox mt-0.5" checked aria-label="انتخاب کالا">
-
-                  <a href="./product/tear-tennis-gold-ring.html" class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden shrink-0 block" aria-label="مشاهده محصول گردنبند طلا فانتزی طرح اشک">
-                    <img src="./assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی طرح اشک" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                  </a>
-
-                  <div class="flex-1 min-w-0">
-                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                      <div class="min-w-0 space-y-1">
-                        <a href="./product/tear-tennis-gold-ring.html" class="text-base font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">گردنبند طلا فانتزی طرح اشک</a>
-                        <p class="text-sm text-content-muted">طلای ۱۸ عیار | وزن: <span class="font-latin font-bold">۲.۱</span> گرم</p>
-                        <span class="inline-flex items-center gap-1 text-xs font-bold text-status-success bg-status-success-bg px-2 py-0.5 rounded-md">
-                          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                          ارسال رایگان
-                        </span>
-                      </div>
-
-                      <div class="text-base sm:text-lg font-black text-primary-700 font-latin shrink-0 sm:text-left">
-                        <span class="numeric-measure">
-                          <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                          <span>۹٬۸۰۰٬۰۰۰</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <div class="flex items-center justify-between gap-3 mt-3 pt-3 border-t border-border/50">
-                      <div class="inline-flex items-center rounded-full border border-border bg-background shadow-xs" data-quantity="1">
-                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="کاهش تعداد"><i class='bx bx-minus'></i></button>
-                        <span class="w-9 text-center text-base font-bold text-content-heading font-latin">۱</span>
-                        <button type="button" class="w-8 h-8 flex items-center justify-center text-content-muted hover:text-primary-500 transition-colors rounded-full" aria-label="افزایش تعداد"><i class='bx bx-plus'></i></button>
-                      </div>
-
-                      <div class="flex items-center gap-1">
-                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-primary-600 hover:bg-primary-50 transition-all text-sm font-medium flex items-center gap-1" title="ذخیره برای بعد" aria-label="ذخیره برای بعد">
-                          <i class='bx bx-heart text-base'></i>
-                          <span class="hidden md:inline">ذخیره برای بعد</span>
-                        </button>
-                        <button type="button" class="p-2 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از سبد خرید" aria-label="حذف از سبد خرید">
-                          <i class='bx bx-trash text-lg'></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <!-- BACKEND: FOREACH CART ITEM LOOP END -->
-              </ul>
-
-              <!-- EMPTY CART STATE (default hidden) -->
-              <!-- BACKEND: toggle this block when cart has zero items -->
-              <div id="cartEmptyState" class="hidden flex-col items-center justify-center text-center py-14 px-6">
-                <div class="w-20 h-20 rounded-full bg-primary-50 flex items-center justify-center mb-4">
-                  <i class='bx bxs-shopping-bag text-4xl text-primary-300'></i>
-                </div>
-                <h2 class="text-lg font-bold text-content-heading mb-1.5">سبد خرید شما خالی است</h2>
-                <p class="text-sm text-content-muted mb-5">برای شروع خرید، به فروشگاه طلاشو سر بزنید</p>
-                <a href="./products.html" class="btn-primary">شروع خرید از فروشگاه</a>
-              </div>
-            </div>
-
-            <!-- ============ SAVED FOR LATER / WISHLIST ============ -->
-            <!-- Wishlist is surfaced here, Digikala-style: items the user saved
-                 from the cart or from product pages, with a one-tap add-back. -->
-            <div id="saved-for-later" class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden scroll-mt-24">
-              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-background/50">
-                <div class="flex items-center gap-2.5">
-                  <i class='bx bxs-heart text-status-error text-xl'></i>
-                  <div>
-                    <span class="text-base font-black text-content-heading block">کالاهای ذخیره‌شده (علاقه‌مندی‌ها)</span>
-                    <span class="text-sm text-content-muted">برای خرید بعدی ذخیره کردید</span>
-                  </div>
-                </div>
-                <!-- BACKEND: INJECT WISHLIST COUNT -->
-                <span class="text-xs font-bold text-status-error bg-status-error-bg px-3 py-1 rounded-full">۳ کالا</span>
-              </div>
-
-              <ul class="divide-y divide-border/60">
-                <!-- BACKEND: FOREACH WISHLIST ITEM LOOP START -->
-                <li class="flex items-center gap-4 p-4 sm:p-5 group">
-                  <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                    <img src="./assets/images/products/rose-gold-diamond-engagement-ring.png" alt="انگشتر سولیتر الماس" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
-                  </a>
-                  <div class="flex-1 min-w-0 space-y-1">
-                    <a href="./product/tear-tennis-gold-ring.html" class="text-base font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">انگشتر سولیتر الماس ۱۸ عیار</a>
-                    <span class="text-sm text-content-muted block">طلا روزگلد | وزن: <span class="font-latin font-bold">۲.۴</span> گرم</span>
-                    <div class="text-base font-black text-primary-700 font-latin">
-                      <span class="numeric-measure">
-                        <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                        <span>۱۲٬۵۰۰٬۰۰۰</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="flex flex-col items-end gap-2 shrink-0">
-                    <!-- BACKEND: move item back to cart -->
-                    <button type="button" class="inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors px-3.5 py-2 rounded-full whitespace-nowrap">
-                      <i class='bx bxs-cart-add text-base'></i>
-                      <span>افزودن به سبد</span>
-                    </button>
-                    <button type="button" class="p-1.5 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
-                      <i class='bx bx-trash text-base'></i>
-                    </button>
-                  </div>
-                </li>
-
-                <li class="flex items-center gap-4 p-4 sm:p-5 group">
-                  <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                    <img src="./assets/images/products/Pendant.webp" alt="آویز و پلاک طلا زرد" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
-                  </a>
-                  <div class="flex-1 min-w-0 space-y-1">
-                    <a href="./product/tear-tennis-gold-ring.html" class="text-base font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">آویز و پلاک طلا زرد ۱۸ عیار</a>
-                    <span class="text-sm text-content-muted block">طرح لوکس بانوان | وزن: <span class="font-latin font-bold">۱.۸</span> گرم</span>
-                    <div class="text-base font-black text-primary-700 font-latin">
-                      <span class="numeric-measure">
-                        <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                        <span>۸٬۳۰۰٬۰۰۰</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="flex flex-col items-end gap-2 shrink-0">
-                    <button type="button" class="inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors px-3.5 py-2 rounded-full whitespace-nowrap">
-                      <i class='bx bxs-cart-add text-base'></i>
-                      <span>افزودن به سبد</span>
-                    </button>
-                    <button type="button" class="p-1.5 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
-                      <i class='bx bx-trash text-base'></i>
-                    </button>
-                  </div>
-                </li>
-
-                <li class="flex items-center gap-4 p-4 sm:p-5 group">
-                  <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden group-hover:border-primary-400 transition-colors">
-                    <img src="./assets/images/products/bracelet.png" alt="دستبند طلا سفید طرح کارتیر" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
-                  </a>
-                  <div class="flex-1 min-w-0 space-y-1">
-                    <a href="./product/tear-tennis-gold-ring.html" class="text-base font-bold text-content-heading line-clamp-1 group-hover:text-primary-600 transition-colors">دستبند طلا سفید طرح کارتیر</a>
-                    <span class="text-sm text-content-muted block">طلای ۱۸ عیار | وزن: <span class="font-latin font-bold">۴.۵</span> گرم</span>
-                    <div class="text-base font-black text-primary-700 font-latin">
-                      <span class="numeric-measure">
-                        <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                        <span>۲۲٬۰۰۰٬۰۰۰</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="flex flex-col items-end gap-2 shrink-0">
-                    <button type="button" class="inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 bg-primary-50 hover:bg-primary-100 transition-colors px-3.5 py-2 rounded-full whitespace-nowrap">
-                      <i class='bx bxs-cart-add text-base'></i>
-                      <span>افزودن به سبد</span>
-                    </button>
-                    <button type="button" class="p-1.5 rounded-full text-content-muted hover:text-status-error hover:bg-status-error-bg transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
-                      <i class='bx bx-trash text-base'></i>
-                    </button>
-                  </div>
-                </li>
-                <!-- BACKEND: FOREACH WISHLIST ITEM LOOP END -->
-              </ul>
-
-              <!-- EMPTY SAVED-FOR-LATER STATE (default hidden) -->
-              <!-- BACKEND: toggle this block when wishlist has zero items -->
-              <div id="savedEmptyState" class="hidden flex-col items-center justify-center text-center py-12 px-6 border-t border-border/60">
-                <div class="w-16 h-16 rounded-full bg-status-error-bg flex items-center justify-center mb-3">
-                  <i class='bx bx-heart text-3xl text-status-error'></i>
-                </div>
-                <p class="text-sm text-content-muted">کالایی در علاقه‌مندی‌های شما ذخیره نشده است</p>
-              </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+              <a href="./products.html" class="btn-primary flex-1 py-3.5 text-base">ادامه خرید از طلاشو</a>
+              <a href="./index.html" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-border-strong text-content-heading hover:bg-background-hover transition-colors text-base font-bold h-12">بازگشت به خانه</a>
             </div>
           </div>
 
-          <!-- ══════════════ SIDEBAR ══════════════ -->
-          <aside class="space-y-4 lg:sticky lg:top-24">
-            <!-- Price summary -->
-            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5">
-              <h2 class="text-base font-black text-content-heading mb-4 flex items-center gap-2">
-                <i class='bx bx-receipt text-primary-500 text-lg'></i>
-                خلاصه سفارش
-              </h2>
+          <!-- ══════════════ FAILED ══════════════ -->
+          <div id="failed-panel" class="result-panel flex-col items-center text-center bg-surface rounded-3xl border border-border shadow-sm p-8 sm:p-10" role="status">
+            <div class="w-20 h-20 rounded-full bg-status-error-bg flex items-center justify-center mb-5">
+              <i class='bx bx-x-circle text-5xl text-status-error'></i>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-content-heading mb-2">پرداخت ناموفق بود</h1>
+            <p class="text-sm sm:text-base text-content-muted mb-6 max-w-md">مبلغی از حساب شما کسر نشده است. لطفاً دوباره تلاش کنید یا از روش پرداخت دیگری استفاده کنید.</p>
 
-              <div class="space-y-3.5 text-sm">
-                <div class="flex items-center justify-between">
-                  <span class="text-content-muted">مبلغ کالاها (<span class="font-latin font-bold text-content-heading">۲</span> کالا)</span>
-                  <span class="font-latin font-black text-content-heading text-base">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                      <span>۲۸٬۲۰۰٬۰۰۰</span>
-                    </span>
-                  </span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-content-muted">سود شما از خرید</span>
-                  <!-- BACKEND: INJECT DISCOUNT/SAVINGS -->
-                  <span class="font-bold text-status-success">۰</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-content-muted">هزینه ارسال</span>
-                  <!-- BACKEND: INJECT SHIPPING FEE -->
-                  <span class="font-bold text-status-success">رایگان</span>
-                </div>
-              </div>
+            <div class="w-full bg-status-error-bg/70 border border-status-error/20 rounded-2xl p-5 text-start space-y-2.5 mb-5">
+              <p class="text-sm font-bold text-content-heading mb-1">دلایل احتمالی:</p>
+              <p class="flex items-center gap-2 text-sm text-content-body"><span class="w-1.5 h-1.5 rounded-full bg-status-error shrink-0"></span>موجودی کارت یا سقف مجاز تراکنش کافی نبود</p>
+              <p class="flex items-center gap-2 text-sm text-content-body"><span class="w-1.5 h-1.5 rounded-full bg-status-error shrink-0"></span>اطلاعات کارت (شماره، رمز، CVV2) نادرست وارد شد</p>
+              <p class="flex items-center gap-2 text-sm text-content-body"><span class="w-1.5 h-1.5 rounded-full bg-status-error shrink-0"></span>ارتباط با درگاه بانکی برقرار نشد</p>
+            </div>
+            <p class="text-xs text-content-muted mb-6">اگر مبلغی از حساب شما کسر شده باشد، حداکثر ظرف ۷۲ ساعت به‌صورت خودکار بازگردانده می‌شود.</p>
 
-              <div class="mt-4 rounded-xl bg-primary-50/60 border border-primary-100 p-4 flex items-center justify-between gap-2">
-                <span class="text-base font-bold text-content-heading">مبلغ قابل پرداخت</span>
-                <span class="text-lg font-black text-primary-700 font-latin">
-                  <span class="numeric-measure">
-                    <span class="numeric-measure__unit text-sm text-content-muted font-normal">تومان</span>
-                    <span>۲۸٬۲۰۰٬۰۰۰</span>
-                  </span>
-                </span>
-              </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+              <a href="./checkout.html" class="btn-gold flex-1 py-3.5 text-base">تلاش مجدد برای پرداخت</a>
+              <a href="./cart.html" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-border-strong text-content-heading hover:bg-background-hover transition-colors text-base font-bold h-12">بازگشت به سبد خرید</a>
+            </div>
+          </div>
 
-              <!-- CTA → checkout -->
-              <a href="./checkout.html" class="btn-primary w-full mt-5 text-base py-3.5 shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 transition-all">
-                ادامه خرید
-                <i class='bx bx-chevron-left text-xl'></i>
-              </a>
-              <a href="./products.html" class="flex items-center justify-center gap-2 w-full mt-3 rounded-full border border-border-strong text-content-heading hover:bg-background-hover transition-colors text-sm font-bold h-11">
-                ادامه خرید از فروشگاه
-              </a>
+          <!-- ══════════════ CANCELLED ══════════════ -->
+          <div id="cancelled-panel" class="result-panel flex-col items-center text-center bg-surface rounded-3xl border border-border shadow-sm p-8 sm:p-10" role="status">
+            <div class="w-20 h-20 rounded-full bg-warning-bg flex items-center justify-center mb-5">
+              <i class='bx bx-info-circle text-5xl text-warning'></i>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-black text-content-heading mb-2">پرداخت شما لغو شد</h1>
+            <p class="text-sm sm:text-base text-content-muted mb-6 max-w-md">شما فرآیند پرداخت را ناتمام گذاشتید. سفارش و کد تخفیف شما تا ۲۴ ساعت آینده در سبد خرید محفوظ است.</p>
+
+            <div class="w-full bg-warning-bg/70 border border-warning/20 rounded-2xl p-5 text-start space-y-2.5 mb-6">
+              <p class="flex items-center gap-2 text-sm text-content-body"><i class='bx bx-time text-warning text-lg shrink-0'></i>سفارش شما برای مدت ۲۴ ساعت رزرو می‌ماند</p>
+              <p class="flex items-center gap-2 text-sm text-content-body"><i class='bx bx-purchase-tag text-warning text-lg shrink-0'></i>کد تخفیف شما همچنان معتبر است</p>
             </div>
 
-            <!-- Discount code -->
-            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5">
-              <label for="cartDiscountCode" class="text-base font-bold text-content-heading flex items-center gap-2 mb-3">
-                <i class='bx bx-purchase-tag text-gold-600 text-lg'></i>
-                کد تخفیف
-              </label>
-              <!-- BACKEND: form action + method -->
-              <form action="#" method="post" class="flex gap-2">
-                <input id="cartDiscountCode" type="text" name="discount_code" placeholder="مثلا FIRST10"
-                  class="flex-1 min-w-0 bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-full px-4 py-2.5 text-sm text-content-heading placeholder-content-muted transition-all">
-                <button type="submit" class="shrink-0 rounded-full border border-primary-500/40 text-primary-600 hover:bg-primary-50 transition-colors text-sm font-bold px-4">اعمال</button>
-              </form>
-              <!-- BACKEND: applied code pill (show after submit) -->
-              <div class="hidden items-center justify-between mt-3 bg-primary-50 border border-primary-100 rounded-full px-4 py-2">
-                <span class="text-sm font-bold text-primary-700">کد <span class="font-latin" dir="ltr">FIRST10</span> اعمال شد</span>
-                <span class="font-latin text-sm font-black text-status-success" dir="ltr">۱۰٪−</span>
-              </div>
+            <div class="flex flex-col sm:flex-row gap-3 w-full">
+              <a href="./checkout.html" class="btn-primary flex-1 py-3.5 text-base">ادامه پرداخت</a>
+              <a href="./cart.html" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-border-strong text-content-heading hover:bg-background-hover transition-colors text-base font-bold h-12">بازگشت به سبد خرید</a>
             </div>
+          </div>
 
-            <!-- Trust / support -->
-            <div class="bg-surface rounded-2xl border border-border shadow-sm p-5 space-y-3">
-              <div class="flex items-center gap-3 text-sm text-content-body">
-                <span class="w-9 h-9 rounded-xl bg-status-success-bg text-status-success flex items-center justify-center shrink-0"><i class='bx bx-shield-quarter text-lg'></i></span>
-                ضمانت اصالت طلا با کد فاکتور رسمی
-              </div>
-              <div class="flex items-center gap-3 text-sm text-content-body">
-                <span class="w-9 h-9 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center shrink-0"><i class='bx bx-package text-lg'></i></span>
-                ارسال بیمه‌شده و رایگان بالای ۱۰ میلیون تومان
-              </div>
-              <div class="flex items-center gap-3 text-sm text-content-body">
-                <span class="w-9 h-9 rounded-xl bg-gold-50 text-gold-700 flex items-center justify-center shrink-0"><i class='bx bx-headphone text-lg'></i></span>
-                پشتیبانی: <span class="font-latin font-bold text-content-heading" dir="ltr">۰۲۱ – ۹۱۰۰۶۱۲۳</span>
-              </div>
-            </div>
-          </aside>
+          <!-- DEMO ONLY — remove in production: preview each outcome via URL hash -->
+          <div class="mt-8 flex items-center justify-center flex-wrap gap-2 text-sm text-content-muted">
+            <span>پیش‌نمایش وضعیت‌ها:</span>
+            <a href="./checkout-result.html#success" class="px-3.5 py-1.5 rounded-full bg-status-success-bg text-status-success font-bold hover:bg-status-success/10 transition-colors">موفق</a>
+            <a href="./checkout-result.html#failed" class="px-3.5 py-1.5 rounded-full bg-status-error-bg text-status-error font-bold hover:bg-status-error/10 transition-colors">ناموفق</a>
+            <a href="./checkout-result.html#cancelled" class="px-3.5 py-1.5 rounded-full bg-warning-bg text-warning font-bold hover:bg-warning/10 transition-colors">لغو شده</a>
+          </div>
+
         </div>
       </div>
     </section>
   </main>
-
-  <!-- MOBILE STICKY SUMMARY BAR (lg:hidden) -->
-  <div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-surface border-t border-border shadow-lg px-4 py-3" style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));">
-    <div class="flex items-center justify-between gap-3">
-      <div class="min-w-0">
-        <span class="text-sm text-content-muted block">مبلغ قابل پرداخت</span>
-        <span class="text-base font-black text-primary-700 font-latin">
-          <span class="numeric-measure">
-            <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
-            <span>۲۸٬۲۰۰٬۰۰۰</span>
-          </span>
-        </span>
-      </div>
-      <a href="./checkout.html" class="btn-primary flex-1 max-w-[180px] py-3 text-sm shrink-0">
-        ادامه خرید
-        <i class='bx bx-chevron-left text-lg'></i>
-      </a>
-    </div>
-  </div>
 
   <!-- FOOTER (shared) -->
   <!-- GLOBAL SITE FOOTER: START -->
@@ -1360,5 +1064,4 @@
 <!-- GLOBAL SITE FOOTER: END -->
 
 </body>
-
 </html>
