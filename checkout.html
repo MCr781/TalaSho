@@ -41,7 +41,7 @@
   <script src="./assets/js/global-shell.js?v=1" defer></script>
 </head>
 
-<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col overflow-x-hidden">
 
   <!-- HEADER (shared) -->
   <!-- GLOBAL SITE HEADER: START -->
@@ -764,7 +764,7 @@
           </li>
           <li class="h-px flex-1 max-w-10 bg-status-success" aria-hidden="true"></li>
           <li class="flex items-center gap-2">
-            <span class="w-7 h-7 rounded-full bg-primary-500 text-white flex items-center justify-center shrink-0 font-latin font-black text-sm">۲</span>
+            <span class="w-7 h-7 rounded-full bg-primary-500 text-white flex items-center justify-center shrink-0 font-latin font-black text-sm shadow-[0_0_12px_rgba(110,67,110,0.4)] ring-2 ring-primary-500/20">۲</span>
             <span class="font-bold text-content-heading hidden sm:inline">اطلاعات ارسال و پرداخت</span>
           </li>
           <li class="h-px flex-1 max-w-10 bg-border-strong" aria-hidden="true"></li>
@@ -777,10 +777,10 @@
     </section>
 
     <!-- TWO-COLUMN LAYOUT -->
-    <section class="pb-10 lg:pb-14">
+    <section class="pb-28 lg:pb-14">
       <div class="container-page">
         <!-- BACKEND: wrap grid in a single <form action="/checkout" method="post"> -->
-        <form action="#" method="post">
+        <form id="checkoutForm" action="#" method="post">
         <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
 
           <!-- ══════════════ MAIN COLUMN ══════════════ -->
@@ -788,7 +788,7 @@
 
             <!-- ============ 1) SHIPPING ADDRESS ============ -->
             <section class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden" aria-labelledby="addressSectionTitle">
-              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-primary-50/40">
+              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-gradient-to-r from-primary-50/80 to-transparent">
                 <h2 id="addressSectionTitle" class="text-base font-black text-content-heading flex items-center gap-2.5">
                   <span class="w-7 h-7 rounded-full bg-primary-500 text-white flex items-center justify-center shrink-0 font-latin font-black text-sm">۱</span>
                   آدرس ارسال
@@ -799,7 +799,8 @@
               <div class="p-5">
                 <!-- Saved address (selected) -->
                 <!-- BACKEND: FOREACH SHIPPING-ADDRESS LOOP START -->
-                <label class="flex items-start gap-3 p-4 rounded-2xl border-2 border-primary-500 bg-primary-50/40 cursor-pointer transition-colors group">
+                <label class="flex items-start gap-3 p-4 sm:p-5 rounded-2xl border-2 border-primary-500 bg-primary-50/20 cursor-pointer transition-all duration-300 hover:shadow-md hover:bg-primary-50/40 group relative overflow-hidden">
+                  <div class="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-transparent pointer-events-none"></div>
                   <input type="radio" name="shipping_address" value="addr-1" class="ts-radio mt-0.5" checked>
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center flex-wrap gap-x-2 gap-y-1 mb-1">
@@ -824,15 +825,15 @@
                   <div class="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label for="addrName" class="block text-sm font-bold text-content-body mb-1.5">نام و نام خانوادگی گیرنده</label>
-                      <input id="addrName" type="text" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-lg px-3.5 py-3 text-base text-content-heading placeholder-content-muted transition-all" placeholder="مثال: مهدی رحیمی">
+                      <input id="addrName" type="text" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-lg px-3.5 py-3 text-base text-content-heading placeholder-content-muted transition-all" placeholder="مثال: مهدی رحیمی">
                     </div>
                     <div>
                       <label for="addrPhone" class="block text-sm font-bold text-content-body mb-1.5">شماره تماس</label>
-                      <input id="addrPhone" type="tel" dir="ltr" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-lg px-3.5 py-2.5 text-sm font-latin text-content-heading placeholder-content-muted transition-all text-left" placeholder="09xxxxxxxxx">
+                      <input id="addrPhone" type="tel" dir="ltr" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-lg px-3.5 py-2.5 text-sm font-latin text-content-heading placeholder-content-muted transition-all text-left" placeholder="09xxxxxxxxx">
                     </div>
                     <div>
                       <label for="addrProvince" class="block text-sm font-bold text-content-body mb-1.5">استان</label>
-                      <select id="addrProvince" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-lg px-3.5 py-3 text-base text-content-heading transition-all">
+                      <select id="addrProvince" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-lg px-3.5 py-3 text-base text-content-heading transition-all">
                         <option>تهران</option>
                         <option>اصفهان</option>
                         <option>شیراز</option>
@@ -841,15 +842,15 @@
                     </div>
                     <div>
                       <label for="addrCity" class="block text-sm font-bold text-content-body mb-1.5">شهر</label>
-                      <input id="addrCity" type="text" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-lg px-3.5 py-3 text-base text-content-heading placeholder-content-muted transition-all" placeholder="تهران">
+                      <input id="addrCity" type="text" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-lg px-3.5 py-3 text-base text-content-heading placeholder-content-muted transition-all" placeholder="تهران">
                     </div>
                     <div class="sm:col-span-2">
                       <label for="addrDetail" class="block text-sm font-bold text-content-body mb-1.5">نشانی کامل</label>
-                      <textarea id="addrDetail" rows="2" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-lg px-3.5 py-3 text-base text-content-heading placeholder-content-muted transition-all resize-none" placeholder="خیابان، کوچه، پلاک، واحد"></textarea>
+                      <textarea id="addrDetail" rows="2" class="w-full bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-lg px-3.5 py-3 text-base text-content-heading placeholder-content-muted transition-all resize-none" placeholder="خیابان، کوچه، پلاک، واحد"></textarea>
                     </div>
                     <div class="sm:col-span-2">
                       <label for="addrPostal" class="block text-sm font-bold text-content-body mb-1.5">کد پستی</label>
-                      <input id="addrPostal" type="text" dir="ltr" class="w-full max-w-xs bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-lg px-3.5 py-2.5 text-sm font-latin text-content-heading placeholder-content-muted transition-all text-left" placeholder="1653794481">
+                      <input id="addrPostal" type="text" dir="ltr" class="w-full max-w-xs bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-lg px-3.5 py-2.5 text-sm font-latin text-content-heading placeholder-content-muted transition-all text-left" placeholder="1653794481">
                     </div>
                   </div>
                   <div class="flex gap-3 mt-5">
@@ -867,7 +868,7 @@
 
             <!-- ============ 2) DELIVERY METHOD ============ -->
             <section class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden" aria-labelledby="deliverySectionTitle">
-              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-primary-50/40">
+              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-gradient-to-r from-primary-50/80 to-transparent">
                 <h2 id="deliverySectionTitle" class="text-base font-black text-content-heading flex items-center gap-2.5">
                   <span class="w-7 h-7 rounded-full bg-primary-500 text-white flex items-center justify-center shrink-0 font-latin font-black text-sm">۲</span>
                   روش ارسال
@@ -936,7 +937,7 @@
 
             <!-- ============ 3) DISCOUNT CODE ============ -->
             <section class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden" aria-labelledby="discountSectionTitle">
-              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-gold-50/60">
+              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-gradient-to-r from-gold-50/80 to-transparent">
                 <h2 id="discountSectionTitle" class="text-base font-black text-content-heading flex items-center gap-2.5">
                   <span class="w-7 h-7 rounded-full bg-gold-500 text-white flex items-center justify-center shrink-0 font-latin font-black text-sm"><i class='bx bx-purchase-tag text-base'></i></span>
                   کد تخفیف
@@ -945,7 +946,7 @@
               <div class="p-5">
                 <div class="flex gap-2 max-w-md">
                   <input type="text" name="checkout_discount" placeholder="کد تخفیف خود را وارد کنید"
-                    class="flex-1 min-w-0 bg-background border border-border focus:border-primary-500 focus:bg-surface outline-none rounded-full px-4 py-2.5 text-sm text-content-heading placeholder-content-muted transition-all">
+                    class="flex-1 min-w-0 bg-background border border-border focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 outline-none rounded-full px-4 py-2.5 text-sm text-content-heading placeholder-content-muted transition-all">
                   <!-- BACKEND: apply discount via AJAX, do not submit the checkout form -->
                   <button type="button" class="shrink-0 rounded-full border border-primary-500/40 text-primary-600 hover:bg-primary-50 transition-colors text-sm font-bold px-5">اعمال</button>
                 </div>
@@ -962,7 +963,7 @@
 
             <!-- ============ 4) PAYMENT METHOD ============ -->
             <section class="bg-surface rounded-2xl border border-border shadow-sm overflow-hidden" aria-labelledby="paymentSectionTitle">
-              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-gold-50/60">
+              <div class="flex items-center justify-between px-5 py-4 border-b border-border/70 bg-gradient-to-r from-gold-50/80 to-transparent">
                 <h2 id="paymentSectionTitle" class="text-base font-black text-content-heading flex items-center gap-2.5">
                   <span class="w-7 h-7 rounded-full bg-primary-500 text-white flex items-center justify-center shrink-0 font-latin font-black text-sm">۳</span>
                   روش پرداخت
@@ -1031,9 +1032,9 @@
 
                 <ul class="divide-y divide-border/60">
                   <!-- BACKEND: FOREACH ORDER ITEM LOOP START -->
-                  <li class="flex items-center gap-4 p-4">
-                    <a href="./product/tear-tennis-gold-ring.html" class="w-14 h-14 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden">
-                      <img src="./assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-contain">
+                  <li class="flex items-center gap-4 p-4 group">
+                    <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
+                      <img src="./assets/images/products/tear-tennis-ring-1.jpg" alt="حلقه ازدواج طرح اشک تنیس" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
                     </a>
                     <div class="flex-1 min-w-0">
                       <a href="./product/tear-tennis-gold-ring.html" class="text-sm font-bold text-content-heading line-clamp-1 hover:text-primary-600 transition-colors">حلقه ازدواج طرح اشک تنیس</a>
@@ -1049,9 +1050,9 @@
                       <span class="text-sm text-content-muted">تعداد: <span class="font-latin font-bold text-content-heading">۱</span></span>
                     </div>
                   </li>
-                  <li class="flex items-center gap-4 p-4">
-                    <a href="./product/tear-tennis-gold-ring.html" class="w-14 h-14 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden">
-                      <img src="./assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی طرح اشک" class="w-full h-full object-contain">
+                  <li class="flex items-center gap-4 p-4 group">
+                    <a href="./product/tear-tennis-gold-ring.html" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-background border border-border/80 p-1.5 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
+                      <img src="./assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا فانتزی طرح اشک" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
                     </a>
                     <div class="flex-1 min-w-0">
                       <a href="./product/tear-tennis-gold-ring.html" class="text-sm font-bold text-content-heading line-clamp-1 hover:text-primary-600 transition-colors">گردنبند طلا فانتزی طرح اشک</a>
@@ -1167,6 +1168,24 @@
         </form>
       </div>
     </section>
+  
+    <!-- Mobile Sticky Action Bar (Visible < lg) -->
+    <div id="mobileStickyActionBar" class="lg:hidden fixed bottom-0 inset-x-0 z-40 transition-transform duration-300 translate-y-0 bg-surface/85 backdrop-blur-xl border-t border-border/50 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] px-5 py-4 flex items-center justify-between gap-4" style="padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));">
+      <div class="flex flex-col shrink-0">
+        <span class="text-xs text-content-muted mb-0.5">مبلغ نهایی</span>
+        <span class="text-base font-black text-gold-700 font-latin">
+          <span class="numeric-measure">
+            <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+            <span>۲۸٬۲۰۰٬۰۰۰</span>
+          </span>
+        </span>
+      </div>
+      <button type="submit" form="checkoutForm" class="btn-gold flex-1 py-3 shadow-lg shadow-gold-500/25 hover:shadow-gold-500/40 transition-all text-sm font-bold h-12">
+        <i class='bx bx-lock-alt text-lg'></i>
+        پرداخت و ثبت
+      </button>
+    </div>
+
   </main>
 
   <!-- PAYMENT OUTCOME PAGE — after payment the backend redirects the user here.
@@ -1359,12 +1378,12 @@
                                 <a href="#"
                                     class="w-20 h-20 rounded-2xl flex items-center justify-center p-2 bg-white hover:bg-gray-100 transition-colors shadow-sm hover:shadow-md">
                                     <img src="./assets/images/enamad.webp" alt="نماد اعتماد الکترونیکی"
-                                        class="w-full h-full object-contain">
+                                        class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
                                 </a>
                                 <a href="#"
                                     class="w-20 h-20 rounded-2xl flex items-center justify-center p-2 bg-white hover:bg-gray-100 transition-colors shadow-sm hover:shadow-md">
                                     <img src="./assets/images/union.png" alt="اتحادیه طلا و جواهر"
-                                        class="w-full h-full object-contain">
+                                        class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
                                 </a>
                             </div>
 
@@ -1386,6 +1405,31 @@
             </div>
         </footer>
 <!-- GLOBAL SITE FOOTER: END -->
+
+
+  <!-- Script for hiding mobile sticky bar when reaching summary -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const stickyBar = document.getElementById('mobileStickyActionBar');
+      const targetAside = document.querySelector('aside');
+      
+      if (stickyBar && targetAside) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              stickyBar.classList.remove('translate-y-0');
+              stickyBar.classList.add('translate-y-full');
+            } else {
+              stickyBar.classList.remove('translate-y-full');
+              stickyBar.classList.add('translate-y-0');
+            }
+          });
+        }, { threshold: 0.01, rootMargin: '0px' });
+        
+        observer.observe(targetAside);
+      }
+    });
+  </script>
 
 </body>
 
