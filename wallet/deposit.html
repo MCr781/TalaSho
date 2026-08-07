@@ -130,7 +130,7 @@
   <script src="../assets/js/global-shell.js?v=1" defer></script>
 </head>
 
-<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col overflow-x-hidden">
 
 
   <!-- ════════════════════════════════════════════════════════════════════
@@ -863,8 +863,8 @@
             </div>
 
             <!-- BALANCE BANNER -->
-            <div class="flex items-center justify-between bg-primary-50 rounded-2xl px-5 py-3.5 border border-primary-100">
-              <div class="flex items-center gap-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-primary-50 rounded-2xl px-5 py-4 border border-primary-100">
+              <div class="flex items-center flex-wrap gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                 </svg>
@@ -872,7 +872,7 @@
                 <span class="font-latin text-sm font-bold text-primary-600" data-backend-hook="wallet-balance">۱۲،۵۰۰،۰۰۰</span>
                 <span class="text-xs text-content-muted">تومان</span>
               </div>
-              <a href="../wallet/transactions.html" class="text-xs font-bold text-primary-500 hover:text-primary-600 transition-colors">
+              <a href="../wallet/transactions.html" class="text-xs font-bold text-primary-500 hover:text-primary-600 transition-colors shrink-0">
                 تاریخچه شارژ ←
               </a>
             </div>
@@ -884,17 +884,17 @@
                 <div class="relative">
                   <input type="text" inputmode="numeric" dir="ltr" placeholder="۰"
                          id="depositAmount" data-backend-hook="deposit-amount"
-                         class="amount-field w-full bg-background border border-border-strong rounded-full ps-4 pr-16 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none transition-all duration-250">
+                         class="amount-field w-full bg-background border border-border-strong rounded-full ps-4 pr-16 py-3.5 text-left font-latin text-base lg:text-lg font-bold text-content-heading focus:outline-none focus:border-primary-500 focus:bg-surface focus:ring-4 focus:ring-primary-500/10 transition-all duration-250">
                   <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-content-muted">تومان</span>
                 </div>
               </div>
 
               <!-- QUICK AMOUNT BUTTONS -->
               <div class="flex flex-wrap gap-2">
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="5000000">۵ میلیون</button>
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="10000000">۱۰ میلیون</button>
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="20000000">۲۰ میلیون</button>
-                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body" data-amount="all">همه</button>
+                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hover:shadow-sm transition-all" data-amount="5000000">۵ میلیون</button>
+                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hover:shadow-sm transition-all" data-amount="10000000">۱۰ میلیون</button>
+                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hover:shadow-sm transition-all" data-amount="20000000">۲۰ میلیون</button>
+                <button type="button" class="quick-amount-btn text-xs font-medium border border-border-strong rounded-full px-4 py-2 text-content-body hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hover:shadow-sm transition-all" data-amount="all">همه</button>
               </div>
             </div>
 
@@ -903,7 +903,7 @@
               <h3 class="text-sm font-bold text-content-heading mb-4">پرداخت از طریق</h3>
               <div class="space-y-3">
                 <!-- Option 1: Online gateway -->
-                <label class="payment-method active flex items-start gap-3 p-4 border-2 border-primary-500 rounded-2xl bg-primary-50/40 cursor-pointer">
+                <label class="payment-method active flex items-start gap-3 p-4 border-2 border-primary-500 rounded-2xl bg-primary-50/20 shadow-md cursor-pointer transition-all">
                   <input type="radio" name="paymentMethod" value="gateway" checked class="sr-only">
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
@@ -920,7 +920,7 @@
                 </label>
 
                 <!-- Option 2: Identified deposit -->
-                <label class="payment-method flex items-start gap-3 p-4 border-2 border-border rounded-2xl cursor-pointer">
+                <label class="payment-method flex items-start gap-3 p-4 border-2 border-border rounded-2xl cursor-pointer hover:bg-primary-50/20 hover:border-primary-300 hover:shadow-sm transition-all">
                   <input type="radio" name="paymentMethod" value="identified" class="sr-only">
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
@@ -955,7 +955,7 @@
             <!-- SUBMIT BUTTON -->
             <button id="depositBtn" type="button" disabled
                     class="w-full py-4 rounded-full font-bold text-base transition-all duration-300
-                           bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
+                           bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-primary-800 shadow-lg shadow-gold-400/20
                            disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
               پرداخت و شارژ حساب
             </button>
@@ -1036,7 +1036,7 @@
   <!-- ════════════════════════════════════════════════════════════════════
        PRE-CONFIRM BOTTOM SHEET
        ════════════════════════════════════════════════════════════════════ -->
-  <div id="confirmOverlay" class="sheet-overlay fixed inset-0 z-50 bg-black/50" aria-hidden="true">
+  <div id="confirmOverlay" class="sheet-overlay fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" aria-hidden="true">
     <div class="absolute inset-0" data-sheet-close></div>
     <div class="bottom-sheet absolute bottom-0 inset-x-0 bg-surface rounded-t-[28px] max-h-[85vh] overflow-y-auto shadow-2xl">
       <div class="container-page py-6">
@@ -1110,7 +1110,7 @@
         <!-- Submit -->
         <button id="confirmBtn" type="button" disabled
                 class="w-full py-3.5 rounded-full font-bold text-sm transition-all duration-300
-                       bg-gold-400 hover:bg-gold-300 text-primary-700 shadow-lg shadow-gold-400/20
+                       bg-gradient-to-r from-gold-500 to-gold-400 hover:from-gold-400 hover:to-gold-300 text-primary-800 shadow-lg shadow-gold-400/20
                        disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none">
           انتقال به درگاه پرداخت
         </button>
@@ -1123,7 +1123,7 @@
   <!-- ════════════════════════════════════════════════════════════════════
        SUCCESS BOTTOM SHEET
        ════════════════════════════════════════════════════════════════════ -->
-  <div id="successOverlay" class="sheet-overlay fixed inset-0 z-50 bg-black/50" aria-hidden="true">
+  <div id="successOverlay" class="sheet-overlay fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" aria-hidden="true">
     <div class="absolute inset-0" data-sheet-close></div>
     <div class="bottom-sheet absolute bottom-0 inset-x-0 bg-surface rounded-t-[28px] shadow-2xl">
       <div class="container-page py-6 text-center">
