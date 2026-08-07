@@ -892,13 +892,17 @@
          ════════════════════════════════════════════════════════════════════ -->
     <section class="py-6 lg:py-8">
       <div class="container-page">
-        <div class="grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_340px] gap-4 md:gap-6 lg:gap-8">
-
-          <!-- ════════════ MAIN CONTENT COLUMN ════════════ -->
-          <div class="space-y-5">
+        <!-- Flattened responsive grid so the four dashboard boxes can be
+             re-positioned on small screens (desktop md+ is untouched):
+               <640px → single column; REWARD SUMMARY + RECENT REWARDS get pulled
+                        up between the stats and the invite list, while the long
+                        FRIENDS/INVITE LIST and HOW IT WORKS drop below
+               sm     → SUMMARY + RECENT sit side-by-side as a compact pair
+               md+    → restore the fixed 280/340px sidebar rail exactly as-is -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_340px] md:gap-x-6 lg:gap-x-8">
 
             <!-- PAGE TITLE -->
-            <div class="flex items-center gap-3">
+            <div class="order-1 sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-1 flex items-center gap-3">
               <div class="w-10 h-10 rounded-2xl bg-primary-50 flex items-center justify-center flex-shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
@@ -911,7 +915,7 @@
             </div>
 
             <!-- REFERRAL LINK BOX -->
-            <div class="bg-primary-50 border border-primary-100 rounded-2xl p-5 lg:p-6 shadow-sm">
+            <div class="order-2 sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-2 bg-primary-50 border border-primary-100 rounded-2xl p-5 lg:p-6 shadow-sm">
               <div class="flex items-center gap-2 mb-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
@@ -919,7 +923,7 @@
                 <span class="text-sm font-bold text-content-heading">لینک دعوت شما</span>
               </div>
               <div class="flex items-center gap-2">
-                <div id="referralLinkBox" class="flex-1 bg-white border border-border-strong rounded-xl px-4 py-3 font-latin text-sm text-content-heading select-all" dir="ltr">
+                <div id="referralLinkBox" class="flex-1 min-w-0 bg-white border border-border-strong rounded-xl px-4 py-3 font-latin text-sm text-content-heading select-all truncate" dir="ltr">
                   talasho.com/ref/ABC123
                 </div>
                 <button id="copyLinkBtn" type="button"
@@ -940,7 +944,7 @@
             </div>
 
             <!-- STATS ROW -->
-            <div class="grid grid-cols-3 gap-3">
+            <div class="order-3 sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-3 grid grid-cols-3 gap-3">
               <!-- Successful invites -->
               <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-4 text-center">
                 <div class="w-10 h-10 mx-auto rounded-2xl bg-emerald-50 flex items-center justify-center mb-3">
@@ -975,8 +979,8 @@
               </div>
             </div>
 
-                        <!-- FRIENDS / INVITE LIST -->
-            <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
+                        <!-- FRIENDS / INVITE LIST (order-6: below the summary pair on mobile) -->
+            <div class="order-6 sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-4 invite-card bg-surface rounded-2xl border border-border shadow-sm overflow-hidden">
               <div class="px-5 py-4 border-b border-border">
                 <h3 class="text-sm font-bold text-content-heading">لیست دعوت‌شدگان</h3>
               </div>
@@ -1042,8 +1046,8 @@
               </div>
             </div>
 
-            <!-- HOW IT WORKS -->
-            <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-5 lg:p-6">
+            <!-- HOW IT WORKS (order-7: last dashboard box on mobile) -->
+            <div class="order-7 sm:col-span-2 md:col-span-1 md:col-start-1 md:row-start-5 invite-card bg-surface rounded-2xl border border-border shadow-sm p-5 lg:p-6">
               <h3 class="text-sm font-bold text-content-heading mb-5">چگونه کار می‌کند؟</h3>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
@@ -1086,13 +1090,10 @@
               </div>
             </div>
 
-          </div>
+          <!-- ════════════ SIDEBAR CARDS (flattened into the shared grid) ════════════ -->
 
-          <!-- ════════════ SIDEBAR ════════════ -->
-          <aside class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
-
-            <!-- REWARD SUMMARY CARD -->
-            <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
+            <!-- REWARD SUMMARY CARD (order-4: pulled up beside the stats on mobile) -->
+            <div class="order-4 sm:col-span-1 md:col-span-1 md:col-start-2 md:row-start-1 sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
               <h3 class="text-sm font-bold text-content-heading mb-4">خلاصه پاداش‌ها</h3>
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
@@ -1120,8 +1121,8 @@
               </div>
             </div>
 
-            <!-- RECENT REWARDS -->
-            <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
+            <!-- RECENT REWARDS (order-5: pairs beside REWARD SUMMARY on mobile) -->
+            <div class="order-5 sm:col-span-1 md:col-span-1 md:col-start-2 md:row-start-2 sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
               <h3 class="text-sm font-bold text-content-heading mb-3">پاداش‌های اخیر</h3>
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
@@ -1144,8 +1145,8 @@
               </div>
             </div>
 
-            <!-- HELP CARD -->
-            <div class="sidebar-card bg-primary-50 rounded-2xl border border-primary-100 p-5">
+            <!-- HELP CARD (order-8: stays last on mobile) -->
+            <div class="order-8 sm:col-span-2 md:col-span-1 md:col-start-2 md:row-start-3 sidebar-card bg-primary-50 rounded-2xl border border-primary-100 p-5">
               <div class="flex items-start gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -1157,7 +1158,6 @@
               </div>
             </div>
 
-          </aside>
         </div>
       </div>
     </section>
