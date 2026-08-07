@@ -781,14 +781,14 @@
         </span>
       </div>
 
-      <!-- Category pills -->
-      <div class="flex items-center gap-2 flex-wrap">
+            <!-- Category pills -->
+      <div class="flex items-center gap-2.5 overflow-x-auto cat-scroll pb-2 -mb-2 snap-x">
         <!-- BACKEND: wire to category filter -->
-        <button class="category-pill active px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-heading" data-category="all">همه</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="راهنمای خرید">راهنمای خرید</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="سرمایه‌گذاری">سرمایه‌گذاری</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="تحلیل بازار">تحلیل بازار</button>
-        <button class="category-pill px-4 py-1.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400" data-category="سکه و شمش">سکه و شمش</button>
+        <button class="category-pill active shrink-0 px-5 py-2.5 rounded-full text-sm font-bold border border-border bg-surface text-content-heading snap-start shadow-sm" data-category="all">همه</button>
+        <button class="category-pill shrink-0 px-5 py-2.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400 hover:text-primary-600 transition-colors snap-start" data-category="راهنمای خرید">راهنمای خرید</button>
+        <button class="category-pill shrink-0 px-5 py-2.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400 hover:text-primary-600 transition-colors snap-start" data-category="سرمایه‌گذاری">سرمایه‌گذاری</button>
+        <button class="category-pill shrink-0 px-5 py-2.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400 hover:text-primary-600 transition-colors snap-start" data-category="تحلیل بازار">تحلیل بازار</button>
+        <button class="category-pill shrink-0 px-5 py-2.5 rounded-full text-sm font-medium border border-border bg-surface text-content-body hover:border-primary-400 hover:text-primary-600 transition-colors snap-start" data-category="سکه و شمش">سکه و شمش</button>
       </div>
     </div>
   </section>
@@ -800,33 +800,37 @@
   <section class="pb-6 lg:pb-8">
     <div class="container-page">
 
-      <!-- BACKEND: wire to latest featured post -->
-      <a href="./blog/gold-investment-for-beginners.html" class="blog-card group block bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250" data-category="سرمایه‌گذاری">
-        <div class="grid lg:grid-cols-2 gap-0">
+            <!-- BACKEND: wire to latest featured post -->
+      <a href="./blog/gold-investment-for-beginners.html" class="blog-card group block bg-surface rounded-[24px] border border-border overflow-hidden hover:border-primary-400 hover:shadow-[0_12px_40px_rgba(110,67,110,0.12)] transition-all duration-400 transform hover:-translate-y-1" data-category="سرمایه‌گذاری">
+        <div class="grid lg:grid-cols-2 gap-0 h-full">
           <!-- Featured image placeholder -->
-          <div class="aspect-[16/10] lg:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
+          <div class="relative w-full aspect-[16/10] lg:aspect-auto lg:h-full bg-gradient-to-br from-primary-50 to-primary-100 overflow-hidden">
+            <div class="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/5 transition-colors duration-300 z-10 pointer-events-none"></div>
             <div class="blog-card-img w-full h-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-primary-300/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
               </svg>
             </div>
           </div>
           <!-- Content -->
-          <div class="p-6 lg:p-8 flex flex-col justify-center">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-sm px-3 py-1 rounded-full bg-primary-50 text-primary-600 font-bold">سرمایه‌گذاری</span>
-              <span class="text-sm text-content-body font-latin">۱۴۰۳/۰۵/۱۰</span>
+          <div class="p-6 md:p-8 lg:p-12 flex flex-col justify-center bg-surface">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-xs px-3 py-1.5 rounded-lg bg-primary-50 text-primary-700 font-bold shadow-sm">سرمایه‌گذاری</span>
+              <span class="text-sm text-content-muted font-latin">۱۴۰۳/۰۵/۱۰</span>
             </div>
-            <h2 class="text-xl lg:text-2xl font-bold text-content-heading mb-3 leading-tight group-hover:text-primary-600 transition-colors">
+            <h2 class="text-2xl lg:text-3xl font-bold text-content-heading mb-4 leading-tight group-hover:text-primary-600 transition-colors">
               راهنمای کامل سرمایه‌گذاری در طلا برای مبتدیان
             </h2>
-            <p class="text-sm text-content-body leading-7 mb-4">
+            <p class="text-base text-content-body leading-relaxed mb-8 opacity-90">
               اگر برای اولین بار می‌خواهید در طلا سرمایه‌گذاری کنید، این راهنما قدم‌به‌قدم تمام آنچه را که باید بدانید را پوشش می‌دهد — از انتخاب نوع طلا تا مدیریت ریسک و زمان‌بندی خرید.
             </p>
-            <div class="flex items-center gap-2 text-sm text-primary-600 font-bold">
-              <span>ادامه مطلب</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+            <div class="flex items-center gap-2 text-sm text-primary-600 font-bold group-hover:gap-3 transition-all duration-300 w-max">
+              <span class="relative">
+                مطالعه مقاله
+                <span class="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary-600 group-hover:w-full transition-all duration-300"></span>
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 rotate-180 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
               </svg>
             </div>
           </div>
@@ -844,100 +848,128 @@
 
       <h2 class="text-lg font-bold text-content-heading mb-5">آخرین مقالات</h2>
 
-      <div class="grid md:grid-cols-2 gap-4 lg:gap-6">
+      <div class="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
 
         <!-- ═══ POST CARD TEMPLATE (repeated) ═════════════════════════════ -->
         <!-- BACKEND: LOOP START -->
 
         <!-- Post 1 -->
-        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="تحلیل بازار">
-          <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
+        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-[20px] border border-border overflow-hidden hover:border-primary-300 hover:shadow-[0_8px_24px_rgba(110,67,110,0.08)] transition-all duration-300 transform hover:-translate-y-1 flex flex-row sm:flex-col h-full" data-category="تحلیل بازار">
+          <div class="w-[110px] sm:w-full shrink-0 sm:shrink aspect-square sm:aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
+            <div class="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/5 transition-colors duration-300 z-10 pointer-events-none"></div>
             <div class="blog-card-img w-full h-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-primary-200/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
               </svg>
             </div>
           </div>
-          <div class="p-5 flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-600 font-bold">تحلیل بازار</span>
-              <span class="text-sm text-content-body font-latin">۱۴۰۳/۰۵/۰۸</span>
+          <div class="p-4 sm:p-5 flex flex-col flex-1 bg-surface">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-primary-50 text-primary-700 font-bold">تحلیل بازار</span>
+              <span class="text-[11px] sm:text-xs text-content-muted font-latin">۱۴۰۳/۰۵/۰۸</span>
             </div>
-            <h3 class="text-base font-bold text-content-heading mb-2 leading-snug group-hover:text-primary-600 transition-colors">
+            <h3 class="text-sm sm:text-base font-bold text-content-heading mb-2.5 leading-relaxed group-hover:text-primary-600 transition-colors line-clamp-2">
               نوسانات قیمت طلا: علل و عوامل مؤثر
             </h3>
-            <p class="text-sm text-content-body leading-6 line-clamp-2">
+            <p class="text-xs sm:text-sm text-content-body leading-relaxed line-clamp-2 mb-4 opacity-90">
               بررسی دلایل نوسان قیمت طلا در بازار جهانی و داخلی — از نرخ ارز تا تحولات ژئوپلیتیک.
             </p>
+            <div class="mt-auto hidden sm:flex items-center gap-1.5 text-xs font-bold text-primary-600 group-hover:gap-2 transition-all">
+              <span>مطالعه مقاله</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+              </svg>
+            </div>
           </div>
         </a>
 
         <!-- Post 2 -->
-        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="راهنمای خرید">
-          <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
+        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-[20px] border border-border overflow-hidden hover:border-primary-300 hover:shadow-[0_8px_24px_rgba(110,67,110,0.08)] transition-all duration-300 transform hover:-translate-y-1 flex flex-row sm:flex-col h-full" data-category="راهنمای خرید">
+          <div class="w-[110px] sm:w-full shrink-0 sm:shrink aspect-square sm:aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
+            <div class="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/5 transition-colors duration-300 z-10 pointer-events-none"></div>
             <div class="blog-card-img w-full h-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-primary-200/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
               </svg>
             </div>
           </div>
-          <div class="p-5 flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-600 font-bold">راهنمای خرید</span>
-              <span class="text-sm text-content-body font-latin">۱۴۰۳/۰۵/۰۵</span>
+          <div class="p-4 sm:p-5 flex flex-col flex-1 bg-surface">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-primary-50 text-primary-700 font-bold">راهنمای خرید</span>
+              <span class="text-[11px] sm:text-xs text-content-muted font-latin">۱۴۰۳/۰۵/۰۵</span>
             </div>
-            <h3 class="text-base font-bold text-content-heading mb-2 leading-snug group-hover:text-primary-600 transition-colors">
+            <h3 class="text-sm sm:text-base font-bold text-content-heading mb-2.5 leading-relaxed group-hover:text-primary-600 transition-colors line-clamp-2">
               تفاوت عیارهای طلا: ۱۸، ۲۱ و ۲۴
             </h3>
-            <p class="text-sm text-content-body leading-6 line-clamp-2">
+            <p class="text-xs sm:text-sm text-content-body leading-relaxed line-clamp-2 mb-4 opacity-90">
               هر عیار طلا چه تفاوتی دارد و کدام برای سرمایه‌گذاری یا زینت مناسب‌تر است؟
             </p>
+            <div class="mt-auto hidden sm:flex items-center gap-1.5 text-xs font-bold text-primary-600 group-hover:gap-2 transition-all">
+              <span>مطالعه مقاله</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+              </svg>
+            </div>
           </div>
         </a>
 
         <!-- Post 3 -->
-        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="سکه و شمش">
-          <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
+        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-[20px] border border-border overflow-hidden hover:border-primary-300 hover:shadow-[0_8px_24px_rgba(110,67,110,0.08)] transition-all duration-300 transform hover:-translate-y-1 flex flex-row sm:flex-col h-full" data-category="سکه و شمش">
+          <div class="w-[110px] sm:w-full shrink-0 sm:shrink aspect-square sm:aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
+            <div class="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/5 transition-colors duration-300 z-10 pointer-events-none"></div>
             <div class="blog-card-img w-full h-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-primary-200/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
           </div>
-          <div class="p-5 flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-600 font-bold">سکه و شمش</span>
-              <span class="text-sm text-content-body font-latin">۱۴۰۳/۰۴/۲۸</span>
+          <div class="p-4 sm:p-5 flex flex-col flex-1 bg-surface">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-primary-50 text-primary-700 font-bold">سکه و شمش</span>
+              <span class="text-[11px] sm:text-xs text-content-muted font-latin">۱۴۰۳/۰۴/۲۸</span>
             </div>
-            <h3 class="text-base font-bold text-content-heading mb-2 leading-snug group-hover:text-primary-600 transition-colors">
+            <h3 class="text-sm sm:text-base font-bold text-content-heading mb-2.5 leading-relaxed group-hover:text-primary-600 transition-colors line-clamp-2">
               سکه طلا یا شمش طلا؟ کدام بهتر است؟
             </h3>
-            <p class="text-sm text-content-body leading-6 line-clamp-2">
+            <p class="text-xs sm:text-sm text-content-body leading-relaxed line-clamp-2 mb-4 opacity-90">
               مقایسه کامل سکه و شمش طلا — مزایا، معایب و نکاتی که قبل از خرید باید بدانید.
             </p>
+            <div class="mt-auto hidden sm:flex items-center gap-1.5 text-xs font-bold text-primary-600 group-hover:gap-2 transition-all">
+              <span>مطالعه مقاله</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+              </svg>
+            </div>
           </div>
         </a>
 
         <!-- Post 4 -->
-        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-2xl border border-border overflow-hidden hover:border-gold-400 hover:shadow-hover transition-all duration-250 flex flex-col sm:flex-row" data-category="راهنمای خرید">
-          <div class="sm:w-40 flex-shrink-0 aspect-square sm:aspect-auto bg-primary-50 overflow-hidden flex items-center justify-center">
+        <a href="./blog/gold-investment-for-beginners.html" class="blog-card group bg-surface rounded-[20px] border border-border overflow-hidden hover:border-primary-300 hover:shadow-[0_8px_24px_rgba(110,67,110,0.08)] transition-all duration-300 transform hover:-translate-y-1 flex flex-row sm:flex-col h-full" data-category="راهنمای خرید">
+          <div class="w-[110px] sm:w-full shrink-0 sm:shrink aspect-square sm:aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden relative">
+            <div class="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/5 transition-colors duration-300 z-10 pointer-events-none"></div>
             <div class="blog-card-img w-full h-full flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-primary-200/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
               </svg>
             </div>
           </div>
-          <div class="p-5 flex-1">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-primary-50 text-primary-600 font-bold">راهنمای خرید</span>
-              <span class="text-sm text-content-body font-latin">۱۴۰۳/۰۴/۲۰</span>
+          <div class="p-4 sm:p-5 flex flex-col flex-1 bg-surface">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[11px] sm:text-xs px-2.5 py-1 rounded-md bg-primary-50 text-primary-700 font-bold">راهنمای خرید</span>
+              <span class="text-[11px] sm:text-xs text-content-muted font-latin">۱۴۰۳/۰۴/۲۰</span>
             </div>
-            <h3 class="text-base font-bold text-content-heading mb-2 leading-snug group-hover:text-primary-600 transition-colors">
+            <h3 class="text-sm sm:text-base font-bold text-content-heading mb-2.5 leading-relaxed group-hover:text-primary-600 transition-colors line-clamp-2">
               اجرت ساخت طلا چیست و چگونه محاسبه می‌شود؟
             </h3>
-            <p class="text-sm text-content-body leading-6 line-clamp-2">
+            <p class="text-xs sm:text-sm text-content-body leading-relaxed line-clamp-2 mb-4 opacity-90">
               همه چیز درباره اجرت ساخت طلا — از نحوه محاسبه تا راه‌های کاهش هزینه خرید جواهرات.
             </p>
+            <div class="mt-auto hidden sm:flex items-center gap-1.5 text-xs font-bold text-primary-600 group-hover:gap-2 transition-all">
+              <span>مطالعه مقاله</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+              </svg>
+            </div>
           </div>
         </a>
         <!-- BACKEND: LOOP END -->
@@ -947,15 +979,15 @@
 
       <!-- Pagination -->
       <nav class="flex items-center justify-center gap-2 mt-10" aria-label="صفحه‌بندی">
-        <button class="w-10 h-10 rounded-xl border border-border bg-surface flex items-center justify-center text-content-body hover:border-primary-500 hover:text-primary-600 transition-colors" disabled>
+        <button class="w-11 h-11 rounded-xl border border-border bg-surface flex items-center justify-center text-content-body hover:border-primary-500 hover:text-primary-600 transition-colors" disabled>
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
           </svg>
         </button>
-        <button class="w-10 h-10 rounded-xl bg-primary-600 text-white font-bold font-latin flex items-center justify-center">۱</button>
-        <button class="w-10 h-10 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۲</button>
-        <button class="w-10 h-10 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۳</button>
-        <button class="w-10 h-10 rounded-xl border border-border bg-surface flex items-center justify-center text-content-body hover:border-primary-500 hover:text-primary-600 transition-colors">
+        <button class="w-11 h-11 rounded-xl bg-primary-600 text-white font-bold font-latin flex items-center justify-center">۱</button>
+        <button class="w-11 h-11 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۲</button>
+        <button class="w-11 h-11 rounded-xl border border-border bg-surface text-content-heading font-medium font-latin flex items-center justify-center hover:border-primary-500 transition-colors">۳</button>
+        <button class="w-11 h-11 rounded-xl border border-border bg-surface flex items-center justify-center text-content-body hover:border-primary-500 hover:text-primary-600 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
