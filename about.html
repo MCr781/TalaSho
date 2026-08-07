@@ -153,7 +153,7 @@
                     <a href="./index.html" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو VIP — صفحه اصلی">
                         <img src="./assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-full w-auto object-contain">
                         <span
-                            class="text-xl lg:text-2xl font-black text-primary-500 leading-none">طلاشو VIP</span>
+                            class="text-xl lg:text-2xl font-black text-primary-500 leading-none md:hidden lg:inline">طلاشو VIP</span>
                     </a>
                 </div>
 
@@ -210,8 +210,8 @@
                                 class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
                         </a>
 
-                        <!-- Wishlist Dropdown Panel (Centered directly under icon) -->
-                        <div class="header-dropdown-panel header-dropdown-panel--center">
+                        <!-- Wishlist Dropdown Panel (anchored inside the container) -->
+                        <div class="header-dropdown-panel header-dropdown-panel--left">
                             <!-- Single inner div — required for the CSS > div styling rule -->
                             <div class="w-[400px]">
                                 <!-- Panel header -->
@@ -320,8 +320,8 @@
                                 class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
                         </a>
 
-                        <!-- Cart Dropdown Panel (Centered directly under icon) -->
-                        <div class="header-dropdown-panel header-dropdown-panel--center">
+                        <!-- Cart Dropdown Panel (anchored inside the container) -->
+                        <div class="header-dropdown-panel header-dropdown-panel--left">
                             <!-- Single inner div — required for the CSS > div styling rule -->
                             <div class="w-[400px]">
                                 <!-- Panel header -->
@@ -436,7 +436,7 @@
          Digikala-style secondary nav row. Sticky along with the main header. -->
         <nav class="hidden lg:block bg-surface border-t border-border relative" aria-label="منوی اصلی">
             <div class="container-page flex items-center">
-                <ul class="flex-1 flex items-center justify-start gap-8 h-11 text-body">
+                 <ul class="flex-1 min-w-0 flex items-center justify-start gap-4 h-11 text-body">
 
                     <!-- BACKEND: FOREACH MAIN-CATEGORY LOOP START -->
 
@@ -605,7 +605,7 @@
                 <a href="./wallet/rates.html"
                     data-price-row data-price-name="طلای ۱۸ عیار" data-price-current="4545000" data-price-prev="4510000"
                     title="قیمت لحظه‌ای طلای ۱۸ عیار — نرخ‌نامه زنده طلاشو"
-                    class="group relative flex items-center gap-2 h-8.5 shrink-0 px-3 rounded-full
+                    class="group relative hidden xl:flex items-center gap-2 h-8.5 shrink-0 px-3 rounded-full
                            bg-gradient-to-r from-primary-950 via-[#1f0921] to-primary-950
                            text-white border border-gold-400/40 hover:border-gold-300
                            shadow-[0_2px_10px_rgba(46,13,46,0.25),0_0_12px_rgba(212,175,55,0.15)]
@@ -763,7 +763,7 @@
                 <!-- Text Content -->
                 <div class="lg:col-span-7">
                     <!-- Eyebrow Tag -->
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold-500/20 border border-gold-400/30 text-gold-300 text-xs font-bold mb-6">
+                    <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-3 py-1.5 rounded-2xl bg-gold-500/20 border border-gold-400/30 text-gold-300 text-xs font-bold mb-6 text-center">
                         <i class='bx bxs-crown text-base text-gold-400'></i>
                         <span>داستان برند طلاشو VIP</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span>
@@ -784,12 +784,12 @@
                     </p>
 
                     <!-- CTAs -->
-                    <div class="flex flex-wrap items-center gap-4">
-                        <a href="./products.html" class="btn-gold px-7 py-3.5 text-sm inline-flex items-center gap-2 shadow-lg hover:shadow-gold-500/25">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                        <a href="./products.html" class="btn-gold px-7 py-3.5 text-sm inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-gold-500/25">
                             <i class='bx bx-store-alt text-xl'></i>
                             مشاهده کاتالوگ محصولات
                         </a>
-                        <a href="#branches" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/10 border border-white/20 text-white text-sm font-bold hover:bg-white/20 transition-all backdrop-blur-sm">
+                        <a href="#branches" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-white/10 border border-white/20 text-white text-sm font-bold hover:bg-white/20 transition-all backdrop-blur-sm">
                             <i class='bx bx-map-pin text-xl text-gold-400'></i>
                             شعب و مراکز حضوری
                         </a>
@@ -822,13 +822,13 @@
     <section class="relative z-20 -mt-8">
         <div class="container-page">
             <div class="bg-surface rounded-2xl p-6 lg:p-8 shadow-xl border border-border">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:divide-x md:divide-x-reverse divide-border/60">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center md:divide-x md:divide-x-reverse divide-border/60">
 
                     <!-- Metric 1: Experience -->
-                    <div class="px-3 py-2">
-                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                    <div class="px-2 md:px-3 py-2">
+                            <div class="text-base sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
                             <span class="numeric-measure">
-                                <span class="numeric-measure__unit text-base font-bold text-primary-500">سال</span>
+                                <span class="numeric-measure__unit text-[10px] sm:text-base font-bold text-primary-500">سال</span>
                                 <span class="font-latin">۳۰+</span>
                             </span>
                         </div>
@@ -837,10 +837,10 @@
                     </div>
 
                     <!-- Metric 2: Happy Clients -->
-                    <div class="px-3 py-2">
-                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                    <div class="px-2 md:px-3 py-2">
+                            <div class="text-base sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
                             <span class="numeric-measure">
-                                <span class="numeric-measure__unit text-base font-bold text-primary-500">مشتری</span>
+                                <span class="numeric-measure__unit text-[10px] sm:text-base font-bold text-primary-500">مشتری</span>
                                 <span class="font-latin">۵۰,۰۰۰+</span>
                             </span>
                         </div>
@@ -849,10 +849,10 @@
                     </div>
 
                     <!-- Metric 3: Product Variety -->
-                    <div class="px-3 py-2">
-                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                    <div class="px-2 md:px-3 py-2">
+                            <div class="text-base sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
                             <span class="numeric-measure">
-                                <span class="numeric-measure__unit text-base font-bold text-primary-500">محصول</span>
+                                <span class="numeric-measure__unit text-[10px] sm:text-base font-bold text-primary-500">محصول</span>
                                 <span class="font-latin">۱۰,۰۰۰+</span>
                             </span>
                         </div>
@@ -861,10 +861,10 @@
                     </div>
 
                     <!-- Metric 4: Showroom Area -->
-                    <div class="px-3 py-2">
-                        <div class="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
+                    <div class="px-2 md:px-3 py-2">
+                            <div class="text-base sm:text-3xl lg:text-4xl font-black text-primary-700 mb-1 flex items-center justify-center gap-1 font-latin">
                             <span class="numeric-measure">
-                                <span class="numeric-measure__unit text-base font-bold text-primary-500">متر مربع</span>
+                                <span class="numeric-measure__unit text-[10px] sm:text-base font-bold text-primary-500">متر مربع</span>
                                 <span class="font-latin">۶۵۰+</span>
                             </span>
                         </div>
@@ -929,7 +929,7 @@
                             <p class="text-body text-content-body leading-loose mb-4">
                                 از سال ۱۳۷۶، علیرضا برزیگر فعالیت خود را از شاگردی در مغازه طلافروشی آغاز کرد. علاقه عمیق به صنعت طلا، شمّ اقتصادی موروثی و یادگیری ریزه‌کاری‌های ساخت طلا سبب شد تا در ۲۳ سالگی وارد حوزه تهیه و پخش عمده طلا گردد.
                             </p>
-                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                            <div class="flex items-start gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
                                 <i class='bx bx-check-circle text-lg'></i>
                                 <span>دست‌آورد اصلی: شکل‌گیری زنجیره تامین و شناخت عمیق عیارسنجی و بازار بنکداری</span>
                             </div>
@@ -949,7 +949,7 @@
                             <p class="text-body text-content-body leading-loose mb-4">
                                 سال ۱۳۸۶ نقطه‌عطفی در تاریخ برزیگر بود. انتقال مجموعه به بازار بزرگ طلای کرمان و سپس راه‌اندازی فروشگاه لوکس در مرکز استان، موجب تحول در نحوه ارائه زیورآلات و جلب اعتماد هزاران خریدار محترمی شد که اصالت را می‌جستند.
                             </p>
-                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                            <div class="flex items-start gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
                                 <i class='bx bx-check-circle text-lg'></i>
                                 <span>دست‌آورد اصلی: احداث یکی از معتبرترین گالری‌های طلا در جنوب شرق کشور</span>
                             </div>
@@ -979,7 +979,7 @@
                             <p class="text-body text-content-body leading-loose mb-4">
                                 همزمان با دگرگونی الگوی خرید مردم و دوران کرونا، مجموعه برزیگر با تعریف برند «طلاشو» بستری شفاف برای مشاهده آنلاین، سفارش ساخت سه بعدی و خرید مطمئن طلا فراهم ساخت.
                             </p>
-                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                            <div class="flex items-start gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
                                 <i class='bx bx-check-circle text-lg'></i>
                                 <span>دست‌آورد اصلی: راه‌اندازی فروشگاه اینترنتی با ارسال بیمه‌شده سراسری</span>
                             </div>
@@ -999,7 +999,7 @@
                             <p class="text-body text-content-body leading-loose mb-4">
                                 با پیوستن فردین برزیگر (نسل دوم) پس از تجارب تخصصی در بازار تهران، هم‌افزایی دانش مدرن و تجربه سنتی شکل گرفت. تأسیس آکادمی ۲۵۰ متری، مجتمع تخصصی ۴۰۰ متری و افتتاح شعبه مسقط عمان، گام جدید طلاشو است.
                             </p>
-                            <div class="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
+                            <div class="flex items-start gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-4 py-2.5 rounded-xl">
                                 <i class='bx bx-check-circle text-lg'></i>
                                 <span>دست‌آورد اصلی: معامله آنلاین صندوق طلای آبشده و صادرات زیورآلات به خلیج فارس</span>
                             </div>

@@ -143,7 +143,7 @@
                     <a href="../index.html" class="flex items-center gap-2 h-12 lg:h-14" aria-label="طلاشو VIP — صفحه اصلی">
                         <img src="../assets/images/Purple-Logo.png" alt="طلاشو VIP" class="h-full w-auto object-contain">
                         <span
-                            class="text-xl lg:text-2xl font-black text-primary-500 leading-none">طلاشو VIP</span>
+                            class="text-xl lg:text-2xl font-black text-primary-500 leading-none md:hidden lg:inline">طلاشو VIP</span>
                     </a>
                 </div>
 
@@ -200,8 +200,8 @@
                                 class="absolute top-1 end-1 bg-status-error text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۳</span>
                         </a>
 
-                        <!-- Wishlist Dropdown Panel (Centered directly under icon) -->
-                        <div class="header-dropdown-panel header-dropdown-panel--center">
+                        <!-- Wishlist Dropdown Panel (anchored inside the container) -->
+                        <div class="header-dropdown-panel header-dropdown-panel--left">
                             <!-- Single inner div — required for the CSS > div styling rule -->
                             <div class="w-[400px]">
                                 <!-- Panel header -->
@@ -310,8 +310,8 @@
                                 class="absolute top-1 end-1 bg-primary-500 text-white text-[10px] font-bold min-w-[16px] h-4 rounded-full flex items-center justify-center px-1">۲</span>
                         </a>
 
-                        <!-- Cart Dropdown Panel (Centered directly under icon) -->
-                        <div class="header-dropdown-panel header-dropdown-panel--center">
+                        <!-- Cart Dropdown Panel (anchored inside the container) -->
+                        <div class="header-dropdown-panel header-dropdown-panel--left">
                             <!-- Single inner div — required for the CSS > div styling rule -->
                             <div class="w-[400px]">
                                 <!-- Panel header -->
@@ -426,7 +426,7 @@
          Digikala-style secondary nav row. Sticky along with the main header. -->
         <nav class="hidden lg:block bg-surface border-t border-border relative" aria-label="منوی اصلی">
             <div class="container-page flex items-center">
-                <ul class="flex-1 flex items-center justify-start gap-8 h-11 text-body">
+                 <ul class="flex-1 min-w-0 flex items-center justify-start gap-4 h-11 text-body">
 
                     <!-- BACKEND: FOREACH MAIN-CATEGORY LOOP START -->
 
@@ -595,7 +595,7 @@
                 <a href="../wallet/rates.html"
                     data-price-row data-price-name="طلای ۱۸ عیار" data-price-current="4545000" data-price-prev="4510000"
                     title="قیمت لحظه‌ای طلای ۱۸ عیار — نرخ‌نامه زنده طلاشو"
-                    class="group relative flex items-center gap-2 h-8.5 shrink-0 px-3 rounded-full
+                    class="group relative hidden xl:flex items-center gap-2 h-8.5 shrink-0 px-3 rounded-full
                            bg-gradient-to-r from-primary-950 via-[#1f0921] to-primary-950
                            text-white border border-gold-400/40 hover:border-gold-300
                            shadow-[0_2px_10px_rgba(46,13,46,0.25),0_0_12px_rgba(212,175,55,0.15)]

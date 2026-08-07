@@ -105,6 +105,10 @@ module.exports = {
     'header-dropdown-panel--center',
     'header-dropdown-panel--left',
     'header-dropdown-panel--right',
+    // Responsive fixes for header/nav overflow
+    'xl:flex',
+    'md:hidden',
+    'lg:inline',
   ],
   theme: {
     extend: {

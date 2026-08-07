@@ -76,6 +76,12 @@
     scroll-behavior: smooth;
     /* 4px micro-adjustment grid for consistent rhythm */
     font-size: 16px;
+    /* Safety net: invisible hover panels (cart/wishlist dropdowns) hang
+       outside the container in RTL and used to create a page-level
+       horizontal scrollbar on wide-but-not-very-wide viewports.
+       clip (not hidden) never creates a scroll container, so
+       position:sticky and inner overflow-x-auto carousels are unaffected. */
+    overflow-x: clip;
   }
 
   body {
