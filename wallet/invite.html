@@ -178,7 +178,7 @@
   <script src="../assets/js/global-shell.js?v=1" defer></script>
 </head>
 
-<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col overflow-x-hidden">
 
 
   <!-- ════════════════════════════════════════════════════════════════════
@@ -911,7 +911,7 @@
             </div>
 
             <!-- REFERRAL LINK BOX -->
-            <div class="invite-card referral-link-box rounded-2xl p-5 lg:p-6">
+            <div class="bg-primary-50 border border-primary-100 rounded-2xl p-5 lg:p-6 shadow-sm">
               <div class="flex items-center gap-2 mb-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
@@ -940,7 +940,7 @@
             </div>
 
             <!-- STATS ROW -->
-            <div class="stats-row">
+            <div class="grid grid-cols-3 gap-3">
               <!-- Successful invites -->
               <div class="invite-card bg-surface rounded-2xl border border-border shadow-sm p-4 text-center">
                 <div class="w-10 h-10 mx-auto rounded-2xl bg-emerald-50 flex items-center justify-center mb-3">
@@ -983,7 +983,7 @@
               <div class="divide-y divide-border">
 
                 <!-- Item 1 — Success -->
-                <div class="transaction-item">
+                <div class="flex items-center gap-3 p-4 hover:bg-background transition-colors">
                   <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -992,7 +992,7 @@
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-2">
                       <p class="text-sm font-bold text-content-heading truncate font-latin" dir="ltr">۰۹۱۲***۵۶۷۸</p>
-                      <span class="status-badge success">موفق</span>
+                      <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-100 text-emerald-700">موفق</span>
                     </div>
                     <div class="flex items-center justify-between gap-2 mt-1">
                       <p class="text-[11px] text-content-muted"><span class="font-latin" dir="ltr">۱۵</span> تیر <span class="font-latin" dir="ltr">۱۴۰۵</span></p>
@@ -1002,7 +1002,7 @@
                 </div>
 
                 <!-- Item 2 — Pending -->
-                <div class="transaction-item">
+                <div class="flex items-center gap-3 p-4 hover:bg-background transition-colors">
                   <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -1011,7 +1011,7 @@
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-2">
                       <p class="text-sm font-bold text-content-heading truncate font-latin" dir="ltr">۰۹۳۵***۱۲۳۴</p>
-                      <span class="status-badge pending">در انتظار</span>
+                      <span class="text-[10px] font-bold px-2 py-1 rounded bg-amber-100 text-amber-700">در انتظار</span>
                     </div>
                     <div class="flex items-center justify-between gap-2 mt-1">
                       <p class="text-[11px] text-content-muted"><span class="font-latin" dir="ltr">۲۸</span> تیر <span class="font-latin" dir="ltr">۱۴۰۵</span></p>
@@ -1021,7 +1021,7 @@
                 </div>
 
                 <!-- Item 3 — Expired -->
-                <div class="transaction-item">
+                <div class="flex items-center gap-3 p-4 hover:bg-background transition-colors">
                   <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
@@ -1030,7 +1030,7 @@
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-2">
                       <p class="text-sm font-bold text-content-heading truncate font-latin" dir="ltr">۰۹۱۱***۹۰۱۲</p>
-                      <span class="status-badge expired">منقضی</span>
+                      <span class="text-[10px] font-bold px-2 py-1 rounded bg-gray-100 text-gray-700">منقضی</span>
                     </div>
                     <div class="flex items-center justify-between gap-2 mt-1">
                       <p class="text-[11px] text-content-muted"><span class="font-latin" dir="ltr">۳</span> خرداد <span class="font-latin" dir="ltr">۱۴۰۵</span></p>
@@ -1049,7 +1049,7 @@
 
                 <!-- Step 1 -->
                 <div class="flex items-start gap-4">
-                  <div class="step-number font-latin" dir="ltr">۱</div>
+                  <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0 font-latin" dir="ltr">۱</div>
                   <div>
                     <p class="text-sm font-bold text-content-heading">لینک دعوت را به اشتراک بگذارید</p>
                     <p class="text-xs text-content-muted mt-1 leading-6">لینک اختصاصی خود را کپی کنید ا آن را از طریق پیام‌رسان‌ها، شبکه‌های اجتماعی یا پیامک برای دوستانتان ارسال کنید.</p>
@@ -1058,7 +1058,7 @@
 
                 <!-- Step 2 -->
                 <div class="flex items-start gap-4">
-                  <div class="step-number font-latin" dir="ltr">۲</div>
+                  <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0 font-latin" dir="ltr">۲</div>
                   <div>
                     <p class="text-sm font-bold text-content-heading">دوست شما ثبت‌نام می‌کند</p>
                     <p class="text-xs text-content-muted mt-1 leading-6">دوست شما با لینک دعوت وارد شده و حساب کاربری خود را در طلاشو VIP می‌سازد.</p>
@@ -1067,7 +1067,7 @@
 
                 <!-- Step 3 -->
                 <div class="flex items-start gap-4">
-                  <div class="step-number font-latin" dir="ltr">۳</div>
+                  <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0 font-latin" dir="ltr">۳</div>
                   <div>
                     <p class="text-sm font-bold text-content-heading">اولین شارژ موفق را انجام می‌دهد</p>
                     <p class="text-xs text-content-muted mt-1 leading-6">پس از ثبت‌نام، دوست شما کیف پول خود را با حداقل ۵۰۰ هزار تومان شارژ می‌کند.</p>
@@ -1076,7 +1076,7 @@
 
                 <!-- Step 4 -->
                 <div class="flex items-start gap-4">
-                  <div class="step-number font-latin" dir="ltr">۴</div>
+                  <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shrink-0 font-latin" dir="ltr">۴</div>
                   <div>
                     <p class="text-sm font-bold text-content-heading">پاداش ۰.۰۳ گرمی دریافت کنید</p>
                     <p class="text-xs text-content-muted mt-1 leading-6">به محض تأیید شارژ، ۰.۰۳ گرم طلای آب‌شده به عنوان پاداش به حساب شما واریز می‌شود.</p>
