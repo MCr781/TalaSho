@@ -861,7 +861,7 @@
             <div class="lg:grid lg:grid-cols-12 gap-8">
 
                 <!-- Profile menu — left rail (lg+ only; mobile uses the bottom tab bar) -->
-                <nav class="hidden lg:block lg:col-span-3 lg:sticky lg:top-24 bg-surface border border-border rounded-2xl p-3 lg:shadow-xs" aria-label="بخش‌های حساب">
+                <nav class="hidden lg:block lg:col-span-3 lg:sticky lg:top-32 bg-surface border border-border rounded-2xl p-3 lg:shadow-xs" aria-label="بخش‌های حساب">
                     <div class="flex flex-col gap-1" id="profileTabNav">
                             <button type="button" data-tab="overview" class="profile-tab-btn active lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold transition-all">
                                 <span class="flex items-center gap-2.5">
@@ -930,19 +930,21 @@
 
 
                 <!-- Content Panels (Right Side) -->
-                <div class="lg:col-span-9">
+                <div id="tabContentWrap" class="lg:col-span-9 scroll-mt-24 lg:scroll-mt-32">
                     
                     <!-- TAB 1: OVERVIEW (خلاصه فعالیت‌ها) -->
                     <div id="panel-overview" class="tab-content-panel active">
                         
                         <!-- Recent Transactions Card -->
                         <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs mb-6">
-                            <div class="flex items-center justify-between mb-5 pb-3 border-b border-border">
-                                <h3 class="text-base font-black text-content-heading flex items-center gap-2">
-                                    <i class='bx bx-history text-gold-600 text-xl'></i>
-                                    <span>آخرین تراکنش‌های صندوق و کیف پول</span>
-                                </h3>
-                                <a href="./transactions.html" class="text-xs font-bold text-primary-600 hover:text-primary-800 transition-colors">مشاهده همه</a>
+                            <div class="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-border">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-400/30 text-gold-600 flex items-center justify-center shrink-0">
+                                        <i class='bx bx-history text-lg'></i>
+                                    </div>
+                                    <h3 class="text-base font-black text-content-heading leading-tight">آخرین تراکنش‌های صندوق و کیف پول</h3>
+                                </div>
+                                <a href="./transactions.html" class="text-xs font-bold text-primary-600 hover:text-primary-800 transition-colors shrink-0">مشاهده همه</a>
                             </div>
 
                             <div class="space-y-3">
@@ -1121,12 +1123,14 @@
                     <!-- TAB 5: BANK ACCOUNTS (حساب‌های بانکی) -->
                     <div id="panel-banks" class="tab-content-panel">
                         <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-base font-black text-content-heading flex items-center gap-2">
-                                    <i class='bx bx-credit-card text-gold-600 text-xl'></i>
-                                    <span>حساب‌ها و کارت‌های بانکی تایید شده</span>
-                                </h3>
-                                <a href="./bank-account.html" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1">
+                            <div class="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-border">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-400/30 text-gold-600 flex items-center justify-center shrink-0">
+                                        <i class='bx bx-credit-card text-lg'></i>
+                                    </div>
+                                    <h3 class="text-base font-black text-content-heading leading-tight">حساب‌ها و کارت‌های بانکی تایید شده</h3>
+                                </div>
+                                <a href="./bank-account.html" class="btn-secondary text-xs py-2 px-3 flex items-center gap-1 shrink-0">
                                     <i class='bx bx-plus'></i>
                                     <span>افزودن کارت جدید</span>
                                 </a>
@@ -1176,11 +1180,138 @@
                     <!-- TAB 7: WISHLIST (علاقه‌مندی‌ها) -->
                     <div id="panel-wishlist" class="tab-content-panel">
                         <div class="bg-surface rounded-3xl p-6 border border-border shadow-xs">
-                            <h3 class="text-base font-black text-content-heading mb-4 flex items-center gap-2">
+                            <h3 class="text-base font-black text-content-heading mb-5 pb-4 border-b border-border flex items-center gap-2">
                                 <i class='bx bx-heart text-gold-600 text-xl'></i>
                                 <span>لیست علاقه‌مندی‌های شما</span>
                             </h3>
-                            <p class="text-xs text-content-muted">محصولات ذخیره‌شده شما در این بخش قابل دسترسی است.</p>
+
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+
+                                <!-- Wishlist item 1 -->
+                                <div class="group relative flex flex-col rounded-2xl overflow-hidden bg-surface border border-border/60 hover:border-gold-400 hover:shadow-hover transition-all duration-300">
+                                    <div class="relative aspect-square bg-gradient-to-br from-primary-50/50 via-surface to-background-hover overflow-hidden">
+                                        <a href="../product/tear-tennis-gold-ring.html" class="absolute inset-0 z-0" aria-label="انگشتر طلا دوتایی مدرن">
+                                            <img src="../assets/images/products/double-ring.png" alt="انگشتر طلا دوتایی مدرن" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                                        </a>
+                                        <span class="numeric-measure absolute top-2 right-2 z-10 bg-primary-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded-lg font-latin shadow-xs">
+                                            <span class="numeric-measure__unit">گرم</span>
+                                            <span class="font-latin">۳.۱۰</span>
+                                        </span>
+                                        <button type="button" class="absolute top-2 left-2 z-10 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-status-error shadow-xs hover:scale-110 transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bxs-heart text-sm'></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex flex-col gap-1 p-3 flex-1">
+                                        <span class="text-[11px] text-content-muted">انگشتر طلا</span>
+                                        <a href="../product/tear-tennis-gold-ring.html" class="text-xs sm:text-sm font-bold text-content-heading leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">انگشتر طلا دوتایی مدرن</a>
+                                        <div class="flex items-center gap-1 text-[11px] text-content-muted mt-0.5">
+                                            <span class="text-gold-400 font-bold">★ ۴.۸</span>
+                                            <span>(۱۲)</span>
+                                        </div>
+                                        <div class="mt-auto pt-2 flex items-center justify-between gap-2 border-t border-border/40">
+                                            <span class="text-[11px] text-content-muted">طلا ۱۸ عیار</span>
+                                            <div class="numeric-measure text-primary-600 font-bold text-xs sm:text-sm">
+                                                <span class="numeric-measure__unit text-[11px] text-content-body font-normal">تومان</span>
+                                                <span class="font-latin">۱۲,۴۰۰,۰۰۰</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wishlist item 2 -->
+                                <div class="group relative flex flex-col rounded-2xl overflow-hidden bg-surface border border-border/60 hover:border-gold-400 hover:shadow-hover transition-all duration-300">
+                                    <div class="relative aspect-square bg-gradient-to-br from-primary-50/50 via-surface to-background-hover overflow-hidden">
+                                        <a href="#" class="absolute inset-0 z-0" aria-label="دستبند طلا ظریف">
+                                            <img src="../assets/images/products/bracelet.png" alt="دستبند طلا ظریف" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                                        </a>
+                                        <span class="numeric-measure absolute top-2 right-2 z-10 bg-primary-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded-lg font-latin shadow-xs">
+                                            <span class="numeric-measure__unit">گرم</span>
+                                            <span class="font-latin">۵.۲۰</span>
+                                        </span>
+                                        <button type="button" class="absolute top-2 left-2 z-10 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-status-error shadow-xs hover:scale-110 transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bxs-heart text-sm'></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex flex-col gap-1 p-3 flex-1">
+                                        <span class="text-[11px] text-content-muted">دستبند طلا</span>
+                                        <a href="#" class="text-xs sm:text-sm font-bold text-content-heading leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">دستبند طلا ظریف هفت موج</a>
+                                        <div class="flex items-center gap-1 text-[11px] text-content-muted mt-0.5">
+                                            <span class="text-gold-400 font-bold">★ ۴.۷</span>
+                                            <span>(۹)</span>
+                                        </div>
+                                        <div class="mt-auto pt-2 flex items-center justify-between gap-2 border-t border-border/40">
+                                            <span class="text-[11px] text-content-muted">طلا ۱۸ عیار</span>
+                                            <div class="numeric-measure text-primary-600 font-bold text-xs sm:text-sm">
+                                                <span class="numeric-measure__unit text-[11px] text-content-body font-normal">تومان</span>
+                                                <span class="font-latin">۱۹,۸۰۰,۰۰۰</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wishlist item 3 -->
+                                <div class="group relative flex flex-col rounded-2xl overflow-hidden bg-surface border border-border/60 hover:border-gold-400 hover:shadow-hover transition-all duration-300">
+                                    <div class="relative aspect-square bg-gradient-to-br from-primary-50/50 via-surface to-background-hover overflow-hidden">
+                                        <a href="#" class="absolute inset-0 z-0" aria-label="گوشواره طلا طرح برگ">
+                                            <img src="../assets/images/products/Earrings.png" alt="گوشواره طلا طرح برگ" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                                        </a>
+                                        <span class="numeric-measure absolute top-2 right-2 z-10 bg-primary-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded-lg font-latin shadow-xs">
+                                            <span class="numeric-measure__unit">گرم</span>
+                                            <span class="font-latin">۳.۸۰</span>
+                                        </span>
+                                        <button type="button" class="absolute top-2 left-2 z-10 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-status-error shadow-xs hover:scale-110 transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bxs-heart text-sm'></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex flex-col gap-1 p-3 flex-1">
+                                        <span class="text-[11px] text-content-muted">گوشواره طلا</span>
+                                        <a href="#" class="text-xs sm:text-sm font-bold text-content-heading leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">گوشواره طلا طرح برگ</a>
+                                        <div class="flex items-center gap-1 text-[11px] text-content-muted mt-0.5">
+                                            <span class="text-gold-400 font-bold">★ ۴.۹</span>
+                                            <span>(۱۵)</span>
+                                        </div>
+                                        <div class="mt-auto pt-2 flex items-center justify-between gap-2 border-t border-border/40">
+                                            <span class="text-[11px] text-content-muted">طلا ۱۸ عیار</span>
+                                            <div class="numeric-measure text-primary-600 font-bold text-xs sm:text-sm">
+                                                <span class="numeric-measure__unit text-[11px] text-content-body font-normal">تومان</span>
+                                                <span class="font-latin">۹,۴۰۰,۰۰۰</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wishlist item 4 -->
+                                <div class="group relative flex flex-col rounded-2xl overflow-hidden bg-surface border border-border/60 hover:border-gold-400 hover:shadow-hover transition-all duration-300">
+                                    <div class="relative aspect-square bg-gradient-to-br from-primary-50/50 via-surface to-background-hover overflow-hidden">
+                                        <a href="#" class="absolute inset-0 z-0" aria-label="گردنبند طلا زنجیر گندمی">
+                                            <img src="../assets/images/products/gold-fancy-necklace.png" alt="گردنبند طلا زنجیر گندمی" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                                        </a>
+                                        <span class="numeric-measure absolute top-2 right-2 z-10 bg-primary-600/90 backdrop-blur-sm text-white text-[11px] font-bold px-2 py-1 rounded-lg font-latin shadow-xs">
+                                            <span class="numeric-measure__unit">گرم</span>
+                                            <span class="font-latin">۶.۱۰</span>
+                                        </span>
+                                        <button type="button" class="absolute top-2 left-2 z-10 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-status-error shadow-xs hover:scale-110 transition-all" title="حذف از علاقه‌مندی‌ها" aria-label="حذف از علاقه‌مندی‌ها">
+                                            <i class='bx bxs-heart text-sm'></i>
+                                        </button>
+                                    </div>
+                                    <div class="flex flex-col gap-1 p-3 flex-1">
+                                        <span class="text-[11px] text-content-muted">گردنبند طلا</span>
+                                        <a href="#" class="text-xs sm:text-sm font-bold text-content-heading leading-snug line-clamp-2 group-hover:text-primary-600 transition-colors">گردنبند طلا زنجیر گندمی</a>
+                                        <div class="flex items-center gap-1 text-[11px] text-content-muted mt-0.5">
+                                            <span class="text-gold-400 font-bold">★ ۴.۸</span>
+                                            <span>(۱۱)</span>
+                                        </div>
+                                        <div class="mt-auto pt-2 flex items-center justify-between gap-2 border-t border-border/40">
+                                            <span class="text-[11px] text-content-muted">طلا ۱۸ عیار</span>
+                                            <div class="numeric-measure text-primary-600 font-bold text-xs sm:text-sm">
+                                                <span class="numeric-measure__unit text-[11px] text-content-body font-normal">تومان</span>
+                                                <span class="font-latin">۲۵,۵۰۰,۰۰۰</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
@@ -1518,7 +1649,7 @@
             <button type="button" data-tab="wishlist"
                 class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
                 <i class='bx bx-heart text-lg'></i>
-                <span class="text-center">علاقه</span>
+                <span class="text-center">علاقه‌مندی‌ها</span>
             </button>
         </div>
     </nav>
@@ -1546,6 +1677,13 @@
                             panel.classList.remove('active');
                         }
                     });
+
+                    // Scroll the active panel into view, clearing the sticky header
+                    // (scroll-mt-24 mobile / scroll-mt-32 desktop on tabContentWrap).
+                    const tabContentWrap = document.getElementById('tabContentWrap');
+                    if (tabContentWrap) {
+                        tabContentWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 });
             });
         });
