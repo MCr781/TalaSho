@@ -781,8 +781,9 @@
 
                 </div>
 
-                <!-- 4 KPI Metrics Strip -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-border">
+                <!-- 4 KPI Metrics Strip (desktop copy — lg+ only, inside the hero card;
+                     the mobile copy sits below the content panels; keep both in sync) -->
+                <div class="hidden lg:grid lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-border">
                     
                     <!-- KPI 1: Gold Box -->
                     <div class="bg-gradient-to-br from-gold-500/10 via-background to-background p-4 rounded-2xl border border-gold-400/30">
@@ -1183,6 +1184,80 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- 4b. KPI METRICS STRIP (mobile copy — <lg only, placed below the
+                     content panels so the user reads the content first; the desktop
+                     copy stays inside the hero card at lg+. Keep both in sync.) -->
+                <div class="lg:hidden bg-surface rounded-3xl p-5 sm:p-6 border border-border shadow-xs mb-8">
+                    <div class="grid grid-cols-2 gap-4">
+
+                        <!-- KPI 1: Gold Box -->
+                        <div class="bg-gradient-to-br from-gold-500/10 via-background to-background p-4 rounded-2xl border border-gold-400/30">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-content-muted">صندوق طلای آب‌شده</span>
+                                <i class='bx bxs-box text-gold-600 text-xl'></i>
+                            </div>
+                            <div class="text-lg sm:text-xl font-black text-primary-900 font-latin">
+                                <span class="numeric-measure">
+                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">گرم</span>
+                                    <span class="font-latin">۱۲.۴۵۰</span>
+                                </span>
+                            </div>
+                            <span class="text-[11px] text-content-muted mt-1 block">
+                                معادل <span class="numeric-measure text-content-heading font-bold"><span class="numeric-measure__unit">تومان</span><span class="font-latin">۵۶,۵۸۵,۲۵۰</span></span>
+                            </span>
+                        </div>
+
+                        <!-- KPI 2: Wallet Rial -->
+                        <div class="bg-background p-4 rounded-2xl border border-border">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-content-muted">موجودی کیف پول</span>
+                                <i class='bx bx-wallet text-primary-600 text-xl'></i>
+                            </div>
+                            <div class="text-lg sm:text-xl font-black text-content-heading font-latin">
+                                <span class="numeric-measure">
+                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">تومان</span>
+                                    <span class="font-latin">۴,۲۵۰,۰۰۰</span>
+                                </span>
+                            </div>
+                            <span class="text-[11px] text-status-success font-bold mt-1 block flex items-center gap-0.5">
+                                <i class='bx bx-check-circle'></i>
+                                <span>آماده برای معامله</span>
+                            </span>
+                        </div>
+
+                        <!-- KPI 3: Orders -->
+                        <div class="bg-background p-4 rounded-2xl border border-border">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-content-muted">سفارش‌های فعال</span>
+                                <i class='bx bx-shopping-bag text-primary-600 text-xl'></i>
+                            </div>
+                            <div class="text-lg sm:text-xl font-black text-content-heading font-latin">
+                                <span class="numeric-measure">
+                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">سفارش</span>
+                                    <span class="font-latin">۲</span>
+                                </span>
+                            </div>
+                            <span class="text-[11px] text-content-muted mt-1 block">در حال آماده‌سازی و ارسال</span>
+                        </div>
+
+                        <!-- KPI 4: VIP Points -->
+                        <div class="bg-background p-4 rounded-2xl border border-border">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-content-muted">باشگاه مشتریان VIP</span>
+                                <i class='bx bxs-award text-gold-500 text-xl'></i>
+                            </div>
+                            <div class="text-lg sm:text-xl font-black text-gold-600 font-latin">
+                                <span class="numeric-measure">
+                                    <span class="numeric-measure__unit text-xs text-content-muted font-normal">امتیاز</span>
+                                    <span class="font-latin">۱,۴۵۰</span>
+                                </span>
+                            </div>
+                            <span class="text-[11px] text-gold-600 font-bold mt-1 block">سطح طلایی VIP</span>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
