@@ -207,7 +207,7 @@
   <script src="../assets/js/global-shell.js?v=1" defer></script>
 </head>
 
-<body class="bg-background text-content-body antialiased min-h-screen flex flex-col">
+<body class="bg-background text-content-body antialiased min-h-screen flex flex-col overflow-x-hidden">
 
 
   <!-- ════════════════════════════════════════════════════════════════════
@@ -921,7 +921,7 @@
          ════════════════════════════════════════════════════════════════════ -->
     <section class="py-6 lg:py-8">
       <div class="container-page">
-        <div class="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8">
+        <div class="grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_340px] gap-4 md:gap-6 lg:gap-8">
 
           <!-- ════════════ MAIN COLUMN ════════════ -->
           <div class="space-y-5">
@@ -955,7 +955,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3 no-print">
+              <div class="mt-6 flex flex-col sm:flex-row gap-3 no-print">
                 <button type="button" onclick="printReceipt()" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -1005,7 +1005,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3 no-print">
+              <div class="mt-6 flex flex-col sm:flex-row gap-3 no-print">
                 <button type="button" onclick="printReceipt()" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -1055,7 +1055,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3 no-print">
+              <div class="mt-6 flex flex-col sm:flex-row gap-3 no-print">
                 <button type="button" onclick="printReceipt()" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -1093,7 +1093,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3 no-print">
+              <div class="mt-6 flex flex-col sm:flex-row gap-3 no-print">
                 <a href="../wallet/buy.html" class="action-btn gold">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -1116,7 +1116,7 @@
               <h1 class="text-xl font-bold text-amber-800 mb-2">پرداخت لغو شد</h1>
               <p class="text-sm text-amber-600 mb-6">عملیات پرداخت توسط شما لغو شد. هیچ مبلغی از حساب شما کسر نشده است.</p>
 
-              <div class="mt-6 space-y-3 no-print">
+              <div class="mt-6 flex flex-col sm:flex-row gap-3 no-print">
                 <a href="../wallet/buy.html" class="action-btn gold">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -1146,7 +1146,7 @@
                 </div>
               </div>
 
-              <div class="mt-6 space-y-3 no-print">
+              <div class="mt-6 flex flex-col sm:flex-row gap-3 no-print">
                 <a href="../wallet/transactions.html" class="action-btn secondary">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
@@ -1162,7 +1162,7 @@
           </div>
 
           <!-- ════════════ SIDEBAR ════════════ -->
-          <aside class="space-y-4">
+          <aside class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-4">
 
             <!-- QUICK ACTIONS -->
             <div class="sidebar-card bg-surface rounded-2xl border border-border shadow-sm p-5">
