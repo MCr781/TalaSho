@@ -752,7 +752,7 @@
                             </button>
                         </div>
                         <div>
-                            <div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                            <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap mb-1">
                                 <h1 class="text-xl sm:text-2xl font-black text-content-heading">محمد رضایی</h1>
                                 <span class="px-2.5 py-0.5 rounded-full bg-status-success-bg text-status-success text-[11px] font-bold border border-status-success/30 flex items-center gap-1">
                                     <i class='bx bxs-badge-check'></i>
@@ -782,7 +782,7 @@
                 </div>
 
                 <!-- 4 KPI Metrics Strip -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-border">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-border">
                     
                     <!-- KPI 1: Gold Box -->
                     <div class="bg-gradient-to-br from-gold-500/10 via-background to-background p-4 rounded-2xl border border-gold-400/30">
@@ -853,78 +853,79 @@
             </div>
 
 
-            <!-- 2. MAIN LAYOUT: SIDEBAR NAVIGATION + CONTENT PANELS -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                <!-- Sidebar Menu (Desktop) / Tab Navigation Bar (Mobile) -->
-                <div class="lg:col-span-3">
-                    <div class="bg-surface rounded-2xl p-3 border border-border shadow-xs sticky top-24">
-                        <div class="space-y-1" id="profileTabNav">
-                            <button type="button" data-tab="overview" class="profile-tab-btn active w-full flex items-center justify-between p-3 text-xs font-bold transition-all">
+            <!-- 2. MAIN LAYOUT: SIDEBAR NAVIGATION + CONTENT PANELS
+                 Desktop (lg+): sticky left rail menu, unchanged. Mobile (<lg): the
+                 in-page menu is hidden entirely — navigation lives in the fixed
+                 bottom tab bar rendered at the end of <body>. -->
+            <div class="lg:grid lg:grid-cols-12 gap-8">
+
+                <!-- Profile menu — left rail (lg+ only; mobile uses the bottom tab bar) -->
+                <nav class="hidden lg:block lg:col-span-3 lg:sticky lg:top-24 bg-surface border border-border rounded-2xl p-3 lg:shadow-xs" aria-label="بخش‌های حساب">
+                    <div class="flex flex-col gap-1" id="profileTabNav">
+                            <button type="button" data-tab="overview" class="profile-tab-btn active lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-grid-alt text-lg'></i>
                                     <span>خلاصه فعالیت‌ها</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <button type="button" data-tab="goldbox" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                            <button type="button" data-tab="goldbox" class="profile-tab-btn lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bxs-box text-lg text-gold-600'></i>
                                     <span>صندوق طلاشو و کیف پول</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <button type="button" data-tab="orders" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                            <button type="button" data-tab="orders" class="profile-tab-btn lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-shopping-bag text-lg'></i>
                                     <span>سفارش‌های من</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <button type="button" data-tab="info" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                            <button type="button" data-tab="info" class="profile-tab-btn lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-user text-lg'></i>
                                     <span>اطلاعات حساب کاربری</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <button type="button" data-tab="banks" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                            <button type="button" data-tab="banks" class="profile-tab-btn lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-credit-card text-lg'></i>
                                     <span>کارت‌ها و حساب‌های بانکی</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <button type="button" data-tab="addresses" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                            <button type="button" data-tab="addresses" class="profile-tab-btn lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-map text-lg'></i>
                                     <span>آدرس‌های تحویل</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <button type="button" data-tab="wishlist" class="profile-tab-btn w-full flex items-center justify-between p-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
+                            <button type="button" data-tab="wishlist" class="profile-tab-btn lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-content-heading hover:bg-background transition-all">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-heart text-lg'></i>
                                     <span>علاقه‌مندی‌ها</span>
                                 </span>
-                                <i class='bx bx-chevron-left text-base opacity-60'></i>
+                                <i class='bx bx-chevron-left text-base opacity-60 hidden lg:block'></i>
                             </button>
 
-                            <a href="../wallet/login.html" class="w-full flex items-center justify-between p-3 text-xs font-bold text-status-error hover:bg-status-error-bg rounded-xl transition-all mt-3 pt-3 border-t border-border">
+                            <a href="../wallet/login.html" class="col-span-2 lg:w-full flex items-center justify-start lg:justify-between gap-2 px-3 py-3.5 lg:py-3 text-xs font-bold text-status-error hover:bg-status-error-bg rounded-xl transition-all lg:mt-3 lg:pt-3 lg:border-t lg:border-border">
                                 <span class="flex items-center gap-2.5">
                                     <i class='bx bx-log-out text-lg'></i>
                                     <span>خروج از حساب</span>
                                 </span>
                             </a>
                         </div>
-                    </div>
-                </div>
+                </nav>
 
 
                 <!-- Content Panels (Right Side) -->
@@ -945,17 +946,17 @@
 
                             <div class="space-y-3">
                                 <!-- Transaction 1 -->
-                                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border/80">
-                                    <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-background border border-border/80">
+                                    <div class="flex items-center gap-3 flex-1 min-w-0">
                                         <div class="w-10 h-10 rounded-xl bg-status-success-bg text-status-success flex items-center justify-center text-xl font-bold">
                                             <i class='bx bx-down-arrow-alt'></i>
                                         </div>
-                                        <div>
-                                            <h4 class="font-bold text-content-heading text-xs">خرید طلای آبشده (صندوق)</h4>
+                                        <div class="min-w-0">
+                                            <h4 class="font-bold text-content-heading text-xs truncate">خرید طلای آبشده (صندوق)</h4>
                                             <span class="text-[11px] text-content-muted">۱۰ مرداد ۱۴۰۳ - ساعت ۱۴:۳۲</span>
                                         </div>
                                     </div>
-                                    <div class="text-left">
+                                    <div class="text-left shrink-0">
                                         <div class="text-sm font-black text-status-success font-latin">
                                             <span class="numeric-measure">
                                                 <span class="numeric-measure__unit text-xs font-normal">+ گرم</span>
@@ -969,17 +970,17 @@
                                 </div>
 
                                 <!-- Transaction 2 -->
-                                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border/80">
-                                    <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-background border border-border/80">
+                                    <div class="flex items-center gap-3 flex-1 min-w-0">
                                         <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center text-xl font-bold">
                                             <i class='bx bx-wallet'></i>
                                         </div>
-                                        <div>
-                                            <h4 class="font-bold text-content-heading text-xs">شارژ کیف پول ریالی</h4>
+                                        <div class="min-w-0">
+                                            <h4 class="font-bold text-content-heading text-xs truncate">شارژ کیف پول ریالی</h4>
                                             <span class="text-[11px] text-content-muted">۰۵ مرداد ۱۴۰۳ - ساعت ۱۰:۱۵</span>
                                         </div>
                                     </div>
-                                    <div class="text-left">
+                                    <div class="text-left shrink-0">
                                         <div class="text-sm font-black text-primary-700 font-latin">
                                             <span class="numeric-measure">
                                                 <span class="numeric-measure__unit text-xs font-normal">+ تومان</span>
@@ -991,17 +992,17 @@
                                 </div>
 
                                 <!-- Transaction 3 -->
-                                <div class="flex items-center justify-between p-3.5 rounded-2xl bg-background border border-border/80">
-                                    <div class="flex items-center gap-3">
+                                <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-background border border-border/80">
+                                    <div class="flex items-center gap-3 flex-1 min-w-0">
                                         <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xl font-bold">
                                             <i class='bx bx-shopping-bag'></i>
                                         </div>
-                                        <div>
-                                            <h4 class="font-bold text-content-heading text-xs">خرید سکه امامی طرح جدید</h4>
+                                        <div class="min-w-0">
+                                            <h4 class="font-bold text-content-heading text-xs truncate">خرید سکه امامی طرح جدید</h4>
                                             <span class="text-[11px] text-content-muted">۲۲ تیر ۱۴۰۳ - ساعت ۰۹:۱۵</span>
                                         </div>
                                     </div>
-                                    <div class="text-left">
+                                    <div class="text-left shrink-0">
                                         <div class="text-sm font-black text-content-heading font-latin">
                                             <span class="numeric-measure">
                                                 <span class="numeric-measure__unit text-xs font-normal">تومان</span>
@@ -1060,14 +1061,14 @@
 
                             <div class="space-y-4">
                                 <div class="p-4 rounded-2xl border border-border bg-background">
-                                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-border/80">
+                                    <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-border/80">
                                         <div>
                                             <span class="text-xs font-bold text-content-heading">کد سفارش: <strong class="font-latin text-primary-700">#TLS-۹۰۴۲</strong></span>
                                             <span class="text-[11px] text-content-muted ms-3">ثبت در ۱۰ مرداد ۱۴۰۳</span>
                                         </div>
                                         <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-800 text-xs font-bold">در حال آماده‌سازی</span>
                                     </div>
-                                    <div class="flex items-center justify-between text-xs">
+                                    <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
                                         <span class="text-content-body">دستبند طلا مینیمال ۱۸ عیار (وزن ۲.۱۵ گرم)</span>
                                         <span class="font-latin font-bold text-primary-700">۹,۷۷۰,۰۰۰ تومان</span>
                                     </div>
@@ -1191,7 +1192,7 @@
 
 
     <!-- GLOBAL SITE FOOTER: START -->
-<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium pb-24 md:pb-0">
+<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium pb-24 lg:pb-0">
             <div class="container mx-auto px-4 md:px-6">
 
                 <!-- === Top Tier: Brand, Phone, Back to Top === -->
@@ -1401,6 +1402,51 @@
             </div>
         </footer>
 <!-- GLOBAL SITE FOOTER: END -->
+
+    <!-- MOBILE BOTTOM TAB BAR (fixed, <lg only): standard bottom-navigation
+         pattern — persistent, one-thumb reachable, never adds to page length.
+         Reuses .profile-tab-btn so the existing tab script drives it. -->
+    <nav aria-label="بخش‌های حساب"
+        class="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-surface border-t border-border px-2 pt-2"
+        style="padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));">
+        <div class="flex items-stretch gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <button type="button" data-tab="overview"
+                class="profile-tab-btn active flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap transition-all">
+                <i class='bx bx-grid-alt text-lg'></i>
+                <span class="text-center">خلاصه</span>
+            </button>
+            <button type="button" data-tab="goldbox"
+                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
+                <i class='bx bxs-box text-lg'></i>
+                <span class="text-center">صندوق</span>
+            </button>
+            <button type="button" data-tab="orders"
+                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
+                <i class='bx bx-shopping-bag text-lg'></i>
+                <span class="text-center">سفارش‌ها</span>
+            </button>
+            <button type="button" data-tab="info"
+                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
+                <i class='bx bx-user text-lg'></i>
+                <span class="text-center">حساب</span>
+            </button>
+            <button type="button" data-tab="banks"
+                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
+                <i class='bx bx-credit-card text-lg'></i>
+                <span class="text-center">کارت‌ها</span>
+            </button>
+            <button type="button" data-tab="addresses"
+                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
+                <i class='bx bx-map text-lg'></i>
+                <span class="text-center">آدرس‌ها</span>
+            </button>
+            <button type="button" data-tab="wishlist"
+                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
+                <i class='bx bx-heart text-lg'></i>
+                <span class="text-center">علاقه</span>
+            </button>
+        </div>
+    </nav>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
