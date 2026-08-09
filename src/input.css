@@ -113,6 +113,7 @@
     display: inline-flex;
     align-items: baseline;
     gap: 0.25em;
+    flex-wrap: wrap;
     direction: ltr;
     unicode-bidi: isolate;
   }
@@ -120,6 +121,7 @@
   .numeric-measure__unit {
     direction: rtl;
     unicode-bidi: isolate;
+    white-space: nowrap;
   }
 
   /* Segmented OTP inputs must advance visually from left to right in RTL pages. */
