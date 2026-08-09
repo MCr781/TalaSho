@@ -863,16 +863,15 @@
             </div>
 
             <!-- BALANCE BANNER -->
-            <div class="flex items-center justify-between bg-primary-50 rounded-2xl px-5 py-3.5 border border-primary-100">
-              <div class="flex items-center gap-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-primary-50 rounded-2xl px-5 py-3.5 border border-primary-100">
+              <div class="flex items-center flex-wrap gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                 </svg>
                 <span class="text-sm text-content-body">موجودی قابل برداشت:</span>
-                <span class="font-latin text-sm font-bold text-primary-600" data-backend-hook="wallet-balance">۱۲،۵۰۰،۰۰۰</span>
-                <span class="text-xs text-content-muted">تومان</span>
+                <span class="whitespace-nowrap"><span class="font-latin text-sm font-bold text-primary-600" data-backend-hook="wallet-balance">۱۲،۵۰۰،۰۰۰</span><span class="text-xs text-content-muted"> تومان</span></span>
               </div>
-              <span class="text-xs font-bold text-amber-600">سقف برداشت: ۵۰ میلیون</span>
+              <span class="text-xs font-bold text-amber-600 shrink-0">سقف برداشت: ۵۰ میلیون</span>
             </div>
 
             <!-- AMOUNT INPUT -->
