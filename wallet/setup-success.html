@@ -181,6 +181,14 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* ─── Mobile: compact success panel so the animated steps fit above the bottom nav ─── */
+    @media (max-width: 640px) {
+      .step-item { gap: 8px; padding: 5px 12px; }
+      .step-icon { width: 24px; height: 24px; }
+      .step-text { font-size: 0.75rem; }
+      .vault-preview-card { padding: 10px 16px; }
+    }
   </style>
   <script src="../assets/js/global-shell.js?v=1" defer></script>
 </head>
@@ -881,8 +889,8 @@
     <!-- ════════════════════════════════════════════════════════════════════
          BREADCRUMB
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="bg-surface border-b border-border">
-      <div class="container-page py-3">
+    <section class="hidden sm:block bg-surface border-b border-border">
+      <div class="container-page py-2 sm:py-3">
         <nav class="flex items-center gap-2 text-xs text-content-muted" aria-label="مسیر صفحه">
           <a href="../wallet/index.html" class="hover:text-primary-500 transition-colors">خانه</a>
           <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -897,45 +905,45 @@
     <!-- ════════════════════════════════════════════════════════════════════
          SETUP SUCCESS — CENTERED CONTENT
          ════════════════════════════════════════════════════════════════════ -->
-    <section class="py-8 lg:py-12">
+    <section class="py-2 sm:py-8 lg:py-12">
       <div class="container-page max-w-xl mx-auto">
 
         <!-- Success Icon -->
-        <div class="flex justify-center mb-6">
-          <div class="check-anim w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="flex justify-center mb-2 sm:mb-6">
+          <div class="check-anim w-10 h-10 sm:w-20 sm:h-20 rounded-full bg-emerald-100 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-10 sm:h-10 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
         </div>
 
         <!-- Title + Subtext -->
-        <div class="text-center mb-6">
-          <h1 class="text-xl lg:text-2xl font-bold text-content-heading mb-2">قلک شما با موفقیت ایجاد شد!</h1>
-          <p class="text-sm text-content-muted leading-7">حساب شما فعال شد و قلک اصلی آماده استفاده است</p>
+        <div class="text-center mb-2 sm:mb-6">
+          <h1 class="text-base sm:text-xl lg:text-2xl font-bold text-content-heading mb-0.5 sm:mb-2">قلک شما با موفقیت ایجاد شد!</h1>
+          <p class="text-[11px] sm:text-sm text-content-muted leading-4 sm:leading-7">حساب شما فعال شد و قلک اصلی آماده استفاده است</p>
         </div>
 
         <!-- Vault Preview Card -->
-        <div class="vault-preview-card mb-6">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="vault-preview-card mb-2 sm:mb-6">
+          <div class="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-5">
+            <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-white/15 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-gold-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
             </div>
             <div>
-              <p class="text-sm font-bold text-white">قلک اصلی</p>
-              <p class="text-xs text-white/60">خزانه شخصی شما</p>
+              <p class="text-[13px] sm:text-sm font-bold text-white">قلک اصلی</p>
+              <p class="text-[11px] sm:text-xs text-white/60">خزانه شخصی شما</p>
             </div>
           </div>
           <div class="flex items-end justify-between">
             <div>
-              <p class="text-xs text-white/50 mb-1">موجودی</p>
-              <p class="font-latin text-2xl font-bold text-gold-400"><span class="numeric-measure"><span class="numeric-measure__unit text-sm font-normal text-white/60">گرم طلا</span><span class="font-latin">۰</span></span></p>
+              <p class="text-[11px] sm:text-xs text-white/50 mb-0.5 sm:mb-1">موجودی</p>
+              <p class="font-latin text-lg sm:text-2xl font-bold text-gold-400"><span class="numeric-measure"><span class="numeric-measure__unit text-xs sm:text-sm font-normal text-white/60">گرم طلا</span><span class="font-latin">۰</span></span></p>
             </div>
             <div class="text-left">
-              <p class="text-xs text-white/50 mb-1">وضعیت</p>
-              <span class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full">
+              <p class="text-[11px] sm:text-xs text-white/50 mb-0.5 sm:mb-1">وضعیت</p>
+              <span class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 text-[11px] sm:text-xs font-bold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full">
                 <span class="live-dot w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 فعال
               </span>
@@ -944,7 +952,7 @@
         </div>
 
         <!-- Step Animation -->
-        <div class="space-y-2.5 mb-6">
+        <div class="space-y-0.5 sm:space-y-2.5 mb-2 sm:mb-6">
           <div id="step1" class="step-item pending">
             <div class="step-icon">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
