@@ -4,6 +4,9 @@ module.exports = {
     "./*.html",
     "./product/**/*.html",
     "./assets/js/**/*.js",
+    // Global shell partials — scanned so the shared header/footer/bottom-nav
+    // classes are always emitted. Recompile after changing a partial.
+    "./assets/partials/**/*.html",
     // PWA layer — added so Tailwind scans PWA HTML files and emits the
     // utility classes they use. Does NOT change the main site's rendered
     // output (Tailwind only adds classes, never removes). When you add a

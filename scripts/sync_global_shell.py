@@ -20,8 +20,51 @@ HEADER_START = "<!-- GLOBAL SITE HEADER: START -->"
 HEADER_END = "<!-- GLOBAL SITE HEADER: END -->"
 FOOTER_START = "<!-- GLOBAL SITE FOOTER: START -->"
 FOOTER_END = "<!-- GLOBAL SITE FOOTER: END -->"
+BOTTOM_NAV_START = "<!-- GLOBAL SITE BOTTOM NAV: START -->"
+BOTTOM_NAV_END = "<!-- GLOBAL SITE BOTTOM NAV: END -->"
+STOREFRONT_NAV_PARTIAL = PARTIALS_DIR / "site-bottom-nav.html"
+WALLET_NAV_PARTIAL = PARTIALS_DIR / "site-bottom-nav-wallet.html"
+
+# Pages that use the wallet app-style bottom nav (Home / Rates / Buy FAB / Account).
+WALLET_HUB_PAGES = {
+    "wallet/index.html",
+    "wallet/rates.html",
+    "wallet/transactions.html",
+    "wallet/missions.html",
+    "wallet/vaults.html",
+    "wallet/invite.html",
+    "wallet/profile.html",
+}
+
+# Task-flow pages that must NOT get the bottom nav: checkout flows, the offline
+# splash and the wallet action screens keep their own full-screen bottom UI.
+NO_BOTTOM_NAV_PAGES = {
+    "cart.html",
+    "checkout.html",
+    "checkout-result.html",
+    "pwa/offline.html",
+    "wallet/login.html",
+    "wallet/buy.html",
+    "wallet/sell.html",
+    "wallet/deposit.html",
+    "wallet/withdraw.html",
+    "wallet/payment-result.html",
+    "wallet/setup-success.html",
+    "wallet/bank-account.html",
+    "wallet/physical.html",
+    "wallet/receipt.html",
+}
 SHELL_SCRIPT_PATTERN = re.compile(
     r'<script\s+src="[^"]*assets/js/global-shell\.js(?:\?[^"]*)?"\s+defer></script>'
+)
+
+# Legacy hand-coded mobile navs that predate the shared partial. Removed on
+# every sync so a page can never end up with two fixed bottom bars. The new
+# partial navs carry a `bottom-nav` class and are excluded via lookahead.
+LEGACY_NAV_BLOCK = re.compile(
+    r"(?:<!--[^>]*?MOBILE BOTTOM NAV[^>]*?-->\s*)?"
+    r'<nav\b(?![^>]*\bbottom-nav\b)[^>]*class="[^"]*\bfixed\b[^"]*\bbottom-0\b[^"]*"[^>]*>.*?</nav>',
+    re.IGNORECASE | re.DOTALL,
 )
 
 
@@ -233,7 +276,7 @@ def replace_unmarked_footer(text: str, rendered: str) -> str:
 
 def ensure_shell_script(text: str, page: Path) -> str:
     script = (
-        f'<script src="{root_prefix(page)}assets/js/global-shell.js?v=1" defer></script>'
+        f'<script src="{root_prefix(page)}assets/js/global-shell.js?v=2" defer></script>'
     )
     if SHELL_SCRIPT_PATTERN.search(text):
         return SHELL_SCRIPT_PATTERN.sub(script, text, count=1)
@@ -250,6 +293,35 @@ def normalize_special_pages(text: str, page: Path) -> str:
             "h-dvh flex flex-col overflow-hidden", "min-h-screen flex flex-col"
         )
     return text
+
+
+def strip_legacy_bottom_navs(text: str) -> str:
+    """Remove the pre-partial hand-coded bottom navs (and the old
+    index.html search-overlay that shipped with one of them)."""
+    text = LEGACY_NAV_BLOCK.sub("", text)
+
+    idx = text.find('id="mobileSearchOverlay"')
+    if idx >= 0:
+        div_start = text.rfind("<div", 0, idx)
+        if div_start >= 0:
+            div_end = find_tag_end(text, "div", div_start)
+            rest = text[div_end:]
+            script = re.match(
+                r"\s*<script>\s*document\.addEventListener\('DOMContentLoaded'.*?</script>",
+                rest,
+                re.DOTALL,
+            )
+            text = text[:div_start] + (rest[script.end() :] if script else rest)
+    return text
+
+
+def bottom_nav_for(page: Path) -> Path | None:
+    rel = page.relative_to(ROOT).as_posix()
+    if rel in NO_BOTTOM_NAV_PAGES:
+        return None
+    if rel in WALLET_HUB_PAGES:
+        return WALLET_NAV_PARTIAL
+    return STOREFRONT_NAV_PARTIAL
 
 
 def html_pages() -> list[Path]:
@@ -286,7 +358,26 @@ def expected_page(
         text = replace_unmarked_footer(text, rendered_footer)
 
     text = ensure_shell_script(text, page)
-    return normalize_special_pages(text, page)
+    text = normalize_special_pages(text, page)
+
+    text = strip_legacy_bottom_navs(text)
+    nav_partial = bottom_nav_for(page)
+    if nav_partial is not None:
+        rendered_nav = render(
+            nav_partial.read_text(encoding="utf-8").strip(), page
+        )
+        text, nav_replaced = replace_marked(
+            text, BOTTOM_NAV_START, BOTTOM_NAV_END, rendered_nav
+        )
+        if not nav_replaced:
+            body_end = text.lower().rfind("</body>")
+            if body_end < 0:
+                raise ValueError(
+                    f"{page.relative_to(ROOT)} has no closing </body>"
+                )
+            nav_marked = f"{BOTTOM_NAV_START}\n{rendered_nav}\n{BOTTOM_NAV_END}"
+            text = text[:body_end] + "\n\n" + nav_marked + "\n" + text[body_end:]
+    return text
 
 
 def main() -> int:

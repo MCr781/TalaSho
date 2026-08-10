@@ -18,7 +18,7 @@
     <link rel="preload" as="font" type="font/woff2" href="../assets/fonts/Vazirmatn-FD-Bold.woff2" crossorigin>
 
     <script src="../pwa/js/sw-register.js" defer></script>
-    <script src="../assets/js/global-shell.js?v=1" defer></script>
+    <script src="../assets/js/global-shell.js?v=2" defer></script>
 
     <style>
         .profile-tab-btn { transition: all 0.2s ease; border-radius: 12px; }
@@ -1398,7 +1398,7 @@
 
 
     <!-- GLOBAL SITE FOOTER: START -->
-<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium pb-24 lg:pb-0">
+<footer class="bg-[#200B21] border-t-4 border-[#D4AF37] pt-12 mt-12 text-gray-300 font-medium pb-24 md:pb-0">
             <div class="container mx-auto px-4 md:px-6">
 
                 <!-- === Top Tier: Brand, Phone, Back to Top === -->
@@ -1612,47 +1612,7 @@
     <!-- MOBILE BOTTOM TAB BAR (fixed, <lg only): standard bottom-navigation
          pattern — persistent, one-thumb reachable, never adds to page length.
          Reuses .profile-tab-btn so the existing tab script drives it. -->
-    <nav aria-label="بخش‌های حساب"
-        class="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-surface border-t border-border px-2 pt-2"
-        style="padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));">
-        <div class="flex items-stretch gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <button type="button" data-tab="overview"
-                class="profile-tab-btn active flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap transition-all">
-                <i class='bx bx-grid-alt text-lg'></i>
-                <span class="text-center">خلاصه</span>
-            </button>
-            <button type="button" data-tab="goldbox"
-                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
-                <i class='bx bxs-box text-lg'></i>
-                <span class="text-center">صندوق</span>
-            </button>
-            <button type="button" data-tab="orders"
-                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
-                <i class='bx bx-shopping-bag text-lg'></i>
-                <span class="text-center">سفارش‌ها</span>
-            </button>
-            <button type="button" data-tab="info"
-                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
-                <i class='bx bx-user text-lg'></i>
-                <span class="text-center">حساب</span>
-            </button>
-            <button type="button" data-tab="banks"
-                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
-                <i class='bx bx-credit-card text-lg'></i>
-                <span class="text-center">کارت‌ها</span>
-            </button>
-            <button type="button" data-tab="addresses"
-                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
-                <i class='bx bx-map text-lg'></i>
-                <span class="text-center">آدرس‌ها</span>
-            </button>
-            <button type="button" data-tab="wishlist"
-                class="profile-tab-btn flex-1 min-w-max flex flex-col items-center gap-1 px-1 py-1.5 text-[10px] leading-none font-bold whitespace-nowrap text-content-heading transition-all">
-                <i class='bx bx-heart text-lg'></i>
-                <span class="text-center">علاقه‌مندی‌ها</span>
-            </button>
-        </div>
-    </nav>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -1688,5 +1648,57 @@
             });
         });
     </script>
+
+
+<!-- GLOBAL SITE BOTTOM NAV: START -->
+<!-- ========================================== -->
+    <!-- MOBILE BOTTOM NAV — Wallet (App tabs) -->
+    <!-- Injected by sync_global_shell.py into wallet HUB pages
+         (dashboard, rates, transactions, missions, vaults, invite,
+         profile). Task-flow pages get no nav. Active tab is
+         highlighted by global-shell.js from the current URL — never
+         hard-code active state here. -->
+    <!-- ========================================== -->
+    <nav class="lg:hidden fixed bottom-0 inset-x-0 bg-surface border-t border-border z-50 bottom-nav pb-[env(safe-area-inset-bottom,0.5rem)]" aria-label="ناوبری موبایل">
+        <div class="grid grid-cols-4 h-14">
+
+            <!-- Home -->
+            <a href="../wallet/index.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted hover:text-primary-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span class="text-[10px] font-bold">خانه</span>
+            </a>
+
+            <!-- Rates -->
+            <a href="../wallet/rates.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted hover:text-primary-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                <span class="text-[10px] font-bold">نرخ‌ها</span>
+            </a>
+
+            <!-- Buy (FAB) -->
+            <a href="../wallet/buy.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted hover:text-primary-500 transition-colors">
+                <div class="w-10 h-10 -mt-4 rounded-full bg-gold-400 text-primary-700 flex items-center justify-center shadow-lg shadow-gold-400/40">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                </div>
+                <span class="text-[10px] font-bold">خرید</span>
+            </a>
+
+            <!-- Account -->
+            <a href="../wallet/profile.html" class="flex flex-col items-center justify-center gap-0.5 text-content-muted hover:text-primary-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="text-[10px] font-bold">حساب</span>
+            </a>
+
+        </div>
+    </nav>
+    <!-- ================= MOBILE BOTTOM NAV END ================= -->
+<!-- GLOBAL SITE BOTTOM NAV: END -->
 </body>
 </html>
