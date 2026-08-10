@@ -112,6 +112,10 @@
       transform: translateY(-4px) scale(1.02);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
     }
+    /* ─── Compact action tiles on small screens ─── */
+    @media (max-width: 639px) {
+      .action-card { padding: 10px 4px; justify-content: center; gap: 6px; }
+    }
 
     /* ─── Transaction Cards ─── */
     .tx-item-card {
@@ -988,7 +992,7 @@
                   <span class="text-xl font-black text-gold-300 font-latin">
                     <span class="numeric-measure">
                       <span class="numeric-measure__unit text-sm text-gold-400 font-medium">گرم</span>
-                      <span class="font-latin">۱۲.۴۵۰</span>
+                      <span class="font-latin" id="goldGramDisplay">۱۲.۴۵۰</span>
                     </span>
                   </span>
                   <span class="text-white/40 text-sm hidden sm:inline">≈</span>
@@ -1116,126 +1120,94 @@
         </div>
 
         <!-- 8 Vibrant Action Cards Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4" id="quickActionsRow">
+        <div class="grid grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3" id="quickActionsRow">
 
           <!-- 1: Buy Gold -->
           <a href="./buy.html" id="qa-buy"
-             class="action-card bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-white border-emerald-200 hover:border-emerald-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/30 group-hover:scale-110 transition-transform">
-                <i class='bx bx-cart-add text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-emerald-600 text-white shadow-xs">آنلاین</span>
+             class="action-card bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-white border-emerald-200 hover:border-emerald-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-500/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bx-cart-add text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-emerald-600 text-white shadow-xs hidden sm:inline-block">آنلاین</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-emerald-700 transition-colors">خرید طلا</h3>
-              <p class="text-xs text-emerald-800 font-medium mt-0.5">تحویل یا نگهداری</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-emerald-700 transition-colors leading-tight mt-1.5 sm:mt-2">خرید طلا</h3>
+            <p class="text-[10px] sm:text-xs text-emerald-800 font-medium mt-0.5 hidden sm:block">تحویل یا نگهداری</p>
           </a>
 
           <!-- 2: Sell Gold -->
           <a href="./sell.html" id="qa-sell"
-             class="action-card bg-gradient-to-br from-rose-50 via-rose-100/60 to-white border-rose-200 hover:border-rose-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-500/30 group-hover:scale-110 transition-transform">
-                <i class='bx bx-money text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-rose-600 text-white shadow-xs">فوری</span>
+             class="action-card bg-gradient-to-br from-rose-50 via-rose-100/60 to-white border-rose-200 hover:border-rose-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-500/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bx-money text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-rose-600 text-white shadow-xs hidden sm:inline-block">فوری</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-rose-700 transition-colors">فروش طلا</h3>
-              <p class="text-xs text-rose-800 font-medium mt-0.5">تسویه به حساب</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-rose-700 transition-colors leading-tight mt-1.5 sm:mt-2">فروش طلا</h3>
+            <p class="text-[10px] sm:text-xs text-rose-800 font-medium mt-0.5 hidden sm:block">تسویه به حساب</p>
           </a>
 
           <!-- 3: Deposit -->
           <a href="./deposit.html" id="qa-deposit"
-             class="action-card bg-gradient-to-br from-primary-50 via-primary-100/60 to-white border-primary-200 hover:border-primary-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-md shadow-primary-600/30 group-hover:scale-110 transition-transform">
-                <i class='bx bx-credit-card-alt text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-primary-700 text-white shadow-xs">ریالی</span>
+             class="action-card bg-gradient-to-br from-primary-50 via-primary-100/60 to-white border-primary-200 hover:border-primary-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-md shadow-primary-600/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bx-credit-card-alt text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-primary-700 text-white shadow-xs hidden sm:inline-block">ریالی</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-primary-700 transition-colors">شارژ حساب</h3>
-              <p class="text-xs text-primary-800 font-medium mt-0.5">درگاه یا شبا</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-primary-700 transition-colors leading-tight mt-1.5 sm:mt-2">شارژ حساب</h3>
+            <p class="text-[10px] sm:text-xs text-primary-800 font-medium mt-0.5 hidden sm:block">درگاه یا شبا</p>
           </a>
 
           <!-- 4: Withdraw -->
           <a href="./withdraw.html" id="qa-withdraw"
-             class="action-card bg-gradient-to-br from-blue-50 via-blue-100/60 to-white border-blue-200 hover:border-blue-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/30 group-hover:scale-110 transition-transform">
-                <i class='bx bxs-bank text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-blue-600 text-white shadow-xs">پایا/ساتنا</span>
+             class="action-card bg-gradient-to-br from-blue-50 via-blue-100/60 to-white border-blue-200 hover:border-blue-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-600/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bxs-bank text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-blue-600 text-white shadow-xs hidden sm:inline-block">پایا/ساتنا</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-blue-700 transition-colors">برداشت وجه</h3>
-              <p class="text-xs text-blue-800 font-medium mt-0.5">واریز به بانکی</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-blue-700 transition-colors leading-tight mt-1.5 sm:mt-2">برداشت وجه</h3>
+            <p class="text-[10px] sm:text-xs text-blue-800 font-medium mt-0.5 hidden sm:block">واریز به بانکی</p>
           </a>
 
           <!-- 5: Rates -->
           <a href="./rates.html" id="qa-rates"
-             class="action-card bg-gradient-to-br from-amber-50 via-amber-100/60 to-white border-amber-200 hover:border-amber-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/30 group-hover:scale-110 transition-transform">
-                <i class='bx bx-bar-chart-alt-2 text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-amber-600 text-white shadow-xs">زنده</span>
+             class="action-card bg-gradient-to-br from-amber-50 via-amber-100/60 to-white border-amber-200 hover:border-amber-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bx-bar-chart-alt-2 text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-amber-600 text-white shadow-xs hidden sm:inline-block">زنده</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-amber-700 transition-colors">نرخ‌نامه</h3>
-              <p class="text-xs text-amber-900 font-medium mt-0.5">مظنه بازار</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-amber-700 transition-colors leading-tight mt-1.5 sm:mt-2">نرخ‌نامه</h3>
+            <p class="text-[10px] sm:text-xs text-amber-900 font-medium mt-0.5 hidden sm:block">مظنه بازار</p>
           </a>
 
           <!-- 6: Vaults -->
           <a href="./vaults.html" id="qa-vaults"
-             class="action-card bg-gradient-to-br from-gold-50 via-gold-100/70 to-white border-gold-300 hover:border-gold-500 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-gold-500 text-primary-950 flex items-center justify-center shadow-md shadow-gold-500/30 group-hover:scale-110 transition-transform">
-                <i class='bx bxs-trophy text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-gold-500 text-primary-950 shadow-xs">هدف‌گذاری</span>
+             class="action-card bg-gradient-to-br from-gold-50 via-gold-100/70 to-white border-gold-300 hover:border-gold-500 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gold-500 text-primary-950 flex items-center justify-center shadow-md shadow-gold-500/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bxs-trophy text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-gold-500 text-primary-950 shadow-xs hidden sm:inline-block">هدف‌گذاری</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-gold-700 transition-colors">قلک‌های طلا</h3>
-              <p class="text-xs text-gold-900 font-medium mt-0.5">پس‌انداز هدفمند</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-gold-700 transition-colors leading-tight mt-1.5 sm:mt-2">قلک‌های طلا</h3>
+            <p class="text-[10px] sm:text-xs text-gold-900 font-medium mt-0.5 hidden sm:block">پس‌انداز هدفمند</p>
           </a>
 
           <!-- 7: Missions -->
           <a href="./missions.html" id="qa-missions"
-             class="action-card bg-gradient-to-br from-purple-50 via-violet-100/60 to-white border-purple-200 hover:border-purple-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-600/30 group-hover:scale-110 transition-transform">
-                <i class='bx bx-target-lock text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-purple-600 text-white shadow-xs">پاداش‌دار</span>
+             class="action-card bg-gradient-to-br from-purple-50 via-violet-100/60 to-white border-purple-200 hover:border-purple-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-600/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bx-target-lock text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-purple-600 text-white shadow-xs hidden sm:inline-block">پاداش‌دار</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-purple-700 transition-colors">مأموریت‌ها</h3>
-              <p class="text-xs text-purple-800 font-medium mt-0.5">کسب طلای رایگان</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-purple-700 transition-colors leading-tight mt-1.5 sm:mt-2">مأموریت‌ها</h3>
+            <p class="text-[10px] sm:text-xs text-purple-800 font-medium mt-0.5 hidden sm:block">کسب طلای رایگان</p>
           </a>
 
           <!-- 8: Invite -->
           <a href="./invite.html" id="qa-invite"
-             class="action-card bg-gradient-to-br from-pink-50 via-pink-100/60 to-white border-pink-200 hover:border-pink-400 group">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-11 h-11 rounded-2xl bg-pink-500 text-white flex items-center justify-center shadow-md shadow-pink-500/30 group-hover:scale-110 transition-transform">
-                <i class='bx bxs-gift text-2xl'></i>
-              </div>
-              <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-pink-600 text-white shadow-xs">هدیه</span>
+             class="action-card bg-gradient-to-br from-pink-50 via-pink-100/60 to-white border-pink-200 hover:border-pink-400 group items-center text-center">
+            <div class="relative w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-pink-500 text-white flex items-center justify-center shadow-md shadow-pink-500/30 group-hover:scale-110 transition-transform shrink-0">
+              <i class='bx bxs-gift text-base sm:text-2xl'></i>
+              <span class="absolute -top-1.5 -end-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-pink-600 text-white shadow-xs hidden sm:inline-block">هدیه</span>
             </div>
-            <div>
-              <h3 class="text-sm font-black text-content-heading group-hover:text-pink-700 transition-colors">دعوت دوستان</h3>
-              <p class="text-xs text-pink-800 font-medium mt-0.5">پاداش دوطرفه</p>
-            </div>
+            <h3 class="text-[10px] sm:text-sm font-black text-content-heading group-hover:text-pink-700 transition-colors leading-tight mt-1.5 sm:mt-2">دعوت دوستان</h3>
+            <p class="text-[10px] sm:text-xs text-pink-800 font-medium mt-0.5 hidden sm:block">پاداش دوطرفه</p>
           </a>
 
         </div>
@@ -1271,7 +1243,7 @@
                     <span class="text-gold-200 text-xs font-bold">موجودی کل پرتفولیو کاربری</span>
                   </div>
                 </div>
-                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-xs font-black">
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-xs font-black whitespace-nowrap flex-shrink-0">
                   <span class="w-2 h-2 rounded-full bg-emerald-400 live-pulse"></span>
                   بروزرسانی زنده
                 </div>
@@ -1282,24 +1254,30 @@
 
               <!-- Balance + trend grid -->
               <div class="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
-                <!-- Main balance — gold-tinted -->
+                <!-- RIGHT: Prominent Quick Gold Buy Interactive Widget -->
                 <div class="bg-gold-400/[0.05] p-4 rounded-2xl border border-s border-gold-400/20 flex flex-col justify-between gap-3">
-                  <p class="text-gold-200/80 text-xs font-bold">موجودی کل (گرم)</p>
-                  <div class="balance-value text-4xl font-black text-gold-300 font-latin drop-shadow-sm">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xl text-gold-400 font-bold">گرم</span>
-                      <span class="font-latin" id="goldGramDisplay">۱۲.۴۵۰</span>
+                  <div class="flex items-center justify-between gap-2 flex-wrap">
+                    <p class="text-gold-200/80 text-xs font-bold flex items-center gap-1.5">
+                      <i class='bx bx-cart-add text-gold-300 text-sm'></i>
+                      خرید آنی طلا
+                    </p>
+                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-400/20 border border-gold-400/30 text-gold-200 text-[10px] font-black whitespace-nowrap">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-pulse"></span>
+                      مظنه: ۴٬۵۴۵٬۰۰۰
                     </span>
                   </div>
-                  <p class="text-gray-200 text-sm font-bold">
-                    ارزش تخمینی کل:
-                    <span class="text-white font-black font-latin text-base">
-                      <span class="numeric-measure">
-                        <span class="numeric-measure__unit text-xs text-gold-200 font-normal">تومان</span>
-                        <span class="font-latin">۵۶٬۵۸۵٬۲۵۰</span>
-                      </span>
-                    </span>
-                  </p>
+                  <form action="./buy.html" method="get" class="flex items-center gap-2">
+                    <div class="flex-1 relative flex items-center bg-black/25 border border-gold-400/20 focus-within:border-gold-400 rounded-xl px-3 py-2 transition-all min-w-0">
+                      <input type="text" name="amount" placeholder="مبلغ خرید" inputmode="numeric"
+                             class="w-full bg-transparent text-sm font-black text-gold-200 placeholder-gold-200/40 outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl">
+                      <span class="text-[11px] font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2">تومان</span>
+                    </div>
+                    <button type="submit" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-gold-400 to-amber-400 hover:from-gold-300 hover:to-amber-300 text-primary-950 font-black rounded-xl px-3.5 py-2 text-xs transition-all shadow-md flex-shrink-0">
+                      <i class='bx bx-cart-add text-base'></i>
+                      خرید
+                    </button>
+                  </form>
+                  <p class="text-[10px] text-gold-200/60 font-bold">محاسبه آنی قیمت — بدون کارمزد اضافی</p>
                 </div>
 
                 <!-- 7-day trend sparkline — emerald-tinted -->
@@ -1327,15 +1305,15 @@
               </div>
 
               <!-- Stats row -->
-              <div class="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4">
+              <div class="grid grid-cols-2 gap-3 mb-4">
                 <div class="bg-black/25 rounded-2xl p-4 border border-white/10 border-t-gold-400/40">
                   <p class="text-gray-200 text-xs font-bold mb-1.5 flex items-center gap-1.5">
                     <i class='bx bx-check-circle text-gold-300 text-sm'></i>
                     قابل معامله
                   </p>
-                  <p class="text-white font-black font-latin text-base">
+                  <p class="text-white font-black font-latin text-xs min-[400px]:text-sm sm:text-base">
                     <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-normal text-gold-200">گرم</span>
+                      <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs font-normal text-gold-200">گرم</span>
                       <span>۱۲.۴۵۰</span>
                     </span>
                   </p>
@@ -1345,9 +1323,9 @@
                     <i class='bx bx-time-five text-gray-300 text-sm'></i>
                     در انتظار
                   </p>
-                  <p class="text-white font-black font-latin text-base">
+                  <p class="text-white font-black font-latin text-xs min-[400px]:text-sm sm:text-base">
                     <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-normal text-gray-300">گرم</span>
+                      <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs font-normal text-gray-300">گرم</span>
                       <span>۰.۰۰۰</span>
                     </span>
                   </p>
@@ -1357,9 +1335,9 @@
                     <i class='bx bx-trending-up text-emerald-300 text-sm'></i>
                     تغییر ۲۴h
                   </p>
-                  <p class="text-emerald-300 font-black font-latin text-base flex items-center gap-1">
+                  <p class="text-emerald-300 font-black font-latin text-xs min-[400px]:text-sm sm:text-base flex items-center gap-1">
                     <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-bold">٪</span>
+                      <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs font-bold">٪</span>
                       <span>+۰.۸</span>
                     </span>
                   </p>
@@ -1369,9 +1347,9 @@
                     <i class='bx bx-purchase-tag text-primary-300 text-sm'></i>
                     میانگین خرید
                   </p>
-                  <p class="text-white font-black font-latin text-base">
+                  <p class="text-white font-black font-latin text-xs min-[400px]:text-sm sm:text-base">
                     <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-normal text-gold-200">تومان</span>
+                      <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs font-normal text-gold-200">تومان</span>
                       <span>۴٬۴۷۰٬۰۰۰</span>
                     </span>
                   </p>
@@ -1406,24 +1384,24 @@
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 live-pulse"></span>
                 <h3 class="text-base font-black text-content-heading">نرخ‌های زنده بازار طلا و ارز</h3>
               </div>
-              <a href="./rates.html" class="text-xs text-primary-600 hover:text-primary-800 font-bold flex items-center gap-1 transition-colors">
+              <a href="./rates.html" class="text-xs text-primary-600 hover:text-primary-800 font-bold flex items-center gap-1 transition-colors whitespace-nowrap flex-shrink-0">
                 <span>جدول کامل نرخ‌ها</span>
                 <i class='bx bx-chevron-left text-lg'></i>
               </a>
             </div>
-            <div class="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-4 md:divide-x md:divide-x-reverse divide-border">
+            <div class="grid grid-cols-2 gap-3 sm:gap-4">
 
               <!-- 18K Gold -->
-              <div class="p-4 hover:bg-background/80 transition-colors">
-                <div class="flex items-center gap-2 mb-2">
+              <div class="p-4 rounded-2xl bg-background/50 hover:bg-background transition-colors">
+                <div class="flex items-center gap-1.5 mb-2">
                   <div class="w-7 h-7 rounded-xl bg-gold-100 flex items-center justify-center flex-shrink-0">
                     <i class='bx bxs-bar-chart-alt-2 text-gold-600 text-sm'></i>
                   </div>
-                  <span class="text-xs text-content-body font-bold">طلای ۱۸ عیار</span>
+                  <span class="text-[11px] min-[400px]:text-xs text-content-body font-bold whitespace-nowrap">طلای ۱۸ عیار</span>
                 </div>
-                <p class="font-black text-content-heading text-base font-latin">
+                <p class="font-black text-content-heading text-sm min-[400px]:text-base font-latin">
                   <span class="numeric-measure">
-                    <span class="numeric-measure__unit text-xs text-content-body font-normal">تومان</span>
+                    <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs text-content-body font-normal">تومان</span>
                     <span id="rate-18k">۴٬۵۴۵٬۰۰۰</span>
                   </span>
                 </p>
@@ -1433,16 +1411,16 @@
               </div>
 
               <!-- 24K Gold -->
-              <div class="p-4 hover:bg-background/80 transition-colors">
-                <div class="flex items-center gap-2 mb-2">
+              <div class="p-4 rounded-2xl bg-background/50 hover:bg-background transition-colors">
+                <div class="flex items-center gap-1.5 mb-2">
                   <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
                     <i class='bx bxs-cube text-amber-600 text-sm'></i>
                   </div>
-                  <span class="text-xs text-content-body font-bold">طلای ۲۴ عیار</span>
+                  <span class="text-[11px] min-[400px]:text-xs text-content-body font-bold whitespace-nowrap">طلای ۲۴ عیار</span>
                 </div>
-                <p class="font-black text-content-heading text-base font-latin">
+                <p class="font-black text-content-heading text-sm min-[400px]:text-base font-latin">
                   <span class="numeric-measure">
-                    <span class="numeric-measure__unit text-xs text-content-body font-normal">تومان</span>
+                    <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs text-content-body font-normal">تومان</span>
                     <span id="rate-24k">۶٬۰۸۵٬۰۰۰</span>
                   </span>
                 </p>
@@ -1452,16 +1430,16 @@
               </div>
 
               <!-- Emami Coin -->
-              <div class="p-4 hover:bg-background/80 transition-colors">
-                <div class="flex items-center gap-2 mb-2">
+              <div class="p-4 rounded-2xl bg-background/50 hover:bg-background transition-colors">
+                <div class="flex items-center gap-1.5 mb-2">
                   <div class="w-7 h-7 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0">
                     <i class='bx bxs-coin text-primary-600 text-sm'></i>
                   </div>
-                  <span class="text-xs text-content-body font-bold">سکه امامی</span>
+                  <span class="text-[11px] min-[400px]:text-xs text-content-body font-bold whitespace-nowrap">سکه امامی</span>
                 </div>
-                <p class="font-black text-content-heading text-base font-latin">
+                <p class="font-black text-content-heading text-sm min-[400px]:text-base font-latin">
                   <span class="numeric-measure">
-                    <span class="numeric-measure__unit text-xs text-content-body font-normal">تومان</span>
+                    <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs text-content-body font-normal">تومان</span>
                     <span id="rate-coin">۵۲٬۸۰۰٬۰۰۰</span>
                   </span>
                 </p>
@@ -1471,16 +1449,16 @@
               </div>
 
               <!-- USD -->
-              <div class="p-4 hover:bg-background/80 transition-colors">
-                <div class="flex items-center gap-2 mb-2">
+              <div class="p-4 rounded-2xl bg-background/50 hover:bg-background transition-colors">
+                <div class="flex items-center gap-1.5 mb-2">
                   <div class="w-7 h-7 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
                     <i class='bx bx-dollar text-blue-600 text-sm'></i>
                   </div>
-                  <span class="text-xs text-content-body font-bold">دلار آمریکا</span>
+                  <span class="text-[11px] min-[400px]:text-xs text-content-body font-bold whitespace-nowrap">دلار آمریکا</span>
                 </div>
-                <p class="font-black text-content-heading text-base font-latin">
+                <p class="font-black text-content-heading text-sm min-[400px]:text-base font-latin">
                   <span class="numeric-measure">
-                    <span class="numeric-measure__unit text-xs text-content-body font-normal">تومان</span>
+                    <span class="numeric-measure__unit text-[10px] min-[400px]:text-xs text-content-body font-normal">تومان</span>
                     <span id="rate-usd">۶۰٬۵۰۰</span>
                   </span>
                 </p>
@@ -1505,7 +1483,7 @@
                   <p class="text-xs text-content-body font-bold">تاریخچه فعالیت‌های اخیر کیف پول</p>
                 </div>
               </div>
-              <a href="./transactions.html" class="text-xs text-primary-600 hover:text-primary-800 font-bold flex items-center gap-1 transition-colors bg-primary-50 px-3 py-1.5 rounded-full border border-primary-100">
+              <a href="./transactions.html" class="text-xs text-primary-600 hover:text-primary-800 font-bold flex items-center gap-1 transition-colors bg-primary-50 px-3 py-1.5 rounded-full border border-primary-100 whitespace-nowrap flex-shrink-0">
                 <span>مشاهده سوابق</span>
                 <i class='bx bx-chevron-left text-lg'></i>
               </a>
@@ -1520,16 +1498,18 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-black text-content-heading truncate">خرید طلای آبشده</p>
-                  <p class="text-xs text-emerald-800 font-bold mt-0.5">دیروز · ۱۶:۴۲ · کد پیگیری: #۸۹۴۲۱</p>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-sm font-black text-emerald-700 font-latin">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-bold text-emerald-800">گرم</span>
-                      <span>+۰.۲۵۰</span>
-                    </span>
-                  </p>
-                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold inline-block mt-1">موفق</span>
+                  <div class="flex items-center justify-between gap-2 mt-0.5 flex-wrap">
+                    <p class="text-xs text-emerald-800 font-bold truncate min-w-0">دیروز · ۱۶:۴۲ · کد پیگیری: #۸۹۴۲۱</p>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <p class="text-sm font-black text-emerald-700 font-latin">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs font-bold text-emerald-800">گرم</span>
+                          <span>+۰.۲۵۰</span>
+                        </span>
+                      </p>
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold whitespace-nowrap">موفق</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1540,16 +1520,18 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-black text-content-heading truncate">شارژ حساب — درگاه سامان</p>
-                  <p class="text-xs text-blue-800 font-bold mt-0.5">۳ روز پیش · ۰۹:۱۵ · کد پیگیری: #۷۷۱۲۳</p>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-sm font-black text-blue-700 font-latin">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-bold text-blue-800">تومان</span>
-                      <span>+۱۰٬۰۰۰٬۰۰۰</span>
-                    </span>
-                  </p>
-                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-bold inline-block mt-1">واریز نقد</span>
+                  <div class="flex items-center justify-between gap-2 mt-0.5 flex-wrap">
+                    <p class="text-xs text-blue-800 font-bold truncate min-w-0">۳ روز پیش · ۰۹:۱۵ · کد پیگیری: #۷۷۱۲۳</p>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <p class="text-sm font-black text-blue-700 font-latin">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs font-bold text-blue-800">تومان</span>
+                          <span>+۱۰٬۰۰۰٬۰۰۰</span>
+                        </span>
+                      </p>
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-600 text-white font-bold whitespace-nowrap">واریز نقد</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1560,16 +1542,18 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-black text-content-heading truncate">فروش طلای آبشده</p>
-                  <p class="text-xs text-rose-800 font-bold mt-0.5">هفته گذشته · ۱۲:۰۸ · کد پیگیری: #۵۴۳۱۲</p>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-sm font-black text-rose-600 font-latin">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-bold text-rose-700">گرم</span>
-                      <span>-۰.۱۰۰</span>
-                    </span>
-                  </p>
-                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-bold inline-block mt-1">فروش طلا</span>
+                  <div class="flex items-center justify-between gap-2 mt-0.5 flex-wrap">
+                    <p class="text-xs text-rose-800 font-bold truncate min-w-0">هفته گذشته · ۱۲:۰۸ · کد پیگیری: #۵۴۳۱۲</p>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <p class="text-sm font-black text-rose-600 font-latin">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs font-bold text-rose-700">گرم</span>
+                          <span>-۰.۱۰۰</span>
+                        </span>
+                      </p>
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-bold whitespace-nowrap">فروش طلا</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1580,16 +1564,18 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-black text-content-heading truncate">پاداش مأموریت — احراز هویت</p>
-                  <p class="text-xs text-purple-800 font-bold mt-0.5">۱۰ روز پیش · ۱۱:۳۰ · هدیه طلاشو</p>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-sm font-black text-purple-700 font-latin">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-bold text-purple-800">گرم</span>
-                      <span>+۰.۰۵۰</span>
-                    </span>
-                  </p>
-                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-600 text-white font-bold inline-block mt-1">پاداش هدیه</span>
+                  <div class="flex items-center justify-between gap-2 mt-0.5 flex-wrap">
+                    <p class="text-xs text-purple-800 font-bold truncate min-w-0">۱۰ روز پیش · ۱۱:۳۰ · هدیه طلاشو</p>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <p class="text-sm font-black text-purple-700 font-latin">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs font-bold text-purple-800">گرم</span>
+                          <span>+۰.۰۵۰</span>
+                        </span>
+                      </p>
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-600 text-white font-bold whitespace-nowrap">پاداش هدیه</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1600,16 +1586,18 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-black text-content-heading truncate">واریز شناسه‌دار پایا</p>
-                  <p class="text-xs text-indigo-900 font-bold mt-0.5">۱۲ روز پیش · ۱۴:۵۵ · بانک ملی</p>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-sm font-black text-indigo-700 font-latin">
-                    <span class="numeric-measure">
-                      <span class="numeric-measure__unit text-xs font-bold text-indigo-800">تومان</span>
-                      <span>+۵۰٬۰۰۰٬۰۰۰</span>
-                    </span>
-                  </p>
-                  <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-600 text-white font-bold inline-block mt-1">تأیید پایا</span>
+                  <div class="flex items-center justify-between gap-2 mt-0.5 flex-wrap">
+                    <p class="text-xs text-indigo-900 font-bold truncate min-w-0">۱۲ روز پیش · ۱۴:۵۵ · بانک ملی</p>
+                    <div class="flex items-center gap-2 flex-shrink-0">
+                      <p class="text-sm font-black text-indigo-700 font-latin">
+                        <span class="numeric-measure">
+                          <span class="numeric-measure__unit text-xs font-bold text-indigo-800">تومان</span>
+                          <span>+۵۰٬۰۰۰٬۰۰۰</span>
+                        </span>
+                      </p>
+                      <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-600 text-white font-bold whitespace-nowrap">تأیید پایا</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1629,7 +1617,7 @@
                   <p class="text-xs text-content-body font-bold">با انجام مأموریت‌ها طلای پاداش دریافت کنید</p>
                 </div>
               </div>
-              <a href="./missions.html" class="text-xs text-primary-600 hover:text-primary-800 font-bold flex items-center gap-1 transition-colors bg-purple-50 px-3 py-1.5 rounded-full border border-purple-100">
+              <a href="./missions.html" class="text-xs text-primary-600 hover:text-primary-800 font-bold flex items-center gap-1 transition-colors bg-purple-50 px-3 py-1.5 rounded-full border border-purple-100 whitespace-nowrap flex-shrink-0">
                 <span>لیست کامل</span>
                 <i class='bx bx-chevron-left text-lg'></i>
               </a>
@@ -1643,19 +1631,19 @@
                   <i class='bx bx-check-circle text-2xl'></i>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
                     <span class="text-sm font-black text-content-heading">اولین واریز و معامله</span>
-                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold">✓ ۱۰۰٪ تکمیل شد</span>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold whitespace-nowrap flex-shrink-0">✓ ۱۰۰٪ تکمیل شد</span>
                   </div>
                   <div class="progress-bar-track bg-emerald-200">
                     <div class="progress-bar-fill" style="width:100%; background: linear-gradient(90deg,#059669,#10b981);"></div>
                   </div>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-xs text-emerald-800 font-bold">پاداش واریزی</p>
-                  <p class="text-sm font-black text-gold-600 font-latin">
-                    <span class="numeric-measure"><span class="numeric-measure__unit text-xs font-bold text-gold-700">گرم</span><span>۰.۰۵۰</span></span>
-                  </p>
+                  <div class="flex items-center justify-between gap-2 mt-1.5">
+                    <p class="text-xs text-emerald-800 font-bold">پاداش واریزی</p>
+                    <p class="text-sm font-black text-gold-600 font-latin">
+                      <span class="numeric-measure"><span class="numeric-measure__unit text-xs font-bold text-gold-700">گرم</span><span>۰.۰۵۰</span></span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -1665,20 +1653,19 @@
                   <i class='bx bx-loader-alt text-2xl animate-spin' style="animation-duration: 4s;"></i>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
                     <span class="text-sm font-black text-content-heading">رسیدن به ۱ گرم موجودی طلا</span>
-                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500 text-white font-bold shadow-xs">۸۰٪ پیشرفت</span>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500 text-white font-bold shadow-xs whitespace-nowrap flex-shrink-0">۸۰٪ پیشرفت</span>
                   </div>
                   <div class="progress-bar-track bg-amber-200">
                     <div class="progress-bar-fill" id="missionProgress" data-target-width="80%" style="width:0%; background: linear-gradient(90deg,#D4AF37,#E8B948);"></div>
                   </div>
-                  <p class="text-xs text-amber-900 font-bold mt-1.5">موجودی فعلی: ۰.۸۰۰ گرم از ۱.۰۰۰ گرم هدف</p>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-xs text-amber-900 font-bold">پاداش طلایی</p>
-                  <p class="text-sm font-black text-gold-600 font-latin">
-                    <span class="numeric-measure"><span class="numeric-measure__unit text-xs font-bold text-gold-700">گرم</span><span>۰.۱۰۰</span></span>
-                  </p>
+                  <div class="flex items-center justify-between gap-2 mt-1.5">
+                    <p class="text-xs text-amber-900 font-bold">موجودی فعلی: ۰.۸۰۰ گرم از ۱.۰۰۰ گرم هدف</p>
+                    <p class="text-sm font-black text-gold-600 font-latin flex-shrink-0">
+                      <span class="numeric-measure"><span class="numeric-measure__unit text-xs font-bold text-gold-700">گرم</span><span>۰.۱۰۰</span></span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -1688,19 +1675,19 @@
                   <i class='bx bx-user-plus text-2xl'></i>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
                     <span class="text-sm font-black text-content-heading">دعوت از یک دوست به طلاشو</span>
-                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-200 text-purple-900 font-bold">آماده شروع</span>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-200 text-purple-900 font-bold whitespace-nowrap flex-shrink-0">آماده شروع</span>
                   </div>
                   <div class="progress-bar-track bg-purple-200">
                     <div class="progress-bar-fill" style="width:0%"></div>
                   </div>
-                </div>
-                <div class="text-end flex-shrink-0">
-                  <p class="text-xs text-purple-900 font-bold">پاداش دعوت</p>
-                  <p class="text-sm font-black text-gold-600 font-latin">
-                    <span class="numeric-measure"><span class="numeric-measure__unit text-xs font-bold text-gold-700">گرم</span><span>۰.۰۵۰</span></span>
-                  </p>
+                  <div class="flex items-center justify-between gap-2 mt-1.5">
+                    <p class="text-xs text-purple-900 font-bold">پاداش دعوت</p>
+                    <p class="text-sm font-black text-gold-600 font-latin">
+                      <span class="numeric-measure"><span class="numeric-measure__unit text-xs font-bold text-gold-700">گرم</span><span>۰.۰۵۰</span></span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
