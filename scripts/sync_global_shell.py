@@ -33,7 +33,6 @@ WALLET_HUB_PAGES = {
     "wallet/missions.html",
     "wallet/vaults.html",
     "wallet/invite.html",
-    "wallet/profile.html",
 }
 
 # Task-flow pages that must NOT get the bottom nav: checkout flows, the offline
@@ -53,6 +52,10 @@ NO_BOTTOM_NAV_PAGES = {
     "wallet/bank-account.html",
     "wallet/physical.html",
     "wallet/receipt.html",
+    # profile.html keeps its own unique 7-tab bottom bar (drives the profile
+    # tab sections) instead of the shared wallet app nav — see the restored
+    # "MOBILE BOTTOM TAB BAR" block in wallet/profile.html.
+    "wallet/profile.html",
 }
 SHELL_SCRIPT_PATTERN = re.compile(
     r'<script\s+src="[^"]*assets/js/global-shell\.js(?:\?[^"]*)?"\s+defer></script>'
