@@ -1255,29 +1255,45 @@
               <!-- Balance + trend grid -->
               <div class="grid lg:grid-cols-[1.2fr_1fr] gap-4 mb-4">
                 <!-- RIGHT: Prominent Quick Gold Buy Interactive Widget -->
-                <div class="bg-gold-400/[0.05] p-4 rounded-2xl border border-s border-gold-400/20 flex flex-col justify-between gap-3">
-                  <div class="flex items-center justify-between gap-2 flex-wrap">
-                    <p class="text-gold-200/80 text-xs font-bold flex items-center gap-1.5">
-                      <i class='bx bx-cart-add text-gold-300 text-sm'></i>
+                <div class="bg-white rounded-2xl p-4 border-2 border-gold-400 shadow-[0_10px_28px_rgba(232,185,72,0.35)] relative overflow-hidden">
+                  <div class="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-border">
+                    <p class="text-gold-700 text-xs font-black flex items-center gap-1.5">
+                      <i class='bx bx-cart-add text-gold-500 text-base'></i>
                       خرید آنی طلا
                     </p>
-                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-400/20 border border-gold-400/30 text-gold-200 text-[10px] font-black whitespace-nowrap">
-                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-pulse"></span>
+                    <span class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-50 border border-gold-200 text-gold-700 text-[10px] font-black whitespace-nowrap">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 live-pulse"></span>
                       مظنه: ۴٬۵۴۵٬۰۰۰
                     </span>
                   </div>
-                  <form action="./buy.html" method="get" class="flex items-center gap-2">
-                    <div class="flex-1 relative flex items-center bg-black/25 border border-gold-400/20 focus-within:border-gold-400 rounded-xl px-3 py-2 transition-all min-w-0">
-                      <input type="text" name="amount" placeholder="مبلغ خرید" inputmode="numeric"
-                             class="w-full bg-transparent text-sm font-black text-gold-200 placeholder-gold-200/40 outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl">
-                      <span class="text-[11px] font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2">تومان</span>
+                  <form action="./buy.html" method="get" id="pfQuickBuyForm" class="space-y-2.5">
+                    <div>
+                      <label for="pfBuyRial" class="block text-[10px] font-bold text-content-body mb-1">مبلغ خرید (تومان):</label>
+                      <div class="relative flex items-center bg-background border border-border focus-within:border-gold-500 rounded-xl px-3 py-2 transition-all">
+                        <input type="text" id="pfBuyRial" name="amount" placeholder="مثلاً ۵٬۰۰۰٬۰۰۰" inputmode="numeric"
+                               class="w-full bg-transparent text-sm font-black text-content-heading placeholder-content-muted outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl">
+                        <span class="text-xs font-bold text-gold-700 whitespace-nowrap flex-shrink-0 ms-2">تومان</span>
+                      </div>
                     </div>
-                    <button type="submit" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-gold-400 to-amber-400 hover:from-gold-300 hover:to-amber-300 text-primary-950 font-black rounded-xl px-3.5 py-2 text-xs transition-all shadow-md flex-shrink-0">
+                    <div>
+                      <label for="pfBuyGram" class="block text-[10px] font-bold text-content-body mb-1">وزن معادل طلا (گرم):</label>
+                      <div class="relative flex items-center bg-background border border-border focus-within:border-gold-500 rounded-xl px-3 py-2 transition-all">
+                        <input type="text" id="pfBuyGram" name="gram" placeholder="مثلاً ۱.۱۰۰" inputmode="decimal"
+                               class="w-full bg-transparent text-sm font-black text-gold-700 placeholder-content-muted outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl">
+                        <span class="text-xs font-bold text-gold-700 whitespace-nowrap flex-shrink-0 ms-2">گرم</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 pt-0.5">
+                      <button type="button" class="pf-preset-btn flex-1 py-1.5 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-lg text-[10px] font-bold transition-all border border-primary-100 whitespace-nowrap" data-rial="1000000">۱ میلیون</button>
+                      <button type="button" class="pf-preset-btn flex-1 py-1.5 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-lg text-[10px] font-bold transition-all border border-primary-100 whitespace-nowrap" data-rial="5000000">۵ میلیون</button>
+                      <button type="button" class="pf-preset-btn flex-1 py-1.5 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-lg text-[10px] font-bold transition-all border border-primary-100 whitespace-nowrap" data-rial="10000000">۱۰ میلیون</button>
+                      <button type="button" class="pf-preset-btn flex-1 py-1.5 bg-primary-50 hover:bg-gold-400 hover:text-primary-950 text-primary-700 rounded-lg text-[10px] font-bold transition-all border border-primary-100 whitespace-nowrap" data-gram="1">۱ گرم</button>
+                    </div>
+                    <button type="submit" class="w-full inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-gold-400 via-amber-400 to-gold-500 hover:from-gold-300 hover:to-amber-400 text-primary-950 font-black rounded-xl py-2.5 text-xs transition-all shadow-md shadow-gold-400/40">
                       <i class='bx bx-cart-add text-base'></i>
-                      خرید
+                      <span>ثبت سفارش و ادامه خرید</span>
                     </button>
                   </form>
-                  <p class="text-[10px] text-gold-200/60 font-bold">محاسبه آنی قیمت — بدون کارمزد اضافی</p>
                 </div>
 
                 <!-- 7-day trend sparkline — emerald-tinted -->
@@ -2254,11 +2270,8 @@
     }, 8000);
   })();
 
-  /* ─── Hero Quick Buy Dual Inputs Sync ─── */
-  (function(){
-    var rialInput = document.getElementById('heroBuyRial');
-    var gramInput = document.getElementById('heroBuyGram');
-    var presets   = document.querySelectorAll('.hero-preset-btn');
+  /* ─── Quick Buy Dual Inputs Sync (shared by hero + portfolio widgets) ─── */
+  function initQuickBuySync(rialInput, gramInput, presets) {
     var RATE = 4545000; // 18K Gold benchmark rate (Toman/Gram)
 
     if (!rialInput || !gramInput) return;
@@ -2325,7 +2338,19 @@
         }
       });
     });
-  })();
+  }
+
+  initQuickBuySync(
+    document.getElementById('heroBuyRial'),
+    document.getElementById('heroBuyGram'),
+    document.querySelectorAll('.hero-preset-btn')
+  );
+
+  initQuickBuySync(
+    document.getElementById('pfBuyRial'),
+    document.getElementById('pfBuyGram'),
+    document.querySelectorAll('.pf-preset-btn')
+  );
 </script>
 
 </body>
