@@ -666,7 +666,12 @@
         </nav>
 
 
-        <!-- ===== MOBILE MENU DRAWER (slide-in from start side = right in RTL) ===== -->
+        </header>
+
+        <!-- ===== MOBILE MENU DRAWER (slide-in from start side = right in RTL)
+             Placed OUTSIDE <header> (which has z-40) so the fixed drawer/overlay
+             escape its stacking context — otherwise page-level z-50 elements
+             (e.g. the mobile bottom nav) would paint over the drawer. ===== -->
         <div id="globalMobileMenu"
             class="fixed inset-y-0 start-0 w-72 bg-surface shadow-lg z-[60] transform translate-x-full rtl:translate-x-full transition-transform duration-300 lg:hidden flex flex-col"
             aria-hidden="true">
@@ -685,7 +690,7 @@
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto cat-scroll">
+            <div class="flex-1 min-h-0 overflow-y-auto cat-scroll">
 
                 <!-- LIVE 18K GOLD CARD — mobile drawer (first thing seen when menu opens)
                      Kept in sync with the desktop chip by assets/js/price-board.js:
@@ -801,13 +806,13 @@
                 </div>
 
                 <!-- Categories -->
-                <nav class="p-4" aria-label="دسته‌بندی محصولات">
-                    <p class="text-caption font-bold text-content-muted mb-2 px-1">دسته‌بندی محصولات</p>
-                    <ul class="space-y-1">
+                <nav class="p-4 pt-2" aria-label="دسته‌بندی محصولات">
+                    <p class="text-caption font-bold text-content-muted mb-1.5 px-1">دسته‌بندی محصولات</p>
+                    <ul class="space-y-0.5">
 
                         <li>
                             <a href="./products.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-medium text-content-heading min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 3h12l4 6-10 13L2 9l4-6z" />
@@ -822,7 +827,7 @@
 
                         <li>
                             <a href="./products.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-medium text-content-heading min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="11" r="6" />
@@ -838,7 +843,7 @@
 
                         <li>
                             <a href="./products.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-medium text-content-heading min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="9" cy="15" r="5" />
@@ -854,7 +859,7 @@
 
                         <li>
                             <a href="./products.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-medium text-content-heading min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <circle cx="12" cy="12" r="9" />
@@ -870,7 +875,7 @@
 
                         <li>
                             <a href="./wallet/index.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-bold text-gold-600 min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -883,7 +888,7 @@
 
                         <li>
                             <a href="./blog.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-medium text-content-heading min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 19.5A2.5 2.5 0 016.5 17H20V2H6.5A2.5 2.5 0 004 4.5v15zM4 19.5A2.5 2.5 0 006.5 22H20v-5" />
@@ -898,7 +903,7 @@
 
                         <li>
                             <a href="./products.html"
-                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-2 hover:bg-background-hover transition-colors">
+                                class="flex items-center justify-between gap-3 rounded-xl px-3 py-1.5 hover:bg-background-hover transition-colors">
                                 <span class="flex items-center gap-3 text-body font-bold text-status-error min-w-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -922,7 +927,7 @@
         <div id="globalMobileMenuOverlay"
             class="fixed inset-0 bg-black/40 z-[55] hidden lg:hidden opacity-0 transition-opacity duration-300"
             aria-hidden="true"></div>
-    </header>
+    
     <!-- ================= SECTION: MAIN HEADER END ================= -->
 
     <!-- ===== LIVE GOLD PRICE ENGINE (demo) — drives every [data-price-row] =====
