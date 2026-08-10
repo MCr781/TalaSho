@@ -924,7 +924,7 @@
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
         <!-- LEFT: Greeting + Sleek Glassmorphism Balance Card -->
-        <div>
+        <div class="min-w-0">
           <!-- User Profile & Status Pill -->
           <div class="flex items-center gap-3 mb-5 hero-enter">
             <div class="p-0.5 rounded-full bg-gold-400/60 shadow-sm">
@@ -984,15 +984,15 @@
             <div class="flex items-center justify-between bg-black/25 p-3.5 rounded-xl border border-gold-400/15">
               <div>
                 <p class="text-gold-200 text-xs font-bold mb-1">صندوق طلای آبشده</p>
-                <div class="balance-value flex items-center gap-3">
+                <div class="balance-value flex flex-col sm:flex-row sm:items-center sm:gap-3 gap-1">
                   <span class="text-xl font-black text-gold-300 font-latin">
                     <span class="numeric-measure">
                       <span class="numeric-measure__unit text-sm text-gold-400 font-medium">گرم</span>
                       <span class="font-latin">۱۲.۴۵۰</span>
                     </span>
                   </span>
-                  <span class="text-white/40 text-sm">≈</span>
-                  <span class="text-sm text-white font-bold font-latin">
+                  <span class="text-white/40 text-sm hidden sm:inline">≈</span>
+                  <span class="text-xs min-[400px]:text-sm text-white font-bold font-latin">
                     <span class="numeric-measure">
                       <span class="numeric-measure__unit text-xs text-gray-300 font-normal">تومان</span>
                       <span class="font-latin">۵۶٬۵۸۵٬۲۵۰</span>
@@ -1001,7 +1001,7 @@
                 </div>
               </div>
               <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-xs font-bold">
-                <i class='bx bx-trending-up text-base'></i>
+                <i class='bx bx-trending-up text-base hidden min-[400px]:block'></i>
                 <span class="font-latin">+۰.۸٪</span>
               </div>
             </div>
@@ -1252,7 +1252,7 @@
       <div class="grid lg:grid-cols-[1fr_340px] gap-6">
 
         <!-- ──────────── MAIN COLUMN ──────────── -->
-        <div class="space-y-6">
+        <div class="space-y-6 min-w-0">
 
           <!-- ═══ A. GOLD PORTFOLIO CARD ═══ -->
           <div class="gold-portfolio-card rounded-3xl text-white dash-card relative overflow-hidden shadow-xl" aria-label="صندوق طلای آبشده">
@@ -1327,7 +1327,7 @@
               </div>
 
               <!-- Stats row -->
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div class="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 gap-3 mb-4">
                 <div class="bg-black/25 rounded-2xl p-4 border border-white/10 border-t-gold-400/40">
                   <p class="text-gray-200 text-xs font-bold mb-1.5 flex items-center gap-1.5">
                     <i class='bx bx-check-circle text-gold-300 text-sm'></i>
@@ -1411,7 +1411,7 @@
                 <i class='bx bx-chevron-left text-lg'></i>
               </a>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-x-reverse divide-border">
+            <div class="grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-4 md:divide-x md:divide-x-reverse divide-border">
 
               <!-- 18K Gold -->
               <div class="p-4 hover:bg-background/80 transition-colors">
