@@ -1180,11 +1180,11 @@
                  Same height as the carousel.
                  ==================================================== -->
                     <!-- BACKEND: INJECT PRIZE BANNER LINK + IMAGE + COPY -->
-                    <!-- NOTE: Mobile order-3 puts prize banner visually on the LEFT (RTL col 2),
+                    <!-- NOTE: Mobile order-4 puts prize banner visually on the LEFT (RTL col 2),
                                 lg:order-2 keeps it on the visual left on desktop (400px column).
                                 shadow-card added on mobile to harmonize with the categories card. -->
                     <a href="./products.html"
-                        class="ts-banner col-span-1 lg:col-span-1 relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] w-full flex-shrink-0 group block order-3 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl shadow-card lg:shadow-none">
+                        class="ts-banner col-span-1 lg:col-span-1 relative overflow-hidden h-[220px] md:h-[360px] lg:h-[420px] w-full flex-shrink-0 group block order-4 lg:order-2 rounded-2xl lg:rounded-l-none lg:rounded-r-2xl shadow-card lg:shadow-none">
                         <!-- Background gradient -->
                         <div class="absolute inset-0 bg-gradient-to-br from-primary-900 via-primary-700 to-primary-500">
                         </div>
@@ -1229,6 +1229,145 @@
                     </a>
 
         <!-- ============================================================
+     SECTION 3.5 — QUICK GOLD BUY INTERACTIVE WIDGET
+     Full-width row placed BETWEEN the hero banners (carousel + prize)
+     and the categories shortcut row, per user request.
+
+     Design rationale (revised per ui-ux-design skill + user feedback):
+       • SELF-CONTAINED CONTRAST: The widget sits on a light page
+         background, so unlike the wallet's hero (which had a dark
+         card next to it), it needs its own dark surface to give the
+         inner elements (inputs, chips, CTA) a consistent contrast
+         baseline. Uses primary-900 → primary-700 gradient — same
+         brand identity as the hero banners, so the page reads as
+         one continuous premium dark strip.
+       • COMPACT 3-ZONE LAYOUT (was 5 disjointed sections):
+           Zone 1: Header (icon + title + live rate badge)
+           Zone 2: Inputs row (2 inputs side-by-side on all breakpoints)
+           Zone 3: Presets row (4 chips inline) + CTA button
+         No separate trust-signals row (those belong in the site
+         footer, not inside a buy widget — they were adding visual
+         noise without aiding the decision).
+       • Single accent color (gold) for ALL interactive elements —
+         inputs border on focus, chip active state, CTA. Unifies
+         the visual language.
+       • WCAG 2.2: focus-visible rings on every interactive element;
+         aria-describedby on inputs; aria-live on rate badge;
+         aria-pressed on preset chips; semantic <section aria-label>.
+       • Micro-interactions: hover:scale-[1.02] + active:scale-[0.98]
+         on chips, 200ms transitions.
+     ============================================================ -->
+        <section class="col-span-2 lg:col-span-2 w-full order-2 lg:order-3 mt-0" aria-label="خرید آنلاین و فوری طلا">
+            <div class="relative rounded-2xl overflow-hidden shadow-card bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700">
+
+                <!-- Ambient gold glow (top-end corner) — carries the gold identity -->
+                <div class="absolute top-0 end-0 w-48 h-48 bg-gold-500/15 rounded-full blur-[60px] pointer-events-none" aria-hidden="true"></div>
+                <!-- Subtle gold dot pattern (very faint) — texture, not noise -->
+                <div class="absolute inset-0 opacity-[0.06] pointer-events-none" style="background-image: radial-gradient(circle, #E8B948 1px, transparent 1px); background-size: 24px 24px;" aria-hidden="true"></div>
+
+                <div class="relative p-4 lg:p-5">
+
+                    <!-- ─────────────────────────────────────────────────────────────
+                         DENSE SINGLE-ROW LAYOUT (desktop ≥1024px)
+                         Every column has a job — no "sad empty space":
+                           • Header block (icon + title + rate badge) — anchored right (RTL start)
+                           • Toman input — flex-1, fills available width
+                           • Gram input — fixed narrow width (gram values are short)
+                           • Presets — 4 compact chips, fixed width
+                           • CTA — fills remaining space, always visible
+                         On mobile/tablet (<1024px) the form stacks: header → inputs → presets → CTA.
+                         ───────────────────────────────────────────────────────────── -->
+                    <form action="./wallet/buy.html" method="get" id="mainQuickBuyForm" class="lg:flex lg:items-end lg:gap-3 lg:gap-y-0 gap-4 lg:gap-3 space-y-3 lg:space-y-0" novalidate>
+
+                        <!-- ═══ HEADER BLOCK (right-anchored in RTL) ═══ -->
+                        <header class="lg:shrink-0 lg:max-w-[260px]">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <div class="w-9 h-9 rounded-lg bg-gold-400 text-primary-950 flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
+                                    <i class='bx bx-cart-add text-lg'></i>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <h2 class="text-sm font-bold text-white leading-tight truncate">خرید آنلاین و فوری طلا</h2>
+                                    <p id="mainBuySubtitle" class="text-caption text-primary-200 mt-0.5 truncate">محاسبه آنی بدون کارمزد</p>
+                                </div>
+                            </div>
+                            <!-- Live rate badge — sits below title on desktop, inline on mobile -->
+                            <div role="status" aria-live="polite" aria-atomic="true"
+                                 class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-400/15 border border-gold-400/30 text-gold-300 text-caption font-bold whitespace-nowrap">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-pulse" aria-hidden="true"></span>
+                                <span>مظنه: <span class="font-latin" dir="rtl">۴٬۵۴۵٬۰۰۰</span> ت/گرم</span>
+                            </div>
+                        </header>
+
+                        <!-- Vertical divider (desktop only) — visually separates header from form fields -->
+                        <div class="hidden lg:block w-px self-stretch bg-white/10" aria-hidden="true"></div>
+
+                        <!-- ═══ INPUT: Toman Amount (flex-1, fills available width) ═══ -->
+                        <div class="lg:flex-1 lg:min-w-0">
+                            <label for="mainBuyRial" class="block text-caption font-bold text-primary-100 mb-1.5">
+                                مبلغ خرید <span class="text-primary-300 font-medium">(تومان)</span>
+                            </label>
+                            <div class="relative flex items-center bg-primary-950/40 border border-primary-700 focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-400/30 rounded-lg px-3 py-2.5 transition-all duration-200">
+                                <input type="text" id="mainBuyRial" name="amount" placeholder="مثلاً ۵٬۰۰۰٬۰۰۰" inputmode="numeric"
+                                       class="w-full bg-transparent text-sm lg:text-product font-bold text-white placeholder-primary-300 outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl" autocomplete="off"
+                                       aria-describedby="mainBuyRialHint" aria-required="true">
+                                <span id="mainBuyRialHint" class="text-caption font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2" aria-hidden="true">تومان</span>
+                            </div>
+                        </div>
+
+                        <!-- ═══ INPUT: Gram Weight (fixed narrow width on desktop) ═══ -->
+                        <div class="lg:w-40 lg:shrink-0">
+                            <label for="mainBuyGram" class="block text-caption font-bold text-primary-100 mb-1.5">
+                                وزن معادل <span class="text-primary-300 font-medium">(گرم)</span>
+                            </label>
+                            <div class="relative flex items-center bg-primary-950/40 border border-primary-700 focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-400/30 rounded-lg px-3 py-2.5 transition-all duration-200">
+                                <input type="text" id="mainBuyGram" name="gram" placeholder="مثلاً ۱.۱۰۰" inputmode="decimal"
+                                       class="w-full bg-transparent text-sm lg:text-product font-bold text-gold-300 placeholder-primary-300 outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl" autocomplete="off"
+                                       aria-describedby="mainBuyGramHint" aria-required="true">
+                                <span id="mainBuyGramHint" class="text-caption font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2" aria-hidden="true">گرم</span>
+                            </div>
+                        </div>
+
+                        <!-- ═══ PRESETS (4 compact chips, fixed cluster width) ═══ -->
+                        <div class="lg:shrink-0" role="group" aria-label="مبالغ پیشنهادی">
+                            <span class="block text-caption font-bold text-primary-100 mb-1.5 lg:sr-only">مبالغ پیشنهادی</span>
+                            <div class="flex items-center gap-1.5">
+                                <button type="button"
+                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        data-rial="1000000" aria-pressed="false" aria-label="۱ میلیون تومان">
+                                    <span class="font-latin" dir="rtl">۱م</span>
+                                </button>
+                                <button type="button"
+                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        data-rial="5000000" aria-pressed="false" aria-label="۵ میلیون تومان">
+                                    <span class="font-latin" dir="rtl">۵م</span>
+                                </button>
+                                <button type="button"
+                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        data-rial="10000000" aria-pressed="false" aria-label="۱۰ میلیون تومان">
+                                    <span class="font-latin" dir="rtl">۱۰م</span>
+                                </button>
+                                <button type="button"
+                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        data-gram="1" aria-pressed="false" aria-label="۱ گرم طلا">
+                                    <span class="font-latin" dir="rtl">۱گرم</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ═══ CTA (flex-1 on desktop, fills remaining width) ═══ -->
+                        <button type="submit"
+                                class="lg:flex-1 lg:min-w-[160px] inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-500 text-primary-950 font-bold rounded-lg py-2.5 px-4 text-caption lg:text-body transition-all duration-200 shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap">
+                            <i class='bx bx-cart-add text-base lg:text-lg' aria-hidden="true"></i>
+                            <span>ثبت سفارش و ادامه خرید</span>
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
      SECTION 4 — CATEGORIES SHORTCUT ROW (spec §3)
      Horizontally scrollable row of 64px circular category tiles.
      Each tile = circular image + label underneath. 20px spacing.
@@ -1255,10 +1394,12 @@
            echoes the prize banner's purple gradient (yin-yang pairing)
          - Compact mobile header ("دسته‌بندی‌ها") with gold accent bar
            mirrors the prize banner's "قرعه‌کشی بزرگ سال" badge
-         - order-2 on mobile puts it visually on the RIGHT (RTL col 1)
+         - order-3 on mobile puts it visually on the RIGHT (RTL col 1),
+           sitting beside the prize banner (order-4 mobile) — with the new
+           Quick Gold Buy widget (order-2 mobile) above both as a full-width row.
      ============================================================ -->
         <!-- ================= SECTION: CATEGORIES SHORTCUT ROW START ================= -->
-        <div class="col-span-1 lg:col-span-2 w-full order-2 lg:order-3 mt-0 relative rounded-2xl lg:rounded-none bg-gradient-to-br from-primary-50/80 via-surface to-surface lg:bg-transparent shadow-card lg:shadow-none ring-1 ring-primary-100/70 lg:ring-0 h-[220px] md:h-[360px] lg:h-auto overflow-hidden">
+        <div class="col-span-1 lg:col-span-2 w-full order-3 lg:order-4 mt-0 relative rounded-2xl lg:rounded-none bg-gradient-to-br from-primary-50/80 via-surface to-surface lg:bg-transparent shadow-card lg:shadow-none ring-1 ring-primary-100/70 lg:ring-0 h-[220px] md:h-[360px] lg:h-auto overflow-hidden">
             <!-- Mobile-only compact header — pairs visually with the prize banner's badge -->
             <div class="lg:hidden flex items-center justify-between px-3 pt-2.5 pb-1.5 border-b border-primary-100/60">
                 <div class="flex items-center gap-1.5">
@@ -3377,6 +3518,103 @@
         <script src="./assets/js/main.js?v=6"></script>
         <script src="./assets/js/countdown.js"></script>
         <script src="./assets/js/product-icons.js"></script>
+
+        <!-- ===== Quick Gold Buy Widget — dual Toman ↔ Gram input sync =====
+             Self-contained IIFE; defines its own Persian-digit helpers so it
+             does not depend on (or collide with) any helpers that may be
+             defined by other scripts on this page. Mirrors the sync logic used
+             by the wallet/index.html "Prominent Quick Gold Buy" widget. -->
+        <script>
+        (function () {
+          var RATE = 4545000; // 18K Gold benchmark rate (Toman/Gram) — keep in sync with wallet/index.html
+
+          function toPersianDigits(num) {
+            var p = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            return String(num).replace(/[0-9]/g, function (d) { return p[d]; });
+          }
+          function formatPersian(num) {
+            if (!num && num !== 0) return '';
+            return toPersianDigits(Number(num).toLocaleString('en-US'));
+          }
+          function cleanDigits(str) {
+            if (!str) return '';
+            var p = {'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+            return String(str).replace(/[۰-۹]/g, function (d) { return p[d]; }).replace(/[^0-9.]/g, '');
+          }
+
+          var rialInput = document.getElementById('mainBuyRial');
+          var gramInput = document.getElementById('mainBuyGram');
+          var presets   = document.querySelectorAll('.main-quickbuy-preset');
+          if (!rialInput || !gramInput) return;
+
+          function syncRialToGram(e) {
+            var raw = cleanDigits(rialInput.value);
+            if (!raw) {
+              gramInput.value = '';
+              if (e && e.type === 'input') rialInput.value = '';
+              return;
+            }
+            var rialVal = parseInt(raw, 10);
+            if (isNaN(rialVal)) return;
+            var grams = (rialVal / RATE).toFixed(3);
+            gramInput.value = toPersianDigits(grams);
+            if (e && e.type === 'input') {
+              rialInput.value = formatPersian(rialVal);
+            }
+          }
+
+          function syncGramToRial(e) {
+            var raw = cleanDigits(gramInput.value);
+            if (!raw) {
+              rialInput.value = '';
+              if (e && e.type === 'input') gramInput.value = '';
+              return;
+            }
+            var gramVal = parseFloat(raw);
+            if (isNaN(gramVal)) return;
+            var rialVal = Math.round(gramVal * RATE);
+            rialInput.value = formatPersian(rialVal);
+            if (e && e.type === 'input') {
+              gramInput.value = toPersianDigits(raw);
+            }
+          }
+
+          rialInput.addEventListener('input', syncRialToGram);
+          gramInput.addEventListener('input', syncGramToRial);
+
+          presets.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              // Toggle aria-pressed on the clicked chip, clear on siblings
+              // (treat them like radio buttons — only one preset is "active"
+              // at a time, matching the sync logic).
+              presets.forEach(function (other) {
+                other.setAttribute('aria-pressed', 'false');
+              });
+              btn.setAttribute('aria-pressed', 'true');
+
+              var rialAttr = btn.getAttribute('data-rial');
+              var gramAttr = btn.getAttribute('data-gram');
+              if (rialAttr) {
+                rialInput.value = rialAttr;
+                syncRialToGram({ type: 'input' });
+              } else if (gramAttr) {
+                gramInput.value = gramAttr;
+                syncGramToRial({ type: 'input' });
+              }
+            });
+          });
+
+          // When the user types manually, no preset is "active" anymore —
+          // clear all aria-pressed states so the UI reflects reality.
+          function clearPresetSelection() {
+            presets.forEach(function (btn) {
+              btn.setAttribute('aria-pressed', 'false');
+            });
+          }
+          rialInput.addEventListener('input', clearPresetSelection);
+          gramInput.addEventListener('input', clearPresetSelection);
+        })();
+        </script>
 
 
     
