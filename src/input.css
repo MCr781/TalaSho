@@ -964,6 +964,24 @@
 }
 
 /* ------------------------------------------------------------------
+   6) Unlayered overrides — deliberately OUTSIDE any @layer
+   ------------------------------------------------------------------
+   Author unlayered styles win over ALL layered styles (base /
+   components / utilities) regardless of specificity. This is the only
+   reliable place for the selected preset state: the chip's own
+   `bg-gold-400/10` / `text-gold-200` utilities live in the utilities
+   layer (declared last), so any layered rule would lose to them. */
+
+/* HOME QUICK-BUY PRESET CHIPS — selected chip (aria-pressed="true",
+   toggled by mainQuickBuy JS) mirrors the hover state so the active
+   amount is clearly visible. */
+.main-quickbuy-preset[aria-pressed="true"] {
+  background-color: #D4AF37;
+  border-color: #D4AF37;
+  color: #2E0D2E;
+}
+
+/* ------------------------------------------------------------------
    5) Utilities layer
    ------------------------------------------------------------------ */
 @layer utilities {

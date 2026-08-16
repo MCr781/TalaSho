@@ -1238,9 +1238,9 @@
          background, so unlike the wallet's hero (which had a dark
          card next to it), it needs its own dark surface to give the
          inner elements (inputs, chips, CTA) a consistent contrast
-         baseline. Uses primary-900 → primary-700 gradient — same
-         brand identity as the hero banners, so the page reads as
-         one continuous premium dark strip.
+         baseline. Gradient lightened per user feedback (card was too
+         dark): primary-700 → primary-500 now, still a premium purple
+         family that keeps the interior white/gold accents readable.
        • COMPACT 3-ZONE LAYOUT (was 5 disjointed sections):
            Zone 1: Header (icon + title + live rate badge)
            Zone 2: Inputs row (2 inputs side-by-side on all breakpoints)
@@ -1258,8 +1258,10 @@
          on chips, 200ms transitions.
      ============================================================ -->
         <section class="col-span-2 lg:col-span-2 w-full order-2 lg:order-3 mt-0" aria-label="خرید آنلاین و فوری طلا">
-            <div class="relative rounded-2xl overflow-hidden shadow-card bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700">
+            <div class="relative rounded-2xl overflow-hidden shadow-card bg-gradient-to-br from-primary-700 via-primary-600 to-primary-500">
 
+                <!-- Premium gold top accent — a jewel-setting hairline, sets the gold identity -->
+                <div class="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-gold-400 to-transparent" aria-hidden="true"></div>
                 <!-- Ambient gold glow (top-end corner) — carries the gold identity -->
                 <div class="absolute top-0 end-0 w-48 h-48 bg-gold-500/15 rounded-full blur-[60px] pointer-events-none" aria-hidden="true"></div>
                 <!-- Subtle gold dot pattern (very faint) — texture, not noise -->
@@ -1270,31 +1272,51 @@
                     <!-- ─────────────────────────────────────────────────────────────
                          DENSE SINGLE-ROW LAYOUT (desktop ≥1024px)
                          Every column has a job — no "sad empty space":
-                           • Header block (icon + title + rate badge) — anchored right (RTL start)
+                           • Header block (icon + title + live badge) — anchored right (RTL start)
                            • Toman input — flex-1, fills available width
+                           • ⇄ convert glyph — signals the two inputs are linked
                            • Gram input — fixed narrow width (gram values are short)
-                           • Presets — 4 compact chips, fixed width
+                           • Presets — 4 chips; share remaining width and
+                             wrap to a second row only when space is tight
                            • CTA — fills remaining space, always visible
-                         On mobile/tablet (<1024px) the form stacks: header → inputs → presets → CTA.
+                         On mobile/tablet (<1024px) the form is a 2-col grid:
+                         header (full) → [toman | gram] → presets (full) → CTA (full).
                          ───────────────────────────────────────────────────────────── -->
-                    <form action="./wallet/buy.html" method="get" id="mainQuickBuyForm" class="lg:flex lg:items-end lg:gap-3 lg:gap-y-0 gap-4 lg:gap-3 space-y-3 lg:space-y-0" novalidate>
+                    <!--
+                      RESPONSIVE MODEL:
+                        • <lg (mobile/tablet): 2-col grid. Header spans both
+                          columns; the two inputs share one row; presets + CTA
+                          each span both columns so they never overflow.
+                        • ≥lg (desktop): switches to a single flex row —
+                          header | divider | toman(flex-1) | ⇄ | gram(fixed) |
+                          presets | CTA(flex-1). `lg:flex` overrides the grid.
+                    -->
+                    <form action="./wallet/buy.html" method="get" id="mainQuickBuyForm"
+                          class="grid grid-cols-2 gap-x-3 gap-y-4 lg:flex lg:items-end lg:gap-3" novalidate>
 
-                        <!-- ═══ HEADER BLOCK (right-anchored in RTL) ═══ -->
-                        <header class="lg:shrink-0 lg:max-w-[260px]">
-                            <div class="flex items-center gap-2.5 min-w-0">
-                                <div class="w-9 h-9 rounded-lg bg-gold-400 text-primary-950 flex items-center justify-center shadow-sm shrink-0" aria-hidden="true">
-                                    <i class='bx bx-cart-add text-lg'></i>
+                        <!-- ═══ HEADER BLOCK (right-anchored in RTL; pill docks to card's top-left on mobile) ═══ -->
+                        <header class="col-span-2 lg:col-span-1 lg:shrink-0 lg:max-w-[270px] flex items-start justify-between gap-3 lg:block">
+                            <div class="flex items-center gap-2.5 min-w-0 flex-1 lg:flex-none">
+                                <div class="w-10 h-10 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-gold-300 to-gold-500 text-primary-950 flex items-center justify-center shadow-[0_4px_14px_rgba(212,175,55,0.35)] ring-1 ring-gold-300/50 shrink-0" aria-hidden="true">
+                                    <i class='bx bx-cart-add text-lg lg:text-xl'></i>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <h2 class="text-sm font-bold text-white leading-tight truncate">خرید آنلاین و فوری طلا</h2>
-                                    <p id="mainBuySubtitle" class="text-caption text-primary-200 mt-0.5 truncate">محاسبه آنی بدون کارمزد</p>
+                                    <h2 class="text-sm lg:text-base font-black text-white leading-tight truncate">خرید آنلاین و فوری طلا</h2>
+                                    <p id="mainBuySubtitle" class="flex items-center gap-1 text-caption text-primary-200 mt-0.5 truncate">
+                                        <i class='bx bx-flash text-gold-400' aria-hidden="true"></i>
+                                        <span>محاسبه آنی، بدون کارمزد</span>
+                                    </p>
                                 </div>
                             </div>
-                            <!-- Live rate badge — sits below title on desktop, inline on mobile -->
+                            <!-- Live rate badge — docks to the card's top-left on mobile, under the title on desktop -->
                             <div role="status" aria-live="polite" aria-atomic="true"
-                                 class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold-400/15 border border-gold-400/30 text-gold-300 text-caption font-bold whitespace-nowrap">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-pulse" aria-hidden="true"></span>
-                                <span>مظنه: <span class="font-latin" dir="rtl">۴٬۵۴۵٬۰۰۰</span> ت/گرم</span>
+                                 class="mt-0.5 lg:mt-2.5 shrink-0 inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gold-400/15 border border-gold-400/30 text-gold-300 text-caption font-bold whitespace-nowrap">
+                                <span class="flex items-center gap-1.5" aria-hidden="true">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-pulse"></span>
+                                    <span class="hidden sm:inline text-[10px] font-medium text-gold-300/80 tracking-wide">لحظه‌ای</span>
+                                </span>
+                                <span class="hidden sm:block w-px h-3 bg-gold-400/30" aria-hidden="true"></span>
+                                <span><span class="font-latin" dir="rtl">۴٬۵۴۵٬۰۰۰</span> <span class="text-gold-300/80">ت/گرم</span></span>
                             </div>
                         </header>
 
@@ -1302,63 +1324,74 @@
                         <div class="hidden lg:block w-px self-stretch bg-white/10" aria-hidden="true"></div>
 
                         <!-- ═══ INPUT: Toman Amount (flex-1, fills available width) ═══ -->
-                        <div class="lg:flex-1 lg:min-w-0">
+                        <div class="col-span-1 lg:col-span-1 lg:flex-1 lg:min-w-0">
                             <label for="mainBuyRial" class="block text-caption font-bold text-primary-100 mb-1.5">
                                 مبلغ خرید <span class="text-primary-300 font-medium">(تومان)</span>
                             </label>
                             <div class="relative flex items-center bg-primary-950/40 border border-primary-700 focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-400/30 rounded-lg px-3 py-2.5 transition-all duration-200">
-                                <input type="text" id="mainBuyRial" name="amount" placeholder="مثلاً ۵٬۰۰۰٬۰۰۰" inputmode="numeric"
+                                <input type="text" id="mainBuyRial" name="amount" placeholder="۵٬۰۰۰٬۰۰۰" inputmode="numeric"
                                        class="w-full bg-transparent text-sm lg:text-product font-bold text-white placeholder-primary-300 outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl" autocomplete="off"
                                        aria-describedby="mainBuyRialHint" aria-required="true">
                                 <span id="mainBuyRialHint" class="text-caption font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2" aria-hidden="true">تومان</span>
                             </div>
                         </div>
 
+                        <!-- ═══ CONVERT GLYPH (desktop only) — links toman ↔ gram ═══ -->
+                        <div class="hidden lg:flex self-end mb-1" aria-hidden="true">
+                            <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gold-300 flex items-center justify-center">
+                                <i class='bx bx-transfer-alt text-base'></i>
+                            </span>
+                        </div>
+
                         <!-- ═══ INPUT: Gram Weight (fixed narrow width on desktop) ═══ -->
-                        <div class="lg:w-40 lg:shrink-0">
+                        <div class="col-span-1 lg:col-span-1 lg:w-40 lg:shrink-0">
                             <label for="mainBuyGram" class="block text-caption font-bold text-primary-100 mb-1.5">
                                 وزن معادل <span class="text-primary-300 font-medium">(گرم)</span>
                             </label>
                             <div class="relative flex items-center bg-primary-950/40 border border-primary-700 focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-400/30 rounded-lg px-3 py-2.5 transition-all duration-200">
-                                <input type="text" id="mainBuyGram" name="gram" placeholder="مثلاً ۱.۱۰۰" inputmode="decimal"
+                                <input type="text" id="mainBuyGram" name="gram" placeholder="۱.۱۰۰" inputmode="decimal"
                                        class="w-full bg-transparent text-sm lg:text-product font-bold text-gold-300 placeholder-primary-300 outline-none border-none focus:ring-0 p-0 text-start min-w-0" dir="rtl" autocomplete="off"
                                        aria-describedby="mainBuyGramHint" aria-required="true">
                                 <span id="mainBuyGramHint" class="text-caption font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2" aria-hidden="true">گرم</span>
                             </div>
                         </div>
 
-                        <!-- ═══ PRESETS (4 compact chips, fixed cluster width) ═══ -->
-                        <div class="lg:shrink-0" role="group" aria-label="مبالغ پیشنهادی">
-                            <span class="block text-caption font-bold text-primary-100 mb-1.5 lg:sr-only">مبالغ پیشنهادی</span>
-                            <div class="flex items-center gap-1.5">
+                        <!-- ═══ PRESETS (4 chips — wrap + distribute on mobile, compact row on desktop) ═══ -->
+                        <div class="col-span-2 lg:col-span-1" role="group" aria-label="مبالغ پیشنهادی">
+                            <span class="flex items-center gap-1 text-caption font-bold text-primary-100 mb-1.5 lg:sr-only">
+                                <i class='bx bx-bolt text-gold-400' aria-hidden="true"></i>
+                                انتخاب سریع
+                            </span>
+                            <div class="flex flex-wrap gap-2">
                                 <button type="button"
-                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        class="main-quickbuy-preset flex-1 min-w-[4.5rem] py-2 px-2.5 bg-gold-400/10 hover:bg-gold-400 text-gold-200 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-gold-400/25 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 whitespace-nowrap shadow-sm"
                                         data-rial="1000000" aria-pressed="false" aria-label="۱ میلیون تومان">
-                                    <span class="font-latin" dir="rtl">۱م</span>
+                                    <span>۱ میلیون</span>
                                 </button>
                                 <button type="button"
-                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        class="main-quickbuy-preset flex-1 min-w-[4.5rem] py-2 px-2.5 bg-gold-400/10 hover:bg-gold-400 text-gold-200 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-gold-400/25 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 whitespace-nowrap shadow-sm"
                                         data-rial="5000000" aria-pressed="false" aria-label="۵ میلیون تومان">
-                                    <span class="font-latin" dir="rtl">۵م</span>
+                                    <span>۵ میلیون</span>
                                 </button>
                                 <button type="button"
-                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        class="main-quickbuy-preset flex-1 min-w-[4.5rem] py-2 px-2.5 bg-gold-400/10 hover:bg-gold-400 text-gold-200 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-gold-400/25 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 whitespace-nowrap shadow-sm"
                                         data-rial="10000000" aria-pressed="false" aria-label="۱۰ میلیون تومان">
-                                    <span class="font-latin" dir="rtl">۱۰م</span>
+                                    <span>۱۰ میلیون</span>
                                 </button>
                                 <button type="button"
-                                        class="main-quickbuy-preset py-2 px-2.5 bg-white/5 hover:bg-gold-400 text-primary-100 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-white/10 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap"
+                                        class="main-quickbuy-preset flex-1 min-w-[4.5rem] py-2 px-2.5 bg-gold-400/10 hover:bg-gold-400 text-gold-200 hover:text-primary-950 rounded-lg text-caption font-bold transition-all duration-200 border border-gold-400/25 hover:border-gold-400 hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 whitespace-nowrap shadow-sm"
                                         data-gram="1" aria-pressed="false" aria-label="۱ گرم طلا">
-                                    <span class="font-latin" dir="rtl">۱گرم</span>
+                                    <span>۱ گرم</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- ═══ CTA (flex-1 on desktop, fills remaining width) ═══ -->
                         <button type="submit"
-                                class="lg:flex-1 lg:min-w-[160px] inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-500 text-primary-950 font-bold rounded-lg py-2.5 px-4 text-caption lg:text-body transition-all duration-200 shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-800 whitespace-nowrap">
+                                class="col-span-2 lg:col-span-1 lg:flex-1 lg:min-w-[160px] inline-flex items-center justify-center gap-2 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 hover:from-gold-400 hover:via-gold-500 hover:to-gold-600 text-primary-950 font-bold rounded-lg py-2.5 px-4 text-caption lg:text-body transition-all duration-200 shadow-[0_4px_20px_rgba(212,175,55,0.35)] hover:shadow-[0_6px_24px_rgba(212,175,55,0.45)] hover:scale-[1.01] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-600 whitespace-nowrap">
                             <i class='bx bx-cart-add text-base lg:text-lg' aria-hidden="true"></i>
                             <span>ثبت سفارش و ادامه خرید</span>
+                            <i class='bx bx-chevron-left text-base lg:text-lg' aria-hidden="true"></i>
                         </button>
 
                     </form>
@@ -3674,3 +3707,4 @@
 </body>
 
 </html>
+
