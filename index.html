@@ -1274,7 +1274,6 @@
                          Every column has a job — no "sad empty space":
                            • Header block (icon + title + live badge) — anchored right (RTL start)
                            • Toman input — flex-1, fills available width
-                           • ⇄ convert glyph — signals the two inputs are linked
                            • Gram input — fixed narrow width (gram values are short)
                            • Presets — 4 chips; share remaining width and
                              wrap to a second row only when space is tight
@@ -1288,8 +1287,8 @@
                           columns; the two inputs share one row; presets + CTA
                           each span both columns so they never overflow.
                         • ≥lg (desktop): switches to a single flex row —
-                          header | divider | toman(flex-1) | ⇄ | gram(fixed) |
-                          presets | CTA(flex-1). `lg:flex` overrides the grid.
+                           header | divider | toman(flex-1) | gram(fixed) |
+                           presets | CTA(flex-1). `lg:flex` overrides the grid.
                     -->
                     <form action="./wallet/buy.html" method="get" id="mainQuickBuyForm"
                           class="grid grid-cols-2 gap-x-3 gap-y-4 lg:flex lg:items-end lg:gap-3" novalidate>
@@ -1334,13 +1333,6 @@
                                        aria-describedby="mainBuyRialHint" aria-required="true">
                                 <span id="mainBuyRialHint" class="text-caption font-bold text-gold-300 whitespace-nowrap flex-shrink-0 ms-2" aria-hidden="true">تومان</span>
                             </div>
-                        </div>
-
-                        <!-- ═══ CONVERT GLYPH (desktop only) — links toman ↔ gram ═══ -->
-                        <div class="hidden lg:flex self-end mb-1" aria-hidden="true">
-                            <span class="w-8 h-8 rounded-full bg-white/5 border border-white/10 text-gold-300 flex items-center justify-center">
-                                <i class='bx bx-transfer-alt text-base'></i>
-                            </span>
                         </div>
 
                         <!-- ═══ INPUT: Gram Weight (fixed narrow width on desktop) ═══ -->
